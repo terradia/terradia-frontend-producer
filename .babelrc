@@ -3,8 +3,25 @@
     "next/babel"
   ],
   "plugins": [
+    "inline-react-svg",
     [
       "graphql-tag"
+    ],
+    "@babel/syntax-dynamic-import",
+    [
+      "lodash",
+      {
+        "id": [
+          "lodash"
+        ]
+      }
+    ],
+    [
+      "import",
+      {
+        "libraryName": "antd",
+        "style": true
+      }
     ]
   ]
 }
