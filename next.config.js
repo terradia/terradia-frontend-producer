@@ -9,6 +9,12 @@ const themeVariables = lessToJS(
   fs.readFileSync(path.resolve(__dirname, './assets/antd-custom.less'), 'utf8')
 );
 
+module.exports = {
+  env: {
+    DB_LINK: "http://localhost:8000/graphql"
+  }
+};
+
 module.exports = withLess({
   lessLoaderOptions: {
     javascriptEnabled: true,
