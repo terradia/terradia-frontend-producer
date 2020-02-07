@@ -3,8 +3,6 @@
     "allowJs": true,
     "alwaysStrict": true,
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "isolatedModules": true,
     "jsx": "preserve",
     "lib": [
       "dom",
@@ -14,12 +12,15 @@
     "moduleResolution": "node",
     "noEmit": true,
     "noFallthroughCasesInSwitch": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
     "target": "esnext",
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "declaration": true
     "allowSyntheticDefaultImports": true
   },
   "exclude": [
