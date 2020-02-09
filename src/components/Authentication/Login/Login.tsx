@@ -5,7 +5,7 @@ import {notification as _notification} from "antd";
 import {useApolloClient, useMutation} from "@apollo/react-hooks";
 import * as Yup from "yup";
 import LoginModal from "./LoginModal";
-import {LoginDataResponse, LoginModalState, FormikReturnProps} from './Login.d'
+import {LoginDataResponse, LoginModalState, FormikReturnProps} from '../../../../interfaces/Authentication/Login/Login'
 import LOGIN from "../../../../GraphQl/mutation/login"
 
 const SignInSchema = Yup.object().shape({

@@ -3,7 +3,7 @@ import Modal from '../../Ui/Modal'
 import Input from '../../Ui/Input'
 import {Alert} from "antd";
 // @ts-ignore
-import {RegisterModalProps} from "./RegisterModal.d"
+import {RegisterModalProps} from "../../../../interfaces/Authentication/Register/RegisterModal"
 
 const inputStyle = {
     width: "400px",

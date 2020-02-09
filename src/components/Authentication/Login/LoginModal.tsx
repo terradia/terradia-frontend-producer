@@ -2,7 +2,7 @@ import React from 'react'
 import {Alert, Checkbox} from "antd";
 import Modal from '../../Ui/Modal'
 import MyInput from '../../Ui/Input'
-import {LoginModalProps} from "./LoginModal.d"
+import {LoginModalProps} from "../../../../interfaces/Authentication/Login/LoginModal"
 
 const inputStyle = {
     width: "400px",
