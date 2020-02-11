@@ -16,18 +16,19 @@
     "noUnusedParameters": false,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "strict": true,
+    "strict": false,
     "target": "esnext",
     "forceConsistentCasingInFileNames": true,
-    "isolatedModules": true,
-    "declaration": true
-    "allowSyntheticDefaultImports": true
+    "declaration": true,
+    "allowSyntheticDefaultImports": true,
+    "isolatedModules": true
   },
   "exclude": [
     "node_modules"
   ],
   "include": [
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx",
+    "**/*.graphql"
   ]
 }

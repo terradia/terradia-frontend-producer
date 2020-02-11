@@ -19,6 +19,7 @@ export interface InputProps {
     style?: object;
     suffix?: string;
     onChange?: ChangeEventHandler<HTMLInputElement>;
+    className?: string;
 }
 
 Input.defaultProps = {
