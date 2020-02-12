@@ -1,9 +1,8 @@
 {
   "plugins": [
     "inline-react-svg",
-    [
-      "graphql-tag"
-    ],
+    "import-graphql",
+    "graphql-tag",
     "@babel/syntax-dynamic-import",
     [
       "lodash",
