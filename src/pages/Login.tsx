@@ -1,5 +1,5 @@
-import '../../assets/Style/Login/loginPage.less';
-import {ReactComponent as Logo} from "../../assets/WhiteLogo.svg"
+import '../assets/Style/Login/loginPage.less';
+import {ReactComponent as Logo} from "../assets/WhiteLogo.svg"
 import React from "react";
 import {Divider} from "antd";
 import LoginForm from "../components/Authentication/Login/LoginForm";

@@ -3,7 +3,6 @@ import {Button as AntButton} from 'antd'
 import {ButtonShape, ButtonSize, ButtonType} from "antd/es/button";
 
 export interface ButtonProps {
-    children?: React.ReactChildren[] | React.ReactChildren | HTMLElement[] | HTMLElement | string[] | string;
     text?: string;
     color?: ButtonType;
     disable?: boolean;
@@ -20,21 +19,7 @@ export interface ButtonProps {
     className?: string;
 }
 
-Button.defaultProps = {
-    text: "",
-    color: "default",
-    disable: false,
-    shape: undefined,
-    isLoading: false,
-    icon: undefined,
-    size: "default",
-    targetLink: "",
-    htmlType: undefined,
-    fitParentWidth: false,
-    onClick: undefined,
-};
-
-export default function Button(props: ButtonProps)  {
+const Button: React.FunctionComponent<ButtonProps> = (props) => {
     // if (!props.disable)
         return (
             <AntButton type={props.color}
@@ -51,7 +36,7 @@ export default function Button(props: ButtonProps)  {
             >
                 {props.icon}
                 {props.text}
-                {props.children}
+                {children}
             </AntButton>
         );
     // return null;

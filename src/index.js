@@ -26,9 +26,22 @@ const authLink = setContext((_, {headers}) => {
     }
 });
 
+const cache = new InMemoryCache({
+    cacheRedirects: {
+        query: {
+            meLocal: (_, {id}, {getChachedKey}) => {
+                console.log(id);
+                return getChachedKey({
+                    __typename: "User", id: id
+                })
+            }
+        }
+    }
+});
+
 const client = new ApolloClient({
     link: authLink.concat(httpLink),
-    cache: new InMemoryCache(),
+    cache: cache,
     connectToDevTools: true
 });
 

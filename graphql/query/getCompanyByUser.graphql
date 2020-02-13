@@ -1,0 +1,13 @@
+query getCompanyByUser {
+    getUser {
+        companies {
+            id
+            company {
+                id
+                name
+                logo
+                cover
+            }
+        }
+    }
+}

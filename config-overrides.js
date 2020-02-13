@@ -1,4 +1,4 @@
-const {fixBabelImports, override, addLessLoader, removeModuleScopePlugin} = require("customize-cra");
+const {fixBabelImports, override, addLessLoader, removeModuleScopePlugin, watchAll, addWebpackModuleRule} = require("customize-cra");
 
 module.exports = override(
     fixBabelImports('import', {
@@ -11,4 +11,5 @@ module.exports = override(
         modifyVars: {'@primary-color': '#52c41a'}
     }),
     removeModuleScopePlugin(),
+    watchAll(),
 );

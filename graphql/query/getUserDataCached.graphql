@@ -1,0 +1,5 @@
+query getUserDataCached {
+    meLocal(id: $id) {
+        id
+    }
+}

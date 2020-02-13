@@ -1,11 +1,9 @@
-<<<<<<< HEAD
 import React from 'react'
 import Modal from '../../Ui/Modal'
 import Input from '../../Ui/Input'
 import {Alert} from "antd";
 // @ts-ignore
-import {RegisterModalProps} from "../../../../interfaces/Authentication/Register/RegisterModal"
-=======
+//import {RegisterModalProps} from "../../../../interfaces/Authentication/Register/RegisterModal"
 // import React from 'react'
 // import Modal from '../../Ui/Modal'
 // import Input from '../../Ui/Input'
@@ -102,7 +100,6 @@ import {RegisterModalProps} from "../../../../interfaces/Authentication/Register
 //         </Modal>
 //     )
 // }
->>>>>>> login
 
 export default () => {
     return (<div><p>Register Modal</p></div>);

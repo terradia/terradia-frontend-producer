@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, {useState} from "react";
 import Button from "../../Ui/Button";
 import {Formik} from "formik";
@@ -8,7 +7,7 @@ import {RegisterModalState, FormikReturnProps, RegisterDataResponse} from "../..
 import RegisterModal from "./RegisterModal";
 import {useMutation} from "@apollo/react-hooks";
 import {gql} from "apollo-boost";
-=======
+
 // import React, {useState} from "react";
 // import Button from "../../Ui/Button";
 // import {Formik} from "formik";
@@ -140,7 +139,6 @@ import {gql} from "apollo-boost";
 //         </div>
 //     )
 // }
->>>>>>> login
 
 export default () => {
     return (<div><p>Register</p></div>);

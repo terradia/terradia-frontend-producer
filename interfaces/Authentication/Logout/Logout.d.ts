@@ -2,6 +2,7 @@ import {ApolloClient} from "apollo-client";
 
 export declare interface LogoutProps {
     visible?: any;
+    isMenu?: boolean;
 }
 
 export const buttonStyle = {

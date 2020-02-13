@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import {NavLink, useHistory} from "react-router-dom";
 import {useApolloClient, useMutation} from '@apollo/react-hooks';
 import {Checkbox, Divider, notification as _notification} from "antd";
@@ -7,12 +7,14 @@ import {Formik} from "formik";
 import * as Yup from 'yup';
 import Input from "../../Ui/Input";
 import Button from "../../Ui/Button";
-import {ReactComponent as AppleLogo} from "../../../../assets/Icon/company/apple.svg";
-import {ReactComponent as FacebookLogo} from "../../../../assets/Icon/company/facebook.svg";
-import '../../../../assets/Style/Login/loginForm.less';
-
+import {ReactComponent as AppleLogo} from "../../../assets/Icon/company/apple.svg";
+import {ReactComponent as FacebookLogo} from "../../../assets/Icon/company/facebook.svg";
+import '../../../assets/Style/Login/loginForm.less';
+import UserContext from "../../Context/UserContext";
 
 const mutationLogin = graphqlLoader('../../../graphql/mutation/login.graphql');
+const getUserDataCached = graphqlLoader("../../../../graphql/query/getUserDataCached.graphql");
+const getUser = graphqlLoader('../../../../graphql/query/getUser.graphql');
 
 const SignInSchema = Yup.object().shape({
     email: Yup.string()
@@ -27,8 +29,9 @@ const SignInSchema = Yup.object().shape({
 });
 
 const LoginForm = () => {
-    const [login, {data}] = useMutation(mutationLogin);
     const client = useApolloClient();
+    const userId = useContext(UserContext);
+    const [login, {data}] = useMutation(mutationLogin);
     const history = useHistory();
 
     const OnErrorHandler = (data: { message: any; }) => {
@@ -44,11 +47,21 @@ const LoginForm = () => {
     };
 
     const submitForm = (values: { email: any; password: any; }) => {
+        console.log(userId);
+        const userData = client.readQuery({query: getUser/*, variables: {id: userId}*/});
+        console.log(userData);
         login({variables: {email: values.email, password: values.password}}).then((data: any) => {
             if (data) {
                 localStorage.setItem('token', data.data.login.token);
                 client.resetStore();
                 successLoginNotification();
+                if (userData && userData.getUser && userData.getUser.companies && !localStorage.getItem("defaultCompany")) {
+                    console.log("redirect to Company Selection");
+                    history.push("/Company");
+                } /*else {
+                    console.log("redirect to home");
+                    history.push("/Home");
+                }*/
             } else {
                 OnErrorHandler(data);
             }
