@@ -10,18 +10,29 @@ const textStyle = {
 };
 
 declare interface CompanyCardProps {
+    id: string;
+    selected: boolean;
     loading?: boolean;
     name?: string;
     cover?: string;
     logo?: string;
+    onClick: (string) => void
 }
 
 const CompanyCard = ({
+                         id,
+                         selected= false,
                          loading = false,
                          name = "Mon compte personnel",
                          cover = "/src/assets/company/defaultCover",
-                         logo = "/src/assets/company/defaultLogo"
+                         logo = "/src/assets/company/defaultLogo",
+                         onClick
                      }: CompanyCardProps) => {
+
+    const onClickHandler = () => {
+        onClick(id)
+    };
+
     return (
         <div style={{
             display: "flex",
@@ -35,9 +46,10 @@ const CompanyCard = ({
                 height: 250,
                 margin: "24px",
                 boxSizing: "border-box",
-                boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.25)",
+                boxShadow: "0px 5px 15px " + (selected) ? "#C4C4C4" : "#FFFFFF" ,
                 borderRadius: "8px"
             }}
+                  onClick={onClickHandler}
                   loading={loading}
             >
                 <Avatar

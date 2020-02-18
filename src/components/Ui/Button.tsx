@@ -36,8 +36,10 @@ const Button: React.FunctionComponent<ButtonProps> = (props) => {
             >
                 {props.icon}
                 {props.text}
-                {children}
+                {props.children}
             </AntButton>
         );
     // return null;
-}
+};
+
+export default Button;

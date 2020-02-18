@@ -2,7 +2,6 @@ import React from "react";
 import {Layout as AntLayout} from "antd";
 import Header from "../components/Layout/Header";
 import CompanyCardSelector from "../components/Company/CompanyCardSelector";
-import Button from "../components/Ui/Button";
 
 const textStyle = {
     fontFamily: "Montserrat",
@@ -30,17 +29,7 @@ const Company = () => {
                         Choisissez votre entreprise par défaut
                     </span>
                     <CompanyCardSelector/>
-                    <Button style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        alignSelf: "center",
-                        width: "25%"
-                    }}>
-                    <span style={{...textStyle, color: "#5CC04A", fontSize: 18}}>
-                        Valider
-                    </span>
-                    </Button>
+
                     {/* TODO A voir quel bouton utiliser
                    <Button style={{
                         display: "flex",

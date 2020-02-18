@@ -1,18 +1,18 @@
 import React from "react";
-import {NavLink, useHistory} from "react-router-dom";
-import {useApolloClient, useMutation} from '@apollo/react-hooks';
-import {Checkbox, Divider, notification as _notification} from "antd";
+import {NavLink, Redirect, useHistory} from "react-router-dom";
+import {useApolloClient, useLazyQuery, useMutation} from '@apollo/react-hooks';
+import {Checkbox, Divider} from "antd";
 import {loader as graphqlLoader} from 'graphql.macro';
 import {Formik} from "formik";
 import * as Yup from 'yup';
 import Input from "../../Ui/Input";
 import Button from "../../Ui/Button";
-import {ReactComponent as AppleLogo} from "../../../../assets/Icon/company/apple.svg";
-import {ReactComponent as FacebookLogo} from "../../../../assets/Icon/company/facebook.svg";
-import '../../../../assets/Style/Login/loginForm.less';
-
+import {ReactComponent as AppleLogo} from "../../../assets/Icon/company/apple.svg";
+import {ReactComponent as FacebookLogo} from "../../../assets/Icon/company/facebook.svg";
+import '../../../assets/Style/Login/loginForm.less';
 
 const mutationLogin = graphqlLoader('../../../graphql/mutation/login.graphql');
+const getUser = graphqlLoader("../../../graphql/query/getUser.graphql");
 
 const SignInSchema = Yup.object().shape({
     email: Yup.string()
@@ -27,36 +27,50 @@ const SignInSchema = Yup.object().shape({
 });
 
 const LoginForm = () => {
-    const [login, {data}] = useMutation(mutationLogin);
     const client = useApolloClient();
+    const [login, {loading: loginLoading}] = useMutation(mutationLogin);
+    const [getUserQuery, {loading: userLoading, data: userData, called}] = useLazyQuery(getUser);
     const history = useHistory();
+
+    if (called && !userLoading) {
+        if (userData && userData.getUser &&
+            userData.getUser.companies &&
+            userData.getUser.companies.length >= 1 &&
+            (!!!localStorage.getItem("rememberCompany") ||
+                localStorage.getItem("rememberCompany") === "false")
+        ) {
+            console.log("redirect to Company Selection");
+            return (<Redirect to={"/Company"}/>)
+        } else {
+            console.log("redirect to home");
+            return (<Redirect to={"/Home"}/>)
+        }
+    }
 
     const OnErrorHandler = (data: { message: any; }) => {
         console.log(data.message);
     };
 
-    const successLoginNotification = () => {
-        _notification['success']({
-            message: 'Login Sucess',
-            description:
-                'You\'re now log in your account.',
-        });
-    };
 
     const submitForm = (values: { email: any; password: any; }) => {
-        login({variables: {email: values.email, password: values.password}}).then((data: any) => {
-            if (data) {
-                localStorage.setItem('token', data.data.login.token);
-                client.resetStore();
-                successLoginNotification();
+        login({variables: {email: values.email, password: values.password}}).then((loginData: any) => {
+            console.log(loginData);
+            if (loginData) {
+                console.log("setting up token");
+                localStorage.setItem('token', loginData.data.login.token);
+                console.log("resetting store");
+                client.resetStore().then(() => {
+                    console.log("calling getUser");
+                    getUserQuery();
+                }).catch((error) => {
+                    console.log(error);
+                });
             } else {
-                OnErrorHandler(data);
+                OnErrorHandler(loginData);
             }
+        }).catch((error) => {
+            console.log(error);
         });
-    };
-
-    const OnRedirectHandler = (path) => {
-        history.push(path);
     };
 
     return (
@@ -65,9 +79,7 @@ const LoginForm = () => {
             validationSchema={SignInSchema}
             validateOnChange={false}
             validateOnBlur={true}
-            onSubmit={(values) => {
-                submitForm(values)
-            }}
+            onSubmit={submitForm}
         >
             {({
                   errors,
@@ -135,9 +147,10 @@ const LoginForm = () => {
                                         }
                                     }
                                     htmlType={'submit'}
+                                    isLoading={loginLoading || userLoading}
                                 />
                                 <p id={'forgot_password'} className={'form_item'}>
-                                    <NavLink to="/ResetPassword" >
+                                    <NavLink to="/ResetPassword">
                                         Mot de passe oublié ?
                                     </NavLink>
                                 </p>
@@ -169,7 +182,7 @@ const LoginForm = () => {
                                     size={'large'}
                                     id={'register_button'}
                                     htmlType={'submit'}
-                                    onClick={() => OnRedirectHandler('/Register')}
+                                    onClick={() => history.push('/Register')}
                                 />
                             </div>
                         </div>

@@ -1,7 +1,7 @@
 import React from 'react'
 import {ReactComponent as LogoutIcon} from "../../../assets/Logout.svg"
 import {Icon, Menu} from "antd";
-import {LogoutProps} from "../../../../interfaces/Authentication/Logout/Logout";
+import {LogoutProps} from "../../../interfaces/Authentication/Logout/Logout";
 import {useApolloClient} from "@apollo/react-hooks";
 
 const textStyle = {
@@ -27,11 +27,14 @@ const Logout = (props: LogoutProps) => {
     if (props.isMenu) {
         return (
             <Menu mode={"inline"}>
-                <Menu.Item style={{
-                    display: "flex",
-                    alignContent: "center",
-                    alignItems: "center"
-                }}>
+                <Menu.Item
+                    style={{
+                        display: "flex",
+                        alignContent: "center",
+                        alignItems: "center"
+                    }}
+                    onClick={onLogoutHandler}
+                >
                     <Icon component={() => <LogoutIcon height={'25px'} width={'25px'}/>}/>
                     <span style={textStyle}>
                         Se déconnecter

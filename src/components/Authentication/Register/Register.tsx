@@ -3,7 +3,7 @@ import Button from "../../Ui/Button";
 import {Formik} from "formik";
 import {notification as _notification} from "antd";
 import * as Yup from "yup";
-import {RegisterModalState, FormikReturnProps, RegisterDataResponse} from "../../../../interfaces/Authentication/Register/Register"
+import {RegisterModalState, FormikReturnProps, RegisterDataResponse} from "../../../interfaces/Authentication/Register/Register"
 import RegisterModal from "./RegisterModal";
 import {useMutation} from "@apollo/react-hooks";
 import {gql} from "apollo-boost";
