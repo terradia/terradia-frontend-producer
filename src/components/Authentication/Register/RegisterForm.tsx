@@ -3,12 +3,12 @@ import {Formik} from "formik";
 import Input from "../../Ui/Input";
 import Button from "../../Ui/Button";
 import {Checkbox, Divider} from "antd";
-import {ReactComponent as FacebookLogo} from "../../../../assets/Icon/company/facebook.svg";
-import {ReactComponent as AppleLogo} from "../../../../assets/Icon/company/apple.svg";
+import {ReactComponent as FacebookLogo} from "../../../assets/Icon/company/facebook.svg";
+import {ReactComponent as AppleLogo} from "../../../assets/Icon/company/apple.svg";
 import * as Yup from "yup";
 import {loader as graphqlLoader} from 'graphql.macro';
 import {useMutation} from "@apollo/react-hooks";
-import '../../../../assets/Style/Register/registerForm.less';
+import '../../../assets/Style/Register/registerForm.less';
 
 const mutationRegister = graphqlLoader('../../../graphql/mutation/register.graphql');
 
