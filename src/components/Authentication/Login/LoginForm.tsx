@@ -16,14 +16,13 @@ const getUser = graphqlLoader("../../../graphql/query/getUser.graphql");
 
 const SignInSchema = Yup.object().shape({
     email: Yup.string()
-        .email('Your email is invalid')
-        .required('Your email is required')
-        .min(2, 'Your email must be longer than 2 character')
+        .email('Votre adresse email est invalide')
+        .required('Veuillez entrer votre adresse email')
     ,
     password: Yup.string()
-        .required('Your password is required')
-        .min(2, 'Your password must be longer than 2 character')
-        .max(20, 'It is long password')
+        .required('Veuillez entrer votre mot de passe')
+        .min(2, 'Votre mot de passe doit contenir plus de 2 caractère')
+        .max(20, 'Votre mot de passe ne peut dépasser 20 caractère')
 });
 
 const LoginForm = () => {
@@ -73,6 +72,10 @@ const LoginForm = () => {
         });
     };
 
+    const OnRedirectHandler = (path) => {
+        history.push(path);
+    };
+
     return (
         <Formik
             initialValues={{email: '', password: '', rememberMe: false}}
@@ -87,14 +90,14 @@ const LoginForm = () => {
                   handleSubmit,
               }) => {
                 return (
-                    <div className={'right_box'}>
-                        <div className={'form_div'}>
+                    <div className={'login_box'}>
+                        <div className={'login_form_div'}>
                             <form
-                                className={'login_form'}
+                                className={'auth_form'}
                                 onSubmit={handleSubmit}>
                                 <Input
                                     name={'email'}
-                                    className={'form_item'}
+                                    className={'form_item input_item'}
                                     id={'input_login'}
                                     size={'large'}
                                     type={'default'}
@@ -114,7 +117,7 @@ const LoginForm = () => {
                                 }
                                 <Input
                                     name={'password'}
-                                    className={'form_item'}
+                                    className={'form_item input_item'}
                                     id={'input_password'}
                                     size={'large'}
                                     type={"password"}
@@ -136,27 +139,20 @@ const LoginForm = () => {
                                 </Checkbox>
                                 <Button
                                     text={'Se connecter'}
-                                    className={'form_item'}
+                                    className={'form_item terradia_button'}
                                     id={'login_button'}
                                     size={'large'}
-                                    style={
-                                        {
-                                            borderColor: 'linear-gradient(90deg, #5CC04A 0%, #8FDD3D 100%)',
-                                            width: '100%',
-                                            color: 'linear-gradient(90deg, #5CC04A 0%, #8FDD3D 100%)',
-                                        }
-                                    }
                                     htmlType={'submit'}
                                     isLoading={loginLoading || userLoading}
                                 />
-                                <p id={'forgot_password'} className={'form_item'}>
-                                    <NavLink to="/ResetPassword">
+                                <p id={'forgot_password'} >
+                                    <NavLink to="/ResetPassword" >
                                         Mot de passe oublié ?
                                     </NavLink>
                                 </p>
                             </form>
                         </div>
-                        <Divider className={'login_divider'}> OU </Divider>
+                        <Divider className={'auth_divider'}> OU </Divider>
                         <div className={"not_register"}>
                             <div className={'external_connexion'}>
                                 <Button
@@ -177,7 +173,7 @@ const LoginForm = () => {
                             <div className={'register_div'}>
                                 <p>Vous n'avez pas encore de compte ?</p>
                                 <Button
-                                    className={'button_register'}
+                                    className={'button_register terradia_button'}
                                     text={"S'enregister"}
                                     size={'large'}
                                     id={'register_button'}

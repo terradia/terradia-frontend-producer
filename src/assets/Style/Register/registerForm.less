@@ -1,14 +1,14 @@
-.login_box {
+.register_box {
   display: flex;
   flex-direction: column;
   margin: 15% 0 10% 0;
-  height: 65%;
+  height: 70%;
   width: 65%;
   color: #cbcbcb;
   font-size: large;
 
   .terradia_button {
-    height: 15%;
+    height: 12%;
     border-color: #5CC04A;
     width: 100%;
     color: #5CC04A;
@@ -22,11 +22,15 @@
     border-color: #FFFFFF;
   }
 
-  .login_form_div {
-    height: 47%;
-
+  .register_form_div {
     .auth_form {
+      display: flex;
+      flex-direction: column;
       height: 100%;
+
+      #feedback {
+        height: 5%;
+      }
 
       .input_item {
         background-color: #eeeef3;
@@ -38,50 +42,35 @@
       }
 
       .form_item {
-        margin: 2% 0 1%;
+        margin: 1% 0 1%;
         font-size: large;
       }
     }
   }
 
   .auth_divider {
+    flex-grow: 1;
     margin: 2% 0 7% 0;
     color: #cbcbcb;
   }
 
-  .not_register {
+  .external_connexion {
     display: flex;
-    flex-direction: column;
-    height: 35%;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 20%;
+    flex-grow: 1;
 
-    .external_connexion {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      height: 50%;
-
-      .button_register {
-        width: 45%;
-      }
-    }
-
-    .register_div {
-      height: 50%;
-
-      .button_register {
-        width: 100%;
-      }
-    }
 
     .button_register {
-      height: 50%;
+      width: 45%;
+      height: 35%;
       margin: 0 0 4% 0;
     }
   }
-
 }
 
-@media (max-width:1024px) {
+@media (max-width: 1024px) {
   .login_box {
     margin: 0 0 10% 0;
     height: 80%;
