@@ -1,0 +1,24 @@
+{
+  ""
+  "plugins": [
+    "inline-react-svg",
+    "import-graphql",
+    "graphql-tag",
+    "@babel/syntax-dynamic-import",
+    [
+      "lodash",
+      {
+        "id": [
+          "lodash"
+        ]
+      }
+    ],
+    [
+      "import",
+      {
+        "libraryName": "antd",
+        "style": true
+      }
+    ]
+  ]
+}

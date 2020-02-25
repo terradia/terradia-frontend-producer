@@ -1,0 +1,16 @@
+{
+  "name": "Terradia GraphQL Schema",
+  "schemaPath": "api.graphql",
+  "extensions": {
+    "endpoints": {
+      "Terradia Api": {
+        "url": "http://localhost:8000/graphql",
+        "headers": {
+          "user-agent": "JS GraphQL",
+          "authorization": "${env:GQL_AUTH}"
+        },
+        "introspect": true
+      }
+    }
+  }
+}
