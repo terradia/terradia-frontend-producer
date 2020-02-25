@@ -1,7 +1,7 @@
 import React from "react";
 import {NavLink, useHistory} from "react-router-dom";
 import {useApolloClient, useMutation} from '@apollo/react-hooks';
-import {Checkbox, Divider, notification as _notification} from "antd";
+import {Checkbox, Divider} from "antd";
 import {loader as graphqlLoader} from 'graphql.macro';
 import {Formik} from "formik";
 import * as Yup from 'yup';
@@ -11,19 +11,17 @@ import {ReactComponent as AppleLogo} from "../../../../assets/Icon/company/apple
 import {ReactComponent as FacebookLogo} from "../../../../assets/Icon/company/facebook.svg";
 import '../../../../assets/Style/Login/loginForm.less';
 
-
 const mutationLogin = graphqlLoader('../../../graphql/mutation/login.graphql');
 
 const SignInSchema = Yup.object().shape({
     email: Yup.string()
-        .email('Your email is invalid')
-        .required('Your email is required')
-        .min(2, 'Your email must be longer than 2 character')
+        .email('Votre adresse email est invalide')
+        .required('Veuillez entrer votre adresse email')
     ,
     password: Yup.string()
-        .required('Your password is required')
-        .min(2, 'Your password must be longer than 2 character')
-        .max(20, 'It is long password')
+        .required('Veuillez entrer votre mot de passe')
+        .min(2, 'Votre mot de passe doit contenir plus de 2 caractère')
+        .max(20, 'Votre mot de passe ne peut dépasser 20 caractère')
 });
 
 const LoginForm = () => {
@@ -31,24 +29,15 @@ const LoginForm = () => {
     const client = useApolloClient();
     const history = useHistory();
 
-    const OnErrorHandler = (data: { message: any; }) => {
+    const OnErrorHandler = (data: { message: string; }) => {
         console.log(data.message);
     };
 
-    const successLoginNotification = () => {
-        _notification['success']({
-            message: 'Login Sucess',
-            description:
-                'You\'re now log in your account.',
-        });
-    };
-
-    const submitForm = (values: { email: any; password: any; }) => {
+    const submitForm = (values: { email: string; password: string; }) => {
         login({variables: {email: values.email, password: values.password}}).then((data: any) => {
             if (data) {
                 localStorage.setItem('token', data.data.login.token);
                 client.resetStore();
-                successLoginNotification();
             } else {
                 OnErrorHandler(data);
             }
@@ -58,7 +47,7 @@ const LoginForm = () => {
     const OnRedirectHandler = (path) => {
         history.push(path);
     };
-
+    // TODO Remember ME
     return (
         <Formik
             initialValues={{email: '', password: '', rememberMe: false}}
@@ -75,14 +64,14 @@ const LoginForm = () => {
                   handleSubmit,
               }) => {
                 return (
-                    <div className={'right_box'}>
-                        <div className={'form_div'}>
+                    <div className={'login_box'}>
+                        <div className={'login_form_div'}>
                             <form
-                                className={'login_form'}
+                                className={'auth_form'}
                                 onSubmit={handleSubmit}>
                                 <Input
                                     name={'email'}
-                                    className={'form_item'}
+                                    className={'form_item input_item'}
                                     id={'input_login'}
                                     size={'large'}
                                     type={'default'}
@@ -102,7 +91,7 @@ const LoginForm = () => {
                                 }
                                 <Input
                                     name={'password'}
-                                    className={'form_item'}
+                                    className={'form_item input_item'}
                                     id={'input_password'}
                                     size={'large'}
                                     type={"password"}
@@ -124,26 +113,19 @@ const LoginForm = () => {
                                 </Checkbox>
                                 <Button
                                     text={'Se connecter'}
-                                    className={'form_item'}
+                                    className={'form_item terradia_button'}
                                     id={'login_button'}
                                     size={'large'}
-                                    style={
-                                        {
-                                            borderColor: 'linear-gradient(90deg, #5CC04A 0%, #8FDD3D 100%)',
-                                            width: '100%',
-                                            color: 'linear-gradient(90deg, #5CC04A 0%, #8FDD3D 100%)',
-                                        }
-                                    }
                                     htmlType={'submit'}
                                 />
-                                <p id={'forgot_password'} className={'form_item'}>
+                                <p id={'forgot_password'} >
                                     <NavLink to="/ResetPassword" >
                                         Mot de passe oublié ?
                                     </NavLink>
                                 </p>
                             </form>
                         </div>
-                        <Divider className={'login_divider'}> OU </Divider>
+                        <Divider className={'auth_divider'}> OU </Divider>
                         <div className={"not_register"}>
                             <div className={'external_connexion'}>
                                 <Button
@@ -164,7 +146,7 @@ const LoginForm = () => {
                             <div className={'register_div'}>
                                 <p>Vous n'avez pas encore de compte ?</p>
                                 <Button
-                                    className={'button_register'}
+                                    className={'button_register terradia_button'}
                                     text={"S'enregister"}
                                     size={'large'}
                                     id={'register_button'}
