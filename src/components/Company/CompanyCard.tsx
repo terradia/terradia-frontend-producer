@@ -1,62 +1,67 @@
-import React, {useContext} from "react";
-import {Avatar, Card, Icon, Popconfirm} from "antd";
-import UserContext from "../Context/UserContext";
+import React from "react";
+import {Avatar, Card} from "antd";
 
-const {Meta} = Card;
+const textStyle = {
+    fontFamily: "Montserrat",
+    fontWeight: 600,
+    fontSize: "larger",
+    color: "#575757",
+    flexShrink: 0
+};
 
 declare interface CompanyCardProps {
-    setEditModal: (value: boolean) => void;
-    setCallDelete: (value: boolean) => void;
+    id: string;
+    selected: boolean;
+    loading?: boolean;
+    name?: string;
+    cover?: string;
+    logo?: string;
+    onClick: (string) => void
 }
 
-const CompanyCard = (props: CompanyCardProps) => {
-    const user = useContext(UserContext);
-    const {setEditModal, setCallDelete} = props;
+const CompanyCard = ({
+                         id,
+                         selected= false,
+                         loading = false,
+                         name = "Mon compte personnel",
+                         cover = "/src/assets/company/defaultCover",
+                         logo = "/src/assets/company/defaultLogo",
+                         onClick
+                     }: CompanyCardProps) => {
 
-    if (user && user.company) {
-        return (
-            <Card
-                cover={
-                    <img
-                        src={user.company.cover ? user.company.cover : "/static/CompanyCover.png"}
-                        alt={"Company Cover"}
-                    />
-                }
-                size={"small"}
-                actions={[
-                    (
-                        <Icon key={"edit"} type={"edit"} onClick={() => setEditModal(true)}/>
-                    ),
-                    (
-                        <Popconfirm
-                            title={"Are you sure you want to delete this company ?"}
-                            onConfirm={() => setCallDelete(true)}
-                            okText={"Yes"}
-                            cancelText={"No"}
-                            placement={"right"}
-                        >
-                            <Icon key={"delete"} type={"delete"}/>
-                        </Popconfirm>
-                    ),
-                ]}
+    const onClickHandler = () => {
+        onClick(id)
+    };
+
+    return (
+        <div style={{
+            display: "flex",
+            flexWrap: "wrap",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+        }}>
+            <Card style={{
+                width: 250,
+                height: 250,
+                margin: "24px",
+                boxSizing: "border-box",
+                boxShadow: "0px 5px 15px " + (selected) ? "#C4C4C4" : "#FFFFFF" ,
+                borderRadius: "8px"
+            }}
+                  onClick={onClickHandler}
+                  loading={loading}
             >
-                <Meta
-                    avatar={
-                        <Avatar
-                            src={user.company.logo ? user.company.logo : "/static/CompanyLogo.png"}
-                            shape={"square"}
-                            size={"large"}
-                        />
-                    }
-                    title={user.company.name}
-                    description={user.company.description}
+                <Avatar
+                    size={200}
+                    shape={"circle"}
+                    alt={"profile"}
+                    src={"S3Url" + logo}
                 />
             </Card>
-        )
-    }
-    return (
-        <div>
-            <p>You don't have any company at this time</p>
+            <span style={textStyle}>
+                {name}
+            </span>
         </div>
     )
 };

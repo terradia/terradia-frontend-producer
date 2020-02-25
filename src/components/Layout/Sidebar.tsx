@@ -1,11 +1,11 @@
 import React, {useState} from "react";
 import {useHistory, useLocation} from 'react-router'
-import {ReactComponent as Home} from "../../../assets/Home Logo.svg";
-import {ReactComponent as Products} from "../../../assets/Product Logo.svg";
-import {ReactComponent as Categories} from "../../../assets/Categories Logo.svg";
-import {ReactComponent as Statistics} from "../../../assets/Statistics Logo.svg";
-import {ReactComponent as Staff} from "../../../assets/Staff Logo.svg";
-import {ReactComponent as Documents} from "../../../assets/Document Logo.svg";
+import {ReactComponent as Home} from "../../assets/Home Logo.svg";
+import {ReactComponent as Products} from "../../assets/Product Logo.svg";
+import {ReactComponent as Categories} from "../../assets/Categories Logo.svg";
+import {ReactComponent as Statistics} from "../../assets/Statistics Logo.svg";
+import {ReactComponent as Staff} from "../../assets/Staff Logo.svg";
+import {ReactComponent as Documents} from "../../assets/Document Logo.svg";
 import {Icon, Menu} from "antd";
 
 const textStyle = {
