@@ -6,9 +6,6 @@ import RegisterForm from "../components/Authentication/Register/RegisterForm";
 
 const Register = () => {
     return (<div className={'registerPage'}>
-        <div className={'action-auth'}>
-            <RegisterForm/>
-        </div>
 
         <div className={"presentation"}>
             <Logo
@@ -17,6 +14,10 @@ const Register = () => {
             <Divider className={'presentation-divider'}/>
             <p className={"description"}> L’application qui facilite l’accès aux producteurs</p>
         </div>
+        <div className={'action-auth'}>
+            <RegisterForm/>
+        </div>
+
     </div>)
 };
 
