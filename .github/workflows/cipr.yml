@@ -23,4 +23,4 @@ jobs:
           npm run build
       - name: linter
         run: |
-          npm run lint:fix
+          npm run lint
