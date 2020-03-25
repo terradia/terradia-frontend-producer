@@ -12,6 +12,7 @@ const queryAllCompanyProductsCategories = graphqlLoader('../graphql/query/getAll
 
 const {Panel} = Collapse;
 
+
 const copiedData = {
     "data": {
         "getAllCompanyProductsCategories": [
@@ -173,7 +174,6 @@ const copiedData = {
 // const copiedDataTest2 = getItems(5, 10);
 
 
-
 const reorder = (list, startIndex, endIndex) => {
     console.log('startIndex', startIndex);
     console.log('endIndex', endIndex);
@@ -215,23 +215,22 @@ const move = (source, destination, droppableSource, droppableDestination) => {
     return result;
 };
 
-const getItemStyle = (isDragging, draggableStyle) => ({
-    // some basic styles to make the items look a bit nicer
-    userSelect: 'none',
-    padding: 8 * 2,
-    margin: `0 0 9px 0`,
+const getItemStyle = (isDragging, draggableStyle) => {
+    return ({
+        // some basic styles to make the items look a bit nicer
+        userSelect: 'none',
 
-    // change background colour if dragging
-    background: isDragging ? 'lightgreen' : 'grey',
+        // change background colour if dragging
+        background: isDragging ? 'lightgreen' : 'grey',
 
-    // styles we need to apply on draggables
-    ...draggableStyle
-});
+        // styles we need to apply on draggables
+        ...draggableStyle
+    })
+};
 
 const getListStyle = isDraggingOver => ({
-    background: isDraggingOver ? 'lightblue' : 'lightgrey',
-    padding: 8,
-    width: 250
+    background: isDraggingOver ? 'lightblue' : null,
+    padding: '10px',
 });
 
 const Products = () => {
@@ -287,55 +286,62 @@ const Products = () => {
             </div>
             <div className={'categories-list'}>
                 {/*{!loading && copiedData.data.getAllCompanyProductsCategories.map((cat) => {*/}
-                <DragDropContext onDragEnd={onDragEnd}>
-                    {copiedData.data.getAllCompanyProductsCategories.map((cat) => (
-                        // <div className={'card-list'} id={cat.name} key={cat.id}>
-                        <Droppable droppableId={cat.id} direction="horizontal" key={cat.id}>
-                            {(provided, snapshot) => (
-                                <div
-                                    ref={provided.innerRef}
-                                    style={getListStyle(snapshot.isDraggingOver)}>
-                                    {cat.name}
-                                    {cat.products.map((product, index) => (
-                                        <Draggable
-                                            key={product.id}
-                                            draggableId={product.id}
-                                            index={index}
-                                            // index={product.index}
-                                        >
-                                            {(provided, snapshot) => (
-                                                <div className={'card'}
-                                                     ref={provided.innerRef}
-                                                     {...provided.draggableProps}
-                                                     {...provided.dragHandleProps}
-                                                     style={getItemStyle(
-                                                         snapshot.isDragging,
-                                                         provided.draggableProps.style
-                                                     )}
-                                                >
-                                                    {/*<Card title={product.name}*/}
-                                                    {/*      style={{width: 300}}*/}
-                                                    {/*      ref={provided.innerRef}*/}
-                                                    {/*      {...provided.draggableProps}*/}
-                                                    {/*      {...provided.dragHandleProps}*/}
-                                                    {/*>*/}
-                                                    {/*    {product.description}*/}
-                                                    {/*    {provided.placeholder}*/}
-                                                    {/*</Card>*/}
-                                                    {product.name}
+                {/*<Collapse accordion>*/}
+                    <DragDropContext onDragEnd={onDragEnd}>
+                        {copiedData.data.getAllCompanyProductsCategories.map((cat, index) => (
+                            // <div className={'card-list'} id={cat.name} key={cat.id}>
+                            <Droppable droppableId={cat.id} direction={"horizontal"} key={cat.id}>
+                                {(provided, snapshot) => (
+                                    <div
+                                        ref={provided.innerRef}
+                                        className={"category"}
+                                        style={getListStyle(snapshot.isDraggingOver)}>
+                                        {/*<Panel header={cat.name} key={index}>*/}
+                                            <div
+                                                ref={provided.innerRef}
+                                                style={{height: '5%'}}
+                                            >
+                                                {cat.name}
+                                            </div>
+                                            <div ref={provided.innerRef} className={'card-list'}>
+                                                <div ref={provided.innerRef} className={'card-list2'}>
+                                                    {cat.products.map((product, index) => (
+                                                        <Draggable
+                                                            key={product.id}
+                                                            draggableId={product.id}
+                                                            index={index}
+                                                            // index={product.index}
+                                                        >
+                                                            {(provided, snapshot) => (
+                                                                <div
+                                                                    className={'card'}
+                                                                    ref={provided.innerRef}
+                                                                    {...provided.draggableProps}
+                                                                    {...provided.dragHandleProps}
+                                                                    style={getItemStyle(
+                                                                        snapshot.isDragging,
+                                                                        provided.draggableProps.style
+                                                                    )}
+                                                                >
+                                                                    {product.name}
+                                                                </div>
+                                                            )}
+
+                                                        </Draggable>
+                                                    ))}
                                                 </div>
-                                            )}
-                                        </Draggable>
-                                    ))}
-                                    {provided.placeholder}
-                                </div>
-                            )}
-                        </Droppable>
-                        // </div>
+                                                {provided.placeholder}
+                                            </div>
+                                        {/*</Panel>*/}
 
-                    ))}
-                </DragDropContext>
+                                    </div>
+                                )}
+                            </Droppable>
+                            // </div>
 
+                        ))}
+                    </DragDropContext>
+                {/*</Collapse>*/}
             </div>
         </div>
     )
