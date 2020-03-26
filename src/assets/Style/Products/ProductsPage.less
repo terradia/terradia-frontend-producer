@@ -18,21 +18,17 @@
     //background-color: #e5e5e5;
 
     .category {
-      display: flex;
-      flex-direction: column;
       max-height: 200px;
       overflow-anchor: none;
-      //overflow-scrolling: auto;
+      overflow-x: auto;
+      overflow-y: hidden;
     }
 
     .card-list {
-      overflow-x: auto;
-      overflow-y: hidden;
-      //align-items: start;
-    }
-    .card-list2 {
       display: inline-flex;
       flex-grow: 1;
+      overflow-x: auto;
+      overflow-y: hidden;
     }
 
     .card {
@@ -45,6 +41,10 @@
       text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
       filter: brightness(100%);
       border-radius: 10px;
+
+      align-items: center;
+      text-align: center;
+      word-break: break-word;
     }
   }
 }

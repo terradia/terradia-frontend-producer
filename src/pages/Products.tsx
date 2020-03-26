@@ -37,7 +37,7 @@ const copiedData = {
                 "products": [
                     {
                         "id": "d8d6ac67-d45f-44a4-94fa-2acbbf760e77",
-                        "name": "Fromage à raclette",
+                        "name": "Fromage à raclette de la mort qui tue la vie",
                         "image": null,
                         "description": "Fromage destiné à être utilisé pour la raclette",
                         "updatedAt": "2020-03-12T23:37:43.870Z",
@@ -238,6 +238,10 @@ const Products = () => {
         variables: {companyId: '984c68b8-dac6-4b58-a4e0-6e6dc0d8e59b'},
     });
 
+    function onDragUpdate(result) {
+        console.log('result', result);
+    }
+
     function onDragEnd(result) {
         const {source, destination} = result;
         console.log('source', source);
@@ -286,31 +290,29 @@ const Products = () => {
             </div>
             <div className={'categories-list'}>
                 {/*{!loading && copiedData.data.getAllCompanyProductsCategories.map((cat) => {*/}
-                {/*<Collapse accordion>*/}
-                    <DragDropContext onDragEnd={onDragEnd}>
-                        {copiedData.data.getAllCompanyProductsCategories.map((cat, index) => (
-                            // <div className={'card-list'} id={cat.name} key={cat.id}>
-                            <Droppable droppableId={cat.id} direction={"horizontal"} key={cat.id}>
-                                {(provided, snapshot) => (
-                                    <div
-                                        ref={provided.innerRef}
-                                        className={"category"}
-                                        style={getListStyle(snapshot.isDraggingOver)}>
-                                        {/*<Panel header={cat.name} key={index}>*/}
+                <DragDropContext onDragEnd={onDragEnd} onDragUpdate={onDragUpdate}>
+                    <Collapse bordered={false} defaultActiveKey={['0']}>
+                        {copiedData.data.getAllCompanyProductsCategories.map((cat, index) => {
+                            return (
+                                <Panel header={cat.name} key={index}>
+                                    <Droppable droppableId={cat.id} direction={"horizontal"} key={cat.id}>
+                                        {(provided, snapshot) => (
                                             <div
                                                 ref={provided.innerRef}
-                                                style={{height: '5%'}}
-                                            >
-                                                {cat.name}
-                                            </div>
-                                            <div ref={provided.innerRef} className={'card-list'}>
-                                                <div ref={provided.innerRef} className={'card-list2'}>
+                                                className={"category"}
+                                                style={getListStyle(snapshot.isDraggingOver)}>
+                                                {/*<div*/}
+                                                {/*    ref={provided.innerRef}*/}
+                                                {/*    style={{height: '5%'}}*/}
+                                                {/*>*/}
+                                                {/*    {cat.name}*/}
+                                                {/*</div>*/}
+                                                <div ref={provided.innerRef} className={'card-list'}>
                                                     {cat.products.map((product, index) => (
                                                         <Draggable
                                                             key={product.id}
                                                             draggableId={product.id}
                                                             index={index}
-                                                            // index={product.index}
                                                         >
                                                             {(provided, snapshot) => (
                                                                 <div
@@ -323,25 +325,25 @@ const Products = () => {
                                                                         provided.draggableProps.style
                                                                     )}
                                                                 >
-                                                                    {product.name}
+                                                                    <p style={{}}>
+                                                                        {product.name}
+                                                                    </p>
                                                                 </div>
                                                             )}
 
                                                         </Draggable>
                                                     ))}
+                                                    {provided.placeholder}
                                                 </div>
-                                                {provided.placeholder}
                                             </div>
-                                        {/*</Panel>*/}
+                                        )}
+                                    </Droppable>
+                                </Panel>
+                            )
+                        })}
+                    </Collapse>
 
-                                    </div>
-                                )}
-                            </Droppable>
-                            // </div>
-
-                        ))}
-                    </DragDropContext>
-                {/*</Collapse>*/}
+                </DragDropContext>
             </div>
         </div>
     )
