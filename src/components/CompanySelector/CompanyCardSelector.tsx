@@ -6,7 +6,7 @@ import Button from "../Ui/Button";
 import {useHistory} from "react-router";
 import CheckBox from "rc-checkbox";
 
-const getUser = graphqlLoader("../../graphql/query/getUser.graphql");
+const getCompanies = graphqlLoader("../../graphql/query/getCompanies.graphql");
 
 const textStyle = {
     fontFamily: "Montserrat",
@@ -18,13 +18,14 @@ const textStyle = {
 
 const CompanyCardSelector = () => {
     const history = useHistory();
-    const {loading, error, data: userData} = useQuery(getUser);
+    const {loading, error, data: companiesData} = useQuery(getCompanies);
     const [selected, setSelected] = useState("");
     const [remember, setRemember] = useState(false);
     let card;
 
     if (error)
         console.log(error);
+    console.log(companiesData);
 
     const OnValidatedSelection = () => {
         localStorage.setItem("rememberCompany", remember.toString());
@@ -35,17 +36,17 @@ const CompanyCardSelector = () => {
             history.push("/Home");
     };
 
-    if (!loading && userData && userData.getUser && userData.getUser.companies) {
-        if (userData.getUser.companies.length < 1)
+    if (!loading && companiesData && companiesData.getCompanies) {
+        if (companiesData.getCompanies.length < 1)
             history.push("/Login");
-        card = userData.getUser.companies.map((company: any) => (
+        card = companiesData.getCompanies.map((companyData: any) => (
             <CompanyCard
-                key={company.company.id}
-                id={company.company.id}
-                selected={(selected === company.company.id)}
-                name={company.company.name}
-                logo={company.company.logo}
-                cover={company.company.cover}
+                key={companyData.id}
+                id={companyData.id}
+                selected={(selected === companyData.id)}
+                name={companyData.name}
+                logo={companyData.logo}
+                cover={companyData.cover}
                 onClick={setSelected}
             />
         ));

@@ -1,7 +1,7 @@
 import React from "react";
 import {Layout as AntLayout} from "antd";
 import Header from "../components/Layout/Header";
-import CompanyCardSelector from "../components/Company/CompanyCardSelector";
+import CompanyCardSelector from "../components/CompanySelector/CompanyCardSelector";
 
 const textStyle = {
     fontFamily: "Montserrat",
@@ -11,7 +11,7 @@ const textStyle = {
     flexShrink: 0
 };
 
-const Company = () => {
+const CompanySelection = () => {
     return (
         <AntLayout style={{background: "white"}}>
             <Header Company/>
@@ -49,4 +49,4 @@ const Company = () => {
     )
 };
 
-export default Company
+export default CompanySelection;
