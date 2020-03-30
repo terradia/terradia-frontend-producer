@@ -2,7 +2,6 @@ import React from "react";
 import {Avatar, Card} from "antd";
 
 const textStyle = {
-    fontFamily: "Montserrat",
     fontWeight: 600,
     fontSize: "larger",
     color: "#575757",

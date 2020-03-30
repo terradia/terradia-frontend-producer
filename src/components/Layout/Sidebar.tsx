@@ -10,7 +10,6 @@ import {Icon, Menu} from "antd";
 
 const textStyle = {
     marginLeft: "10%",
-    fontFamily: "Montserrat",
     fontWeight: 600,
     fontSize: "larger",
     color: "#BBBBBB",
