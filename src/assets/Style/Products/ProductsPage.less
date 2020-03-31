@@ -15,24 +15,36 @@
     flex-direction: column;
     justify-content: space-between;
     height: 90%;
-    //background-color: #e5e5e5;
 
     .category {
+      display: flex;
+      flex-direction: row;
       max-height: 200px;
-      overflow-anchor: none;
       overflow-x: auto;
       overflow-y: hidden;
+      transition: max-height 0.2s linear;
     }
 
     .card-list {
       display: inline-flex;
+      position: inherit;
       flex-grow: 1;
-      overflow-x: auto;
-      overflow-y: hidden;
+      transition: max-height 0.2s linear;
+      margin-top: 2%;
+      max-height: 90%;
+    }
+
+    .collapsed {
+      max-height: 0;
+    }
+
+    .collapsed-cat {
+      overflow-x: hidden;
+      max-height: 40px;
     }
 
     .card {
-      width: 225px;
+      width: 200px;
       height: 125px;
       margin: 1% 10px 1% 10px;
       background-color: #000c17;
@@ -45,6 +57,9 @@
       align-items: center;
       text-align: center;
       word-break: break-word;
+      overflow-y: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 }

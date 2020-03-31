@@ -5,7 +5,8 @@ import {ReactComponent as AddIcon} from "../assets/Icon/ui/add.svg";
 import "../assets/Style/Products/ProductsPage.less"
 import {Collapse} from "antd";
 import {useQuery} from "@apollo/react-hooks";
-import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
+import {DragDropContext, Droppable} from 'react-beautiful-dnd';
+import CategoryProducts from "../components/Products/CategoryProducts";
 
 
 const queryAllCompanyProductsCategories = graphqlLoader('../graphql/query/getAllCompanyProductsCategories.graphql');
@@ -19,6 +20,7 @@ const copiedData = {
             {
                 "id": "40e048a1-681b-495a-85f3-b3307e784f01",
                 "name": "Viandes",
+                "collapsed": false,
                 "products": [
                     {
                         "id": "1e5c1cef-6b2f-4fa2-af44-bcd248e20c73",
@@ -34,6 +36,7 @@ const copiedData = {
             {
                 "id": "40d6684a-003f-41ce-bbc1-194373477ac7",
                 "name": "Fromage",
+                "collapsed": false,
                 "products": [
                     {
                         "id": "d8d6ac67-d45f-44a4-94fa-2acbbf760e77",
@@ -49,6 +52,7 @@ const copiedData = {
             {
                 "id": "35715d81-1cf9-4103-86dc-aa2c735abb07",
                 "name": "Alcool",
+                "collapsed": false,
                 "products": [
                     {
                         "id": "0303a76b-8b99-419d-8aff-7c9e838e15bc",
@@ -74,6 +78,7 @@ const copiedData = {
             {
                 "id": "d1708c56-85df-4713-b7f5-f5223b69933d",
                 "name": "Test",
+                "collapsed": false,
                 "products": [
                     {
                         "id": "c0ce9f4b-c779-4bb7-96ce-c2137fc85847",
@@ -148,16 +153,19 @@ const copiedData = {
             {
                 "id": "7ae8bd61-3428-4621-a175-d6ece22ef0d7",
                 "name": "Légumes",
+                "collapsed": true,
                 "products": []
             },
             {
                 "id": "eccc707d-af5b-47cb-92a0-8745f448fc7d",
                 "name": "Fruits",
+                "collapsed": true,
                 "products": []
             },
             {
                 "id": "d1bd14f3-a1bc-4885-846b-6a50c91bf1fb",
                 "name": "Poisson",
+                "collapsed": true,
                 "products": []
             }
         ]
@@ -175,14 +183,14 @@ const copiedData = {
 
 
 const reorder = (list, startIndex, endIndex) => {
-    console.log('startIndex', startIndex);
-    console.log('endIndex', endIndex);
-    console.log('list', list);
+    // console.log('startIndex', startIndex);
+    // console.log('endIndex', endIndex);
+    // console.log('list', list);
     const result = Array.from(list);
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
 
-    console.log('reorder res', result);
+    // console.log('reorder res', result);
     return result;
 };
 
@@ -190,16 +198,16 @@ const move = (source, destination, droppableSource, droppableDestination) => {
     const sourceClone = Array.from(source);
     const destClone = Array.from(destination);
     const [removed] = sourceClone.splice(droppableSource.index, 1);
-    console.log('src Clone', sourceClone);
-    console.log('dest Clone', destClone);
-    console.log('removed', removed);
-    console.log('drop src', droppableSource);
-    console.log('drop dest', droppableDestination);
+    // console.log('src Clone', sourceClone);
+    // console.log('dest Clone', destClone);
+    // console.log('removed', removed);
+    // console.log('drop src', droppableSource);
+    // console.log('drop dest', droppableDestination);
 
     // @ts-ignore
     // removed.index = droppableDestination.index;
     destClone.splice(droppableDestination.index, 0, removed);
-    console.log('dest Clone', destClone);
+    // console.log('dest Clone', destClone);
     // let it =
     // destClone.map(product => {
     //     product.index
@@ -208,30 +216,13 @@ const move = (source, destination, droppableSource, droppableDestination) => {
     const result = {};
     result[0] = sourceClone;
     result[1] = destClone;
-    console.log('result move ------');
-    console.log('res src', result[0]);
-    console.log('res dest', result[1]);
+    // console.log('result move ------');
+    // console.log('res src', result[0]);
+    // console.log('res dest', result[1]);
 
     return result;
 };
 
-const getItemStyle = (isDragging, draggableStyle) => {
-    return ({
-        // some basic styles to make the items look a bit nicer
-        userSelect: 'none',
-
-        // change background colour if dragging
-        background: isDragging ? 'lightgreen' : 'grey',
-
-        // styles we need to apply on draggables
-        ...draggableStyle
-    })
-};
-
-const getListStyle = isDraggingOver => ({
-    background: isDraggingOver ? 'lightblue' : null,
-    padding: '10px',
-});
 
 const Products = () => {
     const {loading, error, data} = useQuery(queryAllCompanyProductsCategories, {
@@ -239,13 +230,13 @@ const Products = () => {
     });
 
     function onDragUpdate(result) {
-        console.log('result', result);
+        // console.log('result', result);
     }
 
     function onDragEnd(result) {
         const {source, destination} = result;
-        console.log('source', source);
-        console.log('destination', destination);
+        // console.log('source', source);
+        // console.log('destination', destination);
 
         // dropped outside the list
         if (!destination) {
@@ -254,7 +245,7 @@ const Products = () => {
 
         if (source.droppableId === destination.droppableId) {
             const index = copiedData.data.getAllCompanyProductsCategories.findIndex(cat => cat.id === source.droppableId);
-            console.log('index', index);
+            // console.log('index', index);
 
             // @ts-ignore
             copiedData.data.getAllCompanyProductsCategories[index].products = reorder(
@@ -282,8 +273,8 @@ const Products = () => {
             <div className={'sub-header'}>
                 <Button className={'button'} text={'Créer une catégorie'} icon={<AddIcon/>} size={'large'}
                         onClick={() => {
-                            console.log('cat', data);
-                            console.log('load', loading);
+                            // console.log('cat', data);
+                            // console.log('load', loading);
                         }}/>
                 <Button className={'button'} text={'Créer un produit'} icon={<AddIcon/>} size={'large'}/>
                 <Button className={'button'} text={'Créer une publicité'} icon={<AddIcon/>} size={'large'}/>
@@ -291,57 +282,20 @@ const Products = () => {
             <div className={'categories-list'}>
                 {/*{!loading && copiedData.data.getAllCompanyProductsCategories.map((cat) => {*/}
                 <DragDropContext onDragEnd={onDragEnd} onDragUpdate={onDragUpdate}>
-                    <Collapse bordered={false} defaultActiveKey={['0']}>
-                        {copiedData.data.getAllCompanyProductsCategories.map((cat, index) => {
-                            return (
-                                <Panel header={cat.name} key={index}>
-                                    <Droppable droppableId={cat.id} direction={"horizontal"} key={cat.id}>
-                                        {(provided, snapshot) => (
-                                            <div
-                                                ref={provided.innerRef}
-                                                className={"category"}
-                                                style={getListStyle(snapshot.isDraggingOver)}>
-                                                {/*<div*/}
-                                                {/*    ref={provided.innerRef}*/}
-                                                {/*    style={{height: '5%'}}*/}
-                                                {/*>*/}
-                                                {/*    {cat.name}*/}
-                                                {/*</div>*/}
-                                                <div ref={provided.innerRef} className={'card-list'}>
-                                                    {cat.products.map((product, index) => (
-                                                        <Draggable
-                                                            key={product.id}
-                                                            draggableId={product.id}
-                                                            index={index}
-                                                        >
-                                                            {(provided, snapshot) => (
-                                                                <div
-                                                                    className={'card'}
-                                                                    ref={provided.innerRef}
-                                                                    {...provided.draggableProps}
-                                                                    {...provided.dragHandleProps}
-                                                                    style={getItemStyle(
-                                                                        snapshot.isDragging,
-                                                                        provided.draggableProps.style
-                                                                    )}
-                                                                >
-                                                                    <p style={{}}>
-                                                                        {product.name}
-                                                                    </p>
-                                                                </div>
-                                                            )}
-
-                                                        </Draggable>
-                                                    ))}
-                                                    {provided.placeholder}
-                                                </div>
-                                            </div>
-                                        )}
-                                    </Droppable>
-                                </Panel>
-                            )
-                        })}
-                    </Collapse>
+                    {copiedData.data.getAllCompanyProductsCategories.map((cat, index) => {
+                        return (
+                            <Droppable droppableId={cat.id} direction={"horizontal"} key={cat.id} style={{backgroundColor: 'red'}}>
+                                {(provided, snapshot) => {
+                                    // console.log('provided', provided);
+                                    // console.log('snapshot', snapshot);
+                                    // console.log('cat', cat);
+                                    return (
+                                        <CategoryProducts provided={provided} snapshot={snapshot} cat={cat}/>
+                                    );
+                                }}
+                            </Droppable>
+                        )
+                    })}
 
                 </DragDropContext>
             </div>
