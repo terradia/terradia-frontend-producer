@@ -1,0 +1,10 @@
+query getCompanies {
+    getCompanies {
+        id
+        name
+        description
+        address
+        logo
+        cover
+    }
+}
