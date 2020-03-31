@@ -229,6 +229,7 @@ const Products = () => {
         variables: {companyId: '984c68b8-dac6-4b58-a4e0-6e6dc0d8e59b'},
     });
 
+    console.log("pouet");
     function onDragUpdate(result) {
         // console.log('result', result);
     }

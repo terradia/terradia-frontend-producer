@@ -2,13 +2,6 @@ import React from "react";
 import ProgressCard from "../Ui/ProgressCard";
 import PremiumCard from "../Ui/PremiumCard";
 
-const boldTextStyle = {
-    fontFamily: "Montserrat",
-    fontWeight: 700,
-    fontSize: "normal",
-    color: "#828282",
-};
-
 const SummarySidebar = React.forwardRef((_, ref) => {
     return (
         <div style={{

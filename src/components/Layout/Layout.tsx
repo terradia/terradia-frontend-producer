@@ -17,7 +17,6 @@ type LayoutProps = {
 
 const Layout = (props: LayoutProps) => {
     const breakpoint = useContext(Breakpoint);
-    const ref = React.createRef();
 
     return (
         <AntLayout style={{background: "white"}}>

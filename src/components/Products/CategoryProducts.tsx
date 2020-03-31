@@ -36,7 +36,7 @@ function CategoryProducts(props: CategoryProductsProps) {
         if (props.snapshot.isDraggingOver) {
             setCollapsed(false);
         }
-    });
+    }, [props.snapshot.isDraggingOver]);
 
 
     return (

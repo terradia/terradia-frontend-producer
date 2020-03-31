@@ -12,7 +12,7 @@ import {setContext} from "apollo-link-context";
 import {ApolloProvider} from "@apollo/react-common";
 
 const httpLink = createHttpLink({
-    uri: "http://localhost:8000/graphql",
+    uri: "https://api.terradia.eu/graphql",
     fetch: fetch
 });
 
