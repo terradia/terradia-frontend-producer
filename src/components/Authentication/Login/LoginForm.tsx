@@ -12,7 +12,7 @@ import {ReactComponent as FacebookLogo} from "../../../assets/Icon/company/faceb
 import '../../../assets/Style/Login/loginForm.less';
 
 const mutationLogin = graphqlLoader('../../../graphql/mutation/login.graphql');
-const getUser = graphqlLoader("../../../graphql/query/getUser.graphql");
+const getCompanies = graphqlLoader("../../../graphql/query/getCompanies.graphql");
 
 const SignInSchema = Yup.object().shape({
     email: Yup.string()
@@ -28,18 +28,18 @@ const SignInSchema = Yup.object().shape({
 const LoginForm = () => {
     const client = useApolloClient();
     const [login, {loading: loginLoading}] = useMutation(mutationLogin);
-    const [getUserQuery, {loading: userLoading, data: userData, called}] = useLazyQuery(getUser);
+    const [getCompaniesQuery, {loading: companiesLoading, data: companiesData, called}] = useLazyQuery(getCompanies);
     const history = useHistory();
 
-    if (called && !userLoading) {
-        if (userData && userData.getUser &&
-            userData.getUser.companies &&
-            userData.getUser.companies.length >= 1 &&
+    if (called && !companiesLoading) {
+        console.log(companiesData);
+        if (companiesData && companiesData.getCompanies &&
+            companiesData.getCompanies.length >= 1 &&
             (!!!localStorage.getItem("rememberCompany") ||
                 localStorage.getItem("rememberCompany") === "false")
         ) {
-            console.log("redirect to Company Selection");
-            return (<Redirect to={"/Company"}/>)
+            console.log("redirect to CompanySelection Selection");
+            return (<Redirect to={"/CompanySelection"}/>)
         } else {
             console.log("redirect to home");
             return (<Redirect to={"/Home"}/>)
@@ -50,7 +50,6 @@ const LoginForm = () => {
         console.log(data.message);
     };
 
-
     const submitForm = (values: { email: any; password: any; }) => {
         login({variables: {email: values.email, password: values.password}}).then((loginData: any) => {
             console.log(loginData);
@@ -60,7 +59,7 @@ const LoginForm = () => {
                 console.log("resetting store");
                 client.resetStore().then(() => {
                     console.log("calling getUser");
-                    getUserQuery();
+                    getCompaniesQuery();
                 }).catch((error) => {
                     console.log(error);
                 });
@@ -70,10 +69,6 @@ const LoginForm = () => {
         }).catch((error) => {
             console.log(error);
         });
-    };
-
-    const OnRedirectHandler = (path) => {
-        history.push(path);
     };
 
     return (
@@ -143,7 +138,7 @@ const LoginForm = () => {
                                     id={'login_button'}
                                     size={'large'}
                                     htmlType={'submit'}
-                                    isLoading={loginLoading || userLoading}
+                                    isLoading={loginLoading || companiesLoading}
                                 />
                                 <p id={'forgot_password'} >
                                     <NavLink to="/ResetPassword" >
