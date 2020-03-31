@@ -4,7 +4,6 @@ import Header from "../components/Layout/Header";
 import CompanyCardSelector from "../components/Company/CompanyCardSelector";
 
 const textStyle = {
-    fontFamily: "Montserrat",
     fontWeight: 600,
     fontSize: "larger",
     color: "#575757",

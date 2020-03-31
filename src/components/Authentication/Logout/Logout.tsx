@@ -6,7 +6,6 @@ import {useApolloClient} from "@apollo/react-hooks";
 
 const textStyle = {
     marginLeft: "5%",
-    fontFamily: "Montserrat",
     fontWeight: 600,
     fontSize: "larger",
     color: "#575757",

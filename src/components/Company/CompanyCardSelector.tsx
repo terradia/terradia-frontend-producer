@@ -9,7 +9,6 @@ import CheckBox from "rc-checkbox";
 const getUser = graphqlLoader("../../graphql/query/getUser.graphql");
 
 const textStyle = {
-    fontFamily: "Montserrat",
     fontWeight: 600,
     fontSize: "larger",
     color: "#575757",
