@@ -1,5 +1,5 @@
 import React from "react";
-import {ReactComponent as Logo} from "../assets/Terradia_white.svg";
+import {ReactComponent as Logo} from "../assets/Logo/Terradia_white.svg";
 import {Divider} from "antd";
 import '../assets/Style/Register/registerPage.less';
 import RegisterForm from "../components/Authentication/Register/RegisterForm";
