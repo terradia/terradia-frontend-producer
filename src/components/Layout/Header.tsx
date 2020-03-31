@@ -1,5 +1,5 @@
 import React from "react";
-import {ReactComponent as ReactLogo} from "../../assets/Terradia.svg";
+import {ReactComponent as ReactLogo} from "../../assets/Logo/Terradia.svg";
 import Logout from "../Authentication/Logout/Logout";
 import {Layout as AntLayout, Avatar} from "antd";
 import CompanySelector from "../CompanySelector/CompanySelector";

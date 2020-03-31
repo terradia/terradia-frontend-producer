@@ -1,5 +1,5 @@
 import React from 'react'
-import {ReactComponent as LogoutIcon} from "../../../assets/Logout.svg"
+import {ReactComponent as LogoutIcon} from "../../../assets/Icon/page/Logout.svg"
 import {Icon, Menu} from "antd";
 import {LogoutProps} from "../../../interfaces/Authentication/Logout/Logout";
 import {useApolloClient} from "@apollo/react-hooks";
