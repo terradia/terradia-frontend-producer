@@ -1,0 +1,70 @@
+@import '../../../index';
+
+.login_box {
+  display: flex;
+  flex-direction: column;
+  margin: @padding-lg 0 @padding-md 0;
+  width: 70%;
+
+  .login_form_div {
+    .auth_form {
+      .form_item {
+        margin-bottom: @padding-md;
+      }
+    }
+    .remember-box {
+      font-size: @font-size-lg;
+    }
+
+    .error-description {
+      color: @error-color;
+      padding-bottom: @padding-xxs;
+    }
+    .error-description.error-email {
+      margin-top: -@padding-md;
+    }
+  }
+
+  .forgot_password {
+    font-size: @font-size-lg;
+  }
+
+  .auth_divider {
+    color: #cbcbcb;
+  }
+
+  .not_register {
+    display: flex;
+    flex-direction: column;
+
+    .external_connexion {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      .button_register {
+        width: 45%;
+      }
+    }
+
+    .register-catching {
+      font-size: @font-size-lg - 1px;
+      padding-top: @padding-lg;
+      padding-bottom: @padding-md;
+    }
+
+    .register_div {
+      width: 100%;
+      .button_register {
+        width: 100%;
+      }
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .login_box {
+    margin: 0 0 @padding-md 0;
+    height: 80%;
+  }
+}
