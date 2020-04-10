@@ -64,6 +64,15 @@ type Customer {
     user: User!
 }
 
+type CustomerAddress {
+    active: Boolean!
+    address: String!
+    apartment: String
+    customer: Customer
+    id: String!
+    information: String
+}
+
 type GeographicPoint {
     coordinates: [Float]
 }
@@ -78,7 +87,9 @@ type Mutation {
     createCompany(address: String!, description: String, email: String, name: String!, phone: String): Company!
     createCompanyProductsCategory(companyId: String!, name: String!): CompanyProductsCategory
     createCompanyReview(companyId: String, customerMark: Int, description: String, title: String): CompanyReview
+    createOrUpdateCustomerAddress(address: String!, apartment: String, id: String, information: String): CustomerAddress
     createProduct(companyId: String!, description: String!, name: String!): Product!
+    createProductReview(customerMark: Int, description: String, productId: String, title: String): ProductReview
     defineUserAsCustomer(userId: String!): Customer
     deleteCategory(id: String!): Category!
     joinCompany(companyId: String!, userId: String!): Company!
@@ -89,9 +100,11 @@ type Mutation {
     removeFavoriteCompany(companyId: String!): Customer
     removeProductFromCompanyCategory(productId: String!): Product
     removeUserCompanyRole(companyUserId: String!, roleId: String!): CompanyUser!
+    setActiveCustomerAddress(id: String!): CustomerAddress
 }
 
 type Product {
+    averageMark: Float
     categories: [Category]
     company: Company
     companyProductsCategory: CompanyProductsCategory
@@ -100,14 +113,27 @@ type Product {
     id: ID!
     image: String
     name: String!
+    numberOfMarks: Int
+    reviews: [ProductReview]
     updatedAt: Date
+}
+
+type ProductReview {
+    customer: Customer
+    customerMark: Int!
+    description: String
+    id: String!
+    product: Product
+    title: String!
 }
 
 type Query {
     _: Boolean
+    getActiveCustomerAddress: CustomerAddress
     getAllCategories: [Category]!
     getAllCompanies(page: Int, pageSize: Int): [Company]
     getAllCompanyProductsCategories(companyId: String!): [CompanyProductsCategory]
+    getAllCustomerAddressesByUser: [CustomerAddress]
     getAllCustomers: [Customer]
     getAllProducts: [Product]!
     getCategoryByName(name: String!): Category
@@ -120,6 +146,7 @@ type Query {
     getCustomer(userId: String!): Customer
     getCustomerFavoriteCompanies(userId: String): [Company]
     getProduct(id: ID!): Product!
+    getProductReviews(id: ID!, limit: Int!, offset: Int!): [ProductReview]
     getProductsByCompany(companyId: String): [Product]!
     getProductsByCompanyByCategory(companyId: String): [Category]!
     getUser: User

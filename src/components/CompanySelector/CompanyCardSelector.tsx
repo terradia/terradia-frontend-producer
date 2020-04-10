@@ -9,7 +9,6 @@ import CheckBox from "rc-checkbox";
 const getCompanies = graphqlLoader("../../graphql/query/getCompanies.graphql");
 
 const textStyle = {
-    fontFamily: "Montserrat",
     fontWeight: 600,
     fontSize: "larger",
     color: "#575757",
@@ -25,7 +24,6 @@ const CompanyCardSelector = () => {
 
     if (error)
         console.log(error);
-    console.log(companiesData);
 
     const OnValidatedSelection = () => {
         localStorage.setItem("rememberCompany", remember.toString());

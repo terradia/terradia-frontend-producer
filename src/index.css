@@ -45,7 +45,6 @@ body {
   margin: 0;
   color: rgba(0, 0, 0, 0.65);
   font-size: 14px;
-  font-family: Montserrat;
   font-variant: tabular-nums;
   line-height: 1.5;
   background-color: #fff;
@@ -4772,7 +4771,6 @@ a.ant-btn-sm {
   font-feature-settings: 'tnum';
   position: absolute;
   z-index: 1050;
-  font-family: Montserrat;
 }
 .ant-calendar-picker-container.slide-up-enter.slide-up-enter-active.ant-calendar-picker-container-placement-topLeft,
 .ant-calendar-picker-container.slide-up-enter.slide-up-enter-active.ant-calendar-picker-container-placement-topRight,
@@ -16607,7 +16605,6 @@ span.ant-radio + * {
 .ant-statistic-content {
   color: rgba(0, 0, 0, 0.85);
   font-size: 24px;
-  font-family: Montserrat;
 }
 .ant-statistic-content-value-decimal {
   font-size: 16px;
@@ -16664,7 +16661,6 @@ span.ant-radio + * {
   height: 32px;
   margin-right: 8px;
   font-size: 16px;
-  font-family: Montserrat;
   line-height: 32px;
   text-align: center;
   border: 1px solid rgba(0, 0, 0, 0.25);
@@ -19067,7 +19063,6 @@ tr.ant-table-expanded-row td > .ant-table-wrapper {
   font-feature-settings: 'tnum';
   position: absolute;
   z-index: 1050;
-  font-family: Montserrat;
 }
 .ant-time-picker-panel-inner {
   position: relative;

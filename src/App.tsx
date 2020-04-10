@@ -28,6 +28,11 @@ const App = () => {
     return (
         <BrowserRouter>
             <Switch>
+                <Route exact path={"/customer"} component={() => {
+                    console.log("You don't have any company, redirecting to customer site");
+                    window.location.href = "http://localhost:8000/graphql";
+                    return null;
+                }}/>
                 <Route exact path={"/register"}>
                     <Register/>
                 </Route>

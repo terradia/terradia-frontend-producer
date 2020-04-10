@@ -1,15 +1,19 @@
-import React from "react";
-import {NavLink, Redirect, useHistory} from "react-router-dom";
-import {useApolloClient, useLazyQuery, useMutation} from '@apollo/react-hooks';
-import {Checkbox, Divider} from "antd";
+import React from 'react';
+import {NavLink, Redirect, useHistory} from 'react-router-dom';
+import {
+    useApolloClient,
+    useLazyQuery,
+    useMutation,
+} from '@apollo/react-hooks';
+import {Checkbox, Divider} from 'antd';
 import {loader as graphqlLoader} from 'graphql.macro';
-import {Formik} from "formik";
+import {Formik} from 'formik';
 import * as Yup from 'yup';
-import Input from "../../Ui/Input";
-import Button from "../../Ui/Button";
-import {ReactComponent as AppleLogo} from "../../../assets/Icon/company/apple.svg";
-import {ReactComponent as FacebookLogo} from "../../../assets/Icon/company/facebook.svg";
-import '../../../assets/Style/Login/loginForm.less';
+import Input from '../../Ui/Input';
+import Button from '../../Ui/Button';
+import '../../../assets/Style/Login-Register/loginForm.less';
+import FacebookIcon from '../../Icons/FacebookIcon';
+import AppleIcon from '../../Icons/AppleIcon';
 
 const mutationLogin = graphqlLoader('../../../graphql/mutation/login.graphql');
 const getCompanies = graphqlLoader("../../../graphql/query/getCompanies.graphql");
@@ -17,12 +21,11 @@ const getCompanies = graphqlLoader("../../../graphql/query/getCompanies.graphql"
 const SignInSchema = Yup.object().shape({
     email: Yup.string()
         .email('Votre adresse email est invalide')
-        .required('Veuillez entrer votre adresse email')
-    ,
+        .required('Veuillez entrer votre adresse email'),
     password: Yup.string()
         .required('Veuillez entrer votre mot de passe')
         .min(2, 'Votre mot de passe doit contenir plus de 2 caractère')
-        .max(20, 'Votre mot de passe ne peut dépasser 20 caractère')
+        .max(20, 'Votre mot de passe ne peut dépasser 20 caractère'),
 });
 
 const LoginForm = () => {
@@ -32,33 +35,31 @@ const LoginForm = () => {
     const history = useHistory();
 
     if (called && !companiesLoading) {
-        console.log(companiesData);
         if (companiesData && companiesData.getCompanies &&
             companiesData.getCompanies.length >= 1 &&
             (!!!localStorage.getItem("rememberCompany") ||
                 localStorage.getItem("rememberCompany") === "false")
         ) {
-            console.log("redirect to CompanySelection Selection");
             return (<Redirect to={"/CompanySelection"}/>)
+        } else if (companiesData && companiesData.getCompanies &&
+            companiesData.getCompanies.length >= 1 &&
+            (!!localStorage.getItem("rememberCompany") &&
+                localStorage.getItem("rememberCompany") === "true")) {
+            return (<Redirect to={"/home"}/>)
         } else {
-            console.log("redirect to home");
-            return (<Redirect to={"/Home"}/>)
+            return <Redirect to={"/customer"}/>;
         }
     }
 
-    const OnErrorHandler = (data: { message: any; }) => {
+    const OnErrorHandler = (data: { message: any }) => {
         console.log(data.message);
     };
 
     const submitForm = (values: { email: any; password: any; }) => {
         login({variables: {email: values.email, password: values.password}}).then((loginData: any) => {
-            console.log(loginData);
             if (loginData) {
-                console.log("setting up token");
                 localStorage.setItem('token', loginData.data.login.token);
-                console.log("resetting store");
                 client.resetStore().then(() => {
-                    console.log("calling getUser");
                     getCompaniesQuery();
                 }).catch((error) => {
                     console.log(error);
@@ -93,7 +94,7 @@ const LoginForm = () => {
                                 <Input
                                     name={'email'}
                                     className={'form_item input_item'}
-                                    id={'input_login'}
+                                    id={'input_email'}
                                     size={'large'}
                                     type={'default'}
                                     placeholder={'Email'}
@@ -134,14 +135,14 @@ const LoginForm = () => {
                                 </Checkbox>
                                 <Button
                                     text={'Se connecter'}
-                                    className={'form_item terradia_button'}
+                                    className={'form_item button_login terradia_button'}
                                     id={'login_button'}
                                     size={'large'}
                                     htmlType={'submit'}
                                     isLoading={loginLoading || companiesLoading}
                                 />
-                                <p id={'forgot_password'} >
-                                    <NavLink to="/ResetPassword" >
+                                <p id={'forgot_password'}>
+                                    <NavLink to="/ResetPassword">
                                         Mot de passe oublié ?
                                     </NavLink>
                                 </p>
@@ -155,14 +156,14 @@ const LoginForm = () => {
                                     text={'Facebook'}
                                     size={'large'}
                                     id={'facebook_button'}
-                                    icon={<FacebookLogo/>}
+                                    icon={<FacebookIcon/>}
                                 />
                                 <Button
                                     className={'button_register'}
                                     text={'Apple'}
                                     size={'large'}
                                     id={'apple_button'}
-                                    icon={<AppleLogo/>}
+                                    icon={<AppleIcon/>}
                                 />
                             </div>
                             <div className={'register_div'}>

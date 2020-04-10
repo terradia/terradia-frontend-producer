@@ -1,0 +1,48 @@
+@import "../../../index";
+
+.register_box {
+  display: flex;
+  flex-direction: column;
+  margin: @padding-lg 0 @padding-md 0;
+  width: 70%;
+
+  .register_form_div {
+    .auth_form {
+      display: flex;
+      flex-direction: column;
+
+      .form_item {
+        margin-bottom: @padding-md;
+      }
+
+      .error-description {
+        color: @error-color;
+        padding-bottom: @padding-xxs;
+      }
+      .error-description.error-email {
+        margin-top: -@padding-md;
+      }
+    }
+  }
+
+  .auth_divider {
+    color: #cbcbcb;
+  }
+
+  .external_connexion {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .button_register {
+      width: 45%;
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .login_box {
+    margin: 0 0 @padding-md 0;
+    height: 80%;
+  }
+}
