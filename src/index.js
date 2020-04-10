@@ -3,8 +3,6 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-
-
 import {ApolloClient, InMemoryCache} from 'apollo-boost'
 import fetch from 'isomorphic-unfetch'
 import {createHttpLink} from "apollo-link-http";
@@ -12,7 +10,8 @@ import {setContext} from "apollo-link-context";
 import {ApolloProvider} from "@apollo/react-common";
 
 const httpLink = createHttpLink({
-    uri: "https://api.terradia.eu/graphql",
+    //uri: "https://api.terradia.eu/graphql",
+    uri: "http://localhost:8000/graphql",
     fetch: fetch
 });
 
@@ -30,7 +29,6 @@ const cache = new InMemoryCache({
     cacheRedirects: {
         query: {
             meLocal: (_, {id}, {getChachedKey}) => {
-                console.log(id);
                 return getChachedKey({
                     __typename: "User", id: id
                 })
@@ -42,7 +40,7 @@ const cache = new InMemoryCache({
 const client = new ApolloClient({
     link: authLink.concat(httpLink),
     cache: cache,
-    connectToDevTools: true
+    connectToDevTools: true,
 });
 
 

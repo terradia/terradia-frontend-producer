@@ -37,7 +37,10 @@ const RegisterSchema = Yup.object().shape({
 });
 
 const RegisterForm = () => {
-    const [register] = useMutation(mutationRegister);
+    const [register, {loading, error}] = useMutation(mutationRegister);
+
+    if (error)
+      console.log(error);
 
   const OnErrorHandler = (data: { message: any }) => {
     console.log(data.message);
@@ -97,7 +100,7 @@ const RegisterForm = () => {
                 <Input
                   name={'email'}
                   className={'form_item input_item'}
-                  id={'input_login'}
+                  id={'input_email'}
                   size={'large'}
                   type={'default'}
                   placeholder={'E-mail'}
@@ -137,7 +140,7 @@ const RegisterForm = () => {
                     <Input
                       name={'lastname'}
                       className={'form_item input_item'}
-                      id={'input_login'}
+                      id={'input_lastname'}
                       size={'large'}
                       type={'default'}
                       placeholder={'Nom'}
@@ -157,7 +160,7 @@ const RegisterForm = () => {
                     <Input
                       name={'firstname'}
                       className={'form_item input_item'}
-                      id={'input_login'}
+                      id={'input_firstname'}
                       size={'large'}
                       type={'default'}
                       placeholder={'Prénom'}
@@ -177,7 +180,7 @@ const RegisterForm = () => {
                 <Input
                   name={'phone'}
                   className={'form_item input_item'}
-                  id={'input_login'}
+                  id={'input_phone' }
                   size={'large'}
                   type={'default'}
                   placeholder={'Numéro de téléphone'}
@@ -200,6 +203,7 @@ const RegisterForm = () => {
                   J'ai lu et j'accepte les conditions générales d'utilisation
                 </Checkbox>
                 <Button
+                    isLoading={loading}
                   text={"S'inscrire"}
                   className={'form_item'}
                   id={'login_button'}

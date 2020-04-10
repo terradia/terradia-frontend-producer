@@ -35,17 +35,19 @@ const LoginForm = () => {
     const history = useHistory();
 
     if (called && !companiesLoading) {
-        console.log(companiesData);
         if (companiesData && companiesData.getCompanies &&
             companiesData.getCompanies.length >= 1 &&
             (!!!localStorage.getItem("rememberCompany") ||
                 localStorage.getItem("rememberCompany") === "false")
         ) {
-            console.log("redirect to CompanySelection Selection");
             return (<Redirect to={"/CompanySelection"}/>)
+        } else if (companiesData && companiesData.getCompanies &&
+            companiesData.getCompanies.length >= 1 &&
+            (!!localStorage.getItem("rememberCompany") &&
+                localStorage.getItem("rememberCompany") === "true")) {
+            return (<Redirect to={"/home"}/>)
         } else {
-            console.log("redirect to home");
-            return (<Redirect to={"/Home"}/>)
+            return <Redirect to={"/customer"}/>;
         }
     }
 
@@ -55,13 +57,9 @@ const LoginForm = () => {
 
     const submitForm = (values: { email: any; password: any; }) => {
         login({variables: {email: values.email, password: values.password}}).then((loginData: any) => {
-            console.log(loginData);
             if (loginData) {
-                console.log("setting up token");
                 localStorage.setItem('token', loginData.data.login.token);
-                console.log("resetting store");
                 client.resetStore().then(() => {
-                    console.log("calling getUser");
                     getCompaniesQuery();
                 }).catch((error) => {
                     console.log(error);
@@ -96,7 +94,7 @@ const LoginForm = () => {
                                 <Input
                                     name={'email'}
                                     className={'form_item input_item'}
-                                    id={'input_login'}
+                                    id={'input_email'}
                                     size={'large'}
                                     type={'default'}
                                     placeholder={'Email'}
@@ -137,7 +135,7 @@ const LoginForm = () => {
                                 </Checkbox>
                                 <Button
                                     text={'Se connecter'}
-                                    className={'form_item terradia_button'}
+                                    className={'form_item button_login terradia_button'}
                                     id={'login_button'}
                                     size={'large'}
                                     htmlType={'submit'}

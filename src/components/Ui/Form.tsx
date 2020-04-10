@@ -26,7 +26,6 @@ interface Item {
 // };
 
 function testOnSubmit(e: any) {
-    console.log(e);
 }
 
 interface IState {
@@ -38,17 +37,9 @@ const form = class Form extends React.Component<FormProps & FormComponentProps, 
     constructor(props: FormProps & FormComponentProps) {
         super(props);
 
-        console.log('Formprops', props);
         this.state = {
             items: props.items
         };
-
-        // console.log(typeof (items[0]));
-        // items.map((item: any) => {
-        //     console.log(typeof item.content);
-        //
-        // });
-
     }
 
 
@@ -58,7 +49,6 @@ const form = class Form extends React.Component<FormProps & FormComponentProps, 
     // const [items, setItems] = useState(props.items);
     const items = this.props.items ? this.props.items : [{id : 'random', content: <p>Error</p>, label: 'Error'}];
 
-    // console.log(formProps);
     const {getFieldDecorator} = this.props.form;
         // const items = this.state.items;
 
