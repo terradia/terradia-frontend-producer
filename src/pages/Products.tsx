@@ -3,7 +3,7 @@ import Button from "../components/Ui/Button";
 import {loader as graphqlLoader} from 'graphql.macro';
 import {ReactComponent as AddIcon} from "../assets/Icon/ui/add.svg";
 import "../assets/Style/Products/ProductsPage.less"
-import {Collapse} from "antd";
+//import {Collapse} from "antd";
 import {useQuery} from "@apollo/react-hooks";
 import {DragDropContext, Droppable} from 'react-beautiful-dnd';
 import CategoryProducts from "../components/Products/CategoryProducts";
@@ -11,7 +11,7 @@ import CategoryProducts from "../components/Products/CategoryProducts";
 
 const queryAllCompanyProductsCategories = graphqlLoader('../graphql/query/getAllCompanyProductsCategories.graphql');
 
-const {Panel} = Collapse;
+//const {Panel} = Collapse;
 
 
 const copiedData = {
@@ -212,7 +212,7 @@ const move = (source, destination, droppableSource, droppableDestination) => {
 
 
 const Products = () => {
-    const {loading, error, data} = useQuery(queryAllCompanyProductsCategories, {
+    useQuery(queryAllCompanyProductsCategories, {
         variables: {companyId: '984c68b8-dac6-4b58-a4e0-6e6dc0d8e59b'},
     });
 
