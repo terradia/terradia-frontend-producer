@@ -1,6 +1,7 @@
 {
   "name": "Terradia_frontend_producer",
   "version": "0.1.0",
+  "homepage": "https://producteurs.terradia.eu",
   "private": true,
   "scripts": {
     "start": "rimraf ./node_modules/.cache/babel-loader && react-app-rewired start",
