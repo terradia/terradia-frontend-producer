@@ -9,12 +9,13 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Configure AWS Credentials
-      - uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-3
       - name: Build website
+        uses: actions/setup-node@v1
       - run: npm install && npm run-script build
       - name: Deploy to S3 bucket
         run: aws s3 sync ./dist/ s3://terradia-frontend-producer --delete
