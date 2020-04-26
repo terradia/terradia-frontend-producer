@@ -10,6 +10,7 @@ import {Icon, Menu} from "antd";
 import PageButton from "../Ui/PageButton";
 import Logout from "../Authentication/Logout/Logout";
 import {ReactComponent as LogoutIcon} from "../../assets/Logout.svg";
+import Company from '../../pages/Company';
 
 const Sidebar = React.forwardRef(() => {
     const currentUrl = useLocation().pathname;
@@ -51,9 +52,9 @@ const Sidebar = React.forwardRef(() => {
             <PageButton link={"/Document"} label={"Documents"} onClick={OnClickedLink} icon={
                 () => <Documents width={'25px'} height={'25px'} style={{display: "flex"}}/>
             }/>
-            <PageButton link={"/company"} label={"Company"} onClick={OnClickedLink} icon={
-                () => <Company width={'25px'} height={'25px'} style={{display: "flex"}}/>
-            }/>
+            {/*<PageButton link={"/company"} label={"Company"} onClick={OnClickedLink} icon={*/}
+            {/*    () => <Company width={'25px'} height={'25px'} style={{display: "flex"}}/>*/}
+            {/*}/>*/}
         </Menu>
     )
 });

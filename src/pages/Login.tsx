@@ -1,4 +1,4 @@
-import '../assets/Style/Login/loginPage.less';
+import '../assets/Style/Login-Register/loginRegisterPage.less';
 import {ReactComponent as Logo} from "../assets/Logo/Terradia_white.svg"
 import React from "react";
 import {Divider} from "antd";
