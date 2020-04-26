@@ -9,9 +9,6 @@ import {ReactComponent as Documents} from "../../assets/Icon/page/Document Logo.
 import {ReactComponent as Company} from "../../assets/Icon/page/Company.svg";
 import {Menu} from "antd";
 import PageButton from "../Ui/PageButton";
-import Logout from "../Authentication/Logout/Logout";
-import {ReactComponent as LogoutIcon} from "../../assets/Logout.svg";
-import Company from '../../pages/Company';
 
 const Sidebar = React.forwardRef(() => {
     const currentUrl = useLocation().pathname;
