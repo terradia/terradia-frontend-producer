@@ -1,0 +1,6 @@
+mutation createCompanyProductsCategory($companyId: String!, $name: String!) {
+    createCompanyProductsCategory(companyId: $companyId  , name: $name) {
+        id
+        name
+    }
+}

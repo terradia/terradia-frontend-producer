@@ -1,9 +1,8 @@
-import React from 'react';
-import { ReactComponent as Logo } from '../assets/Terradia_white.svg';
-import { Divider } from 'antd';
-import '../assets/Style/Login-Register/loginRegisterPage.less';
-import RegisterForm from '../components/Authentication/Register/RegisterForm';
-import ReturnButtonContainer from '../components/Authentication/Register/ReturnButtonContainer';
+import React from "react";
+import {ReactComponent as Logo} from "../assets/Logo/Terradia_white.svg";
+import {Divider} from "antd";
+import '../assets/Style/Register/registerPage.less';
+import RegisterForm from "../components/Authentication/Register/RegisterForm";
 
 const Register = () => {
   return (

@@ -37,7 +37,7 @@ const RegisterSchema = Yup.object().shape({
 });
 
 const RegisterForm = () => {
-  const [register, { data }] = useMutation(mutationRegister);
+    const [register] = useMutation(mutationRegister);
 
   const OnErrorHandler = (data: { message: any }) => {
     console.log(data.message);
