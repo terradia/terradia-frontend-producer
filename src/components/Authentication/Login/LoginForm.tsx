@@ -149,7 +149,7 @@ const LoginForm = () => {
                   <NavLink to="/ResetPassword">Mot de passe oublié ?</NavLink>
                 </div>
               </form>
-              <Divider className={"auth_divider"}>OU</Divider>
+              <Divider className={'auth_divider'}>OU</Divider>
               <div className={'not_register'}>
                 <div className={'external_connexion'}>
                   <Button
