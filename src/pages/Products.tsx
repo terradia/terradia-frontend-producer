@@ -183,14 +183,10 @@ const copiedData = {
 
 
 const reorder = (list, startIndex, endIndex) => {
-    // console.log('startIndex', startIndex);
-    // console.log('endIndex', endIndex);
-    // console.log('list', list);
     const result = Array.from(list);
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
 
-    // console.log('reorder res', result);
     return result;
 };
 
@@ -198,16 +194,10 @@ const move = (source, destination, droppableSource, droppableDestination) => {
     const sourceClone = Array.from(source);
     const destClone = Array.from(destination);
     const [removed] = sourceClone.splice(droppableSource.index, 1);
-    // console.log('src Clone', sourceClone);
-    // console.log('dest Clone', destClone);
-    // console.log('removed', removed);
-    // console.log('drop src', droppableSource);
-    // console.log('drop dest', droppableDestination);
 
     // @ts-ignore
     // removed.index = droppableDestination.index;
     destClone.splice(droppableDestination.index, 0, removed);
-    // console.log('dest Clone', destClone);
     // let it =
     // destClone.map(product => {
     //     product.index
@@ -216,9 +206,6 @@ const move = (source, destination, droppableSource, droppableDestination) => {
     const result = {};
     result[0] = sourceClone;
     result[1] = destClone;
-    // console.log('result move ------');
-    // console.log('res src', result[0]);
-    // console.log('res dest', result[1]);
 
     return result;
 };
@@ -230,13 +217,10 @@ const Products = () => {
     });
 
     function onDragUpdate(result) {
-        // console.log('result', result);
     }
 
     function onDragEnd(result) {
         const {source, destination} = result;
-        // console.log('source', source);
-        // console.log('destination', destination);
 
         // dropped outside the list
         if (!destination) {
@@ -245,7 +229,6 @@ const Products = () => {
 
         if (source.droppableId === destination.droppableId) {
             const index = copiedData.data.getAllCompanyProductsCategories.findIndex(cat => cat.id === source.droppableId);
-            // console.log('index', index);
 
             // @ts-ignore
             copiedData.data.getAllCompanyProductsCategories[index].products = reorder(
@@ -273,8 +256,6 @@ const Products = () => {
             <div className={'sub-header'}>
                 <Button className={'button'} text={'Créer une catégorie'} icon={<AddIcon/>} size={'large'}
                         onClick={() => {
-                            // console.log('cat', data);
-                            // console.log('load', loading);
                         }}/>
                 <Button className={'button'} text={'Créer un produit'} icon={<AddIcon/>} size={'large'}/>
                 <Button className={'button'} text={'Créer une publicité'} icon={<AddIcon/>} size={'large'}/>
@@ -286,9 +267,6 @@ const Products = () => {
                         return (
                             <Droppable droppableId={cat.id} direction={"horizontal"} key={cat.id} style={{backgroundColor: 'red'}}>
                                 {(provided, snapshot) => {
-                                    // console.log('provided', provided);
-                                    // console.log('snapshot', snapshot);
-                                    // console.log('cat', cat);
                                     return (
                                         <CategoryProducts provided={provided} snapshot={snapshot} cat={cat}/>
                                     );

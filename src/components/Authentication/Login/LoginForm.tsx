@@ -39,52 +39,43 @@ const LoginForm = () => {
   ] = useLazyQuery(getCompanies);
   const history = useHistory();
 
-  if (called && !companiesLoading) {
-    console.log(companiesData);
-    if (
-      companiesData &&
-      companiesData.getCompanies &&
-      companiesData.getCompanies.length >= 1 &&
-      (!!!localStorage.getItem('rememberCompany') ||
-        localStorage.getItem('rememberCompany') === 'false')
-    ) {
-      console.log('redirect to CompanySelection Selection');
-      return <Redirect to={'/CompanySelection'} />;
-    } else {
-      console.log('redirect to home');
-      return <Redirect to={'/Home'} />;
-    }
-  }
-
-  const OnErrorHandler = (data: { message: any }) => {
-    console.log(data.message);
-  };
-
-  const submitForm = (values: { email: any; password: any }) => {
-    login({ variables: { email: values.email, password: values.password } })
-      .then((loginData: any) => {
-        console.log(loginData);
-        if (loginData) {
-          console.log('setting up token');
-          localStorage.setItem('token', loginData.data.login.token);
-          console.log('resetting store');
-          client
-            .resetStore()
-            .then(() => {
-              console.log('calling getUser');
-              getCompaniesQuery();
-            })
-            .catch((error) => {
-              console.log(error);
-            });
+    if (called && !companiesLoading) {
+        if (companiesData && companiesData.getCompanies &&
+            companiesData.getCompanies.length >= 1 &&
+            (!!!localStorage.getItem("rememberCompany") ||
+                localStorage.getItem("rememberCompany") === "false")
+        ) {
+            return (<Redirect to={"/CompanySelection"}/>)
+        } else if (companiesData && companiesData.getCompanies &&
+            companiesData.getCompanies.length >= 1 &&
+            (!!localStorage.getItem("rememberCompany") &&
+                localStorage.getItem("rememberCompany") === "true")) {
+            return (<Redirect to={"/home"}/>)
         } else {
-          OnErrorHandler(loginData);
+            return <Redirect to={"/customer"}/>;
         }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+    }
+
+    const OnErrorHandler = (data: { message: any }) => {
+        console.log(data.message);
+    };
+
+    const submitForm = (values: { email: any; password: any; }) => {
+        login({variables: {email: values.email, password: values.password}}).then((loginData: any) => {
+            if (loginData) {
+                localStorage.setItem('token', loginData.data.login.token);
+                client.resetStore().then(() => {
+                    getCompaniesQuery();
+                }).catch((error) => {
+                    console.log(error);
+                });
+            } else {
+                OnErrorHandler(loginData);
+            }
+        }).catch((error) => {
+            console.log(error);
+        });
+    };
 
   return (
     <Formik

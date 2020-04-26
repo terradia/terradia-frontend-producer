@@ -30,13 +30,12 @@ const getListStyle = isDraggingOver => ({
 function CategoryProducts(props: CategoryProductsProps) {
 
     const [collapsed, setCollapsed] = useState(false);
-    // console.log('props', props);
 
     useEffect(() => {
         if (props.snapshot.isDraggingOver) {
             setCollapsed(false);
         }
-    });
+    }, [props.snapshot.isDraggingOver]);
 
 
     return (
@@ -48,7 +47,6 @@ function CategoryProducts(props: CategoryProductsProps) {
                 ref={props.provided.innerRef}
                 style={{height: '5%', position: "absolute"}}
                 onClick={() => {
-                    // console.log('click ' + props.cat.name);
                     if (collapsed) {
                         setCollapsed(false)
                     } else {

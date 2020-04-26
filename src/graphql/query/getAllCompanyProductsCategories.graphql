@@ -8,7 +8,7 @@ query getAllCompanyProductsCategories($companyId: String!) {
             image
             description
             updatedAt
-            productReviews {
+            reviews {
                 id
                 title
                 description

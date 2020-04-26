@@ -24,7 +24,6 @@ const CompanyCardSelector = () => {
 
     if (error)
         console.log(error);
-    console.log(companiesData);
 
     const OnValidatedSelection = () => {
         localStorage.setItem("rememberCompany", remember.toString());
