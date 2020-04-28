@@ -7,7 +7,7 @@ interface FacebookIconProps {
   style?: React.CSSProperties;
 }
 
-const FacebookIcon: React.FC<FacebookIconProps> = props => {
+const FacebookIcon = (props: FacebookIconProps) => {
   return (
     <SvgContainer style={props.style}>
       <FacebookLogo style={{ maxWidth: '100%', maxHeight: '100%' }} />

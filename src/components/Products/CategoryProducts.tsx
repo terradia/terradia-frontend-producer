@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState} from 'react';
 import {Draggable} from 'react-beautiful-dnd';
-import {ReactComponent as CarretIcon} from "../../assets/Icon/ui/carret.svg";
+import {ReactComponent as CaretIcon} from '../../assets/Icon/ui/caret.svg';
 
 
 interface CategoryProductsProps {
-    provided: { innerRef: any, placeholder: any, droppableProps: any };
-    snapshot: { isDraggingOver: boolean, draggingOverWith: any, draggingFromThisWith: any, isUsingPlaceholder: boolean };
-    cat: { id: string, name: string, products: any; };
+    provided: { innerRef: any; placeholder: any; droppableProps: any };
+    snapshot: { isDraggingOver: boolean; draggingOverWith: any; draggingFromThisWith: any; isUsingPlaceholder: boolean };
+    cat: { id: string; name: string; products: any };
 }
 
 const getItemStyle = (isDragging, draggableStyle) => {
@@ -19,7 +19,7 @@ const getItemStyle = (isDragging, draggableStyle) => {
 
         // styles we need to apply on draggables
         ...draggableStyle
-    })
+    });
 };
 
 const getListStyle = isDraggingOver => ({
@@ -45,16 +45,16 @@ function CategoryProducts(props: CategoryProductsProps) {
             style={getListStyle(props.snapshot.isDraggingOver)}>
             <div
                 ref={props.provided.innerRef}
-                style={{height: '5%', position: "absolute"}}
+                style={{height: '5%', position: 'absolute'}}
                 onClick={() => {
                     if (collapsed) {
-                        setCollapsed(false)
+                        setCollapsed(false);
                     } else {
                         setCollapsed(true);
                     }
                 }}
             >
-                <CarretIcon style={{transform: collapsed ? null : 'rotate(90deg)'}}/>
+                <CaretIcon style={{transform: collapsed ? null : 'rotate(90deg)'}}/>
                 {props.cat.name}
             </div>
             <div ref={props.provided.innerRef} className={`card-list ${collapsed === true ? 'collapsed' : ''}`}>
