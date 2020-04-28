@@ -1,8 +1,8 @@
 import '../assets/Style/Login-Register/loginRegisterPage.less';
-import {ReactComponent as Logo} from "../assets/Logo/Terradia_white.svg"
-import React from "react";
-import {Divider} from "antd";
-import LoginForm from "../components/Authentication/Login/LoginForm";
+import {ReactComponent as Logo} from '../assets/Logo/Terradia_white.svg';
+import React from 'react';
+import {Divider} from 'antd';
+import LoginForm from '../components/Authentication/Login/LoginForm';
 
 const Login = () => {
   return (

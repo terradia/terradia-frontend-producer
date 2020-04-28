@@ -2,7 +2,7 @@ import React from 'react';
 import Button from '../../Ui/Button';
 import { useHistory } from 'react-router-dom';
 
-const ReturnButtonContainer: React.FC = props => {
+const ReturnButtonContainer = () => {
   const history = useHistory();
 
   return (
@@ -10,7 +10,7 @@ const ReturnButtonContainer: React.FC = props => {
       <Button
         type={'link'}
         text={'Déjà un compte ? Se connecter'}
-        size={"large"}
+        size={'large'}
         onClick={() => {
           history.push('/Login');
         }}

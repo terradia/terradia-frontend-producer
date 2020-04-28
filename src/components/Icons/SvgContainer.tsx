@@ -5,16 +5,16 @@ interface SvgContainerProps {
   style?: React.CSSProperties;
 }
 
-const SvgContainer: React.FC<SvgContainerProps> = props => {
+const SvgContainer = (props: SvgContainerProps) => {
   const defaultStyle: React.CSSProperties = {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   };
 
   return (
     <span
-      className={"svg-container"}
+      className={'svg-container'}
       style={{
         ...props.style,
         ...defaultStyle,

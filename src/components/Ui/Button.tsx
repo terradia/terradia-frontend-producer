@@ -64,7 +64,7 @@ const Button: React.FunctionComponent<ButtonProps> = props => {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    width: props.width === "full-width" ? "100%" : "",
+    width: props.width === 'full-width' ? '100%' : '',
   };
 
   let numberOfIcons = 0;
@@ -76,15 +76,15 @@ const Button: React.FunctionComponent<ButtonProps> = props => {
 
   const type = props.type;
   // if there is an accent color, we change manually the color of the button
-  if ((!type || type === "default" || type === "dashed") && props.accentColor) {
-    defaultStyle["color"] = props.accentColor;
-    defaultStyle["borderColor"] = props.accentColor;
-  } else if (type && type === "primary" && props.accentColor) {
-    defaultStyle["color"] = "white";
-    defaultStyle["backgroundColor"] = props.accentColor;
-    defaultStyle["borderColor"] = "rgba(0, 0, 0, 0)";
-  } else if (type && type === "link" && props.accentColor) {
-    defaultStyle["color"] = props.accentColor;
+  if ((!type || type === 'default' || type === 'dashed') && props.accentColor) {
+    defaultStyle['color'] = props.accentColor;
+    defaultStyle['borderColor'] = props.accentColor;
+  } else if (type && type === 'primary' && props.accentColor) {
+    defaultStyle['color'] = 'white';
+    defaultStyle['backgroundColor'] = props.accentColor;
+    defaultStyle['borderColor'] = 'rgba(0, 0, 0, 0)';
+  } else if (type && type === 'link' && props.accentColor) {
+    defaultStyle['color'] = props.accentColor;
   }
 
   return (
@@ -107,7 +107,7 @@ const Button: React.FunctionComponent<ButtonProps> = props => {
       <ButtonElementsContainer>
         {props.icon && (
           <ButtonColumn width={iconContainerSize + '%'}>
-            <i style={{ width: "60%", height: "60%" }}>{props.icon}</i>
+            <i style={{ width: '60%', height: '60%' }}>{props.icon}</i>
           </ButtonColumn>
         )}
         <ButtonColumn width={mainElementSize + '%'}>
@@ -116,7 +116,7 @@ const Button: React.FunctionComponent<ButtonProps> = props => {
         </ButtonColumn>
         {props.rightIcon && (
           <ButtonColumn width={iconContainerSize + '%'}>
-            <i style={{ width: "60%", height: "60%" }}>{props.rightIcon}</i>
+            <i style={{ width: '60%', height: '60%' }}>{props.rightIcon}</i>
           </ButtonColumn>
         )}
       </ButtonElementsContainer>

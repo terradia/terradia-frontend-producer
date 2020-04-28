@@ -1,15 +1,14 @@
-import React from 'react';
+import React  from 'react';
 import { NavLink, Redirect, useHistory } from 'react-router-dom';
 import {
   useApolloClient,
   useLazyQuery,
   useMutation,
 } from '@apollo/react-hooks';
-import { Checkbox, Divider } from 'antd';
+import { Checkbox, Divider, Input } from 'antd';
 import { loader as graphqlLoader } from 'graphql.macro';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import Input from '../../Ui/Input';
 import Button from '../../Ui/Button';
 import '../../../assets/Style/Login-Register/loginForm.less';
 import FacebookIcon from '../../Icons/FacebookIcon';
@@ -26,9 +25,18 @@ const SignInSchema = Yup.object().shape({
     .required('Veuillez entrer votre adresse email'),
   password: Yup.string()
     .required('Veuillez entrer votre mot de passe')
-    .min(2, 'Votre mot de passe doit contenir plus de 2 caractère')
-    .max(20, 'Votre mot de passe ne peut dépasser 20 caractère'),
+    .min(2, 'Votre mot de passe doit contenir plus de 2 caractères')
+    .max(20, 'Votre mot de passe ne peut dépasser 20 caractères'),
 });
+
+declare interface LoginData {
+  data: {
+    login: {
+      token: string;
+      userId: string;
+    };
+  };
+}
 
 const LoginForm = () => {
   const client = useApolloClient();
@@ -42,26 +50,22 @@ const LoginForm = () => {
     if (called && !companiesLoading) {
         if (companiesData && companiesData.getCompanies &&
             companiesData.getCompanies.length >= 1 &&
-            (!!!localStorage.getItem("rememberCompany") ||
-                localStorage.getItem("rememberCompany") === "false")
+            (!localStorage.getItem('rememberCompany') ||
+                localStorage.getItem('rememberCompany') === 'false')
         ) {
-            return (<Redirect to={"/CompanySelection"}/>)
+            return (<Redirect to={'/CompanySelection'}/>);
         } else if (companiesData && companiesData.getCompanies &&
             companiesData.getCompanies.length >= 1 &&
-            (!!localStorage.getItem("rememberCompany") &&
-                localStorage.getItem("rememberCompany") === "true")) {
-            return (<Redirect to={"/home"}/>)
+            (!!localStorage.getItem('rememberCompany') &&
+                localStorage.getItem('rememberCompany') === 'true')) {
+            return (<Redirect to={'/home'}/>);
         } else {
-            return <Redirect to={"/customer"}/>;
+            return <Redirect to={'/customer'}/>;
         }
     }
 
-    const OnErrorHandler = (data: { message: any }) => {
-        console.log(data.message);
-    };
-
-    const submitForm = (values: { email: any; password: any; }) => {
-        login({variables: {email: values.email, password: values.password}}).then((loginData: any) => {
+    const submitForm = (values: { email: string; password: string }) => {
+        login({variables: {email: values.email, password: values.password}}).then((loginData: LoginData) => {
             if (loginData) {
                 localStorage.setItem('token', loginData.data.login.token);
                 client.resetStore().then(() => {
@@ -69,8 +73,6 @@ const LoginForm = () => {
                 }).catch((error) => {
                     console.log(error);
                 });
-            } else {
-                OnErrorHandler(loginData);
             }
         }).catch((error) => {
             console.log(error);
@@ -91,7 +93,7 @@ const LoginForm = () => {
             <div className={'login_form_div'}>
               <form className={'auth_form'} onSubmit={handleSubmit}>
                 {errors.email && (
-                  <div id="feedback" className={"error-description error-email"}>
+                  <div id="feedback" className={'error-description error-email'}>
                     {errors.email}
                   </div>
                 )}
@@ -110,7 +112,7 @@ const LoginForm = () => {
                   onChange={handleChange}
                 />
                 {errors.password && (
-                  <div id="feedback" className={"error-description"}>
+                  <div id="feedback" className={'error-description'}>
                     {errors.password}
                   </div>
                 )}
@@ -157,7 +159,7 @@ const LoginForm = () => {
                     text={'Facebook'}
                     size={'large'}
                     id={'facebook_button'}
-                    accentColor={"#2174EE"}
+                    accentColor={'#2174EE'}
                     icon={<FacebookIcon />}
                   />
                   <Button
@@ -165,21 +167,21 @@ const LoginForm = () => {
                     text={'Apple'}
                     size={'large'}
                     id={'apple_button'}
-                    accentColor={"#202020"}
+                    accentColor={'#202020'}
                     icon={<AppleIcon />}
                   />
                 </div>
                 <div className={'register_div'}>
                   <div className={'register-catching'}>
-                    Vous n'avez pas encore de compte ?
+                    {'Vous n\'avez pas encore de compte ?'}
                   </div>
                   <Button
                     id={'register_button'}
                     className={'button_register'}
-                    text={"S'inscrire"}
+                    text={'S\'inscrire'}
                     size={'large'}
                     htmlType={'submit'}
-                    onClick={() => history.push('/Register')}
+                    onClick={(): void => history.push('/Register')}
                   />
                 </div>
               </div>
