@@ -1,6 +1,5 @@
 import React from "react";
 import Button from "./Button";
-import {Icon} from "antd";
 import {ReactComponent as Thunder} from "../../assets/Icon/thunder.svg";
 
 const textStyle = {
@@ -21,7 +20,7 @@ const AdButton = () => {
                 alignItems: "center",
             }}
         >
-            <Icon component={() => <Thunder width={'25px'} height={'25px'}/>}/>
+            <Thunder width={'25px'} height={'25px'}/>
             <span style={textStyle}>
                 Créer une publicité
             </span>

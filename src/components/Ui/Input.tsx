@@ -1,5 +1,6 @@
 import {Input as AntInput} from 'antd'
 import React, {ChangeEventHandler} from "react";
+import {SizeType} from "antd/lib/config-provider/SizeContext";
 
 export interface InputProps {
     addonAfter?: string;
@@ -12,10 +13,11 @@ export interface InputProps {
     id?: string;
     type?: string;
     placeholder?: string;
+    defaultValue?: string;
     name?: string;
     onSearch?: any;
     prefix?: string;
-    size?: "default" | "large" | "small" | undefined;
+    size?: SizeType;//"default" | "large" | "small" | undefined;
     style?: object;
     suffix?: string;
     onChange?: ChangeEventHandler<HTMLInputElement>;
@@ -56,7 +58,7 @@ export default function Input(props: InputProps) {
             inputType = <AntInput type={'password'} {...lastProps}/>;
             break;
         default:
-            inputType = <AntInput/>
+            inputType = <AntInput {...lastProps}/>
     }
     return inputType
 }
