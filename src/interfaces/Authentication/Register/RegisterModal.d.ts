@@ -1,6 +1,6 @@
-import {FormikErrors, FormikValues} from "formik";
-import {CheckboxChangeEvent} from "antd/es/checkbox";
-import {ChangeEvent} from "react";
+import {FormikErrors, FormikValues} from 'formik';
+import {CheckboxChangeEvent} from 'antd/es/checkbox';
+import {ChangeEvent} from 'react';
 
 export declare interface RegisterModalProps {
     modalState: {
@@ -18,5 +18,5 @@ export declare interface RegisterModalProps {
         lastname: string;
         email: string;
         password: string;
-    }
+    };
 }

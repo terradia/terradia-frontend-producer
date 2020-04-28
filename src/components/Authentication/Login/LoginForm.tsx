@@ -42,17 +42,17 @@ const LoginForm = () => {
     if (called && !companiesLoading) {
         if (companiesData && companiesData.getCompanies &&
             companiesData.getCompanies.length >= 1 &&
-            (!!!localStorage.getItem("rememberCompany") ||
-                localStorage.getItem("rememberCompany") === "false")
+            (!localStorage.getItem('rememberCompany') ||
+                localStorage.getItem('rememberCompany') === 'false')
         ) {
-            return (<Redirect to={"/CompanySelection"}/>)
+            return (<Redirect to={'/CompanySelection'}/>);
         } else if (companiesData && companiesData.getCompanies &&
             companiesData.getCompanies.length >= 1 &&
-            (!!localStorage.getItem("rememberCompany") &&
-                localStorage.getItem("rememberCompany") === "true")) {
-            return (<Redirect to={"/home"}/>)
+            (!!localStorage.getItem('rememberCompany') &&
+                localStorage.getItem('rememberCompany') === 'true')) {
+            return (<Redirect to={'/home'}/>);
         } else {
-            return <Redirect to={"/customer"}/>;
+            return <Redirect to={'/customer'}/>;
         }
     }
 
@@ -60,7 +60,7 @@ const LoginForm = () => {
         console.log(data.message);
     };
 
-    const submitForm = (values: { email: any; password: any; }) => {
+    const submitForm = (values: { email: any; password: any }) => {
         login({variables: {email: values.email, password: values.password}}).then((loginData: any) => {
             if (loginData) {
                 localStorage.setItem('token', loginData.data.login.token);
@@ -91,7 +91,7 @@ const LoginForm = () => {
             <div className={'login_form_div'}>
               <form className={'auth_form'} onSubmit={handleSubmit}>
                 {errors.email && (
-                  <div id="feedback" className={"error-description error-email"}>
+                  <div id="feedback" className={'error-description error-email'}>
                     {errors.email}
                   </div>
                 )}
@@ -110,7 +110,7 @@ const LoginForm = () => {
                   onChange={handleChange}
                 />
                 {errors.password && (
-                  <div id="feedback" className={"error-description"}>
+                  <div id="feedback" className={'error-description'}>
                     {errors.password}
                   </div>
                 )}
@@ -157,7 +157,7 @@ const LoginForm = () => {
                     text={'Facebook'}
                     size={'large'}
                     id={'facebook_button'}
-                    accentColor={"#2174EE"}
+                    accentColor={'#2174EE'}
                     icon={<FacebookIcon />}
                   />
                   <Button
@@ -165,7 +165,7 @@ const LoginForm = () => {
                     text={'Apple'}
                     size={'large'}
                     id={'apple_button'}
-                    accentColor={"#202020"}
+                    accentColor={'#202020'}
                     icon={<AppleIcon />}
                   />
                 </div>
@@ -176,7 +176,7 @@ const LoginForm = () => {
                   <Button
                     id={'register_button'}
                     className={'button_register'}
-                    text={"S'inscrire"}
+                    text={'S\'inscrire'}
                     size={'large'}
                     htmlType={'submit'}
                     onClick={() => history.push('/Register')}

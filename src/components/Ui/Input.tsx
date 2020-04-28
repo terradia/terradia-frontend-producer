@@ -1,11 +1,11 @@
-import { Input as AntInput } from 'antd'
-import React, { ChangeEventHandler } from 'react'
+import { Input as AntInput } from 'antd';
+import React, { ChangeEventHandler } from 'react';
 
 export interface InputProps {
     addonAfter?: string;
     addonBefore?: string;
     allowClear?: boolean;
-    autoComplete?: string, // for google
+    autoComplete?: string; // for google
     // defaultValue?: string;
     disabled?: boolean;
     enterButton?: boolean;
@@ -15,7 +15,7 @@ export interface InputProps {
     name?: string;
     onSearch?: any;
     prefix?: string;
-    size?: "default" | "large" | "small" | undefined;
+    size?: 'default' | 'large' | 'small' | undefined;
     style?: object;
     suffix?: string;
     onChange?: ChangeEventHandler<HTMLInputElement>;
@@ -39,16 +39,16 @@ Input.defaultProps = {
   // prefix: undefined, // (string) the prefix icon of the input
   // size: 'default', // (string) size of the input
   // suffix: undefined // (string) the suffix icon of the input | if this.props.type is "password", suffix icon will be replaced by the icon "hide" for password
-}
+};
 
 export default function Input(props: InputProps) {
-  let inputType
-  const { enterButton, onSearch, ...lastProps } = props
+  let inputType;
+  const { enterButton, onSearch, ...lastProps } = props;
 
   switch (props.type) {
     case 'default':
-      inputType = <AntInput {...lastProps} />
-      break
+      inputType = <AntInput {...lastProps} />;
+      break;
     case 'search':
       inputType = (
         <AntInput.Search
@@ -56,13 +56,13 @@ export default function Input(props: InputProps) {
           enterButton={enterButton}
           onSearch={onSearch}
         />
-      )
-      break
+      );
+      break;
     case 'password':
-      inputType = <AntInput type={'password'} {...lastProps} />
-      break
+      inputType = <AntInput type={'password'} {...lastProps} />;
+      break;
     default:
-      inputType = <AntInput />
+      inputType = <AntInput />;
   }
-  return inputType
+  return inputType;
 }

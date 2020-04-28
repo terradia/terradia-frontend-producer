@@ -11,7 +11,7 @@
     "jest": true
   },
   "rules": {
-    "semi": ["warn", "never"],
+    "semi": ["warn"],
     "quotes": ["warn", "single"]
   },
   "settings": {

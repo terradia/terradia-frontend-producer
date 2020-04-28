@@ -1,7 +1,7 @@
-import React from 'react'
-import { Layout as AntLayout, Menu } from 'antd'
-import Button from '../Ui/Button'
-const AntHeader = AntLayout.Header
+import React from 'react';
+import { Layout as AntLayout, Menu } from 'antd';
+import Button from '../Ui/Button';
+const AntHeader = AntLayout.Header;
 
 export default function SubHeader() {
   return (
@@ -27,5 +27,5 @@ export default function SubHeader() {
         </Menu.Item>
       </Menu>
     </AntHeader>
-  )
+  );
 }

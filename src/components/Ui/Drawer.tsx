@@ -1,5 +1,5 @@
-import { Drawer as AntDrawer } from 'antd'
-import React, { ReactElement, ReactNode } from 'react'
+import { Drawer as AntDrawer } from 'antd';
+import React, { ReactElement, ReactNode } from 'react';
 
 export interface DrawerProps {
   children?: Element | ReactElement | Element[] | ReactElement[];
@@ -26,10 +26,10 @@ AntDrawer.defaultProps = {
   width: '500px',
   bodyStyle: undefined,
   drawerStyle: undefined
-}
+};
 
 export default function Drawer(props: DrawerProps) {
-  const { children, ...lastProps } = props
+  const { children, ...lastProps } = props;
 
-  return <AntDrawer {...lastProps}>{children}</AntDrawer>
+  return <AntDrawer {...lastProps}>{children}</AntDrawer>;
 }

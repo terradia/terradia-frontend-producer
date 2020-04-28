@@ -1,29 +1,29 @@
-import React from "react";
-import {Card} from "antd";
+import React from 'react';
+import {Card} from 'antd';
 
 declare interface info {
-    label: string,
-    text: string
+    label: string;
+    text: string;
 }
 
 declare interface InfoCardProps {
-    title: string,
-    infos: info[],
+    title: string;
+    infos: info[];
 }
 
 const textStyle = {
-    fontFamily: "Montserrat",
+    fontFamily: 'Montserrat',
     fontWeight: 400,
-    fontSize: "normal",
-    color: "#575757",
+    fontSize: 'normal',
+    color: '#575757',
     flexShrink: 0,
 };
 
 const boldTextStyle = {
-    fontFamily: "Montserrat",
+    fontFamily: 'Montserrat',
     fontWeight: 700,
-    fontSize: "normal",
-    color: "#828282",
+    fontSize: 'normal',
+    color: '#828282',
 };
 
 const InfoCard = (props: InfoCardProps) => {
@@ -40,7 +40,7 @@ const InfoCard = (props: InfoCardProps) => {
         </p>
     ));
     return (
-        <div style={{display: "flex", paddingBottom: 24}}>
+        <div style={{display: 'flex', paddingBottom: 24}}>
             <Card title={title}
                   bordered={false}
                   headStyle={boldTextStyle}
@@ -49,7 +49,7 @@ const InfoCard = (props: InfoCardProps) => {
                 {info}
             </Card>
         </div>
-    )
+    );
 };
 
 export default InfoCard;

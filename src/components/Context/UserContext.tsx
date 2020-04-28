@@ -1,9 +1,9 @@
-import React from 'react'
+import React from 'react';
 
 interface UserContextProps {
-    id: string
+    id: string;
 }
 
-const UserContext = React.createContext<Partial<UserContextProps>>({})
+const UserContext = React.createContext<Partial<UserContextProps>>({});
 
-export default UserContext
+export default UserContext;

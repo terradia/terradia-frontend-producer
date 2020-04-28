@@ -1,12 +1,12 @@
 import * as React from 'react';
 import {Affix, Layout as AntLayout} from 'antd';
-import Header from "./Header";
-import Logout from "../Authentication/Logout/Logout";
-import Sidebar from "./Sidebar";
-import "../../index.less";
-import {useContext} from "react";
-import Breakpoint, {sm, md} from "../Context/Breakpoint";
-import SummarySidebar from "./SummarySidebar";
+import Header from './Header';
+import Logout from '../Authentication/Logout/Logout';
+import Sidebar from './Sidebar';
+import '../../index.less';
+import {useContext} from 'react';
+import Breakpoint, {sm, md} from '../Context/Breakpoint';
+import SummarySidebar from './SummarySidebar';
 
 const {Content, Sider} = AntLayout;
 
@@ -19,16 +19,16 @@ const Layout = (props: LayoutProps) => {
     const breakpoint = useContext(Breakpoint);
 
     return (
-        <AntLayout style={{background: "white"}}>
+        <AntLayout style={{background: 'white'}}>
             <Header/>
             <AntLayout hasSider>
-                <Sider width={"155px"} theme={"light"}
-                       breakpoint={"md"}
+                <Sider width={'155px'} theme={'light'}
+                       breakpoint={'md'}
                        collapsedWidth={breakpoint < sm ? 0 : 80}
                        style={{
-                           minHeight: "90vh",
-                           maxHeight: "100vh",
-                           position: "sticky",
+                           minHeight: '90vh',
+                           maxHeight: '100vh',
+                           position: 'sticky',
                            top: 0,
                            left: 0
                        }}
@@ -37,19 +37,19 @@ const Layout = (props: LayoutProps) => {
                     <Logout isMenu/>
                 </Sider>
                 <Content style={{
-                    background: "F6F8FA",
+                    background: 'F6F8FA',
                     padding: 24
                 }}>
                     {props.children}
                 </Content>
                 {
                     breakpoint > md &&
-                    <Sider theme={"light"}
+                    <Sider theme={'light'}
                            style={{
-                               minHeight: "90vh"
+                               minHeight: '90vh'
                            }}
                     >
-                        <Affix style={{width: "100%"}}>
+                        <Affix style={{width: '100%'}}>
                             <SummarySidebar/>
                         </Affix>
                     </Sider>
@@ -59,4 +59,4 @@ const Layout = (props: LayoutProps) => {
     );
 };
 
-export default Layout
+export default Layout;

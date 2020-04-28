@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
 declare interface CardProps {
   hoverable?: boolean;
@@ -13,7 +13,7 @@ declare interface CardProps {
 
 const Card = (props: CardProps) => {
   //const backgroundPath = '/static/foodCategories/cheese.jpg';
-  const [hover, setHover] = useState(false)
+  const [hover, setHover] = useState(false);
 
   return (
     <div>
@@ -39,13 +39,13 @@ const Card = (props: CardProps) => {
         )}
         onMouseOver={() => setHover(true)}
         onMouseLeave={() => {
-          setHover(false)
+          setHover(false);
         }}
       />
       <p style={props.titleStyle}>{props.title}</p>
     </div>
-  )
-}
+  );
+};
 
 Card.defaultProps = {
   title: 'Title',
@@ -62,6 +62,6 @@ Card.defaultProps = {
     left: '7%',
     filter: 'brightness(100%)'
   }
-}
+};
 
-export default Card
+export default Card;

@@ -1,5 +1,5 @@
-import React, { ReactElement, ReactNode } from 'react'
-import { Modal as AntModal } from 'antd'
+import React, { ReactElement, ReactNode } from 'react';
+import { Modal as AntModal } from 'antd';
 
 export interface ModalProps {
   children?: Element | ReactElement | Element[] | ReactElement[];
@@ -36,10 +36,10 @@ Modal.defaultProps = {
   visible: false,
   width: 520,
   zIndex: 1000
-}
+};
 
 export default function Modal(props: ModalProps) {
-  const { children, ...lastProps } = props
+  const { children, ...lastProps } = props;
 
-  return <AntModal {...lastProps}>{children}</AntModal>
+  return <AntModal {...lastProps}>{children}</AntModal>;
 }

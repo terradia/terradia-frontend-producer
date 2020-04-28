@@ -10,7 +10,7 @@ const ReturnButtonContainer: React.FC = props => {
       <Button
         type={'link'}
         text={'Déjà un compte ? Se connecter'}
-        size={"large"}
+        size={'large'}
         onClick={() => {
           history.push('/Login');
         }}

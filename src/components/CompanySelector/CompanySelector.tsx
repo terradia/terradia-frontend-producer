@@ -1,5 +1,5 @@
-import React from 'react'
-import { Icon } from 'antd'
+import React from 'react';
+import { Icon } from 'antd';
 
 const CompanySelector = () => {
   return (
@@ -7,7 +7,7 @@ const CompanySelector = () => {
       <Icon type={'down'} />
       <span>Test Company</span>
     </div>
-  )
-}
+  );
+};
 
-export default CompanySelector
+export default CompanySelector;

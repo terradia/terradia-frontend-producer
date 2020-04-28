@@ -1,5 +1,5 @@
-import React from 'react'
-import { Anchor as AntAnchor } from 'antd'
+import React from 'react';
+import { Anchor as AntAnchor } from 'antd';
 
 export interface AnchorProps {
   affix?: boolean;
@@ -18,5 +18,5 @@ export interface AnchorProps {
 export default function Anchor(props: AnchorProps) {
   //const {Link} = AntAnchor;
 
-  return <AntAnchor {...props}></AntAnchor>
+  return <AntAnchor {...props}></AntAnchor>;
 }

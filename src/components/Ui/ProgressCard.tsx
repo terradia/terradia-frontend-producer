@@ -1,5 +1,5 @@
-import React from "react"
-import {Card, Progress} from "antd";
+import React from 'react';
+import {Card, Progress} from 'antd';
 
 declare interface ProgressCardProps {
     text: string;
@@ -7,35 +7,35 @@ declare interface ProgressCardProps {
 }
 
 const boldTextStyle = {
-    fontFamily: "Montserrat",
+    fontFamily: 'Montserrat',
     fontWeight: 700,
-    fontSize: "normal",
-    color: "#828282",
+    fontSize: 'normal',
+    color: '#828282',
 };
 
 const CardStyle = {
-    marginBottom: "8px",
-    borderRadius: "5px",
-    display: "flex",
-    justifyContent: "space-around"
+    marginBottom: '8px',
+    borderRadius: '5px',
+    display: 'flex',
+    justifyContent: 'space-around'
 };
 
 const CardBodyStyle = {
-    display: "flex",
-    width: "100%",
-    color: "#F6F8FA",
+    display: 'flex',
+    width: '100%',
+    color: '#F6F8FA',
     ...boldTextStyle,
-    padding: "5px",
-    justifyContent: "space-between",
-    alignItems: "center",
+    padding: '5px',
+    justifyContent: 'space-between',
+    alignItems: 'center',
 };
 
 const ProgressCard = ({text, value}: ProgressCardProps) => {
     return (
         <Card style={CardStyle} bodyStyle={CardBodyStyle}>
             <span style={{
-                display: "flex",
-                flexFlow: "column"
+                display: 'flex',
+                flexFlow: 'column'
             }}>
                 {text}
             </span>
@@ -43,11 +43,11 @@ const ProgressCard = ({text, value}: ProgressCardProps) => {
                       percent={value}
                       width={40}
                       strokeWidth={10}
-                      strokeColor={"#00c537"}
+                      strokeColor={'#00c537'}
                       format={value => (value)}
             />
         </Card>
     );
 };
 
-export default ProgressCard
+export default ProgressCard;

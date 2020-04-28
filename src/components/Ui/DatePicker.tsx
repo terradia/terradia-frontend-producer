@@ -1,13 +1,13 @@
-import React from 'react'
+import React from 'react';
 //import {DatePicker as AntDatepicker} from 'antd'
 //const  {MonthPicker: AntMonthPicker, RangePicker: AntRangePicker, WeekPicker: AntWeekPicker} = AntDatepicker;
-import { Moment } from 'moment'
+import { Moment } from 'moment';
 import {
   DatePickerMode,
   RangePickerPresetRange,
   RangePickerValue
-} from 'antd/lib/date-picker/interface'
-import { TimePickerProps } from 'antd/lib/time-picker'
+} from 'antd/lib/date-picker/interface';
+import { TimePickerProps } from 'antd/lib/time-picker';
 
 declare interface DefaultPickerProps {
   defaultValue?: Moment;
@@ -84,8 +84,8 @@ declare interface RangePickerProps extends BasePickerProps, DefaultPickerProps {
 export default function DatePicker(
   props: DatePickerProps | MonthPickerProps | WeekPickerProps | RangePickerProps
 ) {
-  if (props.type) return <div></div>
-  return <div></div>
+  if (props.type) return <div></div>;
+  return <div></div>;
   /*switch (props.type) {
         case "default":
             return <AntDatepicker {...props}/>;

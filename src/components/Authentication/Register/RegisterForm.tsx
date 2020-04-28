@@ -32,7 +32,7 @@ const RegisterSchema = Yup.object().shape({
     ),
   acceptedCondition: Yup.bool().oneOf(
     [true],
-    "Vous devez accepter les conditions générales d'utilisation."
+    'Vous devez accepter les conditions générales d\'utilisation.'
   ),
 });
 
@@ -93,7 +93,7 @@ const RegisterForm = () => {
             <div className={'register_form_div'}>
               <form className={'auth_form'} onSubmit={handleSubmit}>
                 {errors.email && (
-                  <div id="feedback" className={"error-description error-email"}>
+                  <div id="feedback" className={'error-description error-email'}>
                     {errors.email}
                   </div>
                 )}
@@ -112,7 +112,7 @@ const RegisterForm = () => {
                   onChange={handleChange}
                 />
                 {errors.password && (
-                  <div id="feedback" className={"error-description"}>
+                  <div id="feedback" className={'error-description'}>
                     {errors.password}
                   </div>
                 )}
@@ -133,7 +133,7 @@ const RegisterForm = () => {
                 <div className={'external_connexion'}>
                   <span>
                     {errors.lastname && (
-                      <div id="feedback" className={"error-description"}>
+                      <div id="feedback" className={'error-description'}>
                         {errors.lastname}
                       </div>
                     )}
@@ -153,7 +153,7 @@ const RegisterForm = () => {
                   </span>
                   <span>
                     {errors.firstname && (
-                      <div id="feedback" className={"error-description"}>
+                      <div id="feedback" className={'error-description'}>
                         {errors.firstname}
                       </div>
                     )}
@@ -173,7 +173,7 @@ const RegisterForm = () => {
                   </span>
                 </div>
                 {errors.phone && (
-                  <div id="feedback" className={"error-description"}>
+                  <div id="feedback" className={'error-description'}>
                     {errors.phone}
                   </div>
                 )}
@@ -191,7 +191,7 @@ const RegisterForm = () => {
                   onChange={handleChange}
                 />
                 {errors.acceptedCondition && (
-                  <div id="feedback" className={"error-description"}>
+                  <div id="feedback" className={'error-description'}>
                     {errors.acceptedCondition}
                   </div>
                 )}
@@ -204,7 +204,7 @@ const RegisterForm = () => {
                 </Checkbox>
                 <Button
                     isLoading={loading}
-                  text={"S'inscrire"}
+                  text={'S\'inscrire'}
                   className={'form_item'}
                   id={'login_button'}
                   size={'large'}
