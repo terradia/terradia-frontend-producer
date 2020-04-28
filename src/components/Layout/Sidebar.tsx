@@ -57,4 +57,4 @@ const Sidebar = () => {
     );
 };
 
-export default React.forwardRef(Sidebar);
+export default Sidebar;
