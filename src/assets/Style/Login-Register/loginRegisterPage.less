@@ -1,0 +1,88 @@
+@import "../../../index";
+
+.loginPage {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  height: 100vh;
+}
+
+.presentation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  height: 100%;
+  background-image: linear-gradient(90deg, #5CC04A 0%, #8FDD3D 100%);
+
+  .logo {
+    width: 80%;
+  }
+
+  .presentation-divider {
+    color: #FFFFFF;
+    min-width: 10%;
+    max-width: 60%;
+    width: 50%;
+    height: 3px;
+    margin: 10% 0 10% 0;
+    border-radius: 8px;
+  }
+
+  .description {
+    max-width: 50%;
+    font-size: 2vw;
+    text-align: center;
+    color: #FFFFFF;
+  }
+}
+
+.action-auth {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  height: 100%;
+  background-color: #FFFFFF;
+}
+
+.return-to-login-button-container {
+  position: absolute;
+  top: 5%;
+  left: 5%;
+  font-size: @font-size-lg;
+}
+
+@media (max-width:1024px) {
+  .loginPage {
+    flex-direction: column;
+  }
+
+  .presentation {
+    width: 100%;
+    height: 20%;
+
+    .presentation-divider {
+      display: none;
+    }
+
+    .description {
+      display: none;
+    }
+  }
+
+  .action-auth {
+    width: 100%;
+    height: 80%;
+  }
+
+  .return-to-login-button-container {
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    font-size: @font-size-lg;
+  }
+}

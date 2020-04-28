@@ -1,0 +1,12 @@
+query getUser {
+    getUser {
+        id
+        firstName
+        lastName
+        email
+        validated
+        companies {
+            id
+        }
+    }
+}

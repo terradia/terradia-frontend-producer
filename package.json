@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "react-app-rewired start",
+    "start": "rimraf ./node_modules/.cache/babel-loader && react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
@@ -24,7 +24,14 @@
       "last 1 safari version"
     ]
   },
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "semi": true,
+    "singleQuote": true
+  },
   "dependencies": {
+    "@apollo/react-common": "^3.1.3",
     "@apollo/react-components": "^3.1.3",
     "@apollo/react-hoc": "^3.1.3",
     "@apollo/react-hooks": "^3.1.3",
@@ -35,24 +42,33 @@
     "@testing-library/user-event": "^7.2.1",
     "antd": "^3.26.7",
     "apollo-boost": "^0.4.7",
+    "apollo-cache-inmemory": "^1.6.5",
+    "apollo-client": "^2.6.8",
     "apollo-link-context": "^1.0.19",
+    "apollo-link-http": "^1.5.17",
+    "apollo-utilities": "^1.3.3",
     "babel-plugin-import": "^1.13.0",
+    "babel-plugin-import-graphql": "^2.7.0",
     "babel-plugin-inline-react-svg": "^1.1.1",
     "customize-cra": "^0.9.1",
     "eslint": "^6.8.0",
     "formik": "^2.1.2",
     "graphql": "^14.6.0",
+    "graphql.macro": "^1.4.2",
     "isomorphic-fetch": "^2.2.1",
+    "isomorphic-unfetch": "^3.0.0",
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
     "lodash": "^4.17.15",
     "react": "^16.12.0",
+    "react-app-rewire-graphql-tag": "^1.1.0",
     "react-app-rewire-less": "^2.1.3",
     "react-app-rewired": "^2.1.5",
+    "react-beautiful-dnd": "^13.0.0",
     "react-dom": "^16.12.0",
     "react-router": "^5.1.2",
     "react-router-dom": "latest",
-    "react-scripts": "3.3.0",
+    "react-scripts": "3.4.0",
     "yup": "^0.28.0"
   },
   "devDependencies": {
@@ -69,7 +85,8 @@
     "eslint-config-react": "^1.1.7",
     "eslint-plugin-prettier": "^3.1.2",
     "graphql-tag": "^2.10.1",
-    "prettier": "^1.19.1",
+    "rimraf": "^3.0.2",
+    "prettier": "^2.0.2",
     "typescript": "^3.7.5"
   }
 }

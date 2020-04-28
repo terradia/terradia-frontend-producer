@@ -1,0 +1,12 @@
+query getCompaniesByUser($userId: ID!) {
+    getCompaniesByUser(userId: $userId) {
+        id
+        company {
+            id
+            name
+            description
+            logo
+            cover
+        }
+    }
+}

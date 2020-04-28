@@ -2,23 +2,24 @@ import { Input as AntInput } from 'antd'
 import React, { ChangeEventHandler } from 'react'
 
 export interface InputProps {
-  addonAfter?: string;
-  addonBefore?: string;
-  allowClear?: boolean;
-  autoComplete?: string; // for google
-  // defaultValue?: string;
-  disabled?: boolean;
-  enterButton?: boolean;
-  id?: string;
-  type?: string;
-  placeholder?: string;
-  name?: string;
-  onSearch?: any;
-  prefix?: string;
-  size?: 'default' | 'large' | 'small' | undefined;
-  style?: object;
-  suffix?: string;
-  onChange?: ChangeEventHandler<HTMLInputElement>;
+    addonAfter?: string;
+    addonBefore?: string;
+    allowClear?: boolean;
+    autoComplete?: string, // for google
+    // defaultValue?: string;
+    disabled?: boolean;
+    enterButton?: boolean;
+    id?: string;
+    type?: string;
+    placeholder?: string;
+    name?: string;
+    onSearch?: any;
+    prefix?: string;
+    size?: "default" | "large" | "small" | undefined;
+    style?: object;
+    suffix?: string;
+    onChange?: ChangeEventHandler<HTMLInputElement>;
+    className?: string;
 }
 
 Input.defaultProps = {
