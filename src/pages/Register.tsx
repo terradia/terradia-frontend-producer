@@ -3,7 +3,7 @@ import {ReactComponent as Logo} from "../assets/Logo/Terradia_white.svg";
 import {Divider} from "antd";
 import '../assets/Style/Login-Register/loginRegisterPage.less';
 import RegisterForm from "../components/Authentication/Register/RegisterForm";
-import ReturnButtonContainer from "../components/Authentication/Register/ReturnButtonContainer";
+import ReturnButtonContainer from '../components/Authentication/Register/ReturnButtonContainer';
 
 const Register = () => {
   return (
