@@ -1,13 +1,9 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 import Breakpoint, {breakpointEnum, lg, md, sm, xl, xxl} from '../Context/Breakpoint';
 
-const BreakpointCatcher: React.FunctionComponent = (props) => {
+const BreakpointCatcher: FunctionComponent = (props) => {
     const breakpoint = useContext(Breakpoint);
     const [BP, setBP] = useState(breakpoint);
-
-    useEffect(() => {
-        resizeHandler();
-    }, []);
 
     const resizeHandler = () => {
         switch (true) {
@@ -25,6 +21,10 @@ const BreakpointCatcher: React.FunctionComponent = (props) => {
                 return setBP(breakpointEnum.xxl);
         }
     };
+
+    useEffect(() => {
+        resizeHandler();
+    }, []);
 
     useEffect(() => {
         window.onresize = resizeHandler;

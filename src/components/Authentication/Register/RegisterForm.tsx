@@ -1,8 +1,7 @@
 import React from 'react';
 import { Formik } from 'formik';
-import Input from '../../Ui/Input';
 import Button from '../../Ui/Button';
-import { Checkbox, Divider } from 'antd';
+import { Checkbox, Divider, Input } from 'antd';
 import * as Yup from 'yup';
 import { loader as graphqlLoader } from 'graphql.macro';
 import { useMutation } from '@apollo/react-hooks';
@@ -200,7 +199,7 @@ const RegisterForm = () => {
                   onChange={handleChange}
                   className={'form_item'}
                 >
-                  J'ai lu et j'accepte les conditions générales d'utilisation
+                  {'J\'ai lu et j\'accepte les conditions générales d\'utilisation'}
                 </Checkbox>
                 <Button
                     isLoading={loading}

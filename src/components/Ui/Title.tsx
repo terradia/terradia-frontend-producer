@@ -7,11 +7,11 @@ const boldTextStyle = {
     color: '#828282',
 };
 
-declare interface titleProps {
+declare interface TitleProps {
     title: string;
 }
 
-const Title = (props: titleProps) => {
+const Title = (props: TitleProps) => {
     return (
         <div>
             <span style={boldTextStyle}>

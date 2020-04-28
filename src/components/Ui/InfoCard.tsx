@@ -1,14 +1,14 @@
 import React from 'react';
 import {Card} from 'antd';
 
-declare interface info {
+declare interface Info {
     label: string;
     text: string;
 }
 
 declare interface InfoCardProps {
     title: string;
-    infos: info[];
+    infos: Info[];
 }
 
 const textStyle = {

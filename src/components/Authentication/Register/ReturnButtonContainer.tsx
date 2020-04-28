@@ -2,7 +2,7 @@ import React from 'react';
 import Button from '../../Ui/Button';
 import { useHistory } from 'react-router-dom';
 
-const ReturnButtonContainer: React.FC = props => {
+const ReturnButtonContainer = () => {
   const history = useHistory();
 
   return (

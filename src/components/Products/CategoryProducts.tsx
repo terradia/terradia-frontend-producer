@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Draggable} from 'react-beautiful-dnd';
-import {ReactComponent as CarretIcon} from '../../assets/Icon/ui/carret.svg';
+import {ReactComponent as CaretIcon} from '../../assets/Icon/ui/caret.svg';
 
 
 interface CategoryProductsProps {
@@ -54,7 +54,7 @@ function CategoryProducts(props: CategoryProductsProps) {
                     }
                 }}
             >
-                <CarretIcon style={{transform: collapsed ? null : 'rotate(90deg)'}}/>
+                <CaretIcon style={{transform: collapsed ? null : 'rotate(90deg)'}}/>
                 {props.cat.name}
             </div>
             <div ref={props.provided.innerRef} className={`card-list ${collapsed === true ? 'collapsed' : ''}`}>

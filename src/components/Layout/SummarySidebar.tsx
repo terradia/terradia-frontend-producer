@@ -2,7 +2,7 @@ import React from 'react';
 import ProgressCard from '../Ui/ProgressCard';
 import PremiumCard from '../Ui/PremiumCard';
 
-const SummarySidebar = (_, ref) => {
+const SummarySidebar = () => {
     return (
         <div style={{
             display: 'flex',

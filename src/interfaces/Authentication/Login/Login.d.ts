@@ -1,6 +1,5 @@
-import {MutationFunction} from '@apollo/react-common';
 import {FormikErrors, FormikValues} from 'formik';
-import {ChangeEvent} from 'react';
+import React, {ChangeEvent} from 'react';
 import {CheckboxChangeEvent} from 'antd/es/checkbox';
 
 export declare interface LoginData {

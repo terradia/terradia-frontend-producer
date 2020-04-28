@@ -182,13 +182,13 @@ const copiedData = {
 // const copiedDataTest2 = getItems(5, 10);
 
 
-const reorder = (list, startIndex, endIndex) => {
+/*const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
 
     return result;
-};
+};*/
 
 const move = (source, destination, droppableSource, droppableDestination) => {
     const sourceClone = Array.from(source);
@@ -216,6 +216,7 @@ const Products = () => {
     });*/
 
     function onDragUpdate(result) {
+        console.log(result);
     }
 
     function onDragEnd(result) {
@@ -227,14 +228,13 @@ const Products = () => {
         }
 
         if (source.droppableId === destination.droppableId) {
-            const index = copiedData.data.getAllCompanyProductsCategories.findIndex(cat => cat.id === source.droppableId);
+            //const index = copiedData.data.getAllCompanyProductsCategories.findIndex(cat => cat.id === source.droppableId);
 
-            // @ts-ignore
-            copiedData.data.getAllCompanyProductsCategories[index].products = reorder(
+            /*copiedData.data.getAllCompanyProductsCategories[index].products = reorder(
                 copiedData.data.getAllCompanyProductsCategories[index].products,
                 source.index,
                 destination.index
-            );
+            );*/
         } else {
             const indexSrc = copiedData.data.getAllCompanyProductsCategories.findIndex(cat => cat.id === source.droppableId);
             const indexDest = copiedData.data.getAllCompanyProductsCategories.findIndex(cat => cat.id === destination.droppableId);
@@ -254,15 +254,14 @@ const Products = () => {
         <div className={'product-page'}>
             <div className={'sub-header'}>
                 <Button className={'button'} text={'Créer une catégorie'} icon={<AddIcon/>} size={'large'}
-                        onClick={() => {
-                        }}/>
+                       />
                 <Button className={'button'} text={'Créer un produit'} icon={<AddIcon/>} size={'large'}/>
                 <Button className={'button'} text={'Créer une publicité'} icon={<AddIcon/>} size={'large'}/>
             </div>
             <div className={'categories-list'}>
                 {/*{!loading && copiedData.data.getAllCompanyProductsCategories.map((cat) => {*/}
                 <DragDropContext onDragEnd={onDragEnd} onDragUpdate={onDragUpdate}>
-                    {copiedData.data.getAllCompanyProductsCategories.map((cat, index) => {
+                    {copiedData.data.getAllCompanyProductsCategories.map((cat) => {
                         return (
                             <Droppable droppableId={cat.id} direction={'horizontal'} key={cat.id} style={{backgroundColor: 'red'}}>
                                 {(provided, snapshot) => {
