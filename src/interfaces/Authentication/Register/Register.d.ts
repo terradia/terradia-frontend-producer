@@ -1,14 +1,13 @@
-import {MutationFunction} from "@apollo/react-common";
-import {FormikErrors, FormikValues} from "formik";
-import {ChangeEvent} from "react";
-import {CheckboxChangeEvent} from "antd/es/checkbox";
+import {FormikErrors, FormikValues} from 'formik';
+import {ChangeEvent} from 'react';
+import {CheckboxChangeEvent} from 'antd/es/checkbox';
 
 export declare interface RegisterData {
     register: {
         token: string;
         userId: string;
         message: string;
-    }
+    };
 }
 
 export declare interface RegisterDataResponse {
@@ -17,14 +16,14 @@ export declare interface RegisterDataResponse {
             token: string;
             userId: string;
             message: string;
-        }
-    } | undefined
+        };
+    } | undefined;
 }
 
 export declare interface RegisterModalState {
     modalRegister: boolean;
     confirmLoading: boolean;
-    errorRegister: undefined | string
+    errorRegister: undefined | string;
 }
 
 export declare interface FormikReturnProps {
@@ -37,5 +36,5 @@ export declare interface FormikReturnProps {
         lastname: string;
         email: string;
         password: string;
-    }
+    };
 }

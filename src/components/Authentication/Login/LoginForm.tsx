@@ -9,7 +9,6 @@ import { Checkbox, Divider, notification } from 'antd';
 import { loader as graphqlLoader } from 'graphql.macro';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import Input from '../../Ui/Input';
 import Button from '../../Ui/Button';
 import '../../../assets/Style/Login-Register/loginForm.less';
 import FacebookIcon from '../../Icons/FacebookIcon';
@@ -18,8 +17,10 @@ import CreateCompanyButton from '../../Ui/CreateCompanyButton';
 import UserContext from '../../Context/UserContext';
 
 const mutationLogin = graphqlLoader('../../../graphql/mutation/login.graphql');
-const getCompanies = graphqlLoader('../../../graphql/query/getCompanies.graphql');
 const getUser = graphqlLoader('../../../graphql/query/getUser.graphql');
+const getCompanies = graphqlLoader(
+  '../../../graphql/query/getCompanies.graphql'
+);
 
 const SignInSchema = Yup.object().shape({
   email: Yup.string()
@@ -30,6 +31,15 @@ const SignInSchema = Yup.object().shape({
     .min(2, 'Votre mot de passe doit contenir plus de 2 caractère')
     .max(20, 'Votre mot de passe ne peut dépasser 20 caractère'),
 });
+
+declare interface LoginData {
+  data: {
+    login: {
+      token: string;
+      userId: string;
+    };
+  };
+}
 
 const LoginForm = () => {
   const client = useApolloClient();
@@ -109,40 +119,38 @@ const LoginForm = () => {
       validateOnBlur={true}
       onSubmit={submitForm}
     >
-      {({
-          errors,
-          handleChange,
-          handleSubmit,
-        }) => {
+      {({ errors, handleChange, handleSubmit }) => {
         return (
           <div className={'login_box'}>
             <div className={'login_form_div'}>
-              <form
-                className={'auth_form'}
-                onSubmit={handleSubmit}>
+              <form className={'auth_form'} onSubmit={handleSubmit}>
+                {errors.email && (
+                  <div id="feedback" className={'error-description error-email'}>
+                    {errors.email}
+                  </div>
+                )}
                 <Input
                   name={'email'}
-                  className={'form_item input_item'}
-                  id={'input_email'}
+                  className={'form_item'}
+                  id={'input_login'}
                   size={'large'}
                   type={'default'}
                   placeholder={'Email'}
-                  style={
-                    {
-                      color: errors.email ? 'red' : undefined,
-                      borderColor: errors.email ? 'red' : undefined,
-                    }
-                  }
+                  style={{
+                    color: errors.email ? 'red' : undefined,
+                    borderColor: errors.email ? 'red' : undefined,
+                  }}
                   autoComplete={'email'}
                   onChange={handleChange}
                 />
-                {
-                  errors.email &&
-                  <div id="feedback" style={{ color: 'red' }}>{errors.email}</div>
-                }
+                {errors.password && (
+                  <div id="feedback" className={'error-description'}>
+                    {errors.password}
+                  </div>
+                )}
                 <Input
                   name={'password'}
-                  className={'form_item input_item'}
+                  className={'form_item'}
                   id={'input_password'}
                   size={'large'}
                   type={'password'}
@@ -154,58 +162,60 @@ const LoginForm = () => {
                   autoComplete={'current-password'}
                   onChange={handleChange}
                 />
-                {
-                  errors.password &&
-                  <div id="feedback" style={{ color: 'red' }}>{errors.password}</div>
-                }
 
-                <Checkbox name={'rememberMe'} onChange={handleChange} className={'form_item'}>
-                  Remember Me
+                <Checkbox
+                  name={'rememberMe'}
+                  onChange={handleChange}
+                  className={'form_item remember-box'}
+                >
+                  Se souvenir de moi
                 </Checkbox>
                 <Button
                   text={'Se connecter'}
-                  className={'form_item button_login terradia_button'}
+                  className={'form_item'}
                   id={'login_button'}
                   size={'large'}
+                  width={'full-width'}
                   htmlType={'submit'}
                   isLoading={loginLoading || companiesLoading}
                 />
-                <p id={'forgot_password'}>
-                  <NavLink to="/ResetPassword">
-                    Mot de passe oublié ?
-                  </NavLink>
-                </p>
+                <div className={'forgot_password'}>
+                  <NavLink to="/ResetPassword">Mot de passe oublié ?</NavLink>
+                </div>
               </form>
-            </div>
-            <Divider className={'auth_divider'}> OU </Divider>
-            <div className={'not_register'}>
-              <div className={'external_connexion'}>
-                <Button
-                  className={'button_register'}
-                  text={'Facebook'}
-                  size={'large'}
-                  id={'facebook_button'}
-                  accentColor={'#2174EE'}
-                  icon={<FacebookIcon/>}
-                />
-                <Button
-                  className={'button_register'}
-                  text={'Apple'}
-                  size={'large'}
-                  id={'apple_button'}
-                  icon={<AppleIcon/>}
-                />
-              </div>
-              <div className={'register_div'}>
-                <p>Vous n'avez pas encore de compte ?</p>
-                <Button
-                  className={'button_register terradia_button'}
-                  text={'S\'enregister'}
-                  size={'large'}
-                  id={'register_button'}
-                  htmlType={'submit'}
-                  onClick={() => history.push('/Register')}
-                />
+              <Divider className={'auth_divider'}>OU</Divider>
+              <div className={'not_register'}>
+                <div className={'external_connexion'}>
+                  <Button
+                    className={'button_register'}
+                    text={'Facebook'}
+                    size={'large'}
+                    id={'facebook_button'}
+                    accentColor={'#2174EE'}
+                    icon={<FacebookIcon />}
+                  />
+                  <Button
+                    className={'button_register'}
+                    text={'Apple'}
+                    size={'large'}
+                    id={'apple_button'}
+                    accentColor={'#202020'}
+                    icon={<AppleIcon />}
+                  />
+                </div>
+                <div className={'register_div'}>
+                  <div className={'register-catching'}>
+                    {'Vous n\'avez pas encore de compte ?'}
+                  </div>
+                  <Button
+                    id={'register_button'}
+                    className={'button_register'}
+                    text={'S\'inscrire'}
+                    size={'large'}
+                    htmlType={'submit'}
+                    onClick={(): void => history.push('/Register')}
+                  />
+                </div>
               </div>
             </div>
           </div>

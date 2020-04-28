@@ -10,26 +10,26 @@ import CompanyIcon from "../Icons/PageIcon/CompanyIcon";
 import {Menu} from "antd";
 import PageButton from "../Ui/PageButton";
 
-const Sidebar = React.forwardRef(() => {
+const Sidebar = () => {
     const currentUrl = useLocation().pathname;
     const history = useHistory();
     const [currentPage, setCurrentPage] = useState(currentUrl);
 
-    const OnClickedLink = (href: string) => {
-        setCurrentPage(href);
-        history.push(href);
-    };
+  const OnClickedLink = (href: string) => {
+    setCurrentPage(href);
+    history.push(href);
+  };
 
     return (
         <Menu
             defaultSelectedKeys={[currentPage]}
-            mode={"inline"}
+            mode={'inline'}
             style={{
-                display: "flex",
-                flexWrap: "wrap",
-                flexFlow: "column",
-                justifyContent: "center",
-                alignContent: "space-around"
+                display: 'flex',
+                flexWrap: 'wrap',
+                flexFlow: 'column',
+                justifyContent: 'center',
+                alignContent: 'space-around'
             }}
         >
             <PageButton link={"/home"} label={"Home"} onClick={OnClickedLink} icon={
@@ -54,7 +54,7 @@ const Sidebar = React.forwardRef(() => {
                 <CompanyIcon style={{width: '32px', height: '32px', display: "flex"}}/>
             }/>
         </Menu>
-    )
-});
+    );
+};
 
 export default Sidebar;

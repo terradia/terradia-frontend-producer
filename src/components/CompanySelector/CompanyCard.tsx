@@ -16,7 +16,7 @@ declare interface CompanyCardProps {
   name?: string;
   cover?: string;
   logo?: string;
-  onClick: (string) => void
+  onClick: (arg: string) => void;
 }
 
 const CompanyCard = ({
@@ -24,7 +24,6 @@ const CompanyCard = ({
                        selected = false,
                        loading = false,
                        name = 'Mon compte personnel',
-                       cover = '/src/assets/company/defaultCover',
                        logo = '/src/assets/company/defaultLogo',
                        onClick,
                      }: CompanyCardProps) => {
@@ -32,7 +31,6 @@ const CompanyCard = ({
   const onClickHandler = () => {
     onClick(id);
   };
-  console.log(selected);
 
   return (
     <div style={{

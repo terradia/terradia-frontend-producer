@@ -1,0 +1,7 @@
+node_modules/**
+.idea/**
+config-overrides.js
+**/*.js
+src/*.js
+src/**/*.js
+**.js

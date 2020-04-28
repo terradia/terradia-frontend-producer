@@ -3,9 +3,9 @@ import {ReactComponent as User} from "../../assets/Icon/user.svg";
 import Button from "./Button";
 
 const textStyle = {
-    fontFamily: "Montserrat",
+    fontFamily: 'Montserrat',
     fontWeight: 400,
-    color: "#5CC04A",
+    color: '#5CC04A',
     fontSize: 16
 };
 
@@ -13,11 +13,11 @@ const UserViewButton = () => {
     return (
         <Button
             style={{
-                display: "flex",
+                display: 'flex',
                 marginRight: 24,
-                borderColor: "#5CC04A",
-                justifyContent: "center",
-                alignItems: "center"
+                borderColor: '#5CC04A',
+                justifyContent: 'center',
+                alignItems: 'center'
             }}
         >
             <User width={25} height={25}/>
@@ -25,7 +25,7 @@ const UserViewButton = () => {
                 Aperçu utilisateur
             </span>
         </Button>
-    )
+    );
 };
 
 export default UserViewButton;

@@ -5,29 +5,22 @@ import {LogoutProps} from "../../../interfaces/Authentication/Logout/Logout";
 import {useApolloClient} from "@apollo/react-hooks";
 
 const textStyle = {
-    //marginLeft: "5%",
-    fontFamily: "Montserrat",
-    fontWeight: 600,
-    fontSize: "larger",
-    color: "#BBBBBB",
-    flexShrink: 0
+  fontFamily: 'Montserrat',
+  fontWeight: 600,
+  fontSize: 'larger',
+  color: '#BBBBBB',
+  flexShrink: 0,
 };
 
-const Logout = React.forwardRef(({
-                                     isMenu,
-                                     ...props
-                                 }: LogoutProps, ref) => {
-    const client = useApolloClient();
+const Logout = ({ isMenu, ...props }: LogoutProps)  => {
+  const client = useApolloClient();
 
-    const onLogoutHandler = () => {
-        localStorage.removeItem('token');
-        /*if (visible) {
-            visible(false);
-        }*/
-        client.resetStore();
-        return null;
-    };
-    if (isMenu) {
+  const onLogoutHandler = (): void => {
+    localStorage.removeItem('token');
+    client.resetStore().then(null);
+  };
+
+  if (isMenu) {
         return (
             <Menu
                 mode={"inline"}

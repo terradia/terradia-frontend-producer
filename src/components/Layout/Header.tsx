@@ -12,7 +12,7 @@ const getCompanyById = graphqlLoader('../../graphql/query/getCompanyById.graphql
 const AntHeader = AntLayout.Header;
 
 declare interface HeaderProps {
-  Company?: boolean
+    Company?: boolean;
 }
 
 //TODO Faire un burger menu si la taille est trop petite
