@@ -24,4 +24,4 @@ const SummarySidebar = () => {
     );
 };
 
-export default React.forwardRef(SummarySidebar);
+export default SummarySidebar;

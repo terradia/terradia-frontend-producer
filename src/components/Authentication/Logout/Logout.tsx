@@ -61,4 +61,4 @@ const Logout = ({ isMenu, ...props }: LogoutProps)  => {
   );
 };
 
-export default React.forwardRef(Logout);
+export default Logout;
