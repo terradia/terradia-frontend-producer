@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { ReactComponent as FacebookLogo } from '../../assets/Icon/company/facebook.svg';
 import SvgContainer from './SvgContainer';
 
