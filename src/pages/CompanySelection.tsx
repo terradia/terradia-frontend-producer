@@ -29,20 +29,6 @@ const CompanySelection = () => {
                         Choisissez votre entreprise par défaut
                     </span>
                     <CompanyCardSelector/>
-
-                    {/* TODO A voir quel bouton utiliser
-                   <Button style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        alignSelf: "center",
-                        width: "25%",
-                        backgroundColor: "#5CC04A"
-                    }}>
-                    <span style={{...textStyle, color: "white", fontSize: 18}}>
-                        Valider
-                    </span>
-                    </Button>*/}
                 </AntLayout.Content>
             </AntLayout>
         </AntLayout>
