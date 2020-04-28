@@ -1,6 +1,6 @@
 import React from 'react'
 import {ReactComponent as LogoutIcon} from "../../../assets/Icon/page/Logout.svg"
-import {Icon, Menu} from "antd";
+import {Menu} from "antd";
 import {LogoutProps} from "../../../interfaces/Authentication/Logout/Logout";
 import {useApolloClient} from "@apollo/react-hooks";
 
@@ -47,7 +47,7 @@ const Logout = React.forwardRef(({
                     justifyContent: "flex-start",
                     alignItems: "center",
                 }} {...props}>
-                    <Icon component={() => <LogoutIcon height={'25px'} width={'25px'} style={{display: "flex"}}/>}/>
+                    <LogoutIcon style={{display: "flex", height: '25px', width: '25px'}}/>
                     <span style={textStyle}>
                     Se déconnecter
                 </span>
@@ -57,13 +57,13 @@ const Logout = React.forwardRef(({
     }
     return (
         <div style={{
-            position: "fixed",
-            bottom: "5px"
+          display: 'flex',
+          justifyContent: 'flex-end'
         }}>
-            <Icon component={() => <LogoutIcon height={'25px'} width={'25px'}/>}/>
+            <LogoutIcon height={'25px'} width={'25px'}/>
             <span style={textStyle}>
-                    Se déconnecter
-                </span>
+                Se déconnecter
+            </span>
         </div>
     )
 });

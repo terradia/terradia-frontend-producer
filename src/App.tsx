@@ -1,80 +1,112 @@
-import React from "react";
-import Layout from "./components/Layout/Layout";
-import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
-import Home from "./pages/Home";
-import Products from "./pages/Products";
-import Categories from "./pages/Categories";
-import Statistics from "./pages/Statistics";
-import Staff from "./pages/Staff";
-import Documents from "./pages/Documents";
+import React, { useEffect, useState } from 'react';
+import Layout from './components/Layout/Layout';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import Home from './pages/Home';
+import Products from './pages/Products';
+import Categories from './pages/Categories';
+import Statistics from './pages/Statistics';
+import Staff from './pages/Staff';
+import Documents from './pages/Documents';
 import Login from './pages/Login';
 import Company from './pages/Company';
-import {useQuery} from "@apollo/react-hooks";
-import {loader as graphqlLoader} from 'graphql.macro';
-import ResetPassword from "./pages/ResetPassword";
-import Register from "./pages/Register";
-import CompanySelection from "./pages/CompanySelection";
-import BreakpointCatcher from "./components/Layout/BreakpointCatcher";
-//import NotFound from "./pages/NotFound";
+import { useLazyQuery } from '@apollo/react-hooks';
+import { loader as graphqlLoader } from 'graphql.macro';
+import ResetPassword from './pages/ResetPassword';
+import Register from './pages/Register';
+import CompanySelection from './pages/CompanySelection';
+import BreakpointCatcher from './components/Layout/BreakpointCatcher';
+import CompanyRegister from './pages/CompanyRegister';
+import UserContext from './components/Context/UserContext';
 
 const queryGetUser = graphqlLoader('./graphql/query/getUser.graphql');
 
 const App = () => {
-    const {loading/*, error*/, data} = useQuery(queryGetUser, {
-        variables: {language: 'english'},
-    });
+  const [token, setToken] = useState(localStorage.getItem('token'));
+  const [getUser, { loading, error, data, called }] = useLazyQuery(queryGetUser, {
+    variables: { language: 'english' },
+  });
 
-    // TODO add a loader in order to not display /Home (for 1 sec) when user isn't log
-    return (
-        <BrowserRouter>
-            <Switch>
-                <Route exact path={"/customer"} component={() => {
-                    console.log("You don't have any company, redirecting to customer site");
-                    window.location.href = "http://localhost:8000/graphql";
-                    return null;
-                }}/>
-                <Route exact path={"/register"}>
-                    <Register/>
-                </Route>
-                <Route exact path={"/login"}>
-                    <Login/>
-                </Route>
-                <Route exact path={"/resetPassword"}>
-                    <ResetPassword/>
-                </Route>
-                <Route exact path={"/companySelection"}>
-                    <CompanySelection/>
-                </Route>
-                {(!data || !data.getUser) && !loading ? <Redirect to="/login"/> :
-                    <BreakpointCatcher>
-                        <Layout>
-                            <Route exact path={"/home"}>
-                                <Home/>
-                            </Route>
-                            <Route exact path={"/products"}>
-                                <Products/>
-                            </Route>
-                            <Route exact path={"/categories"}>
-                                <Categories/>
-                            </Route>
-                            <Route exact path={"/statistics"}>
-                                <Statistics/>
-                            </Route>
-                            <Route exact path={"/staff"}>
-                                <Staff/>
-                            </Route>
-                            <Route exact path={"/documents"}>
-                                <Documents/>
-                            </Route>
-                            <Route exact path={"/company"}>
-                                <Company/>
-                            </Route>
-                        </Layout>
-                    </BreakpointCatcher>
-                }
-            </Switch>
-        </BrowserRouter>
-    )
+  useEffect(() => {
+    if (error) {
+      localStorage.clear();
+      setToken(null);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    window.onstorage = (e: StorageEvent) => {
+      if (e.key === 'token') {
+        if (e.newValue === null) {
+          localStorage.clear();
+        }
+        setToken(e.newValue);
+
+      }
+    }
+  }, []);
+
+
+  useEffect(() => {
+    if (token) {
+      getUser();
+    }
+  }, [getUser, token]);
+
+  if (loading || (!!localStorage.getItem('token') && data === undefined))
+    return (<div>loading</div>);
+  // TODO add a loader in order to not display /Home (for 1 sec) when user isn't log
+  return (
+    <UserContext.Provider value={data ? data.getUser : null}>
+      <BrowserRouter>
+        <Switch>
+          <Route exact path={'/companyRegister'}>
+            <CompanyRegister/>
+          </Route>
+          <Route exact path={'/register'}>
+            <Register/>
+          </Route>
+          <Route exact path={'/login'}>
+            <Login/>
+          </Route>
+          <Route exact path={'/resetPassword'}>
+            <ResetPassword/>
+          </Route>
+          <Route exact path={'/companySelection'}>
+            <CompanySelection/>
+          </Route>
+          {
+            (!!localStorage.getItem('token') === false || (loading === false && called === true && (data === null || data.getUser === null))) ?
+              <Redirect to="/login"/> :
+              <BreakpointCatcher>
+                <Layout>
+                  <Route exact path={'/home'}>
+                    <Home/>
+                  </Route>
+                  <Route exact path={'/products'}>
+                    <Products/>
+                  </Route>
+                  <Route exact path={'/categories'}>
+                    <Categories/>
+                  </Route>
+                  <Route exact path={'/statistics'}>
+                    <Statistics/>
+                  </Route>
+                  <Route exact path={'/staff'}>
+                    <Staff/>
+                  </Route>
+                  <Route exact path={'/documents'}>
+                    <Documents/>
+                  </Route>
+                  <Route exact path={'/company'}>
+                    <Company/>
+                  </Route>
+                </Layout>
+              </BreakpointCatcher>
+          }
+        </Switch>
+      </BrowserRouter>
+    </UserContext.Provider>
+  );
 };
 
 export default App;
