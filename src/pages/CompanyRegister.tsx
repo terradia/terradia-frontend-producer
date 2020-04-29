@@ -4,10 +4,7 @@ import { Divider } from "antd";
 import ReturnButtonContainer from "../components/Authentication/Register/ReturnButtonContainer";
 import RegisterForm from "../components/Authentication/Register/RegisterForm";
 
-declare interface CompanyRegisterProps {
-}
-
-const CompanyRegister = (props: CompanyRegisterProps) => {
+const CompanyRegister = () => {
   return (
     <div className={"loginPage"}>
       <div className={"presentation"}>

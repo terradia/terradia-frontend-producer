@@ -7,7 +7,7 @@ import "../../index.less";
 import { useContext } from "react";
 import Breakpoint, { sm, md } from "../Context/Breakpoint";
 import SummarySidebar from "./SummarySidebar";
-import { Redirect } from 'react-router';
+import { Redirect } from "react-router";
 
 const { Content, Sider } = AntLayout;
 
