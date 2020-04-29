@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {useHistory, useLocation} from 'react-router'
+import {useHistory, useLocation} from "react-router";
 import HomeIcon from "../Icons/PageIcon/HomeIcon";
 import ProductIcon from "../Icons/PageIcon/ProductIcon";
 import CategoriesIcon from "../Icons/PageIcon/CategoriesIcon";
@@ -23,35 +23,35 @@ const Sidebar = () => {
     return (
         <Menu
             defaultSelectedKeys={[currentPage]}
-            mode={'inline'}
+            mode={"inline"}
             style={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                flexFlow: 'column',
-                justifyContent: 'center',
-                alignContent: 'space-around'
+                display: "flex",
+                flexWrap: "wrap",
+                flexFlow: "column",
+                justifyContent: "center",
+                alignContent: "space-around"
             }}
         >
             <PageButton link={"/home"} label={"Home"} onClick={OnClickedLink} icon={
-                <HomeIcon style={{width: '32px', height: '32px', display: "flex"}}/>
+                <HomeIcon style={{width: "32px", height: "32px", display: "flex"}}/>
             }/>
             <PageButton link={"/products"} label={"Product"} onClick={OnClickedLink} icon={
-                <ProductIcon style={{width: '32px', height: '32px', display: "flex"}}/>
+                <ProductIcon style={{width: "32px", height: "32px", display: "flex"}}/>
             }/>
             <PageButton link={"/categories"} label={"Categories"} onClick={OnClickedLink} icon={
-                <CategoriesIcon style={{width: '32px', height: '32px', display: "flex"}}/>
+                <CategoriesIcon style={{width: "32px", height: "32px", display: "flex"}}/>
             }/>
             <PageButton link={"/statistics"} label={"Statistics"} onClick={OnClickedLink} icon={
-                <StatisticsIcon style={{width: '32px', height: '32px', display: "flex"}}/>
+                <StatisticsIcon style={{width: "32px", height: "32px", display: "flex"}}/>
             }/>
             <PageButton link={"/staff"} label={"Staff"} onClick={OnClickedLink} icon={
-                <StaffIcon style={{width: '32px', height: '32px', display: "flex"}}/>
+                <StaffIcon style={{width: "32px", height: "32px", display: "flex"}}/>
             }/>
             <PageButton link={"/document"} label={"Documents"} onClick={OnClickedLink} icon={
-                <DocumentIcon style={{width: '32px', height: '32px', display: "flex"}}/>
+                <DocumentIcon style={{width: "32px", height: "32px", display: "flex"}}/>
             }/>
             <PageButton link={"/company"} label={"Company"} onClick={OnClickedLink} icon={
-                <CompanyIcon style={{width: '32px', height: '32px', display: "flex"}}/>
+                <CompanyIcon style={{width: "32px", height: "32px", display: "flex"}}/>
             }/>
         </Menu>
     );

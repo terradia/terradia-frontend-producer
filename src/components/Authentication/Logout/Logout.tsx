@@ -1,14 +1,14 @@
-import React from 'react'
-import {ReactComponent as LogoutIcon} from "../../../assets/Icon/page/Logout.svg"
+import React from "react";
+import {ReactComponent as LogoutIcon} from "../../../assets/Icon/page/Logout.svg";
 import {Menu} from "antd";
 import {LogoutProps} from "../../../interfaces/Authentication/Logout/Logout";
 import {useApolloClient} from "@apollo/react-hooks";
 
 const textStyle = {
-  fontFamily: 'Montserrat',
+  fontFamily: "Montserrat",
   fontWeight: 600,
-  fontSize: 'larger',
-  color: '#BBBBBB',
+  fontSize: "larger",
+  color: "#BBBBBB",
   flexShrink: 0,
 };
 
@@ -16,7 +16,7 @@ const Logout = ({ isMenu, ...props }: LogoutProps)  => {
   const client = useApolloClient();
 
   const onLogoutHandler = (): void => {
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
     client.resetStore().then(null);
   };
 
@@ -40,25 +40,25 @@ const Logout = ({ isMenu, ...props }: LogoutProps)  => {
                     justifyContent: "flex-start",
                     alignItems: "center",
                 }} {...props}>
-                    <LogoutIcon style={{display: "flex", height: '25px', width: '25px'}}/>
+                    <LogoutIcon style={{display: "flex", height: "25px", width: "25px"}}/>
                     <span style={textStyle}>
                     Se déconnecter
                 </span>
                 </Menu.Item>
             </Menu>
-        )
+        );
     }
     return (
         <div style={{
-          display: 'flex',
-          justifyContent: 'flex-end'
+          display: "flex",
+          justifyContent: "flex-end"
         }}>
-            <LogoutIcon height={'25px'} width={'25px'}/>
+            <LogoutIcon height={"25px"} width={"25px"}/>
             <span style={textStyle}>
                 Se déconnecter
             </span>
         </div>
-    )
-});
+    );
+};
 
 export default Logout;

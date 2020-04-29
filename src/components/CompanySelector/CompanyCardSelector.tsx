@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import CompanyCard from './CompanyCard';
-import { useQuery } from '@apollo/react-hooks';
-import { loader as graphqlLoader } from 'graphql.macro';
-import Button from '../Ui/Button';
-import { useHistory } from 'react-router';
-import CheckBox from 'rc-checkbox';
-import { notification } from 'antd';
+import React, { useEffect, useState } from "react";
+import CompanyCard from "./CompanyCard";
+import { useQuery } from "@apollo/react-hooks";
+import { loader as graphqlLoader } from "graphql.macro";
+import Button from "../Ui/Button";
+import { useHistory } from "react-router";
+import CheckBox from "rc-checkbox";
+import { notification } from "antd";
 
-const getCompanies = graphqlLoader('../../graphql/query/getCompanies.graphql');
+const getCompanies = graphqlLoader("../../graphql/query/getCompanies.graphql");
 
 const textStyle = {
   fontWeight: 600,
-  fontSize: 'larger',
-  color: '#575757',
+  fontSize: "larger",
+  color: "#575757",
   flexShrink: 0,
 };
 
@@ -27,8 +27,8 @@ const CompanyCardSelector = () => {
     console.log(error);
 
   useEffect(() => {
-    if (!localStorage.getItem('token')) {
-      history.push('/login');
+    if (!localStorage.getItem("token")) {
+      history.push("/login");
     }
   });
 
@@ -45,19 +45,19 @@ const CompanyCardSelector = () => {
       return;
     }
     notification.close("emptySelection");
-    localStorage.setItem('rememberCompany', remember.toString());
-    localStorage.setItem('selectedCompany', selected);
-    if (selected === 'user')
-      window.location.href = 'http://localhost:8000/graphql';
+    localStorage.setItem("rememberCompany", remember.toString());
+    localStorage.setItem("selectedCompany", selected);
+    if (selected === "user")
+      window.location.href = "http://localhost:8000/graphql";
     else {
       console.log("redirect to home from company selector");
-      history.push('/Home');
+      history.push("/Home");
     }
   };
 
   if (!loading && companiesData && companiesData.getCompanies) {
     if (companiesData.getCompanies.length < 1)
-      history.push('/Login');
+      history.push("/Login");
     card = companiesData.getCompanies.map((companyData: any) => {
       if (companyData) {
         return (
@@ -79,31 +79,31 @@ const CompanyCardSelector = () => {
   return (
     <>
       <div style={{
-        width: '100%',
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'center',
-        alignItems: 'center',
+        width: "100%",
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "center",
+        alignItems: "center",
       }}>
         <CompanyCard
-          id={'user'}
-          selected={(selected === 'user')}
+          id={"user"}
+          selected={(selected === "user")}
           onClick={setSelected}
         />
         {card}
       </div>
       <Button
         style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          alignSelf: 'center',
-          width: '25%',
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          alignSelf: "center",
+          width: "25%",
         }}
         onClick={OnValidatedSelection}
         isLoading={loading}
       >
-                <span style={{ ...textStyle, color: '#5CC04A', fontSize: 18 }}>
+                <span style={{ ...textStyle, color: "#5CC04A", fontSize: 18 }}>
                     Valider
                 </span>
       </Button>

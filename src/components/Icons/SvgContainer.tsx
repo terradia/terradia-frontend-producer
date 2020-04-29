@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface SvgContainerProps {
   children: any;
@@ -7,14 +7,14 @@ interface SvgContainerProps {
 
 const SvgContainer = (props: SvgContainerProps) => {
   const defaultStyle: React.CSSProperties = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   };
 
   return (
     <span
-      className={'svg-container'}
+      className={"svg-container"}
       style={{
         ...props.style,
         ...defaultStyle,

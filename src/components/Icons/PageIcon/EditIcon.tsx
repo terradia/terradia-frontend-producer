@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 import {ReactComponent as EditSvg} from "../../../assets/Icon/ui/edit.svg";
 import SvgContainer from "../SvgContainer";
 
@@ -9,9 +9,9 @@ declare interface EditIconProps {
 const EditIcon = (props: EditIconProps) => {
     return (
         <SvgContainer style={props.style}>
-            <EditSvg style={{ maxWidth: '100%', maxHeight: '100%' }}/>
+            <EditSvg style={{ maxWidth: "100%", maxHeight: "100%" }}/>
         </SvgContainer>
     );
 };
 
-export default EditIcon
+export default EditIcon;

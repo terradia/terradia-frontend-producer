@@ -1,8 +1,8 @@
-import React from 'react';
-import Button from './Button';
+import React from "react";
+import Button from "./Button";
 
 declare interface CreateCompanyButtonProps {
-  callback?: () => void
+  callback?: () => void;
 }
 
 const CreateCompanyButton = (props: CreateCompanyButtonProps) => {

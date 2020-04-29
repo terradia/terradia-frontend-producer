@@ -1,8 +1,8 @@
-import React from "react"
+import React from "react";
 import Button from "./Button";
 
 declare interface SubmitButtonProps {
-    callback: () => void
+    callback: () => void;
 }
 
 const SubmitButton = (props: SubmitButtonProps) => {
@@ -21,4 +21,4 @@ const SubmitButton = (props: SubmitButtonProps) => {
     );
 };
 
-export default SubmitButton
+export default SubmitButton;

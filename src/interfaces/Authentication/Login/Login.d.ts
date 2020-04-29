@@ -1,6 +1,6 @@
-import {FormikErrors, FormikValues} from 'formik';
-import React, {ChangeEvent} from 'react';
-import {CheckboxChangeEvent} from 'antd/es/checkbox';
+import {FormikErrors, FormikValues} from "formik";
+import React, {ChangeEvent} from "react";
+import {CheckboxChangeEvent} from "antd/es/checkbox";
 
 export declare interface LoginData {
     login: {

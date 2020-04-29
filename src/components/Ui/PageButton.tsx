@@ -1,11 +1,11 @@
-import React from 'react';
-import { Menu } from 'antd';
+import React from "react";
+import { Menu } from "antd";
 
 const textStyle = {
-  fontFamily: 'Montserrat',
+  fontFamily: "Montserrat",
   fontWeight: 600,
-  fontSize: 'larger',
-  color: '#BBBBBB',
+  fontSize: "larger",
+  color: "#BBBBBB",
 };
 
 declare interface PageButtonProps {
@@ -25,15 +25,15 @@ const PageButton = ({
 
   return (
     <Menu.Item key={link} onClick={() => onClick(link)} style={{
-      display: 'flex',
-      justifyContent: 'flex-start',
-      alignItems: 'center',
-      padding: '16',
+      display: "flex",
+      justifyContent: "flex-start",
+      alignItems: "center",
+      padding: "16",
     }} {...props}>
       <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        width: '100%',
+        display: "flex",
+        alignItems: "center",
+        width: "100%",
       }}>
         {icon}
         <span style={textStyle}>

@@ -1,5 +1,5 @@
 import React from "react";
-import {DownOutlined} from "@ant-design/icons"
+import {DownOutlined} from "@ant-design/icons";
 
 declare interface CompanySelectorProps {
   name: string;
@@ -13,7 +13,7 @@ const CompanySelector = (props: CompanySelectorProps) => {
                 {props.name}
             </span>
         </div>
-    )
+    );
 };
 
 export default CompanySelector;

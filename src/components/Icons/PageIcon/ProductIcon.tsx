@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 import {ReactComponent as ProductLogo} from "../../../assets/Icon/page/Product Logo.svg";
 import SvgContainer from "../SvgContainer";
 
@@ -9,9 +9,9 @@ declare interface ProductLogoProps {
 const ProductIcon = (props: ProductLogoProps) => {
     return (
         <SvgContainer style={props.style}>
-            <ProductLogo style={{ maxWidth: '100%', maxHeight: '100%' }}/>
+            <ProductLogo style={{ maxWidth: "100%", maxHeight: "100%" }}/>
         </SvgContainer>
     );
 };
 
-export default ProductIcon
+export default ProductIcon;

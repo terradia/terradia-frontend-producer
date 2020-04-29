@@ -1,14 +1,14 @@
-import React, { useContext, useEffect } from 'react';
-import { ReactComponent as ReactLogo } from '../../assets/Logo/Terradia.svg';
-import { UserOutlined } from '@ant-design/icons';
-import Logout from '../Authentication/Logout/Logout';
-import { Layout as AntLayout, Avatar, Skeleton } from 'antd';
-import CompanySelector from '../CompanySelector/CompanySelector';
-import { useLazyQuery } from '@apollo/react-hooks';
-import { loader as graphqlLoader } from 'graphql.macro';
-import UserContext from '../Context/UserContext';
+import React, { useContext, useEffect } from "react";
+import { ReactComponent as ReactLogo } from "../../assets/Logo/Terradia.svg";
+import { UserOutlined } from "@ant-design/icons";
+import Logout from "../Authentication/Logout/Logout";
+import { Layout as AntLayout, Avatar, Skeleton } from "antd";
+import CompanySelector from "../CompanySelector/CompanySelector";
+import { useLazyQuery } from "@apollo/react-hooks";
+import { loader as graphqlLoader } from "graphql.macro";
+import UserContext from "../Context/UserContext";
 
-const getCompanyById = graphqlLoader('../../graphql/query/getCompanyById.graphql');
+const getCompanyById = graphqlLoader("../../graphql/query/getCompanyById.graphql");
 const AntHeader = AntLayout.Header;
 
 declare interface HeaderProps {
@@ -24,7 +24,7 @@ const Header = (props: HeaderProps) => {
 
   useEffect(() => {
     if (!props.Company) {
-      const companyId = localStorage.getItem('selectedCompany');
+      const companyId = localStorage.getItem("selectedCompany");
       getCompanyByIdQuery({variables: {companyId: companyId}});
     }
   }, [getCompanyByIdQuery, props.Company]);
@@ -33,9 +33,9 @@ const Header = (props: HeaderProps) => {
     displayedInfo = (
       <div style={{
         order: 1,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "flex-end",
         flex: 1,
       }}>
         <Logout/>
@@ -49,28 +49,28 @@ const Header = (props: HeaderProps) => {
         loading={loading}
       >
         <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-          justifyContent: 'flex-end',
+          display: "flex",
+          alignItems: "center",
+          flexWrap: "wrap",
+          justifyContent: "flex-end",
           flex: 1,
         }}>
           <span style={{
-            height: '18px',
+            height: "18px",
           }}>
             {userContext.firstName + " " + userContext.lastName}
           </span>
           <CompanySelector name={data.getCompany.name}/>
         </div>
         <Avatar
-          size={'large'}
-          shape={'circle'}
-          alt={'profile'}
+          size={"large"}
+          shape={"circle"}
+          alt={"profile"}
           style={{
-            marginRight: '5%',
-            marginLeft: '5%',
+            marginRight: "5%",
+            marginLeft: "5%",
           }}
-          src={data.getCompany.logo ? data.getCompany.logo : ''}
+          src={data.getCompany.logo ? data.getCompany.logo : ""}
           icon={<UserOutlined/>}
         />
       </Skeleton>
@@ -81,27 +81,27 @@ const Header = (props: HeaderProps) => {
     <>
       <AntHeader
         style={{
-          height: '10vh',
-          background: 'white',
+          height: "10vh",
+          background: "white",
           padding: 0,
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          borderBottom: '#CBCBCB',
-          borderBottomStyle: 'solid',
-          borderBottomWidth: 'thin',
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          borderBottom: "#CBCBCB",
+          borderBottomStyle: "solid",
+          borderBottomWidth: "thin",
         }}
       >
         <ReactLogo
-          height={'5vh'}
-          width={'25vh'}
+          height={"5vh"}
+          width={"25vh"}
           style={{
-            marginLeft: '2%',
+            marginLeft: "2%",
           }}
         />
         <div style={{
-          display: 'flex',
-          alignItems: 'center',
+          display: "flex",
+          alignItems: "center",
         }}>
           {displayedInfo}
         </div>

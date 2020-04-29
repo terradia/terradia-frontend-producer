@@ -1,31 +1,30 @@
-import React, { useEffect } from 'react';
-import { Form, Upload } from 'antd';
-import { InboxOutlined } from '@ant-design/icons';
-import Input from '../Ui/Input';
-import { info } from './InfoCard';
-import EditOfficeHour from './EditOfficeHour';
+import React, { useEffect } from "react";
+import { Form, Upload, Input } from "antd";
+import { InboxOutlined } from "@ant-design/icons";
+import { Info } from "./InfoCard";
+import EditOfficeHour from "./EditOfficeHour";
 
 declare interface EditInfoFormProps {
-  infos: info[],
-  onSubmit: (values) => void,
-  isEditing: boolean
-  setIsEditing: (value: boolean) => void
-  isSubmitting: boolean
+  infos: Info[];
+  onSubmit: (values) => void;
+  isEditing: boolean;
+  setIsEditing: (value: boolean) => void;
+  isSubmitting: boolean;
 }
 
 const textStyle = {
-  fontFamily: 'Montserrat',
+  fontFamily: "Montserrat",
   fontWeight: 400,
-  fontSize: 'normal',
-  color: '#575757',
+  fontSize: "normal",
+  color: "#575757",
   flexShrink: 0,
 };
 
 const boldTextStyle = {
-  fontFamily: 'Montserrat',
+  fontFamily: "Montserrat",
   fontWeight: 700,
-  fontSize: 'normal',
-  color: '#828282',
+  fontSize: "normal",
+  color: "#828282",
 };
 
 const EditInfoForm = (props: EditInfoFormProps) => {
@@ -37,10 +36,10 @@ const EditInfoForm = (props: EditInfoFormProps) => {
       }
     }, [props.isSubmitting, form]);
 
-    let initialValues = {};
+    const initialValues = {};
     props.infos.forEach(info => {
       if (info.openHours) {
-        let initialHours = [];
+        const initialHours = [];
         info.openHours.forEach((hour) => {
           return initialHours.push([hour.startTime, hour.endTime]);
         });
@@ -52,13 +51,13 @@ const EditInfoForm = (props: EditInfoFormProps) => {
     const info = props.infos.map(info => (
       <div key={info.label}
            style={{
-             display: 'flex',
-             justifyContent: 'flex-start',
-             alignItems: 'center',
-             marginBottom: '16px',
+             display: "flex",
+             justifyContent: "flex-start",
+             alignItems: "center",
+             marginBottom: "16px",
            }}
       >
-        <span style={{ ...boldTextStyle, marginRight: '16px' }}>
+        <span style={{ ...boldTextStyle, marginRight: "16px" }}>
             {info.label}
         </span>
         {
@@ -71,7 +70,7 @@ const EditInfoForm = (props: EditInfoFormProps) => {
           info.icon !== undefined &&
           <Form.Item>
             <Form.Item>
-              <Upload.Dragger name={'logo'}>
+              <Upload.Dragger name={"logo"}>
                 <p className="ant-upload-drag-icon">
                   <InboxOutlined/>
                 </p>
@@ -91,10 +90,10 @@ const EditInfoForm = (props: EditInfoFormProps) => {
             scrollToFirstError
             onFinish={props.onSubmit}
             initialValues={initialValues}
-            layout={'inline'}
+            layout={"inline"}
             style={{
-              display: 'flex',
-              flexWrap: 'wrap',
+              display: "flex",
+              flexWrap: "wrap",
               flexFlow: "column"
             }}
       >
