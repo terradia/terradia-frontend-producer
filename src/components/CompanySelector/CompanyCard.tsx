@@ -1,10 +1,11 @@
-import React from 'react';
-import { Avatar, Card } from 'antd';
+import React from "react";
+import { Avatar, Card } from "antd";
+import { UserOutlined } from "@ant-design/icons";
 
 const textStyle = {
   fontWeight: 600,
-  fontSize: 'larger',
-  color: '#575757',
+  fontSize: "larger",
+  color: "#575757",
   flexShrink: 0,
 };
 
@@ -22,8 +23,8 @@ const CompanyCard = ({
                        id,
                        selected = false,
                        loading = false,
-                       name = 'Mon compte personnel',
-                       logo = '/src/assets/company/defaultLogo',
+                       name = "Mon compte personnel",
+                       logo = "/src/assets/company/defaultLogo",
                        onClick,
                      }: CompanyCardProps) => {
 
@@ -33,33 +34,34 @@ const CompanyCard = ({
 
   return (
     <div style={{
-      display: 'flex',
-      flexWrap: 'wrap',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
+      display: "flex",
+      flexWrap: "wrap",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
     }}>
-      <Card style={{
-        width: 250,
-        height: 250,
-        margin: '24px',
-        boxSizing: 'border-box',
-        boxShadow: '0px 5px 15px ' + (selected) ? '#C4C4C4' : '#FFFFFF',
-        borderRadius: '8px',
-      }}
-            onClick={onClickHandler}
-            loading={loading}
+      <Card
+        style={{
+          width: 250,
+          height: 250,
+          margin: "24px",
+          border: "solid ",
+          borderColor: (selected) ? "#00c537" : "#FFFFFF",
+        }}
+        onClick={onClickHandler}
+        loading={loading}
       >
         <Avatar
           size={200}
-          shape={'circle'}
-          alt={'profile'}
-          src={'S3Url' + logo}
+          shape={"square"}
+          alt={"profile"}
+          src={logo}
+          icon={<UserOutlined/>}
         />
       </Card>
       <span style={textStyle}>
-                {name}
-            </span>
+        {name}
+      </span>
     </div>
   );
 };

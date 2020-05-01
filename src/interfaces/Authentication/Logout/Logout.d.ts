@@ -4,12 +4,12 @@ export declare interface LogoutProps {
 }
 
 export const buttonStyle = {
-    backgroundColor: '#5CC04A',
-    borderColor: '#5CC04A',
-    color: '#FFFFF',
-    width: '400px',
-    height: '45px',
-    position: 'absolute',
+    backgroundColor: "#5CC04A",
+    borderColor: "#5CC04A",
+    color: "#FFFFF",
+    width: "400px",
+    height: "45px",
+    position: "absolute",
     bottom: 10
 
 };

@@ -1,6 +1,6 @@
-import {FormikErrors, FormikValues} from 'formik';
-import {ChangeEvent} from 'react';
-import {CheckboxChangeEvent} from 'antd/es/checkbox';
+import {FormikErrors, FormikValues} from "formik";
+import {ChangeEvent} from "react";
+import {CheckboxChangeEvent} from "antd/es/checkbox";
 
 export declare interface LoginModalProps {
     modalState: {

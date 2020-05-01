@@ -1,13 +1,19 @@
-import React from 'react';
-import { Icon } from 'antd';
+import React from "react";
+import {DownOutlined} from "@ant-design/icons";
 
-const CompanySelector = () => {
-  return (
-    <div style={{ color: '#5CC04A', fontSize: '20px', fontStyle: 'bold' }}>
-      <Icon type={'down'} />
-      <span>Test Company</span>
-    </div>
-  );
+declare interface CompanySelectorProps {
+  name: string;
+}
+
+const CompanySelector = (props: CompanySelectorProps) => {
+    return (
+        <div style={{color: "#5CC04A", fontSize: "20px", fontStyle: "bold"}}>
+            <DownOutlined/>
+            <span>
+                {props.name}
+            </span>
+        </div>
+    );
 };
 
 export default CompanySelector;

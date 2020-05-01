@@ -1,5 +1,5 @@
-import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
-import Breakpoint, {breakpointEnum, lg, md, sm, xl, xxl} from '../Context/Breakpoint';
+import React, { FunctionComponent, useContext, useEffect, useState } from "react";
+import Breakpoint, {breakpointEnum, lg, md, sm, xl, xxl} from "../Context/Breakpoint";
 
 const BreakpointCatcher: FunctionComponent = (props) => {
     const breakpoint = useContext(Breakpoint);
