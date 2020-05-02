@@ -1,30 +1,30 @@
 import React, {useEffect, useState} from "react";
-import {Draggable} from 'react-beautiful-dnd';
-import {ReactComponent as CarretIcon} from "../../assets/Icon/ui/carret.svg";
+import {Draggable} from "react-beautiful-dnd";
+import {ReactComponent as CaretIcon} from "../../assets/Icon/ui/caret.svg";
 
 
 interface CategoryProductsProps {
-    provided: { innerRef: any, placeholder: any, droppableProps: any };
-    snapshot: { isDraggingOver: boolean, draggingOverWith: any, draggingFromThisWith: any, isUsingPlaceholder: boolean };
-    cat: { id: string, name: string, products: any; };
+    provided: { innerRef: any; placeholder: any; droppableProps: any };
+    snapshot: { isDraggingOver: boolean; draggingOverWith: any; draggingFromThisWith: any; isUsingPlaceholder: boolean };
+    cat: { id: string; name: string; products: any };
 }
 
 const getItemStyle = (isDragging, draggableStyle) => {
     return ({
         // some basic styles to make the items look a bit nicer
-        userSelect: 'none',
+        userSelect: "none",
 
         // change background colour if dragging
-        background: isDragging ? 'lightgreen' : 'grey',
+        background: isDragging ? "lightgreen" : "grey",
 
         // styles we need to apply on draggables
         ...draggableStyle
-    })
+    });
 };
 
 const getListStyle = isDraggingOver => ({
-    background: isDraggingOver ? 'lightblue' : null,
-    padding: '10px',
+    background: isDraggingOver ? "lightblue" : null,
+    padding: "10px",
 });
 
 function CategoryProducts(props: CategoryProductsProps) {
@@ -41,23 +41,23 @@ function CategoryProducts(props: CategoryProductsProps) {
     return (
         <div
             ref={props.provided.innerRef}
-            className={`category ${collapsed === true ? 'collapsed-cat' : ''}`}
+            className={`category ${collapsed === true ? "collapsed-cat" : ""}`}
             style={getListStyle(props.snapshot.isDraggingOver)}>
             <div
                 ref={props.provided.innerRef}
-                style={{height: '5%', position: "absolute"}}
+                style={{height: "5%", position: "absolute"}}
                 onClick={() => {
                     if (collapsed) {
-                        setCollapsed(false)
+                        setCollapsed(false);
                     } else {
                         setCollapsed(true);
                     }
                 }}
             >
-                <CarretIcon style={{transform: collapsed ? null : 'rotate(90deg)'}}/>
+                <CaretIcon style={{transform: collapsed ? null : "rotate(90deg)"}}/>
                 {props.cat.name}
             </div>
-            <div ref={props.provided.innerRef} className={`card-list ${collapsed === true ? 'collapsed' : ''}`}>
+            <div ref={props.provided.innerRef} className={`card-list ${collapsed === true ? "collapsed" : ""}`}>
                 {props.cat.products.map((product, index) => (
                     <Draggable
                         key={product.id}
@@ -66,7 +66,7 @@ function CategoryProducts(props: CategoryProductsProps) {
                     >
                         {(provided, snapshot) => (
                             <div
-                                className={'card'}
+                                className={"card"}
                                 ref={provided.innerRef}
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}

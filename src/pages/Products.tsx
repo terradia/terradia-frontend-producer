@@ -1,17 +1,17 @@
 import React from "react";
 import Button from "../components/Ui/Button";
-import {loader as graphqlLoader} from 'graphql.macro';
+//import {loader as graphqlLoader} from 'graphql.macro';
 import {ReactComponent as AddIcon} from "../assets/Icon/ui/add.svg";
-import "../assets/Style/Products/ProductsPage.less"
-import {Collapse} from "antd";
-import {useQuery} from "@apollo/react-hooks";
-import {DragDropContext, Droppable} from 'react-beautiful-dnd';
+import "../assets/Style/Products/ProductsPage.less";
+//import {Collapse} from 'antd';
+//import {useQuery} from '@apollo/react-hooks';
+import {DragDropContext, Droppable} from "react-beautiful-dnd";
 import CategoryProducts from "../components/Products/CategoryProducts";
 
 
-const queryAllCompanyProductsCategories = graphqlLoader('../graphql/query/getAllCompanyProductsCategories.graphql');
+//const queryAllCompanyProductsCategories = graphqlLoader('../graphql/query/getAllCompanyProductsCategories.graphql');
 
-const {Panel} = Collapse;
+//const {Panel} = Collapse;
 
 
 const copiedData = {
@@ -182,20 +182,19 @@ const copiedData = {
 // const copiedDataTest2 = getItems(5, 10);
 
 
-const reorder = (list, startIndex, endIndex) => {
+/*const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
 
     return result;
-};
+};*/
 
 const move = (source, destination, droppableSource, droppableDestination) => {
     const sourceClone = Array.from(source);
     const destClone = Array.from(destination);
     const [removed] = sourceClone.splice(droppableSource.index, 1);
 
-    // @ts-ignore
     // removed.index = droppableDestination.index;
     destClone.splice(droppableDestination.index, 0, removed);
     // let it =
@@ -212,11 +211,12 @@ const move = (source, destination, droppableSource, droppableDestination) => {
 
 
 const Products = () => {
-    const {loading, error, data} = useQuery(queryAllCompanyProductsCategories, {
+    /*const {loading, error, data} = useQuery(queryAllCompanyProductsCategories, {
         variables: {companyId: '984c68b8-dac6-4b58-a4e0-6e6dc0d8e59b'},
-    });
+    });*/
 
     function onDragUpdate(result) {
+        console.log(result);
     }
 
     function onDragEnd(result) {
@@ -228,14 +228,13 @@ const Products = () => {
         }
 
         if (source.droppableId === destination.droppableId) {
-            const index = copiedData.data.getAllCompanyProductsCategories.findIndex(cat => cat.id === source.droppableId);
+            //const index = copiedData.data.getAllCompanyProductsCategories.findIndex(cat => cat.id === source.droppableId);
 
-            // @ts-ignore
-            copiedData.data.getAllCompanyProductsCategories[index].products = reorder(
+            /*copiedData.data.getAllCompanyProductsCategories[index].products = reorder(
                 copiedData.data.getAllCompanyProductsCategories[index].products,
                 source.index,
                 destination.index
-            );
+            );*/
         } else {
             const indexSrc = copiedData.data.getAllCompanyProductsCategories.findIndex(cat => cat.id === source.droppableId);
             const indexDest = copiedData.data.getAllCompanyProductsCategories.findIndex(cat => cat.id === destination.droppableId);
@@ -252,33 +251,32 @@ const Products = () => {
     }
 
     return (
-        <div className={'product-page'}>
-            <div className={'sub-header'}>
-                <Button className={'button'} text={'Créer une catégorie'} icon={<AddIcon/>} size={'large'}
-                        onClick={() => {
-                        }}/>
-                <Button className={'button'} text={'Créer un produit'} icon={<AddIcon/>} size={'large'}/>
-                <Button className={'button'} text={'Créer une publicité'} icon={<AddIcon/>} size={'large'}/>
+        <div className={"product-page"}>
+            <div className={"sub-header"}>
+                <Button className={"button"} text={"Créer une catégorie"} icon={<AddIcon/>} size={"large"}
+                       />
+                <Button className={"button"} text={"Créer un produit"} icon={<AddIcon/>} size={"large"}/>
+                <Button className={"button"} text={"Créer une publicité"} icon={<AddIcon/>} size={"large"}/>
             </div>
-            <div className={'categories-list'}>
+            <div className={"categories-list"}>
                 {/*{!loading && copiedData.data.getAllCompanyProductsCategories.map((cat) => {*/}
                 <DragDropContext onDragEnd={onDragEnd} onDragUpdate={onDragUpdate}>
-                    {copiedData.data.getAllCompanyProductsCategories.map((cat, index) => {
+                    {copiedData.data.getAllCompanyProductsCategories.map((cat) => {
                         return (
-                            <Droppable droppableId={cat.id} direction={"horizontal"} key={cat.id} style={{backgroundColor: 'red'}}>
+                            <Droppable droppableId={cat.id} direction={"horizontal"} key={cat.id} style={{backgroundColor: "red"}}>
                                 {(provided, snapshot) => {
                                     return (
                                         <CategoryProducts provided={provided} snapshot={snapshot} cat={cat}/>
                                     );
                                 }}
                             </Droppable>
-                        )
+                        );
                     })}
 
                 </DragDropContext>
             </div>
         </div>
-    )
+    );
 };
 
 export default Products;

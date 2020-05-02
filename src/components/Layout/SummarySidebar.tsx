@@ -2,7 +2,7 @@ import React from "react";
 import ProgressCard from "../Ui/ProgressCard";
 import PremiumCard from "../Ui/PremiumCard";
 
-const SummarySidebar = React.forwardRef((_, ref) => {
+const SummarySidebar = () => {
     return (
         <div style={{
             display: "flex",
@@ -21,7 +21,7 @@ const SummarySidebar = React.forwardRef((_, ref) => {
             </div>
             <PremiumCard/>
         </div>
-    )
-});
+    );
+};
 
 export default SummarySidebar;

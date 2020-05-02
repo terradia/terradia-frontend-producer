@@ -7,18 +7,18 @@ const boldTextStyle = {
     color: "#828282",
 };
 
-declare interface titleProps {
-    title: string
+declare interface TitleProps {
+    title: string;
 }
 
-const Title = (props: titleProps) => {
+const Title = (props: TitleProps) => {
     return (
         <div>
             <span style={boldTextStyle}>
                 {props.title.toUpperCase()}
             </span>
         </div>
-    )
+    );
 };
 
 export default Title;

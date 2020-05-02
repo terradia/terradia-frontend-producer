@@ -1,5 +1,4 @@
 import React from "react";
-import {Icon} from "antd";
 import {ReactComponent as User} from "../../assets/Icon/user.svg";
 import Button from "./Button";
 
@@ -21,12 +20,12 @@ const UserViewButton = () => {
                 alignItems: "center"
             }}
         >
-            <Icon component={() => <User width={25} height={25}/>}/>
+            <User width={25} height={25}/>
             <span style={textStyle}>
                 Aperçu utilisateur
             </span>
         </Button>
-    )
+    );
 };
 
 export default UserViewButton;

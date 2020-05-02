@@ -16,5 +16,5 @@ export declare interface LoginModalProps {
     errors: {
         email: string;
         password: string;
-    }
+    };
 }

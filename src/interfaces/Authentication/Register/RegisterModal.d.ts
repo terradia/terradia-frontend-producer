@@ -18,5 +18,5 @@ export declare interface RegisterModalProps {
         lastname: string;
         email: string;
         password: string;
-    }
+    };
 }

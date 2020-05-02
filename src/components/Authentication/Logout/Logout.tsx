@@ -1,33 +1,26 @@
-import React from 'react'
-import {ReactComponent as LogoutIcon} from "../../../assets/Icon/page/Logout.svg"
-import {Icon, Menu} from "antd";
+import React from "react";
+import {ReactComponent as LogoutIcon} from "../../../assets/Icon/page/Logout.svg";
+import {Menu} from "antd";
 import {LogoutProps} from "../../../interfaces/Authentication/Logout/Logout";
 import {useApolloClient} from "@apollo/react-hooks";
 
 const textStyle = {
-    //marginLeft: "5%",
-    fontFamily: "Montserrat",
-    fontWeight: 600,
-    fontSize: "larger",
-    color: "#BBBBBB",
-    flexShrink: 0
+  fontFamily: "Montserrat",
+  fontWeight: 600,
+  fontSize: "larger",
+  color: "#BBBBBB",
+  flexShrink: 0,
 };
 
-const Logout = React.forwardRef(({
-                                     isMenu,
-                                     ...props
-                                 }: LogoutProps, ref) => {
-    const client = useApolloClient();
+const Logout = ({ isMenu, ...props }: LogoutProps)  => {
+  const client = useApolloClient();
 
-    const onLogoutHandler = () => {
-        localStorage.removeItem('token');
-        /*if (visible) {
-            visible(false);
-        }*/
-        client.resetStore();
-        return null;
-    };
-    if (isMenu) {
+  const onLogoutHandler = (): void => {
+    localStorage.removeItem("token");
+    client.resetStore().then(null);
+  };
+
+  if (isMenu) {
         return (
             <Menu
                 mode={"inline"}
@@ -47,25 +40,25 @@ const Logout = React.forwardRef(({
                     justifyContent: "flex-start",
                     alignItems: "center",
                 }} {...props}>
-                    <Icon component={() => <LogoutIcon height={'25px'} width={'25px'} style={{display: "flex"}}/>}/>
+                    <LogoutIcon style={{display: "flex", height: "25px", width: "25px"}}/>
                     <span style={textStyle}>
                     Se déconnecter
                 </span>
                 </Menu.Item>
             </Menu>
-        )
+        );
     }
     return (
         <div style={{
-            position: "fixed",
-            bottom: "5px"
+          display: "flex",
+          justifyContent: "flex-end"
         }}>
-            <Icon component={() => <LogoutIcon height={'25px'} width={'25px'}/>}/>
+            <LogoutIcon height={"25px"} width={"25px"}/>
             <span style={textStyle}>
-                    Se déconnecter
-                </span>
+                Se déconnecter
+            </span>
         </div>
-    )
-});
+    );
+};
 
 export default Logout;

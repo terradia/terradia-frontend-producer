@@ -23,7 +23,7 @@ const PremiumButton = () => {
                 Passer a Terradia PRO
             </span>
         </Button>
-    )
+    );
 };
 
 export default PremiumButton;

@@ -17,7 +17,6 @@ import CompanySelection from "./pages/CompanySelection";
 import BreakpointCatcher from "./components/Layout/BreakpointCatcher";
 import CompanyRegister from "./pages/CompanyRegister";
 import UserContext from "./components/Context/UserContext";
-// import "./index.less"
 
 const queryGetUser = graphqlLoader("./graphql/query/getUser.graphql");
 

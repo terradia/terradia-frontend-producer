@@ -1,16 +1,16 @@
-import React from 'react';
-import { Button as AntButton } from 'antd';
-import { ButtonShape, ButtonSize, ButtonType } from 'antd/es/button';
+import React from "react";
+import { Button as AntButton } from "antd";
+import { ButtonShape, ButtonSize, ButtonType } from "antd/es/button";
 
 const ButtonElementsContainer: React.FC = props => {
   return (
     <div
       style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '100%',
-        height: '100%',
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        width: "100%",
+        height: "100%",
       }}
     >
       {props.children}
@@ -27,9 +27,9 @@ const ButtonColumn: React.FC<ButtonColumnProps> = props => {
   return (
     <div
       style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
         ...props.style,
         width: props.width,
       }}
@@ -51,7 +51,7 @@ export interface ButtonProps {
   size?: ButtonSize;
   width?: string;
   targetLink?: string;
-  htmlType?: 'button' | 'reset' | 'submit' | undefined;
+  htmlType?: "button" | "reset" | "submit" | undefined;
   fitParentWidth?: boolean;
   onClick?: React.MouseEventHandler<HTMLElement>;
   id?: string;
@@ -61,9 +61,9 @@ export interface ButtonProps {
 
 const Button: React.FunctionComponent<ButtonProps> = props => {
   const defaultStyle: React.CSSProperties = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
     width: props.width === "full-width" ? "100%" : "",
   };
 
@@ -106,16 +106,16 @@ const Button: React.FunctionComponent<ButtonProps> = props => {
     >
       <ButtonElementsContainer>
         {props.icon && (
-          <ButtonColumn width={iconContainerSize + '%'}>
+          <ButtonColumn width={iconContainerSize + "%"}>
             <i style={{ width: "60%", height: "60%" }}>{props.icon}</i>
           </ButtonColumn>
         )}
-        <ButtonColumn width={mainElementSize + '%'}>
+        <ButtonColumn width={mainElementSize + "%"}>
           {props.text}
           {props.children}
         </ButtonColumn>
         {props.rightIcon && (
-          <ButtonColumn width={iconContainerSize + '%'}>
+          <ButtonColumn width={iconContainerSize + "%"}>
             <i style={{ width: "60%", height: "60%" }}>{props.rightIcon}</i>
           </ButtonColumn>
         )}

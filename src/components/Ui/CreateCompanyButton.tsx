@@ -8,8 +8,13 @@ declare interface CreateCompanyButtonProps {
 const CreateCompanyButton = (props: CreateCompanyButtonProps) => {
   return (
     <Button
+      style={{
+        display: "flex",
+        borderColor: "#5CC04A",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
       onClick={props.callback}
-      width={"full-width"}
     >
       Enregistrer une entreprise
     </Button>

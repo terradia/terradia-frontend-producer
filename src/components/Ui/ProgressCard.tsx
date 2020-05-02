@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 import {Card, Progress} from "antd";
 
 declare interface ProgressCardProps {
@@ -50,4 +50,4 @@ const ProgressCard = ({text, value}: ProgressCardProps) => {
     );
 };
 
-export default ProgressCard
+export default ProgressCard;
