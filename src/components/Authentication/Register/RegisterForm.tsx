@@ -57,7 +57,7 @@ const RegisterForm = () => {
         email: values.email,
         password: values.password,
         lastName: values.lastname,
-        firstName: values.lastname,
+        firstName: values.firstname,
         phone: values.phone,
       },
     }).then((data: any) => {
