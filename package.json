@@ -4,7 +4,7 @@
   "homepage": "https://producteurs.terradia.eu",
   "private": true,
   "scripts": {
-    "start": "rimraf --env=.env ./node_modules/.cache/babel-loader && react-app-rewired start",
+    "start": "rimraf ./node_modules/.cache/babel-loader && react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
