@@ -1,21 +1,23 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { NavLink, Redirect, useHistory } from 'react-router-dom';
 import {
   useApolloClient,
   useLazyQuery,
   useMutation,
 } from '@apollo/react-hooks';
-import { Checkbox, Divider } from 'antd';
+import { Checkbox, Divider, notification, Input } from 'antd';
 import { loader as graphqlLoader } from 'graphql.macro';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import Input from '../../Ui/Input';
 import Button from '../../Ui/Button';
 import '../../../assets/Style/Login-Register/loginForm.less';
 import FacebookIcon from '../../Icons/FacebookIcon';
 import AppleIcon from '../../Icons/AppleIcon';
+import CreateCompanyButton from '../../Ui/CreateCompanyButton';
+import UserContext from '../../Context/UserContext';
 
 const mutationLogin = graphqlLoader('../../../graphql/mutation/login.graphql');
+const getUser = graphqlLoader('../../../graphql/query/getUser.graphql');
 const getCompanies = graphqlLoader(
   '../../../graphql/query/getCompanies.graphql'
 );
@@ -30,52 +32,102 @@ const SignInSchema = Yup.object().shape({
     .max(20, 'Votre mot de passe ne peut dépasser 20 caractère'),
 });
 
+declare interface LoginData {
+  data: {
+    login: {
+      token: string;
+      userId: string;
+    };
+  };
+}
+
 const LoginForm = () => {
   const client = useApolloClient();
+  const userContext = useContext(UserContext);
+  const [redirect, setRedirect] = useState('');
   const [login, { loading: loginLoading }] = useMutation(mutationLogin);
+  const [getUserQuery] = useLazyQuery(getUser);
   const [
     getCompaniesQuery,
     { loading: companiesLoading, data: companiesData, called },
   ] = useLazyQuery(getCompanies);
   const history = useHistory();
 
+  useEffect(() => {
+    if (userContext) getCompaniesQuery();
+  }, [getCompaniesQuery, userContext]);
+
+  useEffect(() => {
     if (called && !companiesLoading) {
-        if (companiesData && companiesData.getCompanies &&
-            companiesData.getCompanies.length >= 1 &&
-            (!!!localStorage.getItem("rememberCompany") ||
-                localStorage.getItem("rememberCompany") === "false")
+      if (
+        companiesData &&
+        companiesData.getCompanies &&
+        companiesData.getCompanies.length >= 1 &&
+        (!localStorage.getItem('rememberCompany') ||
+          localStorage.getItem('rememberCompany') === 'false')
+      ) {
+        setRedirect('CompanySelection');
+      } else if (companiesData && companiesData.getCompanies) {
+        if (
+          companiesData.getCompanies.length >= 1 &&
+          !!localStorage.getItem('rememberCompany') &&
+          localStorage.getItem('rememberCompany') === 'true'
         ) {
-            return (<Redirect to={"/CompanySelection"}/>)
-        } else if (companiesData && companiesData.getCompanies &&
-            companiesData.getCompanies.length >= 1 &&
-            (!!localStorage.getItem("rememberCompany") &&
-                localStorage.getItem("rememberCompany") === "true")) {
-            return (<Redirect to={"/home"}/>)
+          setRedirect('/home');
         } else {
-            return <Redirect to={"/customer"}/>;
+          notification['warn']({
+            message: "Attention !",
+            description: "Vous n'avez pas d'entreprise. ",
+            btn: (
+              <CreateCompanyButton
+                callback={() => setRedirect('/companyRegister')}
+              />
+            ),
+          });
         }
+      }
     }
+  }, [called, companiesData, companiesLoading]);
 
-    const OnErrorHandler = (data: { message: any }) => {
-        console.log(data.message);
-    };
+  if (redirect !== '' && localStorage.getItem('token')) {
+    console.log('redirect to: ' + redirect);
+    return <Redirect to={redirect} />;
+  }
 
-    const submitForm = (values: { email: any; password: any; }) => {
-        login({variables: {email: values.email, password: values.password}}).then((loginData: any) => {
-            if (loginData) {
-                localStorage.setItem('token', loginData.data.login.token);
-                client.resetStore().then(() => {
-                    getCompaniesQuery();
-                }).catch((error) => {
-                    console.log(error);
-                });
-            } else {
-                OnErrorHandler(loginData);
-            }
-        }).catch((error) => {
-            console.log(error);
-        });
-    };
+  const OnErrorHandler = (data: LoginData) => {
+    console.log(data);
+  };
+
+  const submitForm = (values: { email: any; password: any }) => {
+    login({ variables: { email: values.email, password: values.password } })
+      .then((loginData: LoginData) => {
+        if (loginData) {
+          const prevToken = localStorage.getItem('token');
+          localStorage.setItem('token', loginData.data.login.token);
+          dispatchEvent(
+            new StorageEvent('storage', {
+              key: 'token',
+              oldValue: prevToken,
+              newValue: loginData.data.login.token,
+            })
+          );
+          client
+            .resetStore()
+            .then(() => {
+              getCompaniesQuery();
+              getUserQuery();
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        } else {
+          OnErrorHandler(loginData);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <Formik
@@ -91,7 +143,10 @@ const LoginForm = () => {
             <div className={'login_form_div'}>
               <form className={'auth_form'} onSubmit={handleSubmit}>
                 {errors.email && (
-                  <div id="feedback" className={"error-description error-email"}>
+                  <div
+                    id="feedback"
+                    className={'error-description error-email'}
+                  >
                     {errors.email}
                   </div>
                 )}
@@ -110,7 +165,7 @@ const LoginForm = () => {
                   onChange={handleChange}
                 />
                 {errors.password && (
-                  <div id="feedback" className={"error-description"}>
+                  <div id="feedback" className={'error-description'}>
                     {errors.password}
                   </div>
                 )}
@@ -157,7 +212,7 @@ const LoginForm = () => {
                     text={'Facebook'}
                     size={'large'}
                     id={'facebook_button'}
-                    accentColor={"#2174EE"}
+                    accentColor={'#2174EE'}
                     icon={<FacebookIcon />}
                   />
                   <Button
@@ -165,13 +220,13 @@ const LoginForm = () => {
                     text={'Apple'}
                     size={'large'}
                     id={'apple_button'}
-                    accentColor={"#202020"}
+                    accentColor={'#202020'}
                     icon={<AppleIcon />}
                   />
                 </div>
                 <div className={'register_div'}>
                   <div className={'register-catching'}>
-                    Vous n'avez pas encore de compte ?
+                    {"Vous n'avez pas encore de compte ?"}
                   </div>
                   <Button
                     id={'register_button'}
@@ -179,7 +234,7 @@ const LoginForm = () => {
                     text={"S'inscrire"}
                     size={'large'}
                     htmlType={'submit'}
-                    onClick={() => history.push('/Register')}
+                    onClick={(): void => history.push('/Register')}
                   />
                 </div>
               </div>

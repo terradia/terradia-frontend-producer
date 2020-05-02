@@ -151,6 +151,7 @@ const RegisterForm = () => {
                       onChange={handleChange}
                     />
                   </span>
+                  <Divider type={"vertical"} style={{ background: "none" }}/>
                   <span>
                     {errors.firstname && (
                       <div id="feedback" className={"error-description"}>
