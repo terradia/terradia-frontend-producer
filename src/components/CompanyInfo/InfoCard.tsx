@@ -65,7 +65,7 @@ const InfoCard = (props: InfoCardProps) => {
         });
       }
 
-      setRawInfo(prevState => ({
+      setRawInfo((prevState) => ({
         ...prevState,
         infos: newValues,
       }));
@@ -73,77 +73,72 @@ const InfoCard = (props: InfoCardProps) => {
   };
 
   useEffect(() => {
-    setInfos(rawInfo.infos.map(info => (
-      <div key={info.label + info.text + info.icon} style={{
-        display: "flex",
-        justifyContent: "flex-start",
-        alignItems: "center",
-      }}>
+    setInfos(
+      rawInfo.infos.map((info) => (
+        <div
+          key={info.label + info.text + info.icon}
+          style={{
+            display: "flex",
+            justifyContent: "flex-start",
+            alignItems: "center",
+            flexWrap: "wrap",
+          }}
+        >
           <span
             key={info.label}
             style={{
               ...boldTextStyle,
-              marginRight: "16px"
+              marginRight: "16px",
             }}
           >
-              {info.label}
+            {info.label}
           </span>
-        {
-          info.text &&
-          <span
-            key={info.text}
-            style={textStyle}
-          >
-            {info.text}
-          </span>
-        }
-        {
-          info.icon &&
-          <>
-            <br/>
-            <Avatar
-              key={info.icon}
-              style={{
-                marginLeft: "10px",
-              }}
-              size={64}
-              shape={"square"}
-              src={info.icon}
-            />
-          </>
-        }
-        {
-          info.openHours &&
-          <>
-            {
-              info.openHours.map((hour, index) => (
-                  <div key={info.label + "-" + index}>
-                    <RangePicker className={"ant-picker-borderless picker-input-color"}
-                                 bordered={false}
-                                 inputReadOnly
-                                 disabled
-                                 picker={"time"}
-                                 value={[hour.startTime, hour.endTime]}
-                                 format={"HH:mm"}
-                                 suffixIcon={null}
-                    />
-                    {index !== info.openHours.length - 1 &&
-                    <span>
-                      {"&"}
-                    </span>
-                    }
-                  </div>
-                ),
-              )
-            }
-          </>
-        }
-      </div>
-    )));
+          {info.text && (
+            <span key={info.text} style={textStyle}>
+              {info.text}
+            </span>
+          )}
+          {info.icon && (
+            <>
+              <br />
+              <Avatar
+                key={info.icon}
+                style={{
+                  marginLeft: "10px",
+                }}
+                size={64}
+                shape={"square"}
+                src={info.icon}
+              />
+            </>
+          )}
+          {info.openHours && (
+            <div className={"hours-container"}>
+              {info.openHours.map((hour, index) => (
+                <div key={info.label + "-" + index}>
+                  <RangePicker
+                    className={"ant-picker-borderless picker-input-color"}
+                    bordered={false}
+                    inputReadOnly
+                    disabled
+                    picker={"time"}
+                    value={[hour.startTime, hour.endTime]}
+                    format={"HH:mm"}
+                    suffixIcon={null}
+                  />
+                  {index !== info.openHours.length - 1 && <span>{"&"}</span>}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      ))
+    );
   }, [rawInfo]);
 
-  const headerButton = isEditing ?
-    <SubmitButton callback={() => setIsSubmitting(true)}/> :
+  const headerButton = isEditing ? (
+    <SubmitButton callback={() => setIsSubmitting(true)} />
+  ) : (
     <EditButton
       callback={() => {
         setIsEditing(true);
@@ -152,20 +147,23 @@ const InfoCard = (props: InfoCardProps) => {
         display: "flex",
         justifySelf: "flex-end",
       }}
-    />;
+    />
+  );
 
   return (
     <div style={{ display: "flex", paddingBottom: 24, maxWidth: "80%" }}>
       <Card
         key={rawInfo.title}
         title={
-          <span style={{
-            ...boldTextStyle,
-            display: "flex",
-            flexWrap: "wrap",
-            justifySelf: "flex-start",
-            alignItems: "center",
-          }}>
+          <span
+            style={{
+              ...boldTextStyle,
+              display: "flex",
+              flexWrap: "wrap",
+              justifySelf: "flex-start",
+              alignItems: "center",
+            }}
+          >
             {rawInfo.title}
           </span>
         }
@@ -181,15 +179,16 @@ const InfoCard = (props: InfoCardProps) => {
           maxWidth: '300px'
         }}*/
       >
-        {
-          (isEditing || isSubmitting) &&
-          <EditInfoForm infos={rawInfo.infos} isEditing={isEditing} onSubmit={onSubmit}
-                        isSubmitting={isSubmitting} setIsEditing={setIsEditing}/>
-        }
-        {
-          !isEditing &&
-          [infos]
-        }
+        {(isEditing || isSubmitting) && (
+          <EditInfoForm
+            infos={rawInfo.infos}
+            isEditing={isEditing}
+            onSubmit={onSubmit}
+            isSubmitting={isSubmitting}
+            setIsEditing={setIsEditing}
+          />
+        )}
+        {!isEditing && [infos]}
       </Card>
     </div>
   );

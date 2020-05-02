@@ -10,8 +10,8 @@ import {ApolloProvider} from "@apollo/react-common";
 import "./index.less"
 
 const httpLink = createHttpLink({
-    uri: "https://api.terradia.eu/graphql",
-    // uri: "http://localhost:8000/graphql",
+    // uri: "https://api.terradia.eu/graphql",
+    uri: "http://localhost:8000/graphql",
     fetch: fetch
 });
 
