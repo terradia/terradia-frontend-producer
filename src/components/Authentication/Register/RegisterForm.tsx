@@ -57,7 +57,7 @@ const RegisterForm = () => {
         email: values.email,
         password: values.password,
         lastName: values.lastname,
-        firstName: values.lastname,
+        firstName: values.firstname,
         phone: values.phone,
       },
     }).then((data: any) => {
@@ -150,6 +150,7 @@ const RegisterForm = () => {
                       onChange={handleChange}
                     />
                   </span>
+                  <Divider type={"vertical"} style={{ background: "none" }}/>
                   <span>
                     {errors.firstname && (
                       <div id="feedback" className={"error-description"}>
