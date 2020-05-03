@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {ApolloClient, InMemoryCache} from 'apollo-boost'
@@ -8,9 +7,10 @@ import fetch from 'isomorphic-unfetch'
 import {createHttpLink} from "apollo-link-http";
 import {setContext} from "apollo-link-context";
 import {ApolloProvider} from "@apollo/react-common";
+import "./index.less"
 
 const httpLink = createHttpLink({
-    //uri: "https://api.terradia.eu/graphql",
+    // uri: "https://api.terradia.eu/graphql",
     uri: "http://localhost:8000/graphql",
     fetch: fetch
 });
