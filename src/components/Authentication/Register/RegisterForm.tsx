@@ -36,10 +36,9 @@ const RegisterSchema = Yup.object().shape({
 });
 
 const RegisterForm = () => {
-    const [register, {loading, error}] = useMutation(mutationRegister);
+  const [register, { loading, error }] = useMutation(mutationRegister);
 
-    if (error)
-      console.log(error);
+  if (error) console.log(error);
 
   const OnErrorHandler = (data: { message: any }) => {
     console.log(data.message);
@@ -82,7 +81,7 @@ const RegisterForm = () => {
       validationSchema={RegisterSchema}
       validateOnChange={false}
       validateOnBlur={true}
-      onSubmit={values => {
+      onSubmit={(values) => {
         submitForm(values);
       }}
     >
@@ -92,7 +91,10 @@ const RegisterForm = () => {
             <div className={"register_form_div"}>
               <form className={"auth_form"} onSubmit={handleSubmit}>
                 {errors.email && (
-                  <div id="feedback" className={"error-description error-email"}>
+                  <div
+                    id="feedback"
+                    className={"error-description error-email"}
+                  >
                     {errors.email}
                   </div>
                 )}
@@ -150,7 +152,7 @@ const RegisterForm = () => {
                       onChange={handleChange}
                     />
                   </span>
-                  <Divider type={"vertical"} style={{ background: "none" }}/>
+                  <Divider type={"vertical"} style={{ background: "none" }} />
                   <span>
                     {errors.firstname && (
                       <div id="feedback" className={"error-description"}>
@@ -180,7 +182,7 @@ const RegisterForm = () => {
                 <Input
                   name={"phone"}
                   className={"form_item input_item"}
-                  id={"input_phone" }
+                  id={"input_phone"}
                   size={"large"}
                   type={"default"}
                   placeholder={"Numéro de téléphone"}
@@ -200,10 +202,12 @@ const RegisterForm = () => {
                   onChange={handleChange}
                   className={"form_item"}
                 >
-                  {"J'ai lu et j'accepte les conditions générales d'utilisation"}
+                  {
+                    "J'ai lu et j'accepte les conditions générales d'utilisation"
+                  }
                 </Checkbox>
                 <Button
-                    isLoading={loading}
+                  isLoading={loading}
                   text={"S'inscrire"}
                   className={"form_item"}
                   id={"login_button"}

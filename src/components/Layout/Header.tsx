@@ -8,59 +8,63 @@ import { useLazyQuery } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
 import UserContext from "../Context/UserContext";
 
-const getCompanyById = graphqlLoader("../../graphql/query/getCompanyById.graphql");
+const getCompanyById = graphqlLoader(
+  "../../graphql/query/getCompanyById.graphql"
+);
 const AntHeader = AntLayout.Header;
 
 declare interface HeaderProps {
-    Company?: boolean;
+  Company?: boolean;
 }
 
 //TODO Faire un burger menu si la taille est trop petite
 
 const Header = (props: HeaderProps) => {
   let displayedInfo;
-  const [getCompanyByIdQuery, {loading, data}] = useLazyQuery(getCompanyById);
+  const [getCompanyByIdQuery, { loading, data }] = useLazyQuery(getCompanyById);
   const userContext = useContext(UserContext);
 
   useEffect(() => {
     if (!props.Company) {
       const companyId = localStorage.getItem("selectedCompany");
-      getCompanyByIdQuery({variables: {companyId: companyId}});
+      getCompanyByIdQuery({ variables: { companyId: companyId } });
     }
   }, [getCompanyByIdQuery, props.Company]);
 
   if (props.Company) {
     displayedInfo = (
-      <div style={{
-        order: 1,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "flex-end",
-        flex: 1,
-      }}>
-        <Logout/>
+      <div
+        style={{
+          order: 1,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "flex-end",
+          flex: 1,
+        }}
+      >
+        <Logout />
       </div>
     );
   } else if (!loading && data && data.getCompany) {
     displayedInfo = (
-      <Skeleton
-        active
-        avatar
-        loading={loading}
-      >
-        <div style={{
-          display: "flex",
-          alignItems: "center",
-          flexWrap: "wrap",
-          justifyContent: "flex-end",
-          flex: 1,
-        }}>
-          <span style={{
-            height: "18px",
-          }}>
+      <Skeleton active avatar loading={loading}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            flexWrap: "wrap",
+            justifyContent: "flex-end",
+            flex: 1,
+          }}
+        >
+          <span
+            style={{
+              height: "18px",
+            }}
+          >
             {userContext.firstName + " " + userContext.lastName}
           </span>
-          <CompanySelector name={data.getCompany.name}/>
+          <CompanySelector name={data.getCompany.name} />
         </div>
         <Avatar
           size={"large"}
@@ -71,7 +75,7 @@ const Header = (props: HeaderProps) => {
             marginLeft: "5%",
           }}
           src={data.getCompany.logo ? data.getCompany.logo : ""}
-          icon={<UserOutlined/>}
+          icon={<UserOutlined />}
         />
       </Skeleton>
     );
@@ -99,10 +103,12 @@ const Header = (props: HeaderProps) => {
             marginLeft: "2%",
           }}
         />
-        <div style={{
-          display: "flex",
-          alignItems: "center",
-        }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
           {displayedInfo}
         </div>
       </AntHeader>

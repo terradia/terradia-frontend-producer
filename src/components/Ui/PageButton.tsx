@@ -16,31 +16,34 @@ declare interface PageButtonProps {
 }
 
 const PageButton = ({
-                      link,
-                      icon,
-                      label,
-                      onClick,
-                      ...props
-                    }: PageButtonProps) => {
-
+  link,
+  icon,
+  label,
+  onClick,
+  ...props
+}: PageButtonProps) => {
   return (
-    <Menu.Item key={link} onClick={() => onClick(link)} style={{
-      display: "flex",
-      justifyContent: "flex-start",
-      alignItems: "center",
-      padding: "16",
-    }} {...props}>
-      <div style={{
+    <Menu.Item
+      key={link}
+      onClick={() => onClick(link)}
+      style={{
         display: "flex",
+        justifyContent: "flex-start",
         alignItems: "center",
-        width: "100%",
-      }}>
+        padding: "16",
+      }}
+      {...props}
+    >
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          width: "100%",
+        }}
+      >
         {icon}
-        <span style={textStyle}>
-                {label}
-            </span>
+        <span style={textStyle}>{label}</span>
       </div>
-
     </Menu.Item>
   );
 };

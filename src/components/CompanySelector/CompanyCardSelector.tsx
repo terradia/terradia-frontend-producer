@@ -23,8 +23,7 @@ const CompanyCardSelector = () => {
   const [remember, setRemember] = useState(false);
   let card;
 
-  if (error)
-    console.log(error);
+  if (error) console.log(error);
 
   useEffect(() => {
     if (!localStorage.getItem("token")) {
@@ -40,7 +39,7 @@ const CompanyCardSelector = () => {
     if (selected === null) {
       notification.warn({
         key: "emptySelection",
-        message: "Veuillez sélectionner une entreprise"
+        message: "Veuillez sélectionner une entreprise",
       });
       return;
     }
@@ -56,15 +55,14 @@ const CompanyCardSelector = () => {
   };
 
   if (!loading && companiesData && companiesData.getCompanies) {
-    if (companiesData.getCompanies.length < 1)
-      history.push("/Login");
+    if (companiesData.getCompanies.length < 1) history.push("/Login");
     card = companiesData.getCompanies.map((companyData: any) => {
       if (companyData) {
         return (
           <CompanyCard
             key={companyData.id}
             id={companyData.id}
-            selected={(selected === companyData.id)}
+            selected={selected === companyData.id}
             name={companyData.name}
             logo={companyData.logo}
             cover={companyData.cover}
@@ -78,16 +76,18 @@ const CompanyCardSelector = () => {
 
   return (
     <>
-      <div style={{
-        width: "100%",
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: "center",
-        alignItems: "center",
-      }}>
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         <CompanyCard
           id={"user"}
-          selected={(selected === "user")}
+          selected={selected === "user"}
           onClick={setSelected}
         />
         {card}
@@ -103,11 +103,11 @@ const CompanyCardSelector = () => {
         onClick={OnValidatedSelection}
         isLoading={loading}
       >
-                <span style={{ ...textStyle, color: "#5CC04A", fontSize: 18 }}>
-                    Valider
-                </span>
+        <span style={{ ...textStyle, color: "#5CC04A", fontSize: 18 }}>
+          Valider
+        </span>
       </Button>
-      <CheckBox onClick={event => setRemember(event.currentTarget.checked)}>
+      <CheckBox onClick={(event) => setRemember(event.currentTarget.checked)}>
         se souvenir de mon choix
       </CheckBox>
     </>

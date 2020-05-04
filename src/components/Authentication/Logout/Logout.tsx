@@ -1,8 +1,8 @@
 import React from "react";
-import {ReactComponent as LogoutIcon} from "../../../assets/Icon/page/Logout.svg";
-import {Menu} from "antd";
-import {LogoutProps} from "../../../interfaces/Authentication/Logout/Logout";
-import {useApolloClient} from "@apollo/react-hooks";
+import { ReactComponent as LogoutIcon } from "../../../assets/Icon/page/Logout.svg";
+import { Menu } from "antd";
+import { LogoutProps } from "../../../interfaces/Authentication/Logout/Logout";
+import { useApolloClient } from "@apollo/react-hooks";
 
 const textStyle = {
   fontFamily: "Montserrat",
@@ -12,7 +12,7 @@ const textStyle = {
   flexShrink: 0,
 };
 
-const Logout = ({ isMenu, ...props }: LogoutProps)  => {
+const Logout = ({ isMenu, ...props }: LogoutProps) => {
   const client = useApolloClient();
 
   const onLogoutHandler = (): void => {
@@ -21,44 +21,49 @@ const Logout = ({ isMenu, ...props }: LogoutProps)  => {
   };
 
   if (isMenu) {
-        return (
-            <Menu
-                mode={"inline"}
-                inlineIndent={12}
-                style={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    flexFlow: "column",
-                    justifyContent: "center",
-                    alignContent: "space-around",
-                    position: "sticky",
-                    bottom: 0
-                }}
-            >
-                <Menu.Item key={"logout"} onClick={onLogoutHandler} style={{
-                    display: "flex",
-                    justifyContent: "flex-start",
-                    alignItems: "center",
-                }} {...props}>
-                    <LogoutIcon style={{display: "flex", height: "25px", width: "25px"}}/>
-                    <span style={textStyle}>
-                    Se déconnecter
-                </span>
-                </Menu.Item>
-            </Menu>
-        );
-    }
     return (
-        <div style={{
+      <Menu
+        mode={"inline"}
+        inlineIndent={12}
+        style={{
           display: "flex",
-          justifyContent: "flex-end"
-        }}>
-            <LogoutIcon height={"25px"} width={"25px"}/>
-            <span style={textStyle}>
-                Se déconnecter
-            </span>
-        </div>
+          flexWrap: "wrap",
+          flexFlow: "column",
+          justifyContent: "center",
+          alignContent: "space-around",
+          position: "sticky",
+          bottom: 0,
+        }}
+      >
+        <Menu.Item
+          key={"logout"}
+          onClick={onLogoutHandler}
+          style={{
+            display: "flex",
+            justifyContent: "flex-start",
+            alignItems: "center",
+          }}
+          {...props}
+        >
+          <LogoutIcon
+            style={{ display: "flex", height: "25px", width: "25px" }}
+          />
+          <span style={textStyle}>Se déconnecter</span>
+        </Menu.Item>
+      </Menu>
     );
+  }
+  return (
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "flex-end",
+      }}
+    >
+      <LogoutIcon height={"25px"} width={"25px"} />
+      <span style={textStyle}>Se déconnecter</span>
+    </div>
+  );
 };
 
 export default Logout;
