@@ -29,8 +29,10 @@ yarn-error.log*
 
 .idea/
 .next/
-!/api.graphql
 
 # css
 *.css
 *.css.map
+
+#graphql
+api.graphql
