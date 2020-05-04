@@ -1,0 +1,12 @@
+mutation addOpeningDay($companyId: String!, $day: String!, $hours: [ScheduleInput]!) {
+    addOpeningDay(companyId: $companyId, day: $day, hours: $hours) {
+        id
+        dayTranslationKey
+        daySlugName
+        hours {
+            id
+            startTime
+            endTime
+        }
+    }
+}

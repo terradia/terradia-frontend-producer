@@ -28,79 +28,84 @@ const boldTextStyle = {
 };
 
 const EditInfoForm = (props: EditInfoFormProps) => {
-    const [form] = Form.useForm();
+  const [form] = Form.useForm();
 
-    useEffect(() => {
-      if (props.isSubmitting === true) {
-        form.submit();
-      }
-    }, [props.isSubmitting, form]);
+  useEffect(() => {
+    if (props.isSubmitting === true) {
+      form.submit();
+    }
+  }, [props.isSubmitting, form]);
 
-    const initialValues = {};
-    props.infos.forEach(info => {
-      if (info.openHours) {
-        const initialHours = [];
-        info.openHours.forEach((hour) => {
-          return initialHours.push([hour.startTime, hour.endTime]);
-        });
-        initialValues[info.label] = initialHours;
-      }
-      return null;
-    });
+  const initialValues = {};
+  props.infos.forEach((info) => {
+    if (info.openHours) {
+      const initialHours = [];
+      info.openHours.forEach((hour) => {
+        return initialHours.push([hour.startTime, hour.endTime]);
+      });
+      initialValues[info.daySlugName] = initialHours;
+    }
+    return null;
+  });
 
-    const info = props.infos.map(info => (
-      <div key={info.label}
-           style={{
-             display: "flex",
-             justifyContent: "flex-start",
-             alignItems: "center",
-             marginBottom: "16px",
-           }}
-      >
-        <span style={{ ...boldTextStyle, marginRight: "16px" }}>
-            {info.label}
-        </span>
-        {
-          info.text !== undefined &&
-          <Form.Item name={info.label}>
-            <Input placeholder={info.text} style={textStyle}/>
-          </Form.Item>
-        }
-        {
-          info.icon !== undefined &&
+  const info = props.infos.map((info) => (
+    <div
+      key={info.label}
+      style={{
+        display: "flex",
+        justifyContent: "flex-start",
+        alignItems: "center",
+        marginBottom: "16px",
+      }}
+    >
+      <span style={{ ...boldTextStyle, marginRight: "16px" }}>
+        {info.label}
+      </span>
+      {info.text !== undefined && (
+        <Form.Item name={info.label}>
+          <Input placeholder={info.text} style={textStyle} />
+        </Form.Item>
+      )}
+      {info.icon !== undefined && (
+        <Form.Item>
           <Form.Item>
-            <Form.Item>
-              <Upload.Dragger name={"logo"}>
-                <p className="ant-upload-drag-icon">
-                  <InboxOutlined/>
-                </p>
-                <p className="ant-upload-text">Click or drag file to this area to upload</p>
-              </Upload.Dragger>
-            </Form.Item>
+            <Upload.Dragger name={"logo"}>
+              <p className="ant-upload-drag-icon">
+                <InboxOutlined />
+              </p>
+              <p className="ant-upload-text">
+                Click or drag file to this area to upload
+              </p>
+            </Upload.Dragger>
           </Form.Item>
-        }
-        {
-          info.openHours &&
-          <EditOfficeHour day={info.label} openHours={info.openHours} form={form}/>}
-      </div>
-    ));
+        </Form.Item>
+      )}
+      {info.openHours && (
+        <EditOfficeHour
+          day={info.label}
+          daySlugName={info.daySlugName}
+          openHours={info.openHours}
+          form={form}
+        />
+      )}
+    </div>
+  ));
 
-    return (
-      <Form form={form}
-            scrollToFirstError
-            onFinish={props.onSubmit}
-            initialValues={initialValues}
-            layout={"inline"}
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              flexFlow: "column"
-            }}
-      >
-        {info}
-      </Form>
-    );
-  }
-;
-
+  return (
+    <Form
+      form={form}
+      scrollToFirstError
+      onFinish={props.onSubmit}
+      initialValues={initialValues}
+      layout={"inline"}
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        flexFlow: "column",
+      }}
+    >
+      {info}
+    </Form>
+  );
+};
 export default EditInfoForm;

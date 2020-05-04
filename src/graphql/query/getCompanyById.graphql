@@ -8,5 +8,15 @@ query getCompanyById ($companyId: ID!) {
         logo
         cover
         address
+        openingDays {
+            id
+            daySlugName
+            dayTranslationKey
+            hours {
+                id
+                startTime
+                endTime
+            }
+        }
     }
 }
