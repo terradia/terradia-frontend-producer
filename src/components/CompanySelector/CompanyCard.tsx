@@ -20,33 +20,34 @@ declare interface CompanyCardProps {
 }
 
 const CompanyCard = ({
-                       id,
-                       selected = false,
-                       loading = false,
-                       name = "Mon compte personnel",
-                       logo = "/src/assets/company/defaultLogo",
-                       onClick,
-                     }: CompanyCardProps) => {
-
+  id,
+  selected = false,
+  loading = false,
+  name = "Mon compte personnel",
+  logo = "/src/assets/company/defaultLogo",
+  onClick,
+}: CompanyCardProps) => {
   const onClickHandler = () => {
     onClick(id);
   };
 
   return (
-    <div style={{
-      display: "flex",
-      flexWrap: "wrap",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-    }}>
+    <div
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
       <Card
         style={{
           width: 250,
           height: 250,
           margin: "24px",
           border: "solid ",
-          borderColor: (selected) ? "#00c537" : "#FFFFFF",
+          borderColor: selected ? "#00c537" : "#FFFFFF",
         }}
         onClick={onClickHandler}
         loading={loading}
@@ -56,12 +57,10 @@ const CompanyCard = ({
           shape={"square"}
           alt={"profile"}
           src={logo}
-          icon={<UserOutlined/>}
+          icon={<UserOutlined />}
         />
       </Card>
-      <span style={textStyle}>
-        {name}
-      </span>
+      <span style={textStyle}>{name}</span>
     </div>
   );
 };

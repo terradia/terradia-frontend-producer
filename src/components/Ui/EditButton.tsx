@@ -1,4 +1,4 @@
-import React, { CSSProperties } from "react";
+import React from "react";
 import Button from "./Button";
 import EditIcon from "../Icons/PageIcon/EditIcon";
 
@@ -18,7 +18,7 @@ const EditButton = (props: EditButtonProps) => {
       }}
       onClick={props.callback}
     >
-      <EditIcon style={{ height: "25px", width: "25px" }}/>
+      <EditIcon style={{ height: "25px", width: "25px" }} />
     </Button>
   );
 };

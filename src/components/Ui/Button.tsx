@@ -2,7 +2,7 @@ import React from "react";
 import { Button as AntButton } from "antd";
 import { ButtonShape, ButtonSize, ButtonType } from "antd/es/button";
 
-const ButtonElementsContainer: React.FC = props => {
+const ButtonElementsContainer: React.FC = (props) => {
   return (
     <div
       style={{
@@ -23,7 +23,7 @@ interface ButtonColumnProps {
   style?: React.CSSProperties;
 }
 
-const ButtonColumn: React.FC<ButtonColumnProps> = props => {
+const ButtonColumn: React.FC<ButtonColumnProps> = (props) => {
   return (
     <div
       style={{
@@ -59,7 +59,7 @@ export interface ButtonProps {
   accentColor?: string;
 }
 
-const Button: React.FunctionComponent<ButtonProps> = props => {
+const Button: React.FunctionComponent<ButtonProps> = (props) => {
   const defaultStyle: React.CSSProperties = {
     display: "flex",
     alignItems: "center",

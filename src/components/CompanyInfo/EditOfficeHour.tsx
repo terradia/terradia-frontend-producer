@@ -7,6 +7,7 @@ import { MinusCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
 declare interface EditOfficeHourProps {
   openHours: Hours[];
   day: string;
+  daySlugName: string;
   form: FormInstance;
 }
 
@@ -14,11 +15,11 @@ const { RangePicker } = TimePicker;
 
 const EditOfficeHour = (props: EditOfficeHourProps) => {
   return (
-    <Form.List name={props.day} key={props.day + "-picker-list"}>
+    <Form.List name={props.daySlugName} key={props.day + "-picker-list"}>
       {(fields, { add, remove }) => {
         return (
           <div className={"hours-container"}>
-            {fields.map((field, index) => (
+            {fields.map((field) => (
               <div key={props.day + "-" + field.key + "-item"}>
                 <Form.Item
                   name={field.key}
@@ -37,7 +38,10 @@ const EditOfficeHour = (props: EditOfficeHourProps) => {
                 </Form.Item>
               </div>
             ))}
-            <div className={"modifiers-container"} key={props.day + "-modifier"}>
+            <div
+              className={"modifiers-container"}
+              key={props.day + "-modifier"}
+            >
               <PlusCircleOutlined
                 key={props.day + "-add-modifier"}
                 className={"dynamic-add-button"}

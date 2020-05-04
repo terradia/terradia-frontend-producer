@@ -12,7 +12,7 @@ export default function SubHeader() {
         display: "fixed",
         position: "relative",
         background: "none",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
       }}
     >
       <Menu mode="horizontal" style={{ lineHeight: "6vh", background: "none" }}>

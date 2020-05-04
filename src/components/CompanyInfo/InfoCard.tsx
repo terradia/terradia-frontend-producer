@@ -5,6 +5,8 @@ import SubmitButton from "../Ui/SubmitButton";
 import EditInfoForm from "./EditInfoForm";
 import { Moment } from "moment";
 import "../../assets/Style/CompanyInfo/InfoCard.less";
+import { loader } from "graphql.macro";
+import { useMutation } from "@apollo/react-hooks";
 
 export declare interface Hours {
   startTime: Moment;
@@ -15,6 +17,7 @@ export declare interface Info {
   label: string;
   text?: string;
   icon?: string;
+  daySlugName?: string;
   openHours?: Hours[];
 }
 
@@ -22,6 +25,7 @@ declare interface InfoCardProps {
   title: string;
   infos: Info[];
   loading: boolean;
+  refetch: () => void;
 }
 
 const textStyle = {
@@ -40,15 +44,16 @@ const boldTextStyle = {
 };
 
 const { RangePicker } = TimePicker;
+const addOpeningDay = loader("../../graphql/mutation/addOpeningDay.graphql");
 
 const InfoCard = (props: InfoCardProps) => {
   const [infos, setInfos] = useState<React.ReactNode[]>(null);
-  const [rawInfo, setRawInfo] = useState<InfoCardProps>(props);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [addOpeningDayMutation] = useMutation(addOpeningDay);
 
-  const onSubmit = (values) => {
-    const newValues: Info[] = rawInfo.infos;
+  const onSubmit = async (values) => {
+    const newValues: Info[] = props.infos;
     const i = 0;
 
     setIsSubmitting(false);
@@ -58,23 +63,28 @@ const InfoCard = (props: InfoCardProps) => {
         newValues[i] = { label: key, text: values[key] };
       else if (values[key] !== undefined && typeof values[key] !== "string") {
         const existingKey = newValues.find((currentInfo) => {
-          return currentInfo.label === key;
+          return currentInfo.daySlugName === key;
         });
-        existingKey.openHours = values[key].map((hour: Hours) => {
-          return { startTime: hour[0], endTime: hour[1] };
+        values[key] = values[key].filter((hour) => hour !== undefined);
+        existingKey.openHours = values[key].map((hour: [Moment, Moment]) => {
+          if (hour === null) return null;
+          return { startTime: hour[0].utc(true), endTime: hour[1].utc(true) };
+        });
+        await addOpeningDayMutation({
+          variables: {
+            companyId: localStorage.getItem("selectedCompany"),
+            day: key,
+            hours: existingKey.openHours,
+          },
         });
       }
-
-      setRawInfo((prevState) => ({
-        ...prevState,
-        infos: newValues,
-      }));
     }
+    props.refetch();
   };
 
   useEffect(() => {
     setInfos(
-      rawInfo.infos.map((info) => (
+      props.infos.map((info) => (
         <div
           key={info.label + info.text + info.icon}
           style={{
@@ -134,7 +144,7 @@ const InfoCard = (props: InfoCardProps) => {
         </div>
       ))
     );
-  }, [rawInfo]);
+  }, [props]);
 
   const headerButton = isEditing ? (
     <SubmitButton callback={() => setIsSubmitting(true)} />
@@ -153,7 +163,7 @@ const InfoCard = (props: InfoCardProps) => {
   return (
     <div style={{ display: "flex", paddingBottom: 24, maxWidth: "80%" }}>
       <Card
-        key={rawInfo.title}
+        key={props.title}
         title={
           <span
             style={{
@@ -164,7 +174,7 @@ const InfoCard = (props: InfoCardProps) => {
               alignItems: "center",
             }}
           >
-            {rawInfo.title}
+            {props.title}
           </span>
         }
         bordered={false}
@@ -175,13 +185,10 @@ const InfoCard = (props: InfoCardProps) => {
           display: "flex",
           flexFlow: "column",
         }}
-        /*style={{
-          maxWidth: '300px'
-        }}*/
       >
         {(isEditing || isSubmitting) && (
           <EditInfoForm
-            infos={rawInfo.infos}
+            infos={props.infos}
             isEditing={isEditing}
             onSubmit={onSubmit}
             isSubmitting={isSubmitting}

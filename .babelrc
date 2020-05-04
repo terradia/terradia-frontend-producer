@@ -1,5 +1,4 @@
 {
-  ""
   "plugins": [
     "inline-react-svg",
     "import-graphql",

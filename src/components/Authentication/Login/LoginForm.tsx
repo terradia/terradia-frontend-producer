@@ -47,31 +47,41 @@ const LoginForm = () => {
   const [redirect, setRedirect] = useState("");
   const [login, { loading: loginLoading }] = useMutation(mutationLogin);
   const [getUserQuery] = useLazyQuery(getUser);
-  const [getCompaniesQuery, { loading: companiesLoading, data: companiesData, called }] = useLazyQuery(getCompanies);
+  const [
+    getCompaniesQuery,
+    { loading: companiesLoading, data: companiesData, called },
+  ] = useLazyQuery(getCompanies);
   const history = useHistory();
 
   useEffect(() => {
-    if (userContext)
-      getCompaniesQuery();
+    if (userContext) getCompaniesQuery();
   }, [getCompaniesQuery, userContext]);
 
   useEffect(() => {
     if (called && !companiesLoading) {
-      if (companiesData && companiesData.getCompanies &&
+      if (
+        companiesData &&
+        companiesData.getCompanies &&
         companiesData.getCompanies.length >= 1 &&
         (!localStorage.getItem("rememberCompany") ||
           localStorage.getItem("rememberCompany") === "false")
       ) {
         setRedirect("CompanySelection");
       } else if (companiesData && companiesData.getCompanies) {
-        if (companiesData.getCompanies.length >= 1 &&
-          (!!localStorage.getItem("rememberCompany") &&
-            localStorage.getItem("rememberCompany") === "true")) {
+        if (
+          companiesData.getCompanies.length >= 1 &&
+          !!localStorage.getItem("rememberCompany") &&
+          localStorage.getItem("rememberCompany") === "true"
+        ) {
           setRedirect("/home");
         } else {
           notification["warn"]({
             message: "Vous n'avez pas d'entreprise. ",
-            btn: <CreateCompanyButton callback={() => setRedirect("/companyRegister")}/>,
+            btn: (
+              <CreateCompanyButton
+                callback={() => setRedirect("/companyRegister")}
+              />
+            ),
           });
         }
       }
@@ -80,7 +90,7 @@ const LoginForm = () => {
 
   if (redirect !== "" && localStorage.getItem("token")) {
     console.log("redirect to: " + redirect);
-    return <Redirect to={redirect}/>;
+    return <Redirect to={redirect} />;
   }
 
   const OnErrorHandler = (data: LoginData) => {
@@ -88,27 +98,34 @@ const LoginForm = () => {
   };
 
   const submitForm = (values: { email: any; password: any }) => {
-    login({ variables: { email: values.email, password: values.password } }).then((loginData: LoginData) => {
-      if (loginData) {
-        const prevToken = localStorage.getItem("token");
-        localStorage.setItem("token", loginData.data.login.token);
-        dispatchEvent(new StorageEvent("storage", {
-          key: "token",
-          oldValue: prevToken,
-          newValue: loginData.data.login.token
-        }));
-        client.resetStore().then(() => {
-          getCompaniesQuery();
-          getUserQuery();
-        }).catch((error) => {
-          console.log(error);
-        });
-      } else {
-        OnErrorHandler(loginData);
-      }
-    }).catch((error) => {
-      console.log(error);
-    });
+    login({ variables: { email: values.email, password: values.password } })
+      .then((loginData: LoginData) => {
+        if (loginData) {
+          const prevToken = localStorage.getItem("token");
+          localStorage.setItem("token", loginData.data.login.token);
+          dispatchEvent(
+            new StorageEvent("storage", {
+              key: "token",
+              oldValue: prevToken,
+              newValue: loginData.data.login.token,
+            })
+          );
+          client
+            .resetStore()
+            .then(() => {
+              getCompaniesQuery();
+              getUserQuery();
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        } else {
+          OnErrorHandler(loginData);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -125,7 +142,10 @@ const LoginForm = () => {
             <div className={"login_form_div"}>
               <form className={"auth_form"} onSubmit={handleSubmit}>
                 {errors.email && (
-                  <div id="feedback" className={"error-description error-email"}>
+                  <div
+                    id="feedback"
+                    className={"error-description error-email"}
+                  >
                     {errors.email}
                   </div>
                 )}

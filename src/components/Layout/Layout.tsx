@@ -19,48 +19,55 @@ type LayoutProps = {
 const Layout = (props: LayoutProps) => {
   const breakpoint = useContext(Breakpoint);
 
-  if (localStorage.getItem("selectedCompany") === null || localStorage.getItem("rememberCompany") === null) {
-    return <Redirect to={"/companySelection"}/>;
+  if (
+    localStorage.getItem("selectedCompany") === null ||
+    localStorage.getItem("rememberCompany") === null
+  ) {
+    return <Redirect to={"/companySelection"} />;
   }
 
   return (
     <AntLayout style={{ background: "white" }}>
-      <Header/>
+      <Header />
       <AntLayout hasSider>
-        <Sider width={"155px"} theme={"light"}
-               breakpoint={"md"}
-               collapsedWidth={breakpoint < sm ? 0 : 80}
-               style={{
-                 minHeight: "90vh",
-                 maxHeight: "100vh",
-                 position: "sticky",
-                 top: 0,
-                 left: 0,
-               }}
+        <Sider
+          width={"155px"}
+          theme={"light"}
+          breakpoint={"md"}
+          collapsedWidth={breakpoint < sm ? 0 : 80}
+          style={{
+            minHeight: "90vh",
+            maxHeight: "100vh",
+            position: "sticky",
+            top: 0,
+            left: 0,
+          }}
         >
-          <Sidebar/>
-          <Logout isMenu/>
+          <Sidebar />
+          <Logout isMenu />
         </Sider>
-        <Content style={{
-          background: "F6F8FA",
-          padding: 24,
-        }}>
+        <Content
+          style={{
+            background: "F6F8FA",
+            padding: 24,
+          }}
+        >
           {props.children}
         </Content>
-        {
-          breakpoint > md &&
-          <Sider theme={"light"}
-                 style={{
-                   minHeight: "90vh",
-                   maxHeight: "100vh",
-                   position: "sticky",
-                   top: 0,
-                   left: 0,
-                 }}
+        {breakpoint > md && (
+          <Sider
+            theme={"light"}
+            style={{
+              minHeight: "90vh",
+              maxHeight: "100vh",
+              position: "sticky",
+              top: 0,
+              left: 0,
+            }}
           >
-            <SummarySidebar/>
+            <SummarySidebar />
           </Sider>
-        }
+        )}
       </AntLayout>
     </AntLayout>
   );
