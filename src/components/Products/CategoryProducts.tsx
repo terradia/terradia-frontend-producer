@@ -1,89 +1,251 @@
 import React, { useEffect, useState } from "react";
-import { Draggable } from "react-beautiful-dnd";
-import { ReactComponent as CaretIcon } from "../../assets/Icon/ui/caret.svg";
+import { Draggable, Droppable } from "react-beautiful-dnd";
+import { PlusCircleOutlined } from "@ant-design/icons";
+import { ReactComponent as CarretIcon } from "../../assets/Icon/ui/caret.svg";
+import { ReactComponent as BookmarkIcon } from "../../assets/Icon/ui/bookmark.svg";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons/lib";
+import { Popconfirm } from "antd";
+
+import { loader as graphqlLoader } from "graphql.macro";
+import "../../assets/Style/Products/ProductsPage.less";
+import { useMutation } from "@apollo/react-hooks";
+
+const mutationDeleteCategory = graphqlLoader(
+  "../../graphql/mutation/category/deleteCompanyProductCategory.graphql"
+);
+const queryGetCategories = graphqlLoader(
+  "../../graphql/query/getAllCompanyProductsCategories.graphql"
+);
 
 interface CategoryProductsProps {
-  provided: { innerRef: any; placeholder: any; droppableProps: any };
-  snapshot: {
-    isDraggingOver: boolean;
-    draggingOverWith: any;
-    draggingFromThisWith: any;
-    isUsingPlaceholder: boolean;
-  };
   cat: { id: string; name: string; products: any };
+  ProductModal: {
+    setVisible: (e) => void;
+    setDefaultCategory: (e) => void;
+    setUpdateProduct: (e) => void;
+  };
+  CategoryModal?: {
+    setVisible?: (e) => void;
+    setCategoryId?: (e) => void;
+    setCategoryName?: (e) => void;
+  };
 }
 
 const getItemStyle = (isDragging, draggableStyle) => {
   return {
-    // some basic styles to make the items look a bit nicer
     userSelect: "none",
-
-    // change background colour if dragging
-    background: isDragging ? "lightgreen" : "grey",
-
-    // styles we need to apply on draggables
     ...draggableStyle,
   };
 };
 
 const getListStyle = (isDraggingOver) => ({
-  background: isDraggingOver ? "lightblue" : null,
-  padding: "10px",
+  background: isDraggingOver ? "#a3ee71" : null,
+  height: isDraggingOver ? "200px" : null,
 });
 
 function CategoryProducts(props: CategoryProductsProps) {
+  const companyId = localStorage.getItem("selectedCompany");
+
   const [collapsed, setCollapsed] = useState(false);
+  const [draggingOver, setDraggingOver] = useState(false);
+  const [isHover, setIsHover] = useState(false);
+
+  const [deleteCategoryMutation] = useMutation(mutationDeleteCategory, {
+    refetchQueries: [
+      {
+        query: queryGetCategories,
+        variables: { companyId: companyId },
+      },
+    ],
+  });
+
+  function deleteCategory() {
+    deleteCategoryMutation({
+      variables: {
+        categoryId: props.cat.id,
+      },
+    }).catch((error) => {
+      console.log(error);
+    });
+  }
 
   useEffect(() => {
-    if (props.snapshot.isDraggingOver) {
-      setCollapsed(false);
-    }
-  }, [props.snapshot.isDraggingOver]);
+    setCollapsed(false);
+  }, [draggingOver]);
 
   return (
     <div
-      ref={props.provided.innerRef}
-      className={`category ${collapsed === true ? "collapsed-cat" : ""}`}
-      style={getListStyle(props.snapshot.isDraggingOver)}
+      className={`category ${collapsed === true ? "collapsed-category" : ""}`}
+      style={getListStyle(draggingOver)}
+      onMouseEnter={() => {
+        setIsHover(true);
+      }}
+      onMouseLeave={() => {
+        setIsHover(false);
+      }}
     >
-      <div
-        ref={props.provided.innerRef}
-        style={{ height: "5%", position: "absolute" }}
-        onClick={() => {
-          if (collapsed) {
-            setCollapsed(false);
-          } else {
-            setCollapsed(true);
-          }
-        }}
+      <Droppable
+        droppableId={props.cat.id}
+        direction={"horizontal"}
+        key={props.cat.id}
       >
-        <CaretIcon style={{ transform: collapsed ? null : "rotate(90deg)" }} />
-        {props.cat.name}
-      </div>
-      <div
-        ref={props.provided.innerRef}
-        className={`card-list ${collapsed === true ? "collapsed" : ""}`}
-      >
-        {props.cat.products.map((product, index) => (
-          <Draggable key={product.id} draggableId={product.id} index={index}>
-            {(provided, snapshot) => (
+        {(provided, snapshot) => {
+          setDraggingOver(snapshot.isDraggingOver);
+          return (
+            <div
+              className={"droppable"}
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+            >
               <div
-                className={"card"}
                 ref={provided.innerRef}
-                {...provided.draggableProps}
-                {...provided.dragHandleProps}
-                style={getItemStyle(
-                  snapshot.isDragging,
-                  provided.draggableProps.style
-                )}
+                className={"category-title"}
+                onClick={() => {
+                  if (collapsed) {
+                    setCollapsed(false);
+                  } else {
+                    setCollapsed(true);
+                  }
+                }}
               >
-                <p style={{}}>{product.name}</p>
+                <CarretIcon
+                  style={{
+                    transform: collapsed ? null : "rotate(90deg)",
+                    marginRight: "5px",
+                  }}
+                />
+                {`${props.cat.name} (${props.cat.products.length})`}
+                <div
+                  ref={provided.innerRef}
+                  className={`category-title-icon ${
+                    isHover === true ? "category-title-icon-isHover" : ""
+                  }`}
+                >
+                  <PlusCircleOutlined
+                    className={"category-icon"}
+                    onClick={(event) => {
+                      props.ProductModal.setDefaultCategory(props.cat.id);
+                      props.ProductModal.setVisible(true);
+                      event.stopPropagation();
+                    }}
+                  />
+                  {props.cat.id !== "nonCat" && (
+                    <EditOutlined
+                      className={"category-icon"}
+                      onClick={(event) => {
+                        props.CategoryModal.setCategoryId(props.cat.id);
+                        props.CategoryModal.setCategoryName(props.cat.name);
+                        props.CategoryModal.setVisible(true);
+                        event.stopPropagation();
+                      }}
+                    />
+                  )}
+                  {props.cat.id !== "nonCat" && (
+                    <Popconfirm
+                      placement="top"
+                      title={"Voulez-vous vraiment supprimer cette catégorie?"}
+                      onConfirm={(event) => {
+                        deleteCategory();
+                        event.stopPropagation();
+                      }}
+                      onCancel={(event) => {
+                        event.stopPropagation();
+                      }}
+                      okText="Oui"
+                      cancelText="Non"
+                    >
+                      <DeleteOutlined
+                        className={"category-icon"}
+                        style={{ color: "red" }}
+                        onClick={(event) => {
+                          event.stopPropagation();
+                        }}
+                      />
+                    </Popconfirm>
+                  )}
+                </div>
               </div>
-            )}
-          </Draggable>
-        ))}
-        {props.provided.placeholder}
-      </div>
+              <div
+                ref={provided.innerRef}
+                className={`parent-list ${
+                  collapsed === true ? "collapsed-list" : ""
+                }`}
+              >
+                {props.cat.products.length !== 0 && (
+                  <div
+                    ref={provided.innerRef}
+                    className={"card-list"}
+                    style={{ height: snapshot.isDraggingOver ? "200px" : null }}
+                  >
+                    {props.cat.products.map((product, index) => (
+                      <Draggable
+                        key={product.id}
+                        draggableId={product.id}
+                        index={index}
+                      >
+                        {(provided, snapshot) => {
+                          return (
+                            <div
+                              className={"card"}
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              style={{
+                                ...getItemStyle(
+                                  snapshot.isDragging,
+                                  provided.draggableProps.style
+                                ),
+                                ...{},
+                              }}
+                              onClick={() => {
+                                product.category = props.cat.name;
+                                props.ProductModal.setUpdateProduct(product);
+                                props.ProductModal.setVisible(true);
+                              }}
+                            >
+                              <span
+                                className="card-background"
+                                style={{
+                                  backgroundImage: `url('${product.image}')`,
+                                }}
+                              />
+                              <p className="card-title card-item">
+                                {product.name}
+                              </p>
+                              <p className="card-information card-item">
+                                {product.price}€
+                              </p>
+                              <p className="card-information card-item">459</p>
+                            </div>
+                          );
+                        }}
+                      </Draggable>
+                    ))}
+                    {provided.placeholder}
+                  </div>
+                )}
+                {props.cat.products.length === 0 && (
+                  <div ref={provided.innerRef} className={"empty-list"}>
+                    <div
+                      style={{
+                        justifyContent: "center",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        fontSize: "larger",
+                      }}
+                    >
+                      <BookmarkIcon style={{ height: "100px" }} />
+                      <p>Aucun produit n'est disponible pour cette catégorie</p>
+                    </div>
+                    {provided.placeholder}
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        }}
+      </Droppable>
     </div>
   );
 }
