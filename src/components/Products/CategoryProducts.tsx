@@ -236,7 +236,9 @@ function CategoryProducts(props: CategoryProductsProps) {
                       }}
                     >
                       <BookmarkIcon style={{ height: "100px" }} />
-                      <p>Aucun produit n'est disponible pour cette catégorie</p>
+                      <p>
+                        {"Aucun produit n'est disponible pour cette catégorie"}
+                      </p>
                     </div>
                     {provided.placeholder}
                   </div>
