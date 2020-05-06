@@ -54,7 +54,7 @@ function ProductsForm(props: AddProductsFormProps) {
     props.setForm(form);
     if (props.units) {
       const tmpUnitList = [];
-      props.units.map((unit) => {
+      props.units.forEach((unit) => {
         tmpUnitList.push(
           <Option key={unit.id} value={unit.id}>
             {unit.notation}
@@ -68,7 +68,7 @@ function ProductsForm(props: AddProductsFormProps) {
       );
       setUnitList(tmpUnitList);
     }
-  }, [form, props.units]);
+  }, [form, props, props.units]);
 
   return (
     <Form

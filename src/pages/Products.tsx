@@ -87,16 +87,14 @@ const Products = () => {
 
   if (!loadingCategories && dataCategories) {
     // TODO a supprimer et a faire en back
-    dataCategories.getAllCompanyProductsCategories.map((cat, index) => {
+    dataCategories.getAllCompanyProductsCategories.forEach((cat, index) => {
       dataCategories.getAllCompanyProductsCategories[index].products.sort(
         (a: any, b: any) => {
           if (a.position > b.position) {
             return 1;
-          }
-          if (a.position === b.position) {
+          } else if (a.position === b.position) {
             return 0;
-          }
-          if (a.position < b.position) {
+          } else {
             return -1;
           }
         }
@@ -306,6 +304,7 @@ const Products = () => {
                     />
                   );
                 }
+                return null;
               })}
             </DragDropContext>
           )}
