@@ -5,8 +5,14 @@ query getCompanyById ($companyId: ID!) {
         description
         email
         phone
-        logo
-        cover
+        logo {
+            id
+            filename
+        }
+        cover {
+            id
+            filename
+        }
         address
         openingDays {
             id
