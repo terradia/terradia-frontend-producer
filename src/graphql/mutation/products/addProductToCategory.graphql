@@ -1,0 +1,31 @@
+mutation addProductToCompanyCategory($categoryId: String!, $productId: String!) {
+    addProductToCompanyCategory(categoryId: $categoryId, productId: $productId) {
+        id
+        name
+        image
+        position
+        description
+        unit {
+            id
+            name
+            notation
+            referenceUnit {
+                id
+                name
+                notation
+                multiplicationFactor
+            }
+            multiplicationFactor
+        }
+        quantityForUnit
+        price
+        reviews {
+            id
+            title
+            description
+            customerMark
+        }
+        updatedAt
+
+    }
+}
