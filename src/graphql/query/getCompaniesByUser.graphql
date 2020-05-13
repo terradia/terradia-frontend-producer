@@ -5,8 +5,14 @@ query getCompaniesByUser($userId: ID!) {
             id
             name
             description
-            logo
-            cover
+            logo {
+                id
+                filename
+            }
+            cover {
+                id
+                filename
+            }
         }
     }
 }

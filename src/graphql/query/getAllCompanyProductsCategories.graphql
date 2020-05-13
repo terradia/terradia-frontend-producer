@@ -5,7 +5,14 @@ query getAllCompanyProductsCategories($companyId: String!) {
         products {
             id
             name
-            image
+            logo {
+                id
+                filename
+            }
+            cover {
+                id
+                filename
+            }
             position
             description
             unit {
