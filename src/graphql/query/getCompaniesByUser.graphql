@@ -1,18 +1,18 @@
 query getCompaniesByUser($userId: ID!) {
-    getCompaniesByUser(userId: $userId) {
+  getCompaniesByUser(userId: $userId) {
+    id
+    company {
+      id
+      name
+      description
+      logo {
         id
-        company {
-            id
-            name
-            description
-            logo {
-                id
-                filename
-            }
-            cover {
-                id
-                filename
-            }
-        }
+        filename
+      }
+      cover {
+        id
+        filename
+      }
     }
+  }
 }

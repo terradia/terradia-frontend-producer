@@ -1,0 +1,5 @@
+mutation leaveCompany($companyId: String!, $userId: String!) {
+  leaveCompany(companyId: $companyId, userId: $userId) {
+    name
+  }
+}

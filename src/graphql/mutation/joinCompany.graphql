@@ -1,0 +1,5 @@
+mutation joinCompany($companyId: String!, $userId: String!) {
+    joinCompany(companyId: $companyId  , userId: $userId) {
+        name
+    }
+}

@@ -14,7 +14,10 @@ declare interface CompanyData {
     description: string;
     email: string;
     phone: string;
-    logo: string;
+    logo: {
+      id: string;
+      filename: string;
+    }
     cover: string;
     address: string;
     openingDays: [
@@ -126,7 +129,7 @@ const Company = () => {
             { label: "TYPE DE PRODUITS: ", text: "test product" },
             {
               label: "LOGO ENTREPRISE:",
-              icon: loading ? "" : data.getCompany.logo,
+              icon: loading ? "" : data.getCompany.logo.filename,
             },
             { label: "BANIERE ENTREPRISE:", icon: data.getCompany.cover },
           ]}
