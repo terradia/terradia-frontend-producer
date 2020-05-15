@@ -2,7 +2,7 @@ import * as React from "react";
 import { Layout as AntLayout } from "antd";
 import Header from "./Header";
 import Logout from "../Authentication/Logout/Logout";
-import Sidebar from "./Sidebar";
+import Sidebar from "./Sidebar/Sidebar";
 import "../../index.less";
 import { useContext } from "react";
 import Breakpoint, { sm, md } from "../Context/Breakpoint";
@@ -25,7 +25,6 @@ const Layout = (props: LayoutProps) => {
   ) {
     return <Redirect to={"/companySelection"} />;
   }
-
   return (
     <AntLayout style={{ background: "white" }}>
       <Header />

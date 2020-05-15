@@ -9,6 +9,7 @@ import Staff from "./pages/Staff";
 import Documents from "./pages/Documents";
 import Login from "./pages/Login";
 import Company from "./pages/Company";
+import Profile from "./pages/profile/Profile";
 import { useLazyQuery } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
 import ResetPassword from "./pages/ResetPassword";
@@ -115,6 +116,9 @@ const App = () => {
                 </Route>
                 <Route exact path={"/company"}>
                   <Company />
+                </Route>
+                <Route exact path={"/profile/:id"}>
+                  <Profile />
                 </Route>
               </Layout>
             </BreakpointCatcher>
