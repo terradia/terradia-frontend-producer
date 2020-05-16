@@ -4,9 +4,17 @@ import "../../assets/Style/Login-Register/registerForm.less";
 
 const AdministrativeInfoForm = () => {
   return (
-    <Form.Item name={"address"}>
-      <Input className={"form_item input_item"} placeholder={"Address"} />
-    </Form.Item>
+    <>
+      <Form.Item name={"description"}>
+        <Input.TextArea
+          className={"input_item"}
+          placeholder={"Description courte (300 caractères)"}
+          onChange={(event) => {
+            if (event.currentTarget.value.length === 300) return false;
+          }}
+        />
+      </Form.Item>
+    </>
   );
 };
 
