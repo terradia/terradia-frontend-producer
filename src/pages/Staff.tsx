@@ -6,8 +6,6 @@ import "../assets/Style/Products/ProductsPage.less";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { Table, Tag, Modal, Select, AutoComplete } from "antd";
 import Popconfirm from "antd/es/popconfirm";
-import { ConsoleSqlOutlined } from "@ant-design/icons";
-// import Modal from '../components/Ui/Modal';
 
 const queryCompanyUsers = graphqlLoader(
   "../graphql/query/getCompanyUsers.graphql"
@@ -27,16 +25,19 @@ const mutationAddUserCompanyRole = graphqlLoader(
   "../graphql/mutation/addUserCompanyRole.graphql"
 );
 
-const mutationRemoveUserCompanyRole = graphqlLoader(
-  "../graphql/mutation/removeUserCompanyRole.graphql"
-);
+// const mutationRemoveUserCompanyRole = graphqlLoader(
+//   "../graphql/mutation/removeUserCompanyRole.graphql"
+// );
 
 const Staff = () => {
   const companyId = localStorage.getItem("selectedCompany");
 
-  const { loading, error, data } = useQuery(queryCompanyUsers, {
-    variables: { companyId: companyId },
-  });
+  const { loading, error: errorDataCompany, data: dataCompany } = useQuery(
+    queryCompanyUsers,
+    {
+      variables: { companyId: companyId },
+    }
+  );
 
   const {
     loading: loadingAllUsers,
@@ -56,10 +57,10 @@ const Staff = () => {
     { loading: addUserCompanyRoleLoading },
   ] = useMutation(mutationAddUserCompanyRole);
 
-  const [
-    removeUserCompanyRole,
-    { loading: removeUserCompanyRoleLoading },
-  ] = useMutation(mutationRemoveUserCompanyRole);
+  // const [
+  //   removeUserCompanyRole,
+  //   { loading: removeUserCompanyRoleLoading },
+  // ] = useMutation(mutationRemoveUserCompanyRole);
 
   const [openUser, setOpenUser] = React.useState(false);
   const [openRole, setOpenRole] = React.useState(false);
@@ -87,10 +88,10 @@ const Staff = () => {
       title: "Tags",
       key: "tags",
       dataIndex: "roles",
-      render: (roles) => (
+      render: (roles: { slugName: string }[]) => (
         <span>
-          {roles.map((tag, index) => {
-            let color = tag.slugName.length === "member" ? "geekblue" : "green";
+          {roles.map((tag: { slugName: string }, index: string | number) => {
+            let color = "green";
             if (tag.slugName === "admin") {
               color = "volcano";
             }
@@ -133,18 +134,20 @@ const Staff = () => {
 
   const handleOpenAddUser = () => {
     let tmpAllUsers = [];
-    allUsers.getAllUsers.map((user) => {
-      tmpAllUsers = [
-        ...tmpAllUsers,
-        {
-          id: user.id,
-          slugName: user.firstName + " " + user.lastName,
-          firstName: user.firstName,
-          lastName: user.lastName,
-        },
-      ];
-    });
-    setAllUsers(tmpAllUsers);
+    if (!loadingAllUsers && !errorAllUsers) {
+      allUsers.getAllUsers.map((user) => {
+        tmpAllUsers = [
+          ...tmpAllUsers,
+          {
+            id: user.id,
+            slugName: user.firstName + " " + user.lastName,
+            firstName: user.firstName,
+            lastName: user.lastName,
+          },
+        ];
+      });
+      setAllUsers(tmpAllUsers);
+    } else console.log(errorAllUsers);
     return openUser === true ? setOpenUser(false) : setOpenUser(true);
   };
 
@@ -182,17 +185,19 @@ const Staff = () => {
   }
 
   const handleOpenRole = () => {
-    data.getCompany.users.map((user) => {
-      user.roles.map((role) => {
-        setRoles([
-          ...roles,
-          {
-            id: role.id,
-            slugName: role.slugName,
-          },
-        ]);
+    if (!errorDataCompany) {
+      dataCompany.getCompany.users.map((user) => {
+        user.roles.map((role) => {
+          setRoles([
+            ...roles,
+            {
+              id: role.id,
+              slugName: role.slugName,
+            },
+          ]);
+        });
       });
-    });
+    } else console.log(errorDataCompany);
     return openRole === true ? setOpenRole(false) : setOpenRole(true);
   };
 
@@ -212,7 +217,14 @@ const Staff = () => {
     return openRole === true ? setOpenRole(false) : setOpenRole(true);
   };
 
-  if (loading) return <div>loading</div>;
+  if (
+    loading ||
+    loadingAllUsers ||
+    joinCompanyLoading ||
+    leaveCompanyLoading ||
+    addUserCompanyRoleLoading
+  )
+    return <div>loading</div>;
 
   return (
     <div className={"product-page"}>
@@ -273,24 +285,25 @@ const Staff = () => {
                 ))
               : null}
           </Select>
-          <Select
-            defaultValue="Choose your member"
-            style={{ width: 240 }}
-            onChange={handleChangeUserRole}
-          >
-            {data.getCompany.users
-              ? data.getCompany.users.map((user) => (
+          {dataCompany.getCompany && (
+            <Select
+              defaultValue="Choose your member"
+              style={{ width: 240 }}
+              onChange={handleChangeUserRole}
+            >
+              {dataCompany.getCompany.users &&
+                dataCompany.getCompany.users.map((user) => (
                   <Select.Option value={user.id} key={user.user.id}>
                     {user.user.firstName}
                   </Select.Option>
-                ))
-              : null}
-          </Select>
+                ))}
+            </Select>
+          )}
         </Modal>
       </div>
       <Table
         columns={columns}
-        dataSource={data ? data.getCompany.users : null}
+        dataSource={dataCompany ? dataCompany.getCompany.users : null}
       />
     </div>
   );
