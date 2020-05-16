@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { ReactComponent as ReactLogo } from "../../assets/Logo/Terradia.svg";
+import { ReactComponent as TerradiaLogo } from "../../assets/Logo/Terradia.svg";
 import { UserOutlined } from "@ant-design/icons";
 import Logout from "../Authentication/Logout/Logout";
 import { Layout as AntLayout, Avatar, Skeleton } from "antd";
@@ -101,7 +101,7 @@ const Header = (props: HeaderProps) => {
           borderBottomWidth: "thin",
         }}
       >
-        <ReactLogo
+        <TerradiaLogo
           height={"5vh"}
           width={"25vh"}
           style={{

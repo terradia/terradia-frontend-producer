@@ -11,10 +11,9 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import Button from "../../Ui/Button";
 import "../../../assets/Style/Login-Register/loginForm.less";
-import FacebookIcon from "../../Icons/FacebookIcon";
-import AppleIcon from "../../Icons/AppleIcon";
 import CreateCompanyButton from "../../Ui/CreateCompanyButton";
 import UserContext from "../../Context/UserContext";
+import { AppleFilled, FacebookFilled } from "@ant-design/icons/lib";
 
 const mutationLogin = graphqlLoader("../../../graphql/mutation/login.graphql");
 const getUser = graphqlLoader("../../../graphql/query/getUser.graphql");
@@ -214,7 +213,7 @@ const LoginForm = (props: LoginFormProps) => {
                   className={"form_item"}
                   id={"login_button"}
                   size={"large"}
-                  width={"full-width"}
+                  width={"100%"}
                   htmlType={"submit"}
                   isLoading={loginLoading || companiesLoading}
                 />
@@ -231,7 +230,7 @@ const LoginForm = (props: LoginFormProps) => {
                     size={"large"}
                     id={"facebook_button"}
                     accentColor={"#2174EE"}
-                    icon={<FacebookIcon />}
+                    icon={<FacebookFilled />}
                   />
                   <Button
                     className={"button_register"}
@@ -239,7 +238,7 @@ const LoginForm = (props: LoginFormProps) => {
                     size={"large"}
                     id={"apple_button"}
                     accentColor={"#202020"}
-                    icon={<AppleIcon />}
+                    icon={<AppleFilled />}
                   />
                 </div>
                 {!props.onLogin && (

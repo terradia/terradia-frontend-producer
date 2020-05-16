@@ -4,7 +4,7 @@
   "extensions": {
     "endpoints": {
       "Terradia Api": {
-        "url": "https://api.terradia.eu/graphql",
+        "url": "http://localhost:8000/graphql",
         "headers": {
           "user-agent": "JS GraphQL"
         },

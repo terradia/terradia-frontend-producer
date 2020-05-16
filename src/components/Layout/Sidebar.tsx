@@ -83,8 +83,8 @@ const Sidebar = () => {
         }
       />
       <PageButton
-        link={"/document"}
-        label={"Documents"}
+        link={"/files"}
+        label={"Fichiers"}
         onClick={OnClickedLink}
         icon={
           <DocumentIcon
