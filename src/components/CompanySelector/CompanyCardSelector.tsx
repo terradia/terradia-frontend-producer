@@ -9,13 +9,6 @@ import { notification } from "antd";
 
 const getCompanies = graphqlLoader("../../graphql/query/getCompanies.graphql");
 
-const textStyle = {
-  fontWeight: 600,
-  fontSize: "larger",
-  color: "#575757",
-  flexShrink: 0,
-};
-
 const CompanyCardSelector = () => {
   const history = useHistory();
   const { loading, error, data: companiesData } = useQuery(getCompanies);
@@ -103,8 +96,7 @@ const CompanyCardSelector = () => {
         onClick={OnValidatedSelection}
         isLoading={loading}
         text={"Valider"}
-      >
-      </Button>
+      />
       <CheckBox onClick={(event) => setRemember(event.currentTarget.checked)}>
         se souvenir de mon choix
       </CheckBox>

@@ -3,12 +3,30 @@
 .modal {
   width: 60em !important;
   .ant-modal-body {
-    nav {
-      width: 100%;
+    nav.modal-header {
       display: flex;
-      flex-direction: row;
-      justify-content: flex-start;
+      width: 100%;
       align-items: center;
+      flex-wrap: wrap;
+      flex-direction: row;
+      justify-content: center;
+      .divider {
+        display: none;
+      }
+      div {
+        margin-top: @padding-sm;
+      }
+    }
+    @media (min-width: 1024px) { // on desktop
+      nav.modal-header {
+        justify-content: flex-start;
+        .divider {
+          display: block;
+        }
+        div {
+          margin-top: 0;
+        }
+      }
     }
     .image-card {
       position: relative;
@@ -42,3 +60,4 @@
     }
   }
 }
+

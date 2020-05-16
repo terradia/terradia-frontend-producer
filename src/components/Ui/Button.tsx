@@ -2,41 +2,6 @@ import React from "react";
 import { Button as AntButton } from "antd";
 import { ButtonShape, ButtonSize, ButtonType } from "antd/es/button";
 
-const ButtonElementsContainer: React.FC = (props) => {
-  return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      {props.children}
-    </div>
-  );
-};
-
-interface ButtonColumnProps {
-  width: string;
-  style?: React.CSSProperties;
-}
-
-const ButtonColumn: React.FC<ButtonColumnProps> = (props) => {
-  return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        ...props.style,
-        width: props.width,
-      }}
-    >
-      {props.children}
-    </div>
-  );
-};
-
 export interface ButtonProps {
   text?: string;
   type?: ButtonType; // can be set to 'primary' 'ghost' 'dashed' 'link' or 'omitted' (meaning default)
@@ -66,9 +31,9 @@ const Button: React.FunctionComponent<ButtonProps> = (props) => {
     width: props.width && props.width,
   };
 
-  let numberOfIcons = 0;
-  if (props.icon) numberOfIcons++;
-  if (props.rightIcon) numberOfIcons++;
+  // let numberOfIcons = 0;
+  // if (props.icon) numberOfIcons++;
+  // if (props.rightIcon) numberOfIcons++;
 
   const type = props.type;
   // if there is an accent color, we change manually the color of the button

@@ -33,7 +33,6 @@ const ImageSelectorModal: React.FC<Props> = ({
   const companyId = localStorage.getItem("selectedCompany");
   const {
     loading: loadingCompanyImages,
-    error: errorCompanyImages,
     data: dataCompanyImages,
     refetch,
   } = useQuery(queryCompanyImages, {
@@ -103,12 +102,16 @@ const ImageSelectorModal: React.FC<Props> = ({
       onCancel={handleClose}
       footer={footer}
     >
-      <nav>
+      <nav className={"modal-header"}>
         <ImagesUploadButton
           oneImageByOne={onlyOneImageByOne}
           onUpload={handleRefetch}
         />
-        <Divider type={"vertical"} style={{ background: "rgba(0,0,0,0)" }} />
+        <Divider
+          className={"divider"}
+          type={"vertical"}
+          style={{ background: "rgba(0,0,0,0)" }}
+        />
         <div>
           {numberOfImagesSelected === 0
             ? "Aucune image séléctionné"

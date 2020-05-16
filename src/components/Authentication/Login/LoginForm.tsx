@@ -11,11 +11,9 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import Button from "../../Ui/Button";
 import "../../../assets/Style/Login-Register/loginForm.less";
-import FacebookIcon from "../../Icons/FacebookIcon";
-import AppleIcon from "../../Icons/AppleIcon";
 import CreateCompanyButton from "../../Ui/CreateCompanyButton";
 import UserContext from "../../Context/UserContext";
-import { AppleFilled, FacebookFilled } from '@ant-design/icons/lib';
+import { AppleFilled, FacebookFilled } from "@ant-design/icons/lib";
 
 const mutationLogin = graphqlLoader("../../../graphql/mutation/login.graphql");
 const getUser = graphqlLoader("../../../graphql/query/getUser.graphql");

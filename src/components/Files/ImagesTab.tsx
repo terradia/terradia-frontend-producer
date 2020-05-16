@@ -20,7 +20,6 @@ interface Props {
 const ImagesTab: React.FC<Props> = (props: Props) => {
   const {
     loading: loadingCompanyImages,
-    error: errorCompanyImages,
     data: dataCompanyImages,
     refetch,
   } = useQuery(queryCompanyImages, {
@@ -42,11 +41,6 @@ const ImagesTab: React.FC<Props> = (props: Props) => {
     <>
       <nav className={"images-tab-header"}>
         <ImagesUploadButton onUpload={handleRefetch} />
-        <Divider type={"vertical"} />
-        <ImageSelectorButton
-          onlyOneImageByOne={true}
-          onValidate={(selectedImages) => console.log(selectedImages)}
-        />
       </nav>
       <Divider />
       <div className={"company-images-container"}>
