@@ -9,10 +9,6 @@ query getCompaniesByUser($userId: ID!) {
                 id
                 filename
             }
-            cover {
-                id
-                filename
-            }
         }
     }
 }

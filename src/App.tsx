@@ -6,7 +6,7 @@ import Products from "./pages/Products";
 import Categories from "./pages/Categories";
 import Statistics from "./pages/Statistics";
 import Staff from "./pages/Staff";
-import Documents from "./pages/Documents";
+import Files from "./pages/Files";
 import Login from "./pages/Login";
 import Company from "./pages/Company";
 import { useLazyQuery } from "@apollo/react-hooks";
@@ -110,8 +110,8 @@ const App = () => {
                 <Route exact path={"/staff"}>
                   <Staff />
                 </Route>
-                <Route exact path={"/documents"}>
-                  <Documents />
+                <Route exact path={"/files"}>
+                  <Files />
                 </Route>
                 <Route exact path={"/company"}>
                   <Company />
