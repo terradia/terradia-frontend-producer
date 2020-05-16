@@ -6,7 +6,6 @@ import { loader as graphqlLoader } from "graphql.macro";
 import ImagesUploadButton from "./ImagesUploadButton";
 import ImageCard from "./ImageCard";
 import CompanyImage from "../../interfaces/Files/CompanyImage";
-import ImageSelectorButton from "../Gallery/ImageSelectorButton";
 import { LoadingOutlined } from "@ant-design/icons/lib";
 
 const queryCompanyImages = graphqlLoader(
