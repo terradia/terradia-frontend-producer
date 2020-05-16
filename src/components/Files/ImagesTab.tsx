@@ -44,6 +44,7 @@ const ImagesTab: React.FC<Props> = (props: Props) => {
         <ImagesUploadButton onUpload={handleRefetch} />
         <Divider type={"vertical"} />
         <ImageSelectorButton
+          onlyOneImageByOne={true}
           onValidate={(selectedImages) => console.log(selectedImages)}
         />
       </nav>

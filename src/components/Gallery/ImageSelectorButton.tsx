@@ -34,7 +34,11 @@ const ImageSelectorButton: React.FC<Props> = ({
   return (
     <>
       <Button
-        text={"Séléctionner des images"}
+        text={
+          onlyOneImageByOne === true
+            ? "Séléctionner une image"
+            : "Séléctionner des images"
+        }
         icon={<FileImageOutlined />}
         onClick={handleOpen}
       />
