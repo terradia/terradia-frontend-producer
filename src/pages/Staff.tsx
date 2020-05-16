@@ -1,43 +1,48 @@
-import React from 'react';
-import Button from '../components/Ui/Button';
-import { loader as graphqlLoader } from 'graphql.macro';
-import { ReactComponent as AddIcon } from '../assets/Icon/ui/add.svg';
-import '../assets/Style/Products/ProductsPage.less';
-import { useQuery, useMutation } from '@apollo/react-hooks';
-import { Table, Tag, Modal, Select } from 'antd';
-import Popconfirm from 'antd/es/popconfirm';
+import React from "react";
+import Button from "../components/Ui/Button";
+import { loader as graphqlLoader } from "graphql.macro";
+import { ReactComponent as AddIcon } from "../assets/Icon/ui/add.svg";
+import "../assets/Style/Products/ProductsPage.less";
+import { useQuery, useMutation } from "@apollo/react-hooks";
+import { Table, Tag, Modal, Select, AutoComplete } from "antd";
+import Popconfirm from "antd/es/popconfirm";
+import { ConsoleSqlOutlined } from "@ant-design/icons";
 // import Modal from '../components/Ui/Modal';
 
 const queryCompanyUsers = graphqlLoader(
-  '../graphql/query/getCompanyUsers.graphql'
+  "../graphql/query/getCompanyUsers.graphql"
 );
 
-const queryCompaniesByUser = graphqlLoader(
-  '../graphql/query/getCompaniesByUser.graphql'
-);
+const getAllUsers = graphqlLoader("../graphql/query/getAllUsers.graphql");
 
 const mutationJoinCompany = graphqlLoader(
-  '../graphql/mutation/joinCompany.graphql'
+  "../graphql/mutation/joinCompany.graphql"
 );
 
 const mutationLeaveCompany = graphqlLoader(
-  '../graphql/mutation/leaveCompany.graphql'
+  "../graphql/mutation/leaveCompany.graphql"
 );
 
 const mutationAddUserCompanyRole = graphqlLoader(
-  '../graphql/mutation/addUserCompanyRole.graphql'
+  "../graphql/mutation/addUserCompanyRole.graphql"
 );
 
 const mutationRemoveUserCompanyRole = graphqlLoader(
-  '../graphql/mutation/removeUserCompanyRole.graphql'
+  "../graphql/mutation/removeUserCompanyRole.graphql"
 );
 
 const Staff = () => {
-  const companyId = localStorage.getItem('selectedCompany');
+  const companyId = localStorage.getItem("selectedCompany");
 
   const { loading, error, data } = useQuery(queryCompanyUsers, {
     variables: { companyId: companyId },
   });
+
+  const {
+    loading: loadingAllUsers,
+    error: errorAllUsers,
+    data: allUsers,
+  } = useQuery(getAllUsers);
 
   const [joinCompany, { loading: joinCompanyLoading }] = useMutation(
     mutationJoinCompany
@@ -61,33 +66,33 @@ const Staff = () => {
 
   const columns = [
     {
-      title: 'Last Name',
-      dataIndex: "user",// 'name',
-      key: 'lastNameId' ,//'user.lastName',
-      render: user => `${user.lastName}`,
+      title: "Last Name",
+      dataIndex: "user",
+      key: "lastNameId",
+      render: (user) => `${user.lastName}`,
     },
     {
-      title: 'First Name',
-      dataIndex: 'user',//'age',
-      key: 'firstNameId',//'age',
-      render: user => `${user.firstName}`,
+      title: "First Name",
+      dataIndex: "user",
+      key: "firstNameId",
+      render: (user) => `${user.firstName}`,
     },
     {
-      title: 'Email',
-      dataIndex: 'user',//'address',
-      key: 'emailId',//'address',
-      render: user => `${user.email}`,
+      title: "Email",
+      dataIndex: "user",
+      key: "emailId",
+      render: (user) => `${user.email}`,
     },
     {
-      title: 'Tags',
-      key: 'tags',
-      dataIndex: 'roles',
+      title: "Tags",
+      key: "tags",
+      dataIndex: "roles",
       render: (roles) => (
         <span>
           {roles.map((tag, index) => {
-            let color = tag.slugName.length === 'member' ? 'geekblue' : 'green';
-            if (tag.slugName === 'admin') {
-              color = 'volcano';
+            let color = tag.slugName.length === "member" ? "geekblue" : "green";
+            if (tag.slugName === "admin") {
+              color = "volcano";
             }
             return (
               <Tag color={color} key={index}>
@@ -95,12 +100,12 @@ const Staff = () => {
               </Tag>
             );
           })}
-    </span>
-    ),
+        </span>
+      ),
     },
     {
-      title: 'Operation',
-      dataIndex: 'operation',
+      title: "Operation",
+      dataIndex: "operation",
       render: (text, record) => (
         <Popconfirm
           title="Sure to delete?"
@@ -112,19 +117,7 @@ const Staff = () => {
     },
   ];
 
-
-
-  console.log('===========DATATable');
-  let extractArrays1 = data ? data.getCompany.users : null;
-  console.log(extractArrays1);
-
-  const handleOpenAddUser = () => {
-    return openUser === true ? setOpenUser(false) : setOpenUser(true);
-  };
-
   const handleDeleteUser = (userData) => {
-    console.log('DATASOURCE');
-    console.log(userData.user.id);
     leaveCompany({
       variables: {
         companyId: companyId,
@@ -135,25 +128,64 @@ const Staff = () => {
     });
   };
 
+  // Add user to company
+  const [allUsersState, setAllUsers] = React.useState([]);
+
+  const handleOpenAddUser = () => {
+    let tmpAllUsers = [];
+    allUsers.getAllUsers.map((user) => {
+      tmpAllUsers = [
+        ...tmpAllUsers,
+        {
+          id: user.id,
+          slugName: user.firstName + " " + user.lastName,
+          firstName: user.firstName,
+          lastName: user.lastName,
+        },
+      ];
+    });
+    setAllUsers(tmpAllUsers);
+    return openUser === true ? setOpenUser(false) : setOpenUser(true);
+  };
+
+  const [selectedUserToCompany, setSelectedUserToCompany] = React.useState("");
+
+  const onSelectUser = (userSelected) => {
+    allUsersState.find((user) =>
+      user.slugName === userSelected ? setSelectedUserToCompany(user.id) : null
+    );
+    console.log("SELECTED COMPANY");
+    console.log(selectedUserToCompany);
+  };
+
   const handleJoinCompany = () => {
     joinCompany({
       variables: {
         companyId: companyId,
-        userId: 'ecd9b7fe-bd5c-4802-a936-1c1a8351a088',
+        userId: selectedUserToCompany,
       },
     }).catch((error) => {
       console.log(error);
     });
+
+    console.log("After ok button Join company");
+    console.log(selectedUserToCompany);
     return openUser === true ? setOpenUser(false) : setOpenUser(true);
   };
 
-  const [items, setItems] = React.useState([]);
+  // Add role to user
+  const [roles, setRoles] = React.useState([]);
+  const [roleChanged, setRoleChanged] = React.useState("");
+  const [userChanged, setUserChanged] = React.useState("");
+  function handleChangeRole(value) {
+    setRoleChanged(value);
+  }
 
   const handleOpenRole = () => {
     data.getCompany.users.map((user) => {
       user.roles.map((role) => {
-        setItems([
-          ...items,
+        setRoles([
+          ...roles,
           {
             id: role.id,
             slugName: role.slugName,
@@ -164,25 +196,15 @@ const Staff = () => {
     return openRole === true ? setOpenRole(false) : setOpenRole(true);
   };
 
-  const [roleChanged, setRoleChanged] = React.useState('');
-  const [userChanged, setUserChanged] = React.useState('');
-  function handleChangeRole(value) {
-    setRoleChanged(value);
-  }
-
-  function handleChangeUser(value) {
+  function handleChangeUserRole(value) {
     setUserChanged(value);
   }
 
   const handleAddRoleUser = () => {
-    console.log('roleChanged:');
-    console.log(roleChanged);
-    console.log('userChanged:');
-    console.log(userChanged);
     addUserCompanyRole({
       variables: {
-        companyUserId: userChanged, //"26b0eedd-b489-4f2d-bd5a-0b6f70a4a385",
-        roleId: roleChanged, //"4ab9dee4-28a3-4109-9a59-94b10632fb77",
+        companyUserId: userChanged,
+        roleId: roleChanged,
       },
     }).catch((error) => {
       console.log(error);
@@ -190,32 +212,47 @@ const Staff = () => {
     return openRole === true ? setOpenRole(false) : setOpenRole(true);
   };
 
-  const { Option } = Select;
   if (loading) return <div>loading</div>;
+
   return (
-    <div className={'product-page'}>
-      <div className={'sub-header'}>
+    <div className={"product-page"}>
+      <div className={"sub-header"}>
         <Button
-          className={'button'}
-          text={'Ajouter un employé'}
+          className={"button"}
+          text={"Ajouter un employé"}
           icon={<AddIcon />}
-          size={'large'}
+          size={"large"}
           onClick={() => handleOpenAddUser()}
         />
         <Button
-          className={'button'}
-          text={'Modifier le rôle'}
+          className={"button"}
+          text={"Modifier le rôle"}
           icon={<AddIcon />}
-          size={'large'}
+          size={"large"}
           onClick={() => handleOpenRole()}
         />
         <Modal
-          title="Ajouté un employé"
+          title="Ajouter un employé"
           centered
           visible={openUser}
           onOk={() => handleJoinCompany()}
           onCancel={() => handleOpenAddUser()}
-        ></Modal>
+        >
+          {allUsersState && (
+            <AutoComplete
+              style={{ width: 200 }}
+              placeholder="Ajouter un employé"
+              onSelect={onSelectUser}
+              onChange={onSelectUser}
+            >
+              {allUsersState.map((user) => (
+                <AutoComplete.Option key={user.id} value={user.slugName}>
+                  {user.slugName}
+                </AutoComplete.Option>
+              ))}
+            </AutoComplete>
+          )}
+        </Modal>
         <Modal
           title="Ajouté un rôle a un employé"
           centered
@@ -228,34 +265,32 @@ const Staff = () => {
             style={{ width: 240 }}
             onChange={handleChangeRole}
           >
-            {items
-              ? items.map((item) => (
-                  <Option value={item.id} key={item.id}>
+            {roles
+              ? roles.map((item) => (
+                  <Select.Option value={item.id} key={item.id}>
                     {item.slugName}
-                  </Option>
+                  </Select.Option>
                 ))
               : null}
           </Select>
           <Select
             defaultValue="Choose your member"
             style={{ width: 240 }}
-            onChange={handleChangeUser}
+            onChange={handleChangeUserRole}
           >
             {data.getCompany.users
               ? data.getCompany.users.map((user) => (
-                  <Option value={user.id} key={user.user.id}>
+                  <Select.Option value={user.id} key={user.user.id}>
                     {user.user.firstName}
-                  </Option>
+                  </Select.Option>
                 ))
               : null}
           </Select>
         </Modal>
       </div>
-      {console.log('BEFORE TABLE')}
-      {console.log(data.getCompany.users)}
       <Table
         columns={columns}
-        dataSource={data ? data.getCompany.users : null} //dataTEST 
+        dataSource={data ? data.getCompany.users : null}
       />
     </div>
   );
