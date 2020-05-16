@@ -1,0 +1,5 @@
+mutation removeCompanyImage($imageId: ID!) {
+    removeCompanyImage(imageId: $imageId) {
+        id
+    }
+}

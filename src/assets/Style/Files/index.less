@@ -1,0 +1,132 @@
+@import "../../../../src/index.less";
+
+.card-container p {
+  margin: 0;
+}
+.card-container > .ant-tabs-card > .ant-tabs-content {
+  margin-top: -16px;
+}
+[data-theme="compact"] .card-container > .ant-tabs-card > .ant-tabs-content {
+  margin-top: -8px;
+}
+
+[data-theme="compact"]
+  .card-container
+  > .ant-tabs-card
+  > .ant-tabs-content
+  > .ant-tabs-tabpane,
+.card-container > .ant-tabs-card > .ant-tabs-content > .ant-tabs-tabpane {
+  background: #fff;
+  padding: 16px;
+}
+
+[data-theme="compact"] .card-container > .ant-tabs-card > .ant-tabs-bar,
+.card-container > .ant-tabs-card > .ant-tabs-bar {
+  border-color: #fff;
+}
+
+[data-theme="compact"]
+  .card-container
+  > .ant-tabs-card
+  > .ant-tabs-bar
+  .ant-tabs-tab,
+.card-container > .ant-tabs-card > .ant-tabs-bar .ant-tabs-tab {
+  border-color: transparent;
+  background: transparent;
+}
+
+[data-theme="compact"]
+  .card-container
+  > .ant-tabs-card
+  > .ant-tabs-bar
+  .ant-tabs-tab-active,
+.card-container > .ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-active {
+  border-color: #fff;
+  background: #fff;
+}
+
+.images-tab-header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: row;
+}
+
+.company-images-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  .company-image-card {
+    margin: @padding-sm !important;
+    width: 15em;
+    height: 18em;
+    .ant-card-cover {
+      img {
+        object-fit: cover;
+        width: 15em;
+        height: 15em;
+        cursor: pointer;
+      }
+      .ant-card-actions {
+        height: 3em;
+      }
+    }
+  }
+}
+
+.modal {
+  width: 60em !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .ant-modal-content {
+    width: 100%;
+    .ant-modal-body {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-evenly;
+      .column1 {
+        width: 20em;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .company-image-card {
+          margin: 0 !important;
+          width: 20em;
+          height: 20em;
+          border: none;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          .ant-card-cover {
+            img {
+              object-fit: contain;
+              width: 100%;
+              height: 100%;
+              cursor: pointer;
+              border-radius: 4px;
+            }
+          }
+        }
+      }
+      .column2 {
+        padding-top: @padding-sm;
+        width: 30em;
+        .title {
+          font-weight: bold;
+        }
+        .image-name-input {
+          margin-top: @padding-sm !important;
+        }
+      }
+      .title.important.danger {
+        color: @error-color;
+        font-weight: bold;
+        font-size: large;
+        text-align: center;
+      }
+    }
+  }
+}

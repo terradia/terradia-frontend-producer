@@ -9,8 +9,6 @@ const ButtonElementsContainer: React.FC = (props) => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        width: "100%",
-        height: "100%",
       }}
     >
       {props.children}
@@ -57,6 +55,7 @@ export interface ButtonProps {
   id?: string;
   className?: string;
   accentColor?: string;
+  error?: boolean;
 }
 
 const Button: React.FunctionComponent<ButtonProps> = (props) => {
@@ -64,15 +63,12 @@ const Button: React.FunctionComponent<ButtonProps> = (props) => {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    width: props.width === "full-width" ? "100%" : "",
+    width: props.width && props.width,
   };
 
   let numberOfIcons = 0;
   if (props.icon) numberOfIcons++;
   if (props.rightIcon) numberOfIcons++;
-
-  const mainElementSize = 100 - numberOfIcons * 15;
-  const iconContainerSize = 20;
 
   const type = props.type;
   // if there is an accent color, we change manually the color of the button
@@ -97,29 +93,22 @@ const Button: React.FunctionComponent<ButtonProps> = (props) => {
       target={props.targetLink}
       block={props.fitParentWidth}
       htmlType={props.htmlType}
+      icon={
+        props.icon &&
+        React.cloneElement(props.icon, {
+          style: { color: defaultStyle["color"] },
+        })
+      }
       style={{
         ...props.style,
         ...defaultStyle,
       }}
       id={props.id}
       className={props.className}
+      {...props}
     >
-      <ButtonElementsContainer>
-        {props.icon && (
-          <ButtonColumn width={iconContainerSize + "%"}>
-            <i style={{ width: "60%", height: "60%" }}>{props.icon}</i>
-          </ButtonColumn>
-        )}
-        <ButtonColumn width={mainElementSize + "%"}>
-          {props.text}
-          {props.children}
-        </ButtonColumn>
-        {props.rightIcon && (
-          <ButtonColumn width={iconContainerSize + "%"}>
-            <i style={{ width: "60%", height: "60%" }}>{props.rightIcon}</i>
-          </ButtonColumn>
-        )}
-      </ButtonElementsContainer>
+      {props.text && props.text}
+      {props.children && props.children}
     </AntButton>
   );
 };

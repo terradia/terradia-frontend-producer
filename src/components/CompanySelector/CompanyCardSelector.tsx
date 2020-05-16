@@ -102,10 +102,8 @@ const CompanyCardSelector = () => {
         }}
         onClick={OnValidatedSelection}
         isLoading={loading}
+        text={"Valider"}
       >
-        <span style={{ ...textStyle, color: "#5CC04A", fontSize: 18 }}>
-          Valider
-        </span>
       </Button>
       <CheckBox onClick={(event) => setRemember(event.currentTarget.checked)}>
         se souvenir de mon choix

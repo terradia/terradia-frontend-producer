@@ -1,0 +1,6 @@
+mutation updateCompanyImageName($imageId: ID!, $name: String!) {
+    updateCompanyImageName(name: $name, imageId: $imageId) {
+        id,
+        name
+    }
+}
