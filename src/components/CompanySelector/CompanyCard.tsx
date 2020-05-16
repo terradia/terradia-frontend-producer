@@ -56,7 +56,9 @@ const CompanyCard = ({
           size={200}
           shape={"square"}
           alt={"profile"}
-          src={logo}
+          src={
+            "https://terradia-bucket-assets.s3.eu-west-3.amazonaws.com/" + logo
+          }
           icon={<UserOutlined />}
         />
       </Card>

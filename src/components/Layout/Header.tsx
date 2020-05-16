@@ -74,7 +74,12 @@ const Header = (props: HeaderProps) => {
             marginRight: "5%",
             marginLeft: "5%",
           }}
-          src={data.getCompany.logo ? data.getCompany.logo : ""}
+          src={
+            data.getCompany.logo
+              ? "https://terradia-bucket-assets.s3.eu-west-3.amazonaws.com/" +
+                data.getCompany.logo.filename
+              : ""
+          }
           icon={<UserOutlined />}
         />
       </Skeleton>

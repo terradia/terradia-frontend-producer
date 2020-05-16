@@ -7,6 +7,7 @@ import { Moment } from "moment";
 import "../../assets/Style/CompanyInfo/InfoCard.less";
 import { loader } from "graphql.macro";
 import { useMutation } from "@apollo/react-hooks";
+import Button from "../Ui/Button";
 
 export declare interface Hours {
   startTime: Moment;
@@ -118,7 +119,10 @@ const InfoCard = (props: InfoCardProps) => {
                 }}
                 size={64}
                 shape={"square"}
-                src={info.icon}
+                src={
+                  "https://terradia-bucket-assets.s3.eu-west-3.amazonaws.com/" +
+                  info.icon
+                }
               />
             </>
           )}

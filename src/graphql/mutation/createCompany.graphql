@@ -1,0 +1,26 @@
+mutation createCompany($name: String!, $description: String, $logo: Upload, $cover: Upload, $email: String, $phone: String, $address: String!) {
+    createCompany (
+        name: $name
+        description: $description
+        email: $email
+        phone: $phone
+        address: $address
+        logo: $logo
+        cover: $cover
+    )
+    {
+        id
+        name
+        email
+        description
+        phone
+        logo {
+            id
+            filename
+        }
+        cover {
+            id
+            filename
+        }
+    }
+}
