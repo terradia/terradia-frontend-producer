@@ -6,6 +6,9 @@ import UserContext from "../Context/UserContext";
 import { loader as graphqlLoader } from "graphql.macro";
 import { useQuery } from "@apollo/react-hooks";
 import { useHistory, useLocation } from "react-router";
+import Logout from "../Authentication/Logout/Logout";
+import PageButton from "../Ui/PageButton";
+import { ShopOutlined } from "@ant-design/icons/lib";
 
 const queryGetCompaniesByUser = graphqlLoader(
   "../../graphql/query/getCompaniesByUser.graphql"
@@ -31,6 +34,11 @@ const CompanySelector = () => {
     },
   });
 
+  const onClickedLink = (href: string) => {
+    setCurrentPage(href);
+    history.push(href);
+  };
+
   const findCurrentCompanyData = useCallback(
     (newCompanyId) => {
       data.getCompaniesByUser.findIndex((company) => {
@@ -41,7 +49,6 @@ const CompanySelector = () => {
           setCurrentCompanyData(company.company);
           return true;
         }
-        return null;
       });
     },
     [data, currentCompanyId]
@@ -86,32 +93,53 @@ const CompanySelector = () => {
               data.getCompaniesByUser.map((company) => {
                 return (
                   <Menu.Item
-                    title={company.company.name}
                     key={company.company.id}
                     onClick={() => {
                       setCurrentCompanyId(company.company.id);
                       handleChangeCompany(company.company.id);
                     }}
+                    style={{
+                      display: "flex",
+                      justifyContent: "flex-start",
+                      alignItems: "center",
+                      width: "100%",
+                      padding: "16",
+                    }}
                   >
-                    <p>{company.company.name}</p>
+                    <div className={"button-container"}>
+                      <span className={"icon-container"}>
+                        {<ShopOutlined />}
+                      </span>
+                      <span className={"label-container"}>
+                        {company.company.name}
+                      </span>
+                    </div>
                   </Menu.Item>
                 );
               })}
           </Menu.ItemGroup>
           <Menu.Divider />
           <Menu.ItemGroup key="settings" title="Paramètres">
+            <PageButton
+              link={"/profile/userProfile"}
+              label={"Profil"}
+              icon={<UserOutlined />}
+              onClick={onClickedLink}
+            />
             <Menu.Item>
-              <p
-                onClick={() => {
-                  setCurrentPage("/profile/userProfile");
-                  history.push("/profile/userProfile");
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  flexWrap: "wrap",
+                  flexFlow: "column",
+                  justifyContent: "flex-start",
+                  alignContent: "space-around",
+                  alignItems: "center",
                 }}
               >
-                Profil
-              </p>
-            </Menu.Item>
-            <Menu.Item>
-              <p>Se deconnecter</p>
+                <Logout />
+              </div>
             </Menu.Item>
           </Menu.ItemGroup>
         </Menu>
