@@ -9,7 +9,8 @@ import {
   ShoppingCartOutlined,
   TeamOutlined,
 } from "@ant-design/icons/lib";
-import Logout from '../../Authentication/Logout/Logout';
+
+import Logout from "../../Authentication/Logout/Logout";
 
 declare interface SidebarCompanyProps {
   onClickedLink: (href) => void;
