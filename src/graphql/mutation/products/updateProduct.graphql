@@ -2,7 +2,6 @@ mutation updateProduct(
     $productId: String
     $name: String
     $description: String
-    $image: String
     $unitId: String
     $quantityForUnit: Float
     $price: Float
@@ -11,14 +10,12 @@ mutation updateProduct(
         productId: $productId
         name: $name
         description: $description
-        image: $image
         unitId: $unitId
         quantityForUnit: $quantityForUnit
         price: $price
     ) {
         id
         name
-        image
         position
         description
         unit {

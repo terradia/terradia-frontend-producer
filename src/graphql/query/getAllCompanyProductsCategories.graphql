@@ -5,10 +5,6 @@ query getAllCompanyProductsCategories($companyId: String!) {
         products {
             id
             name
-            logo {
-                id
-                filename
-            }
             cover {
                 id
                 filename

@@ -98,7 +98,7 @@ function CategoryModal(props: CategoryModalProps) {
       title={
         props.categoryId
           ? "Modifier une catégorie"
-          : "Créer un nouvelle catégorie"
+          : "Créer une nouvelle catégorie"
       }
       className={"modal-product"}
       visible={props.visible}

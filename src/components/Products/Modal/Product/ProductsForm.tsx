@@ -51,6 +51,7 @@ function ProductsForm(props: AddProductsFormProps) {
   };
 
   useEffect(() => {
+    // TODO : translate the "Pièce"
     props.setForm(form);
     if (props.units) {
       const tmpUnitList = [];
@@ -63,7 +64,7 @@ function ProductsForm(props: AddProductsFormProps) {
       });
       tmpUnitList.push(
         <Option key={"null"} value={"null"}>
-          Unité
+          Pièce(s)
         </Option>
       );
       setUnitList(tmpUnitList);
@@ -79,7 +80,7 @@ function ProductsForm(props: AddProductsFormProps) {
       initialValues={initialValues}
     >
       <Row className={"row-product-form"}>
-        <Col xl={10} span={24}>
+        <Col xl={11} span={24}>
           <Form.Item
             name="name"
             label="Nom du produit"
@@ -120,7 +121,8 @@ function ProductsForm(props: AddProductsFormProps) {
                   min={1}
                   step={1}
                   precision={0}
-                  style={{ width: "40%", height: "100%" }}
+                  className={"input-text-right"}
+                  style={{ width: "70%", height: "100%", textAlign: "right" }}
                   placeholder="Quantité de portion"
                 />
               </Form.Item>
@@ -131,10 +133,7 @@ function ProductsForm(props: AddProductsFormProps) {
                   { required: true, message: "L'unité du produit est requise" },
                 ]}
               >
-                <Select
-                  placeholder={"Sélectionner une unité"}
-                  style={{ width: "60%" }}
-                >
+                <Select placeholder={"Unité"} style={{ width: "30%" }}>
                   {unitList}
                 </Select>
               </Form.Item>
@@ -147,13 +146,14 @@ function ProductsForm(props: AddProductsFormProps) {
               precision={2}
               formatter={(value) => `${value}€`}
               parser={(value) => value.replace(/€\s?|(,*)/g, "")}
-              style={{ width: "40%", height: "100%" }}
+              style={{ width: "100%", height: "100%" }}
+              className={"input-text-right"}
               placeholder="Prix du produit"
             />
           </Form.Item>
         </Col>
-        <Col xl={2} span={0} />
-        <Col xl={12} span={24}>
+        <Col xl={2} span={24} />
+        <Col xl={11} span={24}>
           <Form.Item
             name={"description"}
             label={"Description"}

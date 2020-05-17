@@ -43,7 +43,7 @@ const CompanyCardSelector = () => {
       window.location.href = "http://localhost:8000/graphql";
     else {
       console.log("redirect to home from company selector");
-      history.push("/Home");
+      history.push("/home");
     }
   };
 
