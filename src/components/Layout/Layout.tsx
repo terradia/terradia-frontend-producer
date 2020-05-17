@@ -1,12 +1,10 @@
 import * as React from "react";
 import { Layout as AntLayout } from "antd";
 import Header from "./Header";
-import Logout from "../Authentication/Logout/Logout";
 import Sidebar from "./Sidebar/Sidebar";
-import "../../index.less";
+import "../../assets/Style/Layout/layout.less";
 import { useContext } from "react";
-import Breakpoint, { sm, md } from "../Context/Breakpoint";
-import SummarySidebar from "./SummarySidebar";
+import Breakpoint, { sm } from "../Context/Breakpoint";
 import { Redirect } from "react-router";
 
 const { Content, Sider } = AntLayout;
@@ -30,12 +28,12 @@ const Layout = (props: LayoutProps) => {
       <Header />
       <AntLayout hasSider>
         <Sider
-          width={"155px"}
+          width={"250px"}
           theme={"light"}
           breakpoint={"md"}
           collapsedWidth={breakpoint < sm ? 0 : 80}
           style={{
-            minHeight: "90vh",
+            minHeight: "100vh",
             maxHeight: "100vh",
             position: "sticky",
             top: 0,
@@ -43,7 +41,6 @@ const Layout = (props: LayoutProps) => {
           }}
         >
           <Sidebar />
-          <Logout isMenu />
         </Sider>
         <Content
           style={{
@@ -53,20 +50,6 @@ const Layout = (props: LayoutProps) => {
         >
           {props.children}
         </Content>
-        {breakpoint > md && (
-          <Sider
-            theme={"light"}
-            style={{
-              minHeight: "90vh",
-              maxHeight: "100vh",
-              position: "sticky",
-              top: 0,
-              left: 0,
-            }}
-          >
-            <SummarySidebar />
-          </Sider>
-        )}
       </AntLayout>
     </AntLayout>
   );

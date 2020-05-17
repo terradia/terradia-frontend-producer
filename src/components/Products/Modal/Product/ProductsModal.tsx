@@ -1,7 +1,4 @@
 import React, { useState } from "react";
-// import Modal from "../../Ui/Modal";
-// import Input from "../../Ui/Input";
-// import Button from "../../../Ui/Button";
 import { Button, Modal, Popconfirm } from "antd";
 import ProductsForm from "./ProductsForm";
 import "../../../../assets/Style/Products/Modal/ProductsModal.less";
@@ -213,7 +210,7 @@ function ProductsModal(props: ProductsModalProps) {
             </Popconfirm>
           )}
           <Button onClick={handleCancel}>Annuler</Button>
-          <Button onClick={handleOk}>
+          <Button onClick={handleOk} type={"primary"}>
             {props.updateProduct ? "Modifier" : "Créer"}
           </Button>
         </div>

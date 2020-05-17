@@ -3,14 +3,24 @@
   flex-direction: row;
 }
 
-@media (max-width:1024px) {
- .modal-product {
-   width: 90% !important;
- }
+.modal-product {
+  width: 60em !important;
+}
 
+.input-text-right {
+  div {
+    input {
+      text-align: right;
+      padding-right: 1.5em;
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .modal-product {
+    width: 90% !important;
+  }
   .row-product-form {
     flex-direction: column;
   }
-
-
 }

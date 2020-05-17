@@ -89,7 +89,7 @@ const ImageViewModal: React.FC<Props> = ({
           <span className={"title"}>
             {"Produits qui utilisent cette image : "}
           </span>
-          {companyImage.products ? (
+          {companyImage.products && companyImage.products.length > 0 ? (
             <ul>
               {companyImage.products.map((product) => {
                 return <li key={product.id}>{product.name}</li>;

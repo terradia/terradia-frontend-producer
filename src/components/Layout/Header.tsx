@@ -3,6 +3,7 @@ import { ReactComponent as TerradiaLogo } from "../../assets/Logo/Terradia.svg";
 import Logout from "../Authentication/Logout/Logout";
 import { Layout as AntLayout } from "antd";
 import CompanySelector from "../CompanySelector/CompanySelector";
+import "../../assets/Style/Layout/header.less";
 import "../../assets/Style/Header/user-informations.less";
 
 const AntHeader = AntLayout.Header;
@@ -38,30 +39,10 @@ const Header = (props: HeaderProps) => {
 
   return (
     <>
-      <AntHeader
-        style={{
-          height: "10vh",
-          background: "white",
-          padding: "0 2% 0 2%",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          borderBottom: "#CBCBCB",
-          borderBottomStyle: "solid",
-          borderBottomWidth: "thin",
-          lineHeight: "normal",
-          width: "99vw",
-          maxWidth: "99vw",
-        }}
-        className={"header"}
-      >
-        <TerradiaLogo
-          height={"5vh"}
-          width={"25vh"}
-          style={{
-            marginLeft: "2%",
-          }}
-        />
+      <AntHeader className={"main-header"}>
+        <div className={"logo-container"}>
+          <TerradiaLogo height={"40px"} width={"200px"} />
+        </div>
         <div
           style={{
             display: "flex",

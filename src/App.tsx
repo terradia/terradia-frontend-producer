@@ -18,6 +18,7 @@ import CompanySelection from "./pages/CompanySelection";
 import BreakpointCatcher from "./components/Layout/BreakpointCatcher";
 import CompanyRegister from "./pages/CompanyRegister";
 import UserContext from "./components/Context/UserContext";
+import LoadingFullPage from './components/LoadingFullPage';
 
 const queryGetUser = graphqlLoader("./graphql/query/getUser.graphql");
 
@@ -68,7 +69,7 @@ const App = () => {
   };
 
   if (loading || (!!localStorage.getItem("token") && data === undefined))
-    return <div>loading</div>;
+    return <LoadingFullPage />;
   // TODO add a loader in order to not display /Home (for 1 sec) when user isn't log
   return (
     <UserContext.Provider value={data ? data.getUser : null}>
