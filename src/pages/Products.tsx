@@ -106,7 +106,7 @@ const Products = () => {
       );
     });
     indexNullCat = dataCategories.getAllCompanyProductsCategories.findIndex(
-      (cat) => cat.id === "nonCat"
+      (cat) => cat.id === `nonCat${companyId}`
     );
   }
 
@@ -150,10 +150,10 @@ const Products = () => {
         dataCategories.getAllCompanyProductsCategories[
           destination.indexCat
         ].products[i].position = i;
-        if (source.categoryId === "nonCat") {
+        if (source.categoryId === `nonCat${companyId}`) {
           type = "addCategory";
           categoryId = destination.categoryId;
-        } else if (destination.categoryId === "nonCat") {
+        } else if (destination.categoryId === `nonCat${companyId}`) {
           type = "deleteCategory";
         } else {
           type = "moveCategory";
@@ -286,7 +286,7 @@ const Products = () => {
                 />
               )}
               {dataCategories.getAllCompanyProductsCategories.map((cat) => {
-                if (cat.id !== "nonCat") {
+                if (cat.id !== `nonCat${companyId}`) {
                   return (
                     <CategoryProducts
                       key={cat.id}
