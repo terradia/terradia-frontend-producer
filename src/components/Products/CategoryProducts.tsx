@@ -129,7 +129,7 @@ function CategoryProducts(props: CategoryProductsProps) {
                       event.stopPropagation();
                     }}
                   />
-                  {props.cat.id !== "nonCat" && (
+                  {props.cat.id !== `nonCat${companyId}` && (
                     <EditOutlined
                       className={"category-icon"}
                       onClick={(event) => {
@@ -140,7 +140,7 @@ function CategoryProducts(props: CategoryProductsProps) {
                       }}
                     />
                   )}
-                  {props.cat.id !== "nonCat" && (
+                  {props.cat.id !== `nonCat${companyId}` && (
                     <Popconfirm
                       placement="top"
                       title={"Voulez-vous vraiment supprimer cette catégorie?"}
