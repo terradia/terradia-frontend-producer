@@ -7,6 +7,7 @@ import ImagesUploadButton from "./ImagesUploadButton";
 import ImageCard from "./ImageCard";
 import CompanyImage from "../../interfaces/Files/CompanyImage";
 import { LoadingOutlined } from "@ant-design/icons/lib";
+import ImageSelectorButton from '../Gallery/ImageSelectorButton';
 
 const queryCompanyImages = graphqlLoader(
   "../../graphql/query/getCompanyImages.graphql"
@@ -40,6 +41,7 @@ const ImagesTab: React.FC<Props> = (props: Props) => {
     <>
       <nav className={"images-tab-header"}>
         <ImagesUploadButton onUpload={handleRefetch} />
+        <ImageSelectorButton />
       </nav>
       <Divider />
       <div className={"company-images-container"}>

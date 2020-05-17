@@ -40,7 +40,7 @@ const ImageRemoveConfirmModal: React.FC<Props> = ({
           cover={
             <img
               alt={companyImage.filename}
-              src={`https://terradia-bucket-assets.s3.eu-west-3.amazonaws.com/${companyImage.filename}`}
+              src={`https://media.terradia.eu/${companyImage.filename}`}
             />
           }
           bodyStyle={{ height: 0, padding: 0 }}

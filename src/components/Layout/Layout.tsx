@@ -3,7 +3,7 @@ import { Layout as AntLayout } from "antd";
 import Header from "./Header";
 import Sidebar from "./Sidebar/Sidebar";
 import "../../assets/Style/Layout/layout.less";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import Breakpoint, { sm } from "../Context/Breakpoint";
 import { Redirect } from "react-router";
 
@@ -17,6 +17,10 @@ type LayoutProps = {
 const Layout = (props: LayoutProps) => {
   const breakpoint = useContext(Breakpoint);
 
+  const [collapsed, setCollapsed] = useState(false);
+
+  const toggle = () => setCollapsed(!collapsed);
+
   if (
     localStorage.getItem("selectedCompany") === null ||
     localStorage.getItem("rememberCompany") === null
@@ -25,10 +29,12 @@ const Layout = (props: LayoutProps) => {
   }
   return (
     <AntLayout style={{ background: "white" }}>
-      <Header />
+      <Header onClickOnBurger={toggle} collapsed={collapsed} />
       <AntLayout hasSider>
         <Sider
           width={"250px"}
+          trigger={null}
+          collapsed={collapsed}
           theme={"light"}
           breakpoint={"md"}
           collapsedWidth={breakpoint < sm ? 0 : 80}

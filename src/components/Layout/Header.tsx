@@ -6,16 +6,25 @@ import CompanySelector from "../CompanySelector/CompanySelector";
 import "../../assets/Style/Layout/header.less";
 import "../../assets/Style/Header/user-informations.less";
 
+import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
+
 const AntHeader = AntLayout.Header;
 
 declare interface HeaderProps {
   Company?: boolean;
+  onClickOnBurger?: () => void;
+  collapsed?: boolean;
 }
 
 //TODO Faire un burger menu si la taille est trop petite
 
-const Header = (props: HeaderProps) => {
+const Header = ({
+  onClickOnBurger,
+  collapsed = false,
+  ...props
+}: HeaderProps) => {
   let displayedInfo;
+  const widthScreen = window.screenX;
 
   if (props.Company) {
     // if in CompanySelection page (login)
@@ -40,6 +49,14 @@ const Header = (props: HeaderProps) => {
   return (
     <>
       <AntHeader className={"main-header"}>
+        {widthScreen < 1024 &&
+          React.createElement(
+            collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+            {
+              className: "trigger",
+              onClick: onClickOnBurger,
+            }
+          )}
         <div className={"logo-container"}>
           <TerradiaLogo height={"40px"} width={"200px"} />
         </div>
