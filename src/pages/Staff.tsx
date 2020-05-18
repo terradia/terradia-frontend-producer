@@ -134,7 +134,7 @@ const Staff = () => {
         okButtonProps={{ loading: leaveCompanyLoading }}
         onConfirm={() => handleDeleteUser(record)}
       >
-        <a>Delete</a>
+        <a href={"/#"}>Delete</a>
       </Popconfirm>
     );
   };
