@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Statistic, Progress, Rate } from "antd";
+import { Card, Progress, Rate, Statistic } from "antd";
 import { LikeOutlined } from "@ant-design/icons";
 import { loader as graphqlLoader } from "graphql.macro";
 import { useQuery } from "@apollo/react-hooks";
@@ -70,8 +70,7 @@ const Statistics = () => {
       }
     });
     if (tmpNbReviews !== 0 && ratingTotal !== 0) {
-      const result = ratingTotal / tmpNbReviews;
-      return result;
+      return ratingTotal / tmpNbReviews;
     }
     return 0;
   };
@@ -110,7 +109,7 @@ const Statistics = () => {
                 <Statistic title="Commandes en cours" value={12} />
               </Card.Grid>
               <Card.Grid hoverable={false} style={gridStyle}>
-                <Card.Meta title={"Commandes du jour"}></Card.Meta>
+                <Card.Meta title={"Commandes du jour"} />
                 <Progress percent={60} size="small" />
               </Card.Grid>
               <Card.Grid hoverable={false} style={gridStyle}>
@@ -136,10 +135,10 @@ const Statistics = () => {
                   <Progress percent={84} size="small" />
                 </Card.Grid>
                 <Card.Grid hoverable={false} style={gridStyle}>
-                  <Statistic title="Produit favorit" value={"Tomato"} />
+                  <Statistic title="Produit favori" value={"Tomate"} />
                 </Card.Grid>
                 <Card.Grid hoverable={false} style={gridStyle}>
-                  <Card.Meta title={"Chiffre d'affaire du jour"}></Card.Meta>
+                  <Card.Meta title={"Chiffre d'affaire du jour"} />
                   <Progress type="circle" percent={76} size="small" />
                 </Card.Grid>
               </div>
@@ -176,7 +175,7 @@ const Statistics = () => {
               </Card.Grid>
               <Card.Grid hoverable={false} style={gridStyle}>
                 <Statistic
-                  title="Compagnie favorite"
+                  title="Entreprise favorite"
                   value={1128}
                   prefix={<LikeOutlined />}
                 />
@@ -184,7 +183,7 @@ const Statistics = () => {
             </div>
           </Card>
           <Card
-            title={"Employees"}
+            title={"Employés"}
             style={{
               marginBottom: "1%",
             }}
