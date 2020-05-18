@@ -1,0 +1,25 @@
+.hours-container {
+  display: flex;
+  align-content: center;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  .modifiers-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .picker-input-color {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    div.ant-picker-input {
+      width: 50px;
+      input {
+        text-align: center;
+      }
+      input:disabled {
+        color: rgb(87, 87, 87);
+      }
+    }
+  }
+}

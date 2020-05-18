@@ -17,10 +17,23 @@
 .env.development.local
 .env.test.local
 .env.production.local
+playground.json
+test.json
+.gitignore
 
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.expo
+.idea
 
 .idea/
 .next/
+
+# css
+*.css
+*.css.map
+
+#graphql
+api.graphql
+package-lock.json

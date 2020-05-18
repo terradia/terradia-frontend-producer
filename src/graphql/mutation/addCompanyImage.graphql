@@ -1,0 +1,7 @@
+mutation addCompanyImage($companyId: ID!, $image: Upload!, $name: String) {
+    addCompanyImage(image: $image, companyId: $companyId, name: $name) {
+        id
+        filename
+        name
+    }
+}

@@ -1,34 +1,33 @@
-import React from 'react';
-import { Formik } from 'formik';
-import Input from '../../Ui/Input';
-import Button from '../../Ui/Button';
-import { Checkbox, Divider } from 'antd';
-import * as Yup from 'yup';
-import { loader as graphqlLoader } from 'graphql.macro';
-import { useMutation } from '@apollo/react-hooks';
-import '../../../assets/Style/Login-Register/registerForm.less';
-import FacebookIcon from '../../Icons/FacebookIcon';
-import AppleIcon from '../../Icons/AppleIcon';
+import React from "react";
+import { Formik } from "formik";
+import Button from "../../Ui/Button";
+import { Checkbox, Divider, Input } from "antd";
+import * as Yup from "yup";
+import { loader as graphqlLoader } from "graphql.macro";
+import { useApolloClient, useMutation } from "@apollo/react-hooks";
+import "../../../assets/Style/Login-Register/registerForm.less";
+import FacebookIcon from "../../Icons/FacebookIcon";
+import AppleIcon from "../../Icons/AppleIcon";
 
 const mutationRegister = graphqlLoader(
-  '../../../graphql/mutation/register.graphql'
+  "../../../graphql/mutation/register.graphql"
 );
 
 const RegisterSchema = Yup.object().shape({
   email: Yup.string()
-    .email('Votre adresse email est invalide')
-    .required('Veuillez entrer votre adresse email'),
+    .email("Votre adresse email est invalide")
+    .required("Veuillez entrer votre adresse email"),
   password: Yup.string()
-    .required('Veuillez entrer votre mot de passe')
-    .min(2, 'Votre mot de passe doit contenir plus de 2 caractère')
-    .max(20, 'Votre mot de passe ne peut dépasser 20 caractère'),
-  lastname: Yup.string().required('Veuillez entrer votre nom de famille'),
-  firstname: Yup.string().required('Veuillez entrer votre prénom'),
+    .required("Veuillez entrer votre mot de passe")
+    .min(2, "Votre mot de passe doit contenir plus de 2 caractère")
+    .max(20, "Votre mot de passe ne peut dépasser 20 caractère"),
+  lastname: Yup.string().required("Veuillez entrer votre nom de famille"),
+  firstname: Yup.string().required("Veuillez entrer votre prénom"),
   phone: Yup.string()
-    .required('Veuillez entrer votre numéro de téléphone')
+    .required("Veuillez entrer votre numéro de téléphone")
     .matches(
       /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
-      'Votre numéro de téléphone est invalide'
+      "Votre numéro de téléphone est invalide"
     ),
   acceptedCondition: Yup.bool().oneOf(
     [true],
@@ -36,8 +35,18 @@ const RegisterSchema = Yup.object().shape({
   ),
 });
 
-const RegisterForm = () => {
-  const [register, { data }] = useMutation(mutationRegister);
+declare interface RegisterFormProps {
+  onRegister?: () => void;
+}
+
+const RegisterForm = (props: RegisterFormProps) => {
+  const [
+    register,
+    { loading: registerLoading, error: registerError },
+  ] = useMutation(mutationRegister);
+  const client = useApolloClient();
+
+  if (registerError) console.log(registerError);
 
   const OnErrorHandler = (data: { message: any }) => {
     console.log(data.message);
@@ -55,11 +64,17 @@ const RegisterForm = () => {
         email: values.email,
         password: values.password,
         lastName: values.lastname,
-        firstName: values.lastname,
+        firstName: values.firstname,
         phone: values.phone,
       },
     }).then((data: any) => {
-      if (data) {
+      console.log(data);
+      if (data !== null && data.data.register !== undefined) {
+        localStorage.setItem("token", data.data.register.token);
+        client.resetStore();
+        if (props.onRegister) {
+          props.onRegister();
+        }
         console.log(data);
       } else {
         OnErrorHandler(data);
@@ -70,42 +85,45 @@ const RegisterForm = () => {
   return (
     <Formik
       initialValues={{
-        firstname: '',
-        lastname: '',
-        email: '',
-        password: '',
-        phone: '',
+        firstname: "",
+        lastname: "",
+        email: "",
+        password: "",
+        phone: "",
         acceptedCondition: false,
       }}
       validationSchema={RegisterSchema}
       validateOnChange={false}
       validateOnBlur={true}
-      onSubmit={values => {
+      onSubmit={(values) => {
         submitForm(values);
       }}
     >
       {({ errors, handleChange, handleSubmit }) => {
         return (
-          <div className={'register_box'}>
-            <div className={'register_form_div'}>
-              <form className={'auth_form'} onSubmit={handleSubmit}>
+          <div className={"register_box"}>
+            <div className={"register_form_div"}>
+              <form className={"auth_form"} onSubmit={handleSubmit}>
                 {errors.email && (
-                  <div id="feedback" className={"error-description error-email"}>
+                  <div
+                    id="feedback"
+                    className={"error-description error-email"}
+                  >
                     {errors.email}
                   </div>
                 )}
                 <Input
-                  name={'email'}
-                  className={'form_item input_item'}
-                  id={'input_login'}
-                  size={'large'}
-                  type={'default'}
-                  placeholder={'E-mail'}
+                  name={"email"}
+                  className={"form_item input_item"}
+                  id={"input_email"}
+                  size={"large"}
+                  type={"default"}
+                  placeholder={"E-mail"}
                   style={{
-                    color: errors.email ? '#f5222d' : undefined,
-                    borderColor: errors.email ? '#f5222d' : undefined,
+                    color: errors.email ? "#f5222d" : undefined,
+                    borderColor: errors.email ? "#f5222d" : undefined,
                   }}
-                  autoComplete={'email'}
+                  autoComplete={"email"}
                   onChange={handleChange}
                 />
                 {errors.password && (
@@ -114,20 +132,20 @@ const RegisterForm = () => {
                   </div>
                 )}
                 <Input
-                  name={'password'}
-                  className={'form_item input_item'}
-                  id={'input_password'}
-                  size={'large'}
-                  type={'password'}
-                  placeholder={'Mot de passe'}
+                  name={"password"}
+                  className={"form_item input_item"}
+                  id={"input_password"}
+                  size={"large"}
+                  type={"password"}
+                  placeholder={"Mot de passe"}
                   style={{
-                    color: errors.password ? 'red' : undefined,
-                    borderColor: errors.password ? 'red' : undefined,
+                    color: errors.password ? "red" : undefined,
+                    borderColor: errors.password ? "red" : undefined,
                   }}
-                  autoComplete={'current-password'}
+                  autoComplete={"current-password"}
                   onChange={handleChange}
                 />
-                <div className={'external_connexion'}>
+                <div className={"external_connexion"}>
                   <span>
                     {errors.lastname && (
                       <div id="feedback" className={"error-description"}>
@@ -135,19 +153,20 @@ const RegisterForm = () => {
                       </div>
                     )}
                     <Input
-                      name={'lastname'}
-                      className={'form_item input_item'}
-                      id={'input_login'}
-                      size={'large'}
-                      type={'default'}
-                      placeholder={'Nom'}
+                      name={"lastname"}
+                      className={"form_item input_item"}
+                      id={"input_lastname"}
+                      size={"large"}
+                      type={"default"}
+                      placeholder={"Nom"}
                       style={{
-                        color: errors.lastname ? 'red' : undefined,
-                        borderColor: errors.lastname ? 'red' : undefined,
+                        color: errors.lastname ? "red" : undefined,
+                        borderColor: errors.lastname ? "red" : undefined,
                       }}
                       onChange={handleChange}
                     />
                   </span>
+                  <Divider type={"vertical"} style={{ background: "none" }} />
                   <span>
                     {errors.firstname && (
                       <div id="feedback" className={"error-description"}>
@@ -155,15 +174,15 @@ const RegisterForm = () => {
                       </div>
                     )}
                     <Input
-                      name={'firstname'}
-                      className={'form_item input_item'}
-                      id={'input_login'}
-                      size={'large'}
-                      type={'default'}
-                      placeholder={'Prénom'}
+                      name={"firstname"}
+                      className={"form_item input_item"}
+                      id={"input_firstname"}
+                      size={"large"}
+                      type={"default"}
+                      placeholder={"Prénom"}
                       style={{
-                        color: errors.firstname ? 'red' : undefined,
-                        borderColor: errors.firstname ? 'red' : undefined,
+                        color: errors.firstname ? "red" : undefined,
+                        borderColor: errors.firstname ? "red" : undefined,
                       }}
                       onChange={handleChange}
                     />
@@ -175,15 +194,15 @@ const RegisterForm = () => {
                   </div>
                 )}
                 <Input
-                  name={'phone'}
-                  className={'form_item input_item'}
-                  id={'input_login'}
-                  size={'large'}
-                  type={'default'}
-                  placeholder={'Numéro de téléphone'}
+                  name={"phone"}
+                  className={"form_item input_item"}
+                  id={"input_phone"}
+                  size={"large"}
+                  type={"default"}
+                  placeholder={"Numéro de téléphone"}
                   style={{
-                    color: errors.phone ? 'red' : undefined,
-                    borderColor: errors.phone ? 'red' : undefined,
+                    color: errors.phone ? "red" : undefined,
+                    borderColor: errors.phone ? "red" : undefined,
                   }}
                   onChange={handleChange}
                 />
@@ -193,36 +212,39 @@ const RegisterForm = () => {
                   </div>
                 )}
                 <Checkbox
-                  name={'acceptedCondition'}
+                  name={"acceptedCondition"}
                   onChange={handleChange}
-                  className={'form_item'}
+                  className={"form_item"}
                 >
-                  J'ai lu et j'accepte les conditions générales d'utilisation
+                  {
+                    "J'ai lu et j'accepte les conditions générales d'utilisation"
+                  }
                 </Checkbox>
                 <Button
+                  isLoading={registerLoading}
                   text={"S'inscrire"}
-                  className={'form_item'}
-                  id={'login_button'}
-                  size={'large'}
-                  htmlType={'submit'}
+                  className={"form_item"}
+                  id={"login_button"}
+                  size={"large"}
+                  htmlType={"submit"}
                 />
               </form>
-              <Divider className={'auth_divider'}>OU</Divider>
-              <div className={'external_connexion'}>
+              <Divider className={"auth_divider"}>OU</Divider>
+              <div className={"external_connexion"}>
                 <Button
-                  className={'button_register'}
-                  text={'Facebook'}
-                  size={'large'}
-                  id={'facebook_button'}
-                  accentColor={'#2174EE'}
+                  className={"button_register"}
+                  text={"Facebook"}
+                  size={"large"}
+                  id={"facebook_button"}
+                  accentColor={"#2174EE"}
                   icon={<FacebookIcon />}
                 />
                 <Button
-                  className={'button_register'}
-                  text={'Apple'}
-                  size={'large'}
-                  id={'apple_button'}
-                  accentColor={'#202020'}
+                  className={"button_register"}
+                  text={"Apple"}
+                  size={"large"}
+                  id={"apple_button"}
+                  accentColor={"#202020"}
                   icon={<AppleIcon />}
                 />
               </div>

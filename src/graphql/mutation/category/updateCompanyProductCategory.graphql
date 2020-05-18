@@ -1,0 +1,9 @@
+mutation updateProdCat($category: String!, $name: String!) {
+    updateCompanyProductsCategory(
+        categoryId: $category,
+        name: $name
+    ) {
+        id
+        name
+    }
+}

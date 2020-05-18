@@ -1,0 +1,14 @@
+query getAllUnits($ref: Boolean!) {
+    getAllUnits(referencesOnly: $ref) {
+        id
+        name
+        notation
+        multiplicationFactor
+        referenceUnit {
+            id
+            name
+            notation
+            multiplicationFactor
+        }
+    }
+}

@@ -1,0 +1,28 @@
+query getCompanyById($companyId: ID!) {
+  getCompany(companyId: $companyId) {
+    id
+    name
+    description
+    email
+    phone
+    logo {
+      id
+      filename
+    }
+    cover {
+      id
+      filename
+    }
+    address
+    openingDays {
+      id
+      daySlugName
+      dayTranslationKey
+      hours {
+        id
+        startTime
+        endTime
+      }
+    }
+  }
+}

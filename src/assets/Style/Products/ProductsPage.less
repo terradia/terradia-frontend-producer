@@ -1,0 +1,138 @@
+@import "../../../index";
+
+.product-page {
+  .empty-card {
+    background: white;
+    border-radius: 4px;
+  }
+
+  .sub-header {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    margin-bottom: @padding-md;
+
+    .button {
+      margin: 0 @padding-md 0 0;
+      background-color: rgba(0,0,0,0);
+    }
+  }
+
+  .categories-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 90%;
+
+    .category {
+      overflow-y: hidden;
+      overflow-x: auto;
+      transition: max-height 0.2s linear;
+    }
+
+    .collapsed-category {
+      overflow-x: hidden;
+    }
+
+    .category-title {
+      height: 20%;
+      font-size: large;
+      font-weight: bold;
+      font-family: Montserrat, serif;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+    }
+
+    .category-title-icon {
+      transition: all 0.2s ease-in;
+      opacity: 0;
+      margin-left: 15px;
+    }
+
+    .category-title-icon-isHover {
+      opacity: 1;
+    }
+
+    .category-icon {
+      transition: color linear 0.3s;
+      margin-right: 5px;
+    }
+
+    .category-icon:hover {
+      transform: scale(1.2);
+    }
+
+    .parent-list {
+      max-height: 190px;
+      transition: max-height 0.6s cubic-bezier(0, 0.29, 0.21, 0.97);
+    }
+
+    .empty-list {
+      height: 125px;
+      margin: 1% 10px 1% 10px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    .card-list {
+      display: flex;
+    }
+
+    .collapsed-list {
+      max-height: 0;
+    }
+
+    .card {
+      width: 200px;
+      min-width: 200px;
+      height: 125px;
+      margin: 1% 10px 1% 10px;
+
+      background-color: #BBBBBB;
+      color: #FFFFFF;
+      filter: brightness(100%);
+      border-radius: @border-radius-base;
+
+      position: relative;
+
+      font-family: Montserrat, serif;
+
+      .card-title {
+        font-size: x-large;
+        font-weight: bold;
+        height: 45%
+      ;
+        max-height: 45%;
+        line-height: normal;
+      };
+
+      .card-information {
+        font-size: large;
+        font-weight: normal;
+        height: 25%;
+      }
+
+      .card-item {
+        margin: 0 0 0 10%;
+        //text-overflow: ellipsis;
+        overflow: hidden;
+        //white-space: nowrap;
+      }
+    }
+
+    .card-background {
+      border-radius: 10px;
+      position: absolute;
+      left: 0;
+      top: 0;
+      z-index: -1;
+      width: 100%;
+      height: 100%;
+      filter: brightness(0.6);
+      background-size: cover;
+    }
+  }
+}

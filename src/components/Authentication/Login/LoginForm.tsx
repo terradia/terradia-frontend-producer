@@ -1,96 +1,154 @@
-import React from 'react';
-import { NavLink, Redirect, useHistory } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from "react";
+import { NavLink, Redirect, useHistory } from "react-router-dom";
 import {
   useApolloClient,
   useLazyQuery,
   useMutation,
-} from '@apollo/react-hooks';
-import { Checkbox, Divider } from 'antd';
-import { loader as graphqlLoader } from 'graphql.macro';
-import { Formik } from 'formik';
-import * as Yup from 'yup';
-import Input from '../../Ui/Input';
-import Button from '../../Ui/Button';
-import '../../../assets/Style/Login-Register/loginForm.less';
-import FacebookIcon from '../../Icons/FacebookIcon';
-import AppleIcon from '../../Icons/AppleIcon';
+} from "@apollo/react-hooks";
+import { Checkbox, Divider, notification, Input } from "antd";
+import { loader as graphqlLoader } from "graphql.macro";
+import { Formik } from "formik";
+import * as Yup from "yup";
+import Button from "../../Ui/Button";
+import "../../../assets/Style/Login-Register/loginForm.less";
+import CreateCompanyButton from "../../Ui/CreateCompanyButton";
+import UserContext from "../../Context/UserContext";
+import { AppleFilled, FacebookFilled } from "@ant-design/icons/lib";
 
-const mutationLogin = graphqlLoader('../../../graphql/mutation/login.graphql');
-const getUser = graphqlLoader('../../../graphql/query/getUser.graphql');
+const mutationLogin = graphqlLoader("../../../graphql/mutation/login.graphql");
+const getUser = graphqlLoader("../../../graphql/query/getUser.graphql");
+const getCompanies = graphqlLoader(
+  "../../../graphql/query/getCompanies.graphql"
+);
 
 const SignInSchema = Yup.object().shape({
   email: Yup.string()
-    .email('Votre adresse email est invalide')
-    .required('Veuillez entrer votre adresse email'),
+    .email("Votre adresse email est invalide")
+    .required("Veuillez entrer votre adresse email"),
   password: Yup.string()
-    .required('Veuillez entrer votre mot de passe')
-    .min(2, 'Votre mot de passe doit contenir plus de 2 caractère')
-    .max(20, 'Votre mot de passe ne peut dépasser 20 caractère'),
+    .required("Veuillez entrer votre mot de passe")
+    .min(2, "Votre mot de passe doit contenir plus de 2 caractère")
+    .max(20, "Votre mot de passe ne peut dépasser 20 caractère"),
 });
 
-const LoginForm = () => {
+declare interface LoginData {
+  data: {
+    login: {
+      token: string;
+      userId: string;
+    };
+  };
+}
+
+declare interface LoginFormProps {
+  onLogin?: () => void;
+}
+
+const LoginForm = (props: LoginFormProps) => {
   const client = useApolloClient();
+  const userContext = useContext(UserContext);
+  const [redirect, setRedirect] = useState("");
   const [login, { loading: loginLoading }] = useMutation(mutationLogin);
   const [
-    getUserQuery,
-    { loading: userLoading, data: userData, called },
-  ] = useLazyQuery(getUser);
+    getCompaniesQuery,
+    { loading: companiesLoading, data: companiesData, called },
+  ] = useLazyQuery(getCompanies);
   const history = useHistory();
 
-  if (called && !userLoading) {
-    if (
-      userData &&
-      userData.getUser &&
-      userData.getUser.companies &&
-      userData.getUser.companies.length >= 1 &&
-      (!!!localStorage.getItem('rememberCompany') ||
-        localStorage.getItem('rememberCompany') === 'false')
-    ) {
-      console.log('redirect to Company Selection');
-      return <Redirect to={'/Company'} />;
-    } else {
-      console.log('redirect to home');
-      return <Redirect to={'/Home'} />;
+  const onGetUser = (data) => {
+    console.log(data);
+    if (props.onLogin) {
+      props.onLogin();
     }
+  };
+
+  const [getUserQuery] = useLazyQuery(getUser, { onCompleted: onGetUser });
+
+  useEffect(() => {
+    if (userContext) getCompaniesQuery();
+  }, [getCompaniesQuery, userContext]);
+
+  useEffect(() => {
+    if (called && !companiesLoading) {
+      if (
+        companiesData &&
+        companiesData.getCompanies &&
+        companiesData.getCompanies.length >= 1 &&
+        (!localStorage.getItem("rememberCompany") ||
+          localStorage.getItem("rememberCompany") === "false")
+      ) {
+        setRedirect("CompanySelection");
+      } else if (companiesData && companiesData.getCompanies) {
+        if (
+          companiesData.getCompanies.length >= 1 &&
+          !!localStorage.getItem("rememberCompany") &&
+          localStorage.getItem("rememberCompany") === "true"
+        ) {
+          setRedirect("/home");
+        } else {
+          if (history.location.pathname !== "/companyRegister") {
+            notification["warn"]({
+              message: "Vous n'avez pas d'entreprise. ",
+              btn: (
+                <CreateCompanyButton
+                  callback={() => setRedirect("/companyRegister")}
+                />
+              ),
+            });
+          }
+        }
+      }
+    }
+  }, [called, companiesData, companiesLoading, history]);
+
+  if (redirect !== "" && localStorage.getItem("token")) {
+    console.log("redirect to: " + redirect);
+    return <Redirect to={redirect} />;
   }
 
-  const OnErrorHandler = (data: { message: any }) => {
-    console.log(data.message);
+  const OnErrorHandler = (data: LoginData) => {
+    console.log(data);
   };
 
   const submitForm = (values: { email: any; password: any }) => {
     login({ variables: { email: values.email, password: values.password } })
-      .then((loginData: any) => {
-        console.log(loginData);
+      .then((loginData: LoginData) => {
         if (loginData) {
-          console.log('setting up token');
-          localStorage.setItem('token', loginData.data.login.token);
-          console.log('resetting store');
+          localStorage.setItem("token", loginData.data.login.token);
+          if (!props.onLogin) {
+            const prevToken = localStorage.getItem("token");
+            dispatchEvent(
+              new StorageEvent("storage", {
+                key: "token",
+                oldValue: prevToken,
+                newValue: loginData.data.login.token,
+              })
+            );
+          }
           client
             .resetStore()
             .then(() => {
-              console.log('calling getUser');
+              getCompaniesQuery();
               getUserQuery();
+              if (props.onLogin) {
+                props.onLogin();
+              }
             })
-            .catch(error => {
+            .catch((error) => {
               console.log(error);
             });
         } else {
           OnErrorHandler(loginData);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   };
 
-  const OnRedirectHandler = path => {
-    history.push(path);
-  };
-
   return (
     <Formik
-      initialValues={{ email: '', password: '', rememberMe: false }}
+      initialValues={{ email: "", password: "", rememberMe: false }}
       validationSchema={SignInSchema}
       validateOnChange={false}
       validateOnBlur={true}
@@ -98,26 +156,29 @@ const LoginForm = () => {
     >
       {({ errors, handleChange, handleSubmit }) => {
         return (
-          <div className={'login_box'}>
-            <div className={'login_form_div'}>
-              <form className={'auth_form'} onSubmit={handleSubmit}>
+          <div className={"login_box"}>
+            <div className={"login_form_div"}>
+              <form className={"auth_form"} onSubmit={handleSubmit}>
                 {errors.email && (
-                  <div id="feedback" className={"error-description error-email"}>
+                  <div
+                    id="feedback"
+                    className={"error-description error-email"}
+                  >
                     {errors.email}
                   </div>
                 )}
                 <Input
-                  name={'email'}
-                  className={'form_item'}
-                  id={'input_login'}
-                  size={'large'}
-                  type={'default'}
-                  placeholder={'E-mail'}
+                  name={"email"}
+                  className={"form_item"}
+                  id={"input_login"}
+                  size={"large"}
+                  type={"default"}
+                  placeholder={"Email"}
                   style={{
-                    color: errors.email ? 'red' : undefined,
-                    borderColor: errors.email ? 'red' : undefined,
+                    color: errors.email ? "red" : undefined,
+                    borderColor: errors.email ? "red" : undefined,
                   }}
-                  autoComplete={'email'}
+                  autoComplete={"email"}
                   onChange={handleChange}
                 />
                 {errors.password && (
@@ -126,73 +187,75 @@ const LoginForm = () => {
                   </div>
                 )}
                 <Input
-                  name={'password'}
-                  className={'form_item'}
-                  id={'input_password'}
-                  size={'large'}
-                  type={'password'}
-                  placeholder={'Mot de passe'}
+                  name={"password"}
+                  className={"form_item"}
+                  id={"input_password"}
+                  size={"large"}
+                  type={"password"}
+                  placeholder={"Mot de passe"}
                   style={{
-                    color: errors.password ? 'red' : undefined,
-                    borderColor: errors.password ? 'red' : undefined,
+                    color: errors.password ? "red" : undefined,
+                    borderColor: errors.password ? "red" : undefined,
                   }}
-                  autoComplete={'current-password'}
+                  autoComplete={"current-password"}
                   onChange={handleChange}
                 />
 
                 <Checkbox
-                  name={'rememberMe'}
+                  name={"rememberMe"}
                   onChange={handleChange}
-                  className={'form_item remember-box'}
+                  className={"form_item remember-box"}
                 >
                   Se souvenir de moi
                 </Checkbox>
                 <Button
-                  text={'Se connecter'}
-                  className={'form_item'}
-                  id={'login_button'}
-                  size={'large'}
-                  width={'full-width'}
-                  htmlType={'submit'}
-                  isLoading={loginLoading || userLoading}
+                  text={"Se connecter"}
+                  className={"form_item"}
+                  id={"login_button"}
+                  size={"large"}
+                  width={"100%"}
+                  htmlType={"submit"}
+                  isLoading={loginLoading || companiesLoading}
                 />
-                <div className={'forgot_password'}>
+                <div className={"forgot_password"}>
                   <NavLink to="/ResetPassword">Mot de passe oublié ?</NavLink>
                 </div>
               </form>
               <Divider className={"auth_divider"}>OU</Divider>
-              <div className={'not_register'}>
-                <div className={'external_connexion'}>
+              <div className={"not_register"}>
+                <div className={"external_connexion"}>
                   <Button
-                    className={'button_register'}
-                    text={'Facebook'}
-                    size={'large'}
-                    id={'facebook_button'}
+                    className={"button_register"}
+                    text={"Facebook"}
+                    size={"large"}
+                    id={"facebook_button"}
                     accentColor={"#2174EE"}
-                    icon={<FacebookIcon />}
+                    icon={<FacebookFilled />}
                   />
                   <Button
-                    className={'button_register'}
-                    text={'Apple'}
-                    size={'large'}
-                    id={'apple_button'}
+                    className={"button_register"}
+                    text={"Apple"}
+                    size={"large"}
+                    id={"apple_button"}
                     accentColor={"#202020"}
-                    icon={<AppleIcon />}
+                    icon={<AppleFilled />}
                   />
                 </div>
-                <div className={'register_div'}>
-                  <div className={'register-catching'}>
-                    Vous n'avez pas encore de compte ?
+                {!props.onLogin && (
+                  <div className={"register_div"}>
+                    <div className={"register-catching"}>
+                      {"Vous n'avez pas encore de compte ?"}
+                    </div>
+                    <Button
+                      id={"register_button"}
+                      className={"button_register"}
+                      text={"S'inscrire"}
+                      size={"large"}
+                      htmlType={"submit"}
+                      onClick={(): void => history.push("/Register")}
+                    />
                   </div>
-                  <Button
-                    id={'register_button'}
-                    className={'button_register'}
-                    text={"S'inscrire"}
-                    size={'large'}
-                    htmlType={'submit'}
-                    onClick={() => history.push('/Register')}
-                  />
-                </div>
+                )}
               </div>
             </div>
           </div>

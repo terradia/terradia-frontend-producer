@@ -1,16 +1,15 @@
-import React from 'react';
-
-import { ReactComponent as FacebookLogo } from '../../assets/Icon/company/facebook.svg';
-import SvgContainer from './SvgContainer';
+import React from "react";
+import { ReactComponent as FacebookLogo } from "../../assets/Icon/company/facebook.svg";
+import SvgContainer from "./SvgContainer";
 
 interface FacebookIconProps {
   style?: React.CSSProperties;
 }
 
-const FacebookIcon: React.FC<FacebookIconProps> = props => {
+const FacebookIcon = (props: FacebookIconProps) => {
   return (
     <SvgContainer style={props.style}>
-      <FacebookLogo style={{ maxWidth: '100%', maxHeight: '100%' }} />
+      <FacebookLogo style={{ maxWidth: "100%", maxHeight: "100%" }} />
     </SvgContainer>
   );
 };

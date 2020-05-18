@@ -6,8 +6,7 @@
       "Terradia Api": {
         "url": "http://localhost:8000/graphql",
         "headers": {
-          "user-agent": "JS GraphQL",
-          "authorization": "${env:GQL_AUTH}"
+          "user-agent": "JS GraphQL"
         },
         "introspect": true
       }

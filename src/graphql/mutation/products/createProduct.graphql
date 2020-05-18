@@ -1,0 +1,24 @@
+mutation createProduct(
+    $name: String!
+    $description: String!
+    $companyId: String!
+    $price: Float!
+    $companyProductsCategoryId: String
+    $quantityForUnit: Int!
+    $unitId: String
+    $coverId: String
+) {
+    createProduct(
+        name: $name
+        description: $description
+        companyProductsCategoryId: $companyProductsCategoryId
+        quantityForUnit: $quantityForUnit
+        price: $price
+        companyId: $companyId
+        unitId: $unitId
+        coverId: $coverId
+    ) {
+        id
+        name
+    }
+}

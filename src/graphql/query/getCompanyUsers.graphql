@@ -1,0 +1,17 @@
+query getCompanyUsers($companyId: ID!) {
+  getCompany(companyId: $companyId) {
+    users {
+      id
+      user {
+        email
+        firstName
+        lastName
+        id
+      }
+      roles {
+        id
+        slugName
+      }
+    }
+  }
+}

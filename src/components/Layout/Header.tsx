@@ -1,93 +1,59 @@
 import React from "react";
-import {ReactComponent as ReactLogo} from "../../assets/Terradia.svg";
+import { ReactComponent as TerradiaLogo } from "../../assets/Logo/Terradia.svg";
 import Logout from "../Authentication/Logout/Logout";
-import {Layout as AntLayout, Avatar} from "antd";
-import CompanySelector from "../Company/CompanySelector";
+import { Layout as AntLayout } from "antd";
+import CompanySelector from "../CompanySelector/CompanySelector";
+import "../../assets/Style/Layout/header.less";
+import "../../assets/Style/Header/user-informations.less";
 
 const AntHeader = AntLayout.Header;
 
 declare interface HeaderProps {
-    Company?: boolean
+  Company?: boolean;
 }
 
 //TODO Faire un burger menu si la taille est trop petite
 
 const Header = (props: HeaderProps) => {
-    let displayedInfo;
+  let displayedInfo;
 
-    if (props.Company) {
-        displayedInfo = (
-            <div style={{
-                order: 1,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "flex-end",
-                flex: 1,
-            }}>
-                <Logout/>
-            </div>
-        )
-    } else {
-        displayedInfo = (
-            <div style={{
-                order: 1,
-                display: "flex",
-                alignItems: "center",
-                flexWrap: "wrap",
-                justifyContent: "flex-end",
-                flex: 1,
-            }}>
-                <span style={{
-                    height: '18px'
-                }}>
-                    Victor Heim
-                </span>
-                <CompanySelector/>
-            </div>
-        )
-    }
+  if (props.Company) {
+    // if in CompanySelection page (login)
+    displayedInfo = (
+      <div
+        style={{
+          order: 1,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "flex-end",
+          flex: 1,
+        }}
+      >
+        <Logout />
+      </div>
+    );
+  } else {
+    // if not in CompanySelection
+    displayedInfo = <CompanySelector />;
+  }
 
-    return (
-        <>
-            <AntHeader
-                style={{
-                    height: '10vh',
-                    background: "white",
-                    padding: 0,
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    borderBottom: "#CBCBCB",
-                    borderBottomStyle: "solid",
-                    borderBottomWidth: "thin"
-                }}
-            >
-                <ReactLogo
-                    height={"5vh"}
-                    width={"25vh"}
-                    style={{
-                        marginLeft: '2%',
-                    }}
-                />
-                <div style={{
-                    display: "flex",
-                    alignItems: "center"
-                }}>
-                    <Avatar
-                        size={"large"}
-                        shape={"circle"}
-                        alt={"profile"}
-                        style={{
-                            order: 2,
-                            marginRight: "5%",
-                            marginLeft: "5%"
-                        }}
-                    />
-                    {displayedInfo}
-                </div>
-            </AntHeader>
-        </>
-    )
+  return (
+    <>
+      <AntHeader className={"main-header"}>
+        <div className={"logo-container"}>
+          <TerradiaLogo height={"40px"} width={"200px"} />
+        </div>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          {displayedInfo}
+        </div>
+      </AntHeader>
+    </>
+  );
 };
 
 export default Header;

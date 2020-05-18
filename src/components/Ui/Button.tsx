@@ -1,43 +1,6 @@
-import React from 'react';
-import { Button as AntButton } from 'antd';
-import { ButtonShape, ButtonSize, ButtonType } from 'antd/es/button';
-
-const ButtonElementsContainer: React.FC = props => {
-  return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '100%',
-        height: '100%',
-      }}
-    >
-      {props.children}
-    </div>
-  );
-};
-
-interface ButtonColumnProps {
-  width: string;
-  style?: React.CSSProperties;
-}
-
-const ButtonColumn: React.FC<ButtonColumnProps> = props => {
-  return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        ...props.style,
-        width: props.width,
-      }}
-    >
-      {props.children}
-    </div>
-  );
-};
+import React from "react";
+import { Button as AntButton } from "antd";
+import { ButtonShape, ButtonSize, ButtonType } from "antd/es/button";
 
 export interface ButtonProps {
   text?: string;
@@ -51,75 +14,78 @@ export interface ButtonProps {
   size?: ButtonSize;
   width?: string;
   targetLink?: string;
-  htmlType?: 'button' | 'reset' | 'submit' | undefined;
+  htmlType?: "button" | "reset" | "submit" | undefined;
   fitParentWidth?: boolean;
   onClick?: React.MouseEventHandler<HTMLElement>;
   id?: string;
   className?: string;
   accentColor?: string;
+  error?: boolean;
 }
 
-const Button: React.FunctionComponent<ButtonProps> = props => {
+const Button: React.FunctionComponent<ButtonProps> = ({
+  accentColor,
+  type,
+  shape,
+  isLoading,
+  onClick,
+  size,
+  targetLink,
+  fitParentWidth,
+  htmlType,
+  icon,
+  id,
+  style,
+  text,
+  children,
+  ...props
+}) => {
   const defaultStyle: React.CSSProperties = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: props.width === "full-width" ? "100%" : "",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    width: props.width && props.width,
   };
 
-  let numberOfIcons = 0;
-  if (props.icon) numberOfIcons++;
-  if (props.rightIcon) numberOfIcons++;
-
-  const mainElementSize = 100 - numberOfIcons * 15;
-  const iconContainerSize = 20;
-
-  const type = props.type;
   // if there is an accent color, we change manually the color of the button
-  if ((!type || type === "default" || type === "dashed") && props.accentColor) {
-    defaultStyle["color"] = props.accentColor;
-    defaultStyle["borderColor"] = props.accentColor;
-  } else if (type && type === "primary" && props.accentColor) {
+  if ((!type || type === "default" || type === "dashed") && accentColor) {
+    defaultStyle["color"] = accentColor;
+    defaultStyle["backgroundColor"] = "rgba(0, 0, 0, 0)";
+    defaultStyle["borderColor"] = accentColor;
+  } else if (type && type === "primary" && accentColor) {
     defaultStyle["color"] = "white";
-    defaultStyle["backgroundColor"] = props.accentColor;
+    defaultStyle["backgroundColor"] = accentColor;
     defaultStyle["borderColor"] = "rgba(0, 0, 0, 0)";
-  } else if (type && type === "link" && props.accentColor) {
-    defaultStyle["color"] = props.accentColor;
+  } else if (type && type === "link" && accentColor) {
+    defaultStyle["color"] = accentColor;
   }
 
   return (
     <AntButton
-      type={props.type}
-      shape={props.shape}
-      loading={props.isLoading}
-      onClick={props.onClick}
-      size={props.size}
-      target={props.targetLink}
-      block={props.fitParentWidth}
-      htmlType={props.htmlType}
+      type={type}
+      shape={shape}
+      loading={isLoading}
+      onClick={onClick}
+      size={size}
+      target={targetLink}
+      block={fitParentWidth}
+      htmlType={htmlType}
+      icon={
+        icon !== undefined &&
+        React.cloneElement(icon, {
+          style: { color: defaultStyle["color"] },
+        })
+      }
       style={{
-        ...props.style,
+        ...style,
         ...defaultStyle,
       }}
-      id={props.id}
+      id={id}
       className={props.className}
+      {...props}
     >
-      <ButtonElementsContainer>
-        {props.icon && (
-          <ButtonColumn width={iconContainerSize + '%'}>
-            <i style={{ width: "60%", height: "60%" }}>{props.icon}</i>
-          </ButtonColumn>
-        )}
-        <ButtonColumn width={mainElementSize + '%'}>
-          {props.text}
-          {props.children}
-        </ButtonColumn>
-        {props.rightIcon && (
-          <ButtonColumn width={iconContainerSize + '%'}>
-            <i style={{ width: "60%", height: "60%" }}>{props.rightIcon}</i>
-          </ButtonColumn>
-        )}
-      </ButtonElementsContainer>
+      {text}
+      {children && children}
     </AntButton>
   );
 };

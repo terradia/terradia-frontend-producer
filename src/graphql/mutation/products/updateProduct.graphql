@@ -1,0 +1,45 @@
+mutation updateProduct(
+    $productId: String
+    $name: String
+    $description: String
+    $unitId: String
+    $quantityForUnit: Float
+    $price: Float
+    $coverId: String
+) {
+    updateProduct(
+        productId: $productId
+        name: $name
+        description: $description
+        unitId: $unitId
+        quantityForUnit: $quantityForUnit
+        price: $price
+        coverId: $coverId
+    ) {
+        id
+        name
+        position
+        description
+        unit {
+            id
+            name
+            notation
+            referenceUnit {
+                id
+                name
+                notation
+                multiplicationFactor
+            }
+            multiplicationFactor
+        }
+        quantityForUnit
+        price
+        reviews {
+            id
+            title
+            description
+            customerMark
+        }
+        updatedAt
+    }
+}
