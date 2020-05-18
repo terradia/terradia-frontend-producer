@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import Button from "../Ui/Button";
 import { UploadOutlined } from "@ant-design/icons/lib";
-import ImageUploadModal from "./ImageUploadModal";
+import ImageUploadModal, { AddCompanyImageData } from "./ImageUploadModal";
+import { UploadChangeParam } from "antd/lib/upload";
 
 interface Props {
   onCloseModalCallBack?: () => void; // called when the modal is closed
   onOpenModalCallBack?: () => void; // called when the modal is opened
-  onUpload?: (uploadedImage) => void; // function called for each upload (on multiple call this function for each element).
+  onUpload?: (
+    imageFile: UploadChangeParam,
+    uploadedImage?: AddCompanyImageData
+  ) => void; // function called for each upload (on multiple call this function for each element).
   closeAfterUpload?: boolean; // if you want the modal to close when the upload is done.
   oneImageByOne?: boolean; // if you want the user to upload only one image at the time.
 }
