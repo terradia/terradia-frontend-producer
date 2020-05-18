@@ -9,37 +9,61 @@ import LoginForm from "../Authentication/Login/LoginForm";
 import { useApolloClient, useMutation } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
 import { LeftOutlined } from "@ant-design/icons";
-
-const steps = [
-  {
-    title: "S'enregistrer",
-    content: <RegisterForm />,
-  },
-  {
-    title: "Création de l'entreprise",
-    content: <GeneralInfoForm />,
-  },
-  {
-    title: "Information administrative",
-    content: <AdministrativeInfoForm />,
-  },
-];
+import { AddCompanyImageData } from "../Files/ImageUploadModal";
+import { UploadChangeParam } from "antd/lib/upload";
 
 const createCompanyMutation = graphqlLoader(
   "../../graphql/mutation/createCompany.graphql"
+);
+const updateCompanyMutation = graphqlLoader(
+  "../../graphql/mutation/updateCompany.graphql"
 );
 const getUser = graphqlLoader("../../graphql/query/getUser.graphql");
 
 const CompanyRegisterForm = () => {
   const [form] = Form.useForm();
+  const [isCreated, setIsCreated] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [hasAccount, setHasAccount] = useState(false);
-  const [createCompany] = useMutation(createCompanyMutation);
+  const [logoId, setLogoId] = useState(null);
+  const [coverId, setCoverId] = useState(null);
+  const [createCompany, { loading: createLoading }] = useMutation(
+    createCompanyMutation
+  );
+  const [updateCompany, { loading: updateLoading }] = useMutation(
+    updateCompanyMutation
+  );
   const client = useApolloClient();
+
+  const onUpload = (
+    file: UploadChangeParam,
+    updateFile: AddCompanyImageData,
+    type: "logo" | "cover"
+  ) => {
+    if (type === "logo") {
+      setLogoId(updateFile.addCompanyImage.id);
+    } else if (type === "cover") {
+      setCoverId(updateFile.addCompanyImage.id);
+    }
+  };
+
+  const steps = [
+    {
+      title: "S'enregistrer",
+      content: <RegisterForm />,
+    },
+    {
+      title: "Création de l'entreprise",
+      content: <AdministrativeInfoForm />,
+    },
+    {
+      title: "Information complémentaires",
+      content: <GeneralInfoForm onUpload={onUpload} />,
+    },
+  ];
 
   useEffect(() => {
     const user = client.readQuery({ query: getUser });
-    console.log(user);
     if (user) {
       steps[0].title = "Se connecter";
       steps[0].content = (
@@ -47,13 +71,30 @@ const CompanyRegisterForm = () => {
       );
       setCurrentStep(1);
     }
-  }, [client]);
+  }, [client, currentStep, steps]);
 
   const onSubmit = (values) => {
     console.log(values);
-    createCompany({ variables: values }).then((data) => {
-      console.log(data);
-    });
+    if (!isCreated) {
+      createCompany({ variables: values }).then((data) => {
+        if (data.data) {
+          localStorage.setItem("selectedCompany", data.data.createCompany.id);
+          setIsCreated(true);
+          setCurrentStep(currentStep + 1);
+        }
+      });
+    } else {
+      values["logoId"] = logoId;
+      values["coverId"] = coverId;
+      updateCompany({
+        variables: {
+          companyId: localStorage.getItem("selectedCompany"),
+          newValues: values,
+        },
+      }).then((data) => {
+        console.log(data);
+      });
+    }
   };
 
   const switchLoginRegister = () => {
@@ -151,27 +192,20 @@ const CompanyRegisterForm = () => {
           <div className="external_connexion">
             {currentStep < steps.length - 1 && (
               <Button
-                //isLoading={loading}
-                text={"Étape Suivante"}
+                isLoading={createLoading || updateLoading}
+                text={"Créer l'entreprise"}
                 className={"form_item"}
                 id={"next_step"}
                 size={"large"}
                 onClick={() => {
-                  form
-                    .validateFields()
-                    .then(() => {
-                      setCurrentStep(currentStep + 1);
-                    })
-                    .catch((values) => {
-                      console.log(values);
-                    });
+                  form.submit();
                 }}
               />
             )}
             {currentStep === steps.length - 1 && (
               <Button
-                //isLoading={loading}
-                text={"Enregistrer l'entreprise"}
+                isLoading={updateLoading}
+                text={"Mettre à jours l'entreprise"}
                 className={"form_item"}
                 id={"login_button"}
                 size={"large"}
