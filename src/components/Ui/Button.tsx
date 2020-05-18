@@ -23,7 +23,23 @@ export interface ButtonProps {
   error?: boolean;
 }
 
-const Button: React.FunctionComponent<ButtonProps> = (props) => {
+const Button: React.FunctionComponent<ButtonProps> = ({
+  accentColor,
+  type,
+  shape,
+  isLoading,
+  onClick,
+  size,
+  targetLink,
+  fitParentWidth,
+  htmlType,
+  icon,
+  id,
+  style,
+  text,
+  children,
+  ...props
+}) => {
   const defaultStyle: React.CSSProperties = {
     display: "flex",
     alignItems: "center",
@@ -31,49 +47,45 @@ const Button: React.FunctionComponent<ButtonProps> = (props) => {
     width: props.width && props.width,
   };
 
-  // let numberOfIcons = 0;
-  // if (props.icon) numberOfIcons++;
-  // if (props.rightIcon) numberOfIcons++;
-
-  const type = props.type;
   // if there is an accent color, we change manually the color of the button
-  if ((!type || type === "default" || type === "dashed") && props.accentColor) {
-    defaultStyle["color"] = props.accentColor;
-    defaultStyle["borderColor"] = props.accentColor;
-  } else if (type && type === "primary" && props.accentColor) {
+  if ((!type || type === "default" || type === "dashed") && accentColor) {
+    defaultStyle["color"] = accentColor;
+    defaultStyle["backgroundColor"] = "rgba(0, 0, 0, 0)";
+    defaultStyle["borderColor"] = accentColor;
+  } else if (type && type === "primary" && accentColor) {
     defaultStyle["color"] = "white";
-    defaultStyle["backgroundColor"] = props.accentColor;
+    defaultStyle["backgroundColor"] = accentColor;
     defaultStyle["borderColor"] = "rgba(0, 0, 0, 0)";
-  } else if (type && type === "link" && props.accentColor) {
-    defaultStyle["color"] = props.accentColor;
+  } else if (type && type === "link" && accentColor) {
+    defaultStyle["color"] = accentColor;
   }
 
   return (
     <AntButton
-      type={props.type}
-      shape={props.shape}
-      loading={props.isLoading}
-      onClick={props.onClick}
-      size={props.size}
-      target={props.targetLink}
-      block={props.fitParentWidth}
-      htmlType={props.htmlType}
+      type={type}
+      shape={shape}
+      loading={isLoading}
+      onClick={onClick}
+      size={size}
+      target={targetLink}
+      block={fitParentWidth}
+      htmlType={htmlType}
       icon={
-        props.icon &&
-        React.cloneElement(props.icon, {
+        icon !== undefined &&
+        React.cloneElement(icon, {
           style: { color: defaultStyle["color"] },
         })
       }
       style={{
-        ...props.style,
+        ...style,
         ...defaultStyle,
       }}
-      id={props.id}
+      id={id}
       className={props.className}
       {...props}
     >
-      {props.text && props.text}
-      {props.children && props.children}
+      {text}
+      {children && children}
     </AntButton>
   );
 };

@@ -11,6 +11,9 @@ const CountryCode = () => {
   useEffect(() => {
     setCountryDialCodes(
       allCountries.map((country) => {
+        if (country.iso2 === "xk") {
+          return null;
+        }
         return (
           <Select.Option
             key={country.name + "-" + country.dialCode}
@@ -24,7 +27,6 @@ const CountryCode = () => {
     );
   }, []);
 
-  console.log(countryDialCodes);
   return (
     <Select defaultValue={"France"} className={"select-before"}>
       {countryDialCodes}
