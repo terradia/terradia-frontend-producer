@@ -143,10 +143,12 @@ const UserProfile = () => {
                 <Upload
                   listType={"picture-card"}
                   fileList={imageList}
+                  customRequest={() => {
+                    return;
+                  }}
                   beforeUpload={handleBeforeUpload}
                   onRemove={handleRemove}
                   onChange={handleCustomRequest}
-                  multiple={false}
                   showUploadList={false}
                 >
                   <Avatar
