@@ -4,9 +4,11 @@ query getUser {
         firstName
         lastName
         email
+        password
         validated
         companies {
             id
         }
+        phone
     }
 }
