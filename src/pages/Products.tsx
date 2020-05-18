@@ -101,7 +101,7 @@ const Products = () => {
       );
       categoryList.push(
         <Option key={cat.id} value={cat.id}>
-          {cat.id != `nonCat${companyId}`
+          {cat.id !== `nonCat${companyId}`
             ? cat.name
             : "Produits non catégorisés"}
         </Option>

@@ -1,8 +1,8 @@
 import React from "react";
 import { ReactComponent as Logo } from "../assets/Logo/Terradia_white.svg";
 import { Divider } from "antd";
-import ReturnButtonContainer from "../components/Authentication/Register/ReturnButtonContainer";
-import RegisterForm from "../components/Authentication/Register/RegisterForm";
+import CompanyRegisterForm from "../components/CompanyRegister/CompanyRegisterForm";
+import "../assets/Style/Login-Register/loginRegisterPage.less";
 
 const CompanyRegister = () => {
   return (
@@ -15,8 +15,7 @@ const CompanyRegister = () => {
         </p>
       </div>
       <div className={"action-auth"}>
-        <ReturnButtonContainer />
-        <RegisterForm />
+        <CompanyRegisterForm />
       </div>
     </div>
   );

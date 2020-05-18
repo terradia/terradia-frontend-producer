@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Col, Form, Input, InputNumber, Row, Select, Upload } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import { InboxOutlined } from "@ant-design/icons/lib";
+import ImageSelectorButton from "../../../Gallery/ImageSelectorButton";
 
 interface AddProductsFormProps {
   setForm: (e) => void; // To pass the form to the modal
@@ -27,11 +27,28 @@ interface AddProductsFormProps {
 
 const { Option } = Select;
 
-const fileList = [];
-
 function ProductsForm(props: AddProductsFormProps) {
   const [form] = Form.useForm();
   const [unitList, setUnitList] = useState([]);
+  const [coverImage, setCoverImage] = useState(
+    props.updateProduct && props.updateProduct.cover !== null
+      ? props.updateProduct.cover
+      : null
+  );
+  const [fileList, setFileList] = useState(null);
+
+  useEffect(() => {
+    if (coverImage !== null) {
+      setFileList([
+        {
+          key: coverImage.id,
+          uid: coverImage.id,
+          name: coverImage.name,
+          url: `https://media.terradia.eu/${coverImage.filename}`,
+        },
+      ]);
+    }
+  }, [coverImage]);
 
   const initialValues = {
     name: props.updateProduct ? props.updateProduct.name : undefined,
@@ -162,23 +179,27 @@ function ProductsForm(props: AddProductsFormProps) {
             <TextArea rows={4} />
           </Form.Item>
           <Form.Item label="Image du produit">
-            <Form.Item valuePropName="fileList" noStyle>
-              <Upload.Dragger
-                name="files"
-                listType={"picture"}
-                defaultFileList={[...fileList]}
-              >
-                <p className="ant-upload-drag-icon">
-                  <InboxOutlined />
-                </p>
-                <p className="ant-upload-text">
-                  Click or drag file to this area to upload
-                </p>
-                <p className="ant-upload-hint">
-                  Support for a single or bulk upload.
-                </p>
-              </Upload.Dragger>
-              {/*TODO Mettre une preview de l'image chargé*/}
+            <Form.Item name="cover" noStyle>
+              <>
+                <ImageSelectorButton
+                  onlyOneImageByOne
+                  onValidate={(selectedImages) => {
+                    setCoverImage(selectedImages[0]);
+                    form.setFieldsValue({
+                      cover: selectedImages[0].id,
+                    });
+                  }}
+                />
+                {fileList !== null && (
+                  <Upload
+                    listType={"picture"}
+                    fileList={fileList}
+                    onRemove={() => {
+                      setFileList(null);
+                    }}
+                  />
+                )}
+              </>
             </Form.Item>
           </Form.Item>
         </Col>

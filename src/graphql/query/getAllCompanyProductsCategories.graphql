@@ -8,6 +8,7 @@ query getAllCompanyProductsCategories($companyId: String!) {
             cover {
                 id
                 filename
+                name
             }
             position
             description

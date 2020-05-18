@@ -4,9 +4,12 @@ query getUser {
         firstName
         lastName
         email
+        password
         validated
+        avatar
         companies {
             id
         }
+        phone
     }
 }

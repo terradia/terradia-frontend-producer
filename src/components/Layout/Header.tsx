@@ -24,7 +24,6 @@ const Header = ({
   ...props
 }: HeaderProps) => {
   let displayedInfo;
-  const widthScreen = window.screenX;
 
   if (props.Company) {
     // if in CompanySelection page (login)
@@ -49,14 +48,6 @@ const Header = ({
   return (
     <>
       <AntHeader className={"main-header"}>
-        {widthScreen < 1024 &&
-          React.createElement(
-            collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
-            {
-              className: "trigger",
-              onClick: onClickOnBurger,
-            }
-          )}
         <div className={"logo-container"}>
           <TerradiaLogo height={"40px"} width={"200px"} />
         </div>
