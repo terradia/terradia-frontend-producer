@@ -8,6 +8,10 @@ const getCompanyReviews = graphqlLoader(
   "../graphql/query/getCompanyReviews.graphql"
 );
 
+const queryCompanyUsers = graphqlLoader(
+  "../graphql/query/getCompanyUsers.graphql"
+);
+
 const Statistics = () => {
   const companyId = localStorage.getItem("selectedCompany");
 
@@ -16,7 +20,15 @@ const Statistics = () => {
     error: errorCompanyReviews,
     data: dataCompanyReviews,
   } = useQuery(getCompanyReviews, {
-    variables: { id: companyId, limit: 30, offset: 1 },
+    variables: { id: companyId, limit: 10, offset: 1 },
+  });
+
+  const {
+    loading: loadingEmployees,
+    error: errorDataCompany,
+    data: dataCompany,
+  } = useQuery(queryCompanyUsers, {
+    variables: { companyId: companyId },
   });
 
   const gridStyle = {
@@ -35,27 +47,44 @@ const Statistics = () => {
     paddingBottom: 24,
   };
 
-  const [nbReviews, setNbReviews] = React.useState(0);
+  function rateNumber() {
+    let nbReviews = 0;
+    dataCompanyReviews.getCompanyReviews.forEach((user) => {
+      if (user.customerMark) {
+        nbReviews += 1;
+      }
+    });
+    if (nbReviews !== 0) {
+      return <>({nbReviews}) </>;
+    }
+    return 0;
+  }
 
   const commentUser = () => {
     let tmpNbReviews = 0;
     let ratingTotal = 0;
-    dataCompanyReviews.getCompanyReviews.map((user) => {
+    dataCompanyReviews.getCompanyReviews.forEach((user) => {
       if (user.customerMark) {
         tmpNbReviews += 1;
         ratingTotal += user.customerMark;
       }
     });
-    console.log(ratingTotal / tmpNbReviews);
-    if (tmpNbReviews !== 0 && ratingTotal !== 0)
-      return ratingTotal / tmpNbReviews;
+    if (tmpNbReviews !== 0 && ratingTotal !== 0) {
+      const result = ratingTotal / tmpNbReviews;
+      return result;
+    }
     return 0;
   };
 
-  if (loading) return <div>loading</div>;
+  const employeesNumber = () => {
+    let employeesNb = 0;
+    dataCompany.getCompany.users.map(() => (employeesNb += 1));
+    return employeesNb;
+  };
+
+  if (loading || loadingEmployees) return <div>loading</div>;
   return (
     <>
-      {console.log(dataCompanyReviews)}
       <div style={bodyStyle}>
         <div
           style={{
@@ -104,7 +133,7 @@ const Statistics = () => {
               >
                 <Card.Grid hoverable={false} style={gridStyle}>
                   <Card.Meta title={"Produits disponibles"} />
-                  <Progress percent={60} size="small" />
+                  <Progress percent={84} size="small" />
                 </Card.Grid>
                 <Card.Grid hoverable={false} style={gridStyle}>
                   <Statistic title="Produit favorit" value={"Tomato"} />
@@ -132,16 +161,18 @@ const Statistics = () => {
           >
             <div style={avisStyle}>
               <Card.Grid hoverable={false} style={gridStyle}>
-                <Rate
-                  disabled
-                  defaultValue={2}
-                  allowHalf
-                  value={commentUser()}
-                  style={{
-                    display: "flex",
-                  }}
-                />{" "}
-                (223) avis
+                {!errorDataCompany && (
+                  <Rate
+                    disabled
+                    defaultValue={2}
+                    allowHalf
+                    value={commentUser()}
+                    style={{
+                      display: "flex",
+                    }}
+                  />
+                )}{" "}
+                {rateNumber()}
               </Card.Grid>
               <Card.Grid hoverable={false} style={gridStyle}>
                 <Statistic
@@ -153,22 +184,18 @@ const Statistics = () => {
             </div>
           </Card>
           <Card
-            title="Employees"
+            title={"Employees"}
             style={{
-              display: "flex",
+              marginBottom: "1%",
             }}
           >
-            {/* <Card.Grid hoverable={false} style={gridStyle}>
-                <Card.Meta title={"Produits disponibles"} />
-                <Progress percent={60} size="small" />
-              </Card.Grid>
-              <Card.Grid hoverable={false} style={gridStyle}>
-                <Statistic title="Produit favorit" value={"Tomato"} />
-              </Card.Grid>
-              <Card.Grid hoverable={false} style={gridStyle}>
-                <Card.Meta title={"Produits disponibles"}></Card.Meta>
-                <Progress percent={60} size="small" />
-              </Card.Grid> */}
+            <div style={avisStyle}>
+              {!errorCompanyReviews && (
+                <Card.Grid hoverable={false} style={gridStyle}>
+                  {employeesNumber()} membres
+                </Card.Grid>
+              )}
+            </div>
           </Card>
         </div>
       </div>
