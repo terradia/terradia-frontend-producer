@@ -40,17 +40,29 @@ declare interface LoginData {
   };
 }
 
-const LoginForm = () => {
+declare interface LoginFormProps {
+  onLogin?: () => void;
+}
+
+const LoginForm = (props: LoginFormProps) => {
   const client = useApolloClient();
   const userContext = useContext(UserContext);
   const [redirect, setRedirect] = useState("");
   const [login, { loading: loginLoading }] = useMutation(mutationLogin);
-  const [getUserQuery] = useLazyQuery(getUser);
   const [
     getCompaniesQuery,
     { loading: companiesLoading, data: companiesData, called },
   ] = useLazyQuery(getCompanies);
   const history = useHistory();
+
+  const onGetUser = (data) => {
+    console.log(data);
+    if (props.onLogin) {
+      props.onLogin();
+    }
+  };
+
+  const [getUserQuery] = useLazyQuery(getUser, { onCompleted: onGetUser });
 
   useEffect(() => {
     if (userContext) getCompaniesQuery();
@@ -74,18 +86,20 @@ const LoginForm = () => {
         ) {
           setRedirect("/home");
         } else {
-          notification["warn"]({
-            message: "Vous n'avez pas d'entreprise. ",
-            btn: (
-              <CreateCompanyButton
-                callback={() => setRedirect("/companyRegister")}
-              />
-            ),
-          });
+          if (history.location.pathname !== "/companyRegister") {
+            notification["warn"]({
+              message: "Vous n'avez pas d'entreprise. ",
+              btn: (
+                <CreateCompanyButton
+                  callback={() => setRedirect("/companyRegister")}
+                />
+              ),
+            });
+          }
         }
       }
     }
-  }, [called, companiesData, companiesLoading]);
+  }, [called, companiesData, companiesLoading, history]);
 
   if (redirect !== "" && localStorage.getItem("token")) {
     console.log("redirect to: " + redirect);
@@ -100,20 +114,25 @@ const LoginForm = () => {
     login({ variables: { email: values.email, password: values.password } })
       .then((loginData: LoginData) => {
         if (loginData) {
-          const prevToken = localStorage.getItem("token");
           localStorage.setItem("token", loginData.data.login.token);
-          dispatchEvent(
-            new StorageEvent("storage", {
-              key: "token",
-              oldValue: prevToken,
-              newValue: loginData.data.login.token,
-            })
-          );
+          if (!props.onLogin) {
+            const prevToken = localStorage.getItem("token");
+            dispatchEvent(
+              new StorageEvent("storage", {
+                key: "token",
+                oldValue: prevToken,
+                newValue: loginData.data.login.token,
+              })
+            );
+          }
           client
             .resetStore()
             .then(() => {
               getCompaniesQuery();
               getUserQuery();
+              if (props.onLogin) {
+                props.onLogin();
+              }
             })
             .catch((error) => {
               console.log(error);
@@ -222,19 +241,21 @@ const LoginForm = () => {
                     icon={<AppleFilled />}
                   />
                 </div>
-                <div className={"register_div"}>
-                  <div className={"register-catching"}>
-                    {"Vous n'avez pas encore de compte ?"}
+                {!props.onLogin && (
+                  <div className={"register_div"}>
+                    <div className={"register-catching"}>
+                      {"Vous n'avez pas encore de compte ?"}
+                    </div>
+                    <Button
+                      id={"register_button"}
+                      className={"button_register"}
+                      text={"S'inscrire"}
+                      size={"large"}
+                      htmlType={"submit"}
+                      onClick={(): void => history.push("/Register")}
+                    />
                   </div>
-                  <Button
-                    id={"register_button"}
-                    className={"button_register"}
-                    text={"S'inscrire"}
-                    size={"large"}
-                    htmlType={"submit"}
-                    onClick={(): void => history.push("/Register")}
-                  />
-                </div>
+                )}
               </div>
             </div>
           </div>
