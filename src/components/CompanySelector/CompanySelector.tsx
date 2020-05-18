@@ -172,9 +172,8 @@ const CompanySelector = () => {
                   display: "flex",
                   flexWrap: "wrap",
                   flexFlow: "column",
-                  justifyContent: "flex-start",
-                  alignContent: "space-around",
-                  alignItems: "center",
+                  justifyContent: "center",
+                  alignItems: "flex-start",
                 }}
               >
                 <Logout />

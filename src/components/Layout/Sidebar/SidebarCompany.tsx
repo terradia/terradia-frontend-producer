@@ -68,7 +68,7 @@ const SidebarCompany = (props: SidebarCompanyProps) => {
         <PageButton
           key={"/files"}
           link={"/files"}
-          label={"Gallerie d'images"}
+          label={"Galerie d'images"}
           onClick={props.onClickedLink}
           selected={props.currentPage === "/files"}
           icon={<FileImageOutlined />}

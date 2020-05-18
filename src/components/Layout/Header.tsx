@@ -10,11 +10,17 @@ const AntHeader = AntLayout.Header;
 
 declare interface HeaderProps {
   Company?: boolean;
+  onClickOnBurger?: () => void;
+  collapsed?: boolean;
 }
 
 //TODO Faire un burger menu si la taille est trop petite
 
-const Header = (props: HeaderProps) => {
+const Header = ({
+  onClickOnBurger,
+  collapsed = false,
+  ...props
+}: HeaderProps) => {
   let displayedInfo;
 
   if (props.Company) {

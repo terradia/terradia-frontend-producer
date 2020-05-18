@@ -1,11 +1,15 @@
 import React from "react";
 import Button from "../components/Ui/Button";
 import { loader as graphqlLoader } from "graphql.macro";
-import { ReactComponent as AddIcon } from "../assets/Icon/ui/add.svg";
 import "../assets/Style/Products/ProductsPage.less";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { Table, Tag, Modal, Select, AutoComplete } from "antd";
 import Popconfirm from "antd/es/popconfirm";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  PlusOutlined,
+} from "@ant-design/icons/lib";
 
 const queryCompanyUsers = graphqlLoader(
   "../graphql/query/getCompanyUsers.graphql"
@@ -131,24 +135,24 @@ const Staff = () => {
     return (
       <Popconfirm
         key={record}
-        title="Sure to delete?"
+        title="Êtes vous sûr(e)?"
         okButtonProps={{ loading: leaveCompanyLoading }}
         onConfirm={() => handleDeleteUser(record)}
       >
-        <a href={"/#"}>Delete</a>
+        <DeleteOutlined type={"danger"} style={{ fontSize: 20 }} />
       </Popconfirm>
     );
   };
 
   const columns = [
     {
-      title: "Last Name",
+      title: "Nom",
       dataIndex: "user",
       key: "lastNameId",
       render: (user) => `${user.lastName}`,
     },
     {
-      title: "First Name",
+      title: "Prénom",
       dataIndex: "user",
       key: "firstNameId",
       render: (user) => `${user.firstName}`,
@@ -160,13 +164,13 @@ const Staff = () => {
       render: (user) => `${user.email}`,
     },
     {
-      title: "Tags",
+      title: "Rôles",
       key: "tags",
       dataIndex: "roles",
       render: tagRenderer,
     },
     {
-      title: "Operation",
+      title: "Actions",
       dataIndex: "operation",
       render: confirmDelete,
     },
@@ -263,16 +267,14 @@ const Staff = () => {
         <Button
           className={"button"}
           text={"Ajouter un employé"}
-          icon={<AddIcon />}
-          size={"large"}
-          onClick={() => handleOpenAddUser()}
+          icon={<PlusOutlined />}
+          onClick={handleOpenAddUser}
         />
         <Button
           className={"button"}
-          text={"Modifier le rôle"}
-          icon={<AddIcon />}
-          size={"large"}
-          onClick={() => handleOpenRole()}
+          text={"Modifier les rôles"}
+          icon={<EditOutlined />}
+          onClick={handleOpenRole}
         />
         <Modal
           title="Ajouter un employé"
@@ -306,7 +308,7 @@ const Staff = () => {
           onCancel={() => handleOpenRole()}
         >
           <Select
-            defaultValue="Choose the role"
+            defaultValue="Choisir un rôle"
             style={{ width: 240 }}
             onChange={handleChangeRole}
           >
@@ -320,7 +322,7 @@ const Staff = () => {
           </Select>
           {dataCompany.getCompany && (
             <Select
-              defaultValue="Choose your member"
+              defaultValue="Choisir un membre"
               style={{ width: 240 }}
               onChange={handleChangeUserRole}
             >
