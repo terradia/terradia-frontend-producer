@@ -6,7 +6,7 @@ import { useMutation, useQuery } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
 import Button from "../../components/Ui/Button";
 import { RcFile } from "antd/lib/upload/interface";
-import Paragraph from 'antd/lib/typography/Paragraph';
+import Paragraph from "antd/lib/typography/Paragraph";
 
 const mutationUpdateUserAvatar = graphqlLoader(
   "../../graphql/mutation/updateUserAvatar.graphql"
