@@ -13,6 +13,8 @@ const queryCompanyUsers = graphqlLoader(
 
 const getAllUsers = graphqlLoader("../graphql/query/getAllUsers.graphql");
 
+const getAllRoles = graphqlLoader("../graphql/query/getAllRoles.graphql");
+
 const mutationJoinCompany = graphqlLoader(
   "../graphql/mutation/joinCompany.graphql"
 );
@@ -40,22 +42,52 @@ const Staff = () => {
   );
 
   const {
+    loading: loadingRoles,
+    error: errorRoles,
+    data: dataRoles,
+  } = useQuery(getAllRoles);
+
+  const {
     loading: loadingAllUsers,
     error: errorAllUsers,
     data: allUsers,
   } = useQuery(getAllUsers);
 
   const [joinCompany, { loading: joinCompanyLoading }] = useMutation(
-    mutationJoinCompany
+    mutationJoinCompany,
+    {
+      refetchQueries: [
+        {
+          query: queryCompanyUsers,
+          variables: { companyId: companyId },
+        },
+      ],
+    }
   );
+
   const [leaveCompany, { loading: leaveCompanyLoading }] = useMutation(
-    mutationLeaveCompany
+    mutationLeaveCompany,
+    {
+      refetchQueries: [
+        {
+          query: queryCompanyUsers,
+          variables: { companyId: companyId },
+        },
+      ],
+    }
   );
 
   const [
     addUserCompanyRole,
     { loading: addUserCompanyRoleLoading },
-  ] = useMutation(mutationAddUserCompanyRole);
+  ] = useMutation(mutationAddUserCompanyRole, {
+    refetchQueries: [
+      {
+        query: queryCompanyUsers,
+        variables: { companyId: companyId },
+      },
+    ],
+  });
 
   // const [
   //   removeUserCompanyRole,
@@ -119,14 +151,15 @@ const Staff = () => {
   ];
 
   const handleDeleteUser = (userData) => {
-    leaveCompany({
-      variables: {
-        companyId: companyId,
-        userId: userData.user.id,
-      },
-    }).catch((error) => {
-      console.log(error);
-    });
+    if (userData)
+      leaveCompany({
+        variables: {
+          companyId: companyId,
+          userId: userData.user.id,
+        },
+      }).catch((error) => {
+        console.log(error);
+      });
   };
 
   // Add user to company
@@ -157,8 +190,6 @@ const Staff = () => {
     allUsersState.find((user) =>
       user.slugName === userSelected ? setSelectedUserToCompany(user.id) : null
     );
-    console.log("SELECTED COMPANY");
-    console.log(selectedUserToCompany);
   };
 
   const handleJoinCompany = () => {
@@ -170,9 +201,6 @@ const Staff = () => {
     }).catch((error) => {
       console.log(error);
     });
-
-    console.log("After ok button Join company");
-    console.log(selectedUserToCompany);
     return openUser === true ? setOpenUser(false) : setOpenUser(true);
   };
 
@@ -185,19 +213,19 @@ const Staff = () => {
   }
 
   const handleOpenRole = () => {
-    if (!errorDataCompany) {
-      dataCompany.getCompany.users.map((user) => {
-        user.roles.map((role) => {
-          setRoles([
-            ...roles,
-            {
-              id: role.id,
-              slugName: role.slugName,
-            },
-          ]);
-        });
+    let tmpRole = [];
+    if (!errorRoles) {
+      dataRoles.getAllRoles.map((user) => {
+        tmpRole = [
+          ...tmpRole,
+          {
+            id: user.id,
+            slugName: user.slugName,
+          },
+        ];
       });
-    } else console.log(errorDataCompany);
+      setRoles(tmpRole);
+    } else console.log(errorRoles);
     return openRole === true ? setOpenRole(false) : setOpenRole(true);
   };
 
@@ -219,6 +247,7 @@ const Staff = () => {
 
   if (
     loading ||
+    loadingRoles ||
     loadingAllUsers ||
     joinCompanyLoading ||
     leaveCompanyLoading ||
@@ -303,7 +332,11 @@ const Staff = () => {
       </div>
       <Table
         columns={columns}
-        dataSource={dataCompany ? dataCompany.getCompany.users : null}
+        dataSource={
+          dataCompany
+            ? dataCompany.getCompany.users
+            : console.log(errorDataCompany)
+        }
       />
     </div>
   );
