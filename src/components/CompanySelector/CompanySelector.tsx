@@ -8,11 +8,31 @@ import { useQuery } from "@apollo/react-hooks";
 import { useHistory, useLocation } from "react-router";
 import Logout from "../Authentication/Logout/Logout";
 import PageButton from "../Ui/PageButton";
-import { ShopOutlined } from "@ant-design/icons/lib";
+import { LoadingOutlined, ShopOutlined } from "@ant-design/icons/lib";
 
 const queryGetCompaniesByUser = graphqlLoader(
   "../../graphql/query/getCompaniesByUser.graphql"
 );
+
+const getUserInformations = graphqlLoader(
+  "../../graphql/query/getUser.graphql"
+);
+
+declare interface ProfileData {
+  getUser: {
+    id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    validated: boolean;
+    phone: string;
+    password: string;
+    avatar: string;
+    companies: {
+      id;
+    };
+  };
+}
 
 const CompanySelector = () => {
   const currentUrl = useLocation();
@@ -27,6 +47,7 @@ const CompanySelector = () => {
   const userContext = useContext(UserContext);
   const [menu, setMenu] = useState(null);
   const [information, setInformation] = useState(null);
+  const [avatarLoading, setAvatarLoading] = useState(true);
 
   const { data, loading, error } = useQuery(queryGetCompaniesByUser, {
     variables: {
@@ -34,10 +55,27 @@ const CompanySelector = () => {
     },
   });
 
-  const onClickedLink = (href: string) => {
-    setCurrentPage(href);
-    history.push(href);
-  };
+  const { data: userData, loading: userLoading, error: userError } = useQuery<
+    ProfileData
+  >(getUserInformations, {
+    fetchPolicy: "cache-only",
+  });
+
+  const onClickedLink = useCallback(
+    (href: string) => {
+      setCurrentPage(href);
+      history.push(href);
+    },
+    [history]
+  );
+
+  useEffect(() => {
+    if (userLoading && !userError) {
+      setAvatarLoading(true);
+    } else {
+      setAvatarLoading(false);
+    }
+  }, [userLoading, userError]);
 
   const findCurrentCompanyData = useCallback(
     (newCompanyId) => {
@@ -49,6 +87,7 @@ const CompanySelector = () => {
           setCurrentCompanyData(company.company);
           return true;
         }
+        return false;
       });
     },
     [data, currentCompanyId]
@@ -153,6 +192,7 @@ const CompanySelector = () => {
     history,
     currentCompanyId,
     handleChangeCompany,
+    onClickedLink,
   ]);
 
   useEffect(() => {
@@ -167,7 +207,7 @@ const CompanySelector = () => {
                 alignItems: "center",
               }}
             >
-              {userContext.firstName + " " + userContext.lastName}
+              {userData.getUser.firstName + " " + userData.getUser.lastName}
             </div>
             <div
               style={{
@@ -201,18 +241,26 @@ const CompanySelector = () => {
               size={"large"}
               shape={"circle"}
               alt={"profile"}
+              icon={avatarLoading ? <LoadingOutlined /> : <UserOutlined />}
               src={
-                currentCompanyData.logo && currentCompanyData.logo.filename
-                  ? currentCompanyData.logo.filename
+                avatarLoading
+                  ? null
+                  : userData.getUser.avatar
+                  ? `https://media.terradia.eu/${userData.getUser.avatar}`
                   : null
               }
-              icon={<UserOutlined />}
             />
           </div>
         </div>
       );
     }
-  }, [currentCompanyData, userContext.lastName, userContext.firstName]);
+  }, [
+    currentCompanyData,
+    userContext.lastName,
+    userContext.firstName,
+    userData,
+    avatarLoading,
+  ]);
 
   if (data && !loading && !error && menu !== null && information !== null) {
     return (
