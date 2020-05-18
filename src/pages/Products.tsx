@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import { loader as graphqlLoader } from "graphql.macro";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 
-import { Select } from "antd";
+import { Empty, Select } from "antd";
 import Button from "../components/Ui/Button";
 import CategoryProducts from "../components/Products/CategoryProducts";
 import ProductsModal from "../components/Products/Modal/Product/ProductsModal";
 import CategoryModal from "../components/Products/Modal/Category/CategoryModal";
 
 import "../assets/Style/Products/ProductsPage.less";
-import { ReactComponent as AddIcon } from "../assets/Icon/ui/add.svg";
 import { DragDropContext } from "react-beautiful-dnd";
+import { PlusOutlined } from "@ant-design/icons/lib";
 
 const { Option } = Select;
 
@@ -101,7 +101,9 @@ const Products = () => {
       );
       categoryList.push(
         <Option key={cat.id} value={cat.id}>
-          {cat.name}
+          {cat.id !== `nonCat${companyId}`
+            ? cat.name
+            : "Produits non catégorisés"}
         </Option>
       );
     });
@@ -239,28 +241,29 @@ const Products = () => {
         <Button
           className={"button"}
           text={"Créer une catégorie"}
-          icon={<AddIcon />}
-          size={"large"}
+          icon={<PlusOutlined />}
           onClick={() => setCategoryVisible(true)}
         />
         <Button
           className={"button"}
           text={"Créer un produit"}
-          icon={<AddIcon />}
-          size={"large"}
+          icon={<PlusOutlined />}
           onClick={() => {
             setDefaultCategory(undefined);
             setAddProductVisible(true);
           }}
         />
-        <Button
-          className={"button"}
-          text={"Créer une publicité"}
-          icon={<AddIcon />}
-          size={"large"}
-        />
       </div>
       <div className={"categories-list"}>
+        {(!dataCategories ||
+          dataCategories.getAllCompanyProductsCategories.length === 0) && (
+          <div className={"empty-card"}>
+            <Empty
+              description={"Pour le moment, il n'y a aucun produit à lister"} // TODO : Translate this.
+              image={Empty.PRESENTED_IMAGE_SIMPLE}
+            />
+          </div>
+        )}
         {!loadingCategories &&
           dataCategories !== undefined &&
           !errorCategories && (

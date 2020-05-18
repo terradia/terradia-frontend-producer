@@ -9,7 +9,6 @@ declare interface SidebarProfileProps {
 }
 
 const SidebarProfile = (props: SidebarProfileProps) => {
-  console.log("SidebarProfile Props", props);
   return (
     <Menu
       defaultSelectedKeys={[props.currentPage]}
