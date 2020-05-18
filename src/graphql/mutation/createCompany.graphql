@@ -1,12 +1,11 @@
-mutation createCompany($name: String!, $description: String, $logo: Upload, $cover: Upload, $email: String, $phone: String, $address: String!) {
+mutation createCompany($name: String!, $siren: String!, $description: String, $email: String!, $phone: String!, $address: String!) {
     createCompany (
         name: $name
         description: $description
         email: $email
+        siren: $siren
         phone: $phone
         address: $address
-        logo: $logo
-        cover: $cover
     )
     {
         id
@@ -14,13 +13,6 @@ mutation createCompany($name: String!, $description: String, $logo: Upload, $cov
         email
         description
         phone
-        logo {
-            id
-            filename
-        }
-        cover {
-            id
-            filename
-        }
+        siren
     }
 }

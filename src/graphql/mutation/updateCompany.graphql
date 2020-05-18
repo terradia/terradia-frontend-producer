@@ -1,0 +1,18 @@
+mutation updateCompany($companyId: ID!, $newValues: CompanyUpdateInput) {
+    updateCompany(companyId: $companyId, newValues: $newValues) {
+        id
+        name
+        description
+        email
+        phone
+        address
+        logo {
+            id
+            filename
+        }
+        cover {
+            id
+            filename
+        }
+    }
+}
