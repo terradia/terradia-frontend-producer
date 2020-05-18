@@ -97,6 +97,48 @@ const Staff = () => {
   const [openUser, setOpenUser] = React.useState(false);
   const [openRole, setOpenRole] = React.useState(false);
 
+  const handleDeleteUser = (userData) => {
+    if (userData)
+      leaveCompany({
+        variables: {
+          companyId: companyId,
+          userId: userData.user.id,
+        },
+      }).catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const tagRenderer = (roles: { slugName: string }[]) => {
+    return (
+      <span>
+        {roles.map((tag: { slugName: string }, index: string | number) => {
+          let color = "green";
+          if (tag.slugName === "admin") {
+            color = "volcano";
+          }
+          return (
+            <Tag color={color} key={index}>
+              {tag.slugName.toUpperCase()}
+            </Tag>
+          );
+        })}
+      </span>
+    );
+  };
+
+  const confirmDelete = (text, record) => {
+    return (
+      <Popconfirm
+        title="Sure to delete?"
+        okButtonProps={{ loading: leaveCompanyLoading }}
+        onConfirm={() => handleDeleteUser(record)}
+      >
+        <a>Delete</a>
+      </Popconfirm>
+    );
+  };
+
   const columns = [
     {
       title: "Last Name",
@@ -120,47 +162,14 @@ const Staff = () => {
       title: "Tags",
       key: "tags",
       dataIndex: "roles",
-      render: (roles: { slugName: string }[]) => (
-        <span>
-          {roles.map((tag: { slugName: string }, index: string | number) => {
-            let color = "green";
-            if (tag.slugName === "admin") {
-              color = "volcano";
-            }
-            return (
-              <Tag color={color} key={index}>
-                {tag.slugName.toUpperCase()}
-              </Tag>
-            );
-          })}
-        </span>
-      ),
+      render: tagRenderer,
     },
     {
       title: "Operation",
       dataIndex: "operation",
-      render: (text, record) => (
-        <Popconfirm
-          title="Sure to delete?"
-          onConfirm={() => handleDeleteUser(record)}
-        >
-          <a href="/#">Delete</a>
-        </Popconfirm>
-      ),
+      render: confirmDelete,
     },
   ];
-
-  const handleDeleteUser = (userData) => {
-    if (userData)
-      leaveCompany({
-        variables: {
-          companyId: companyId,
-          userId: userData.user.id,
-        },
-      }).catch((error) => {
-        console.log(error);
-      });
-  };
 
   // Add user to company
   const [allUsersState, setAllUsers] = React.useState([]);
@@ -245,15 +254,7 @@ const Staff = () => {
     return openRole === true ? setOpenRole(false) : setOpenRole(true);
   };
 
-  if (
-    loading ||
-    loadingRoles ||
-    loadingAllUsers ||
-    joinCompanyLoading ||
-    leaveCompanyLoading ||
-    addUserCompanyRoleLoading
-  )
-    return <div>loading</div>;
+  if (loading || loadingRoles || loadingAllUsers) return <div>loading</div>;
 
   return (
     <div className={"product-page"}>
@@ -276,6 +277,7 @@ const Staff = () => {
           title="Ajouter un employé"
           centered
           visible={openUser}
+          confirmLoading={joinCompanyLoading}
           onOk={() => handleJoinCompany()}
           onCancel={() => handleOpenAddUser()}
         >
@@ -298,6 +300,7 @@ const Staff = () => {
           title="Ajouté un rôle a un employé"
           centered
           visible={openRole}
+          confirmLoading={addUserCompanyRoleLoading}
           onOk={() => handleAddRoleUser()}
           onCancel={() => handleOpenRole()}
         >
