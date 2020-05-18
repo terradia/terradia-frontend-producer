@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Button from "../components/Ui/Button";
 import { loader as graphqlLoader } from "graphql.macro";
 import { ReactComponent as AddIcon } from "../assets/Icon/ui/add.svg";
