@@ -6,6 +6,7 @@ mutation createProduct(
     $companyProductsCategoryId: String
     $quantityForUnit: Int!
     $unitId: String
+    $coverId: String
 ) {
     createProduct(
         name: $name
@@ -15,6 +16,7 @@ mutation createProduct(
         price: $price
         companyId: $companyId
         unitId: $unitId
+        coverId: $coverId
     ) {
         id
         name

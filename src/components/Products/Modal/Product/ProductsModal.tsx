@@ -111,6 +111,7 @@ function ProductsModal(props: ProductsModalProps) {
         quantityForUnit: values.quantityUnit,
         unitId: values.unit === "null" ? null : values.unit,
         companyId: companyId,
+        coverId: values.cover,
       },
     })
       .then(() => {
@@ -137,7 +138,6 @@ function ProductsModal(props: ProductsModalProps) {
 
   function updateProduct(values) {
     // TODO une seule mutation
-    // TODO query pour supprimer un produit d'une cat via la modal
     if (values.category !== props.updateProduct.category) {
       updateProductCompanyCategory({
         variables: {
@@ -158,7 +158,11 @@ function ProductsModal(props: ProductsModalProps) {
       values.unit !==
         (props.updateProduct.unit !== null
           ? props.updateProduct.unit.id
-          : "null")
+          : "null") ||
+      values.cover !==
+        (props.updateProduct.cover !== null
+          ? props.updateProduct.cover.id
+          : null)
     ) {
       updateProductMutation({
         variables: {
@@ -168,6 +172,7 @@ function ProductsModal(props: ProductsModalProps) {
           unitId: values.unit === "null" ? null : values.unit,
           quantityForUnit: values.quantityUnit,
           price: values.price,
+          coverId: values.cover === undefined ? null : values.cover,
         },
       }).catch((error) => {
         console.log(error);
