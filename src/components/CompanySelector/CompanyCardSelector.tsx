@@ -58,10 +58,17 @@ const CompanyCardSelector = () => {
             selected={selected === companyData.id}
             name={companyData.name}
             logo={
-              "https://terradia-bucket-assets.s3.eu-west-3.amazonaws.com/" +
               companyData.logo
+                ? "https://terradia-bucket-assets.s3.eu-west-3.amazonaws.com/" +
+                  companyData.logo.filename
+                : null
             }
-            cover={companyData.cover}
+            cover={
+              companyData.cover
+                ? "https://terradia-bucket-assets.s3.eu-west-3.amazonaws.com/" +
+                  companyData.cover.filename
+                : null
+            }
             onClick={onSelected}
           />
         );
