@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Button from "../components/Ui/Button";
 import { loader as graphqlLoader } from "graphql.macro";
 import { ReactComponent as AddIcon } from "../assets/Icon/ui/add.svg";
@@ -130,6 +130,7 @@ const Staff = () => {
   const confirmDelete = (text, record) => {
     return (
       <Popconfirm
+        key={record}
         title="Sure to delete?"
         okButtonProps={{ loading: leaveCompanyLoading }}
         onConfirm={() => handleDeleteUser(record)}
@@ -335,6 +336,7 @@ const Staff = () => {
       </div>
       <Table
         columns={columns}
+        rowKey={"id"}
         dataSource={
           dataCompany
             ? dataCompany.getCompany.users
