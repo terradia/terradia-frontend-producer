@@ -3,7 +3,7 @@ import { Button, Modal, Upload } from "antd";
 import { useMutation } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
 import { InboxOutlined } from "@ant-design/icons/lib";
-import { RcFile } from "antd/lib/upload/interface";
+import { RcFile, UploadChangeParam } from "antd/lib/upload/interface";
 
 const addCompanyImage = graphqlLoader(
   "../../graphql/mutation/addCompanyImage.graphql"
@@ -12,9 +12,20 @@ const addCompanyImage = graphqlLoader(
 interface Props {
   visible?: boolean;
   onClickClose: () => void;
-  onUpload?: (uploadedImage) => void; // function called for each upload (on multiple call this function for each element).
+  onUpload?: (
+    imageFile: UploadChangeParam,
+    uploadedImage?: AddCompanyImageData
+  ) => void; // function called for each upload (on multiple call this function for each element).
   closeAfterUpload?: boolean; // if you want the modal to close when the upload is done.
   oneImageByOne?: boolean; // if you want the user to upload only one image at the time.
+}
+
+export declare interface AddCompanyImageData {
+  addCompanyImage: {
+    id: string;
+    name: string;
+    filename: string;
+  };
 }
 
 const validImageTypes = ["image/jpeg", "image/png"];
@@ -47,33 +58,39 @@ const ImageUploadModal: React.FC<Props> = ({ visible, ...props }: Props) => {
     console.log("error uploading the image(s) : ", data);
   };
 
-  const [mutation] = useMutation(addCompanyImage, {
-    variables: {},
+  const [mutation] = useMutation<AddCompanyImageData>(addCompanyImage, {
     onCompleted: handleCompleteUpload,
     onError: handleErrorUpload,
   });
 
   const handleClose = () => {
     setImageList([]);
-    props.onClickClose();
+    if (props.onClickClose) {
+      props.onClickClose();
+    }
   };
 
   const handleRemove = (data) => {
     setImageList(imageList.filter((image) => image.uid !== data.uid));
   };
 
-  const handleCustomRequest = (data): any => {
-    if (data.file.status !== "uploading") return;
-    const file: File = data.file.originFileObj;
-    if (validImageTypes.includes(file.type)) {
+  const handleCustomRequest = (files: UploadChangeParam): void => {
+    console.log(files);
+    if (files.file.status !== "uploading") {
+      props.onUpload(files);
+      return;
+    }
+    if (validImageTypes.includes(files.file.type)) {
       mutation({
         variables: {
           companyId,
-          image: file,
-          name: file.name,
+          image: files.file.originFileObj,
+          name: files.file.name,
         },
-      }).then(() => {
-        props.onUpload(file);
+      }).then((data) => {
+        if (props.onUpload && data && data.data && data.data) {
+          props.onUpload(files, data.data);
+        }
       });
     } else {
       // TODO : the user needs to send ONLY png or jpeg => notify there is an error;
