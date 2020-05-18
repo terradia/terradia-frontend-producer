@@ -144,7 +144,7 @@ const Staff = () => {
           title="Sure to delete?"
           onConfirm={() => handleDeleteUser(record)}
         >
-          <a>Delete</a>
+          <a href="/#">Delete</a>
         </Popconfirm>
       ),
     },
@@ -168,7 +168,7 @@ const Staff = () => {
   const handleOpenAddUser = () => {
     let tmpAllUsers = [];
     if (!loadingAllUsers && !errorAllUsers) {
-      allUsers.getAllUsers.map((user) => {
+      allUsers.getAllUsers.forEach((user) => {
         tmpAllUsers = [
           ...tmpAllUsers,
           {
@@ -215,7 +215,7 @@ const Staff = () => {
   const handleOpenRole = () => {
     let tmpRole = [];
     if (!errorRoles) {
-      dataRoles.getAllRoles.map((user) => {
+      dataRoles.getAllRoles.forEach((user) => {
         tmpRole = [
           ...tmpRole,
           {
