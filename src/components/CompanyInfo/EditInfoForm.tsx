@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import { Form, Upload, Input } from "antd";
-import { InboxOutlined } from "@ant-design/icons";
+import { Form, Input } from "antd";
 import { Info } from "./InfoCard";
 import EditOfficeHour from "./EditOfficeHour";
+import ImageSelectorButton from "../Gallery/ImageSelectorButton";
 
 declare interface EditInfoFormProps {
   infos: Info[];
@@ -68,16 +68,7 @@ const EditInfoForm = (props: EditInfoFormProps) => {
       )}
       {info.icon !== undefined && (
         <Form.Item>
-          <Form.Item>
-            <Upload.Dragger name={"logo"}>
-              <p className="ant-upload-drag-icon">
-                <InboxOutlined />
-              </p>
-              <p className="ant-upload-text">
-                Click or drag file to this area to upload
-              </p>
-            </Upload.Dragger>
-          </Form.Item>
+          <ImageSelectorButton onlyOneImageByOne />
         </Form.Item>
       )}
       {info.openHours && (

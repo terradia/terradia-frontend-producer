@@ -7,7 +7,6 @@ import { Moment } from "moment";
 import "../../assets/Style/CompanyInfo/InfoCard.less";
 import { loader } from "graphql.macro";
 import { useMutation } from "@apollo/react-hooks";
-import Button from "../Ui/Button";
 
 export declare interface Hours {
   startTime: Moment;
