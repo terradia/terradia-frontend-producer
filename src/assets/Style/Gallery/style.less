@@ -1,0 +1,63 @@
+@import "../../../../src/index.less";
+
+.modal {
+  width: 60em !important;
+  .ant-modal-body {
+    nav.modal-header {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      flex-wrap: wrap;
+      flex-direction: row;
+      justify-content: center;
+      .divider {
+        display: none;
+      }
+      div {
+        margin-top: @padding-sm;
+      }
+    }
+    @media (min-width: 1024px) { // on desktop
+      nav.modal-header {
+        justify-content: flex-start;
+        .divider {
+          display: block;
+        }
+        div {
+          margin-top: 0;
+        }
+      }
+    }
+    .image-card {
+      position: relative;
+      height: 15em;
+      width: 15em;
+      margin: @padding-sm !important;
+      .checkbox {
+        position: absolute;
+        top: 1em;
+        right: 1em;
+      }
+      .selectable-image-card {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        .ant-card-cover {
+          img {
+            object-fit: cover;
+            width: 15em;
+            height: 15em;
+            cursor: pointer;
+            filter: grayscale(80%);
+          }
+          img.selected {
+            filter: none !important;
+            border: @primary-color 2px solid;
+          }
+        }
+      }
+    }
+  }
+}
+

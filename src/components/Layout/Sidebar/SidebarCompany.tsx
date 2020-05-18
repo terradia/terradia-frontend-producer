@@ -1,28 +1,23 @@
-import React, { useState } from "react";
-import { useHistory, useLocation } from "react-router";
-import HomeIcon from "../Icons/PageIcon/HomeIcon";
-import ProductIcon from "../Icons/PageIcon/ProductIcon";
-import CategoriesIcon from "../Icons/PageIcon/CategoriesIcon";
-import StatisticsIcon from "../Icons/PageIcon/StatisticsIcon";
-import StaffIcon from "../Icons/PageIcon/StaffIcon";
-import DocumentIcon from "../Icons/PageIcon/DocumentIcon";
-import CompanyIcon from "../Icons/PageIcon/CompanyIcon";
+import React from "react";
+import PageButton from "../../Ui/PageButton";
+import HomeIcon from "../../Icons/PageIcon/HomeIcon";
+import ProductIcon from "../../Icons/PageIcon/ProductIcon";
+import CategoriesIcon from "../../Icons/PageIcon/CategoriesIcon";
+import StatisticsIcon from "../../Icons/PageIcon/StatisticsIcon";
+import StaffIcon from "../../Icons/PageIcon/StaffIcon";
+import DocumentIcon from "../../Icons/PageIcon/DocumentIcon";
+import CompanyIcon from "../../Icons/PageIcon/CompanyIcon";
 import { Menu } from "antd";
-import PageButton from "../Ui/PageButton";
 
-const Sidebar = () => {
-  const currentUrl = useLocation().pathname;
-  const history = useHistory();
-  const [currentPage, setCurrentPage] = useState(currentUrl);
+declare interface SidebarCompanyProps {
+  onClickedLink: (href) => void;
+  currentPage: string;
+}
 
-  const OnClickedLink = (href: string) => {
-    setCurrentPage(href);
-    history.push(href);
-  };
-
+const SidebarCompany = (props: SidebarCompanyProps) => {
   return (
     <Menu
-      defaultSelectedKeys={[currentPage]}
+      defaultSelectedKeys={[props.currentPage]}
       mode={"inline"}
       style={{
         display: "flex",
@@ -35,7 +30,7 @@ const Sidebar = () => {
       <PageButton
         link={"/home"}
         label={"Home"}
-        onClick={OnClickedLink}
+        onClick={props.onClickedLink}
         icon={
           <HomeIcon
             style={{ width: "32px", height: "32px", display: "flex" }}
@@ -45,7 +40,7 @@ const Sidebar = () => {
       <PageButton
         link={"/products"}
         label={"Product"}
-        onClick={OnClickedLink}
+        onClick={props.onClickedLink}
         icon={
           <ProductIcon
             style={{ width: "32px", height: "32px", display: "flex" }}
@@ -55,7 +50,7 @@ const Sidebar = () => {
       <PageButton
         link={"/categories"}
         label={"Categories"}
-        onClick={OnClickedLink}
+        onClick={props.onClickedLink}
         icon={
           <CategoriesIcon
             style={{ width: "32px", height: "32px", display: "flex" }}
@@ -65,7 +60,7 @@ const Sidebar = () => {
       <PageButton
         link={"/statistics"}
         label={"Statistics"}
-        onClick={OnClickedLink}
+        onClick={props.onClickedLink}
         icon={
           <StatisticsIcon
             style={{ width: "32px", height: "32px", display: "flex" }}
@@ -75,7 +70,7 @@ const Sidebar = () => {
       <PageButton
         link={"/staff"}
         label={"Staff"}
-        onClick={OnClickedLink}
+        onClick={props.onClickedLink}
         icon={
           <StaffIcon
             style={{ width: "32px", height: "32px", display: "flex" }}
@@ -85,7 +80,7 @@ const Sidebar = () => {
       <PageButton
         link={"/document"}
         label={"Documents"}
-        onClick={OnClickedLink}
+        onClick={props.onClickedLink}
         icon={
           <DocumentIcon
             style={{ width: "32px", height: "32px", display: "flex" }}
@@ -95,7 +90,7 @@ const Sidebar = () => {
       <PageButton
         link={"/company"}
         label={"Company"}
-        onClick={OnClickedLink}
+        onClick={props.onClickedLink}
         icon={
           <CompanyIcon
             style={{ width: "32px", height: "32px", display: "flex" }}
@@ -106,4 +101,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default SidebarCompany;

@@ -1,0 +1,6 @@
+mutation removeCompanyProductsCategory($categoryId: String!) {
+    removeCompanyProductsCategory(categoryId: $categoryId) {
+        id
+        name
+    }
+}

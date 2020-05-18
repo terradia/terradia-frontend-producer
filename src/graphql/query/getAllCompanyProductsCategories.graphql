@@ -5,15 +5,34 @@ query getAllCompanyProductsCategories($companyId: String!) {
         products {
             id
             name
-            image
+            logo {
+                id
+                filename
+            }
+            cover {
+                id
+                filename
+            }
+            position
             description
-            updatedAt
+            unit {
+                id
+                name
+                notation
+                referenceUnit {
+                    name
+                }
+                multiplicationFactor
+            }
+            quantityForUnit
+            price
             reviews {
                 id
                 title
                 description
                 customerMark
             }
+            updatedAt
         }
     }
 }

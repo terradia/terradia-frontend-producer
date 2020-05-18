@@ -1,0 +1,11 @@
+query getCompanyImages ($companyId: ID!) {
+    getCompanyImages(companyId: $companyId) {
+        id
+        filename
+        name
+        products {
+            id
+            name
+        }
+    }
+}

@@ -6,9 +6,10 @@ import Products from "./pages/Products";
 import Categories from "./pages/Categories";
 import Statistics from "./pages/Statistics";
 import Staff from "./pages/Staff";
-import Documents from "./pages/Documents";
+import Files from "./pages/Files";
 import Login from "./pages/Login";
 import Company from "./pages/Company";
+import Profile from "./pages/profile/Profile";
 import { useLazyQuery } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
 import ResetPassword from "./pages/ResetPassword";
@@ -49,6 +50,8 @@ const App = () => {
         e.newValue === null
       ) {
         setRedirect("/companySelection");
+      } else if (e.key === "selectedCompany" && e.key !== e.newValue) {
+        setRedirect(e.url);
       }
     };
   }, []);
@@ -110,11 +113,14 @@ const App = () => {
                 <Route exact path={"/staff"}>
                   <Staff />
                 </Route>
-                <Route exact path={"/documents"}>
-                  <Documents />
+                <Route exact path={"/files"}>
+                  <Files />
                 </Route>
                 <Route exact path={"/company"}>
                   <Company />
+                </Route>
+                <Route exact path={"/profile/:id"}>
+                  <Profile />
                 </Route>
               </Layout>
             </BreakpointCatcher>
