@@ -1,11 +1,10 @@
 import React from "react";
 import { Avatar, Col, Form, Row, Input } from "antd";
-import { EditOutlined, UserOutlined } from "@ant-design/icons/lib";
+import { UserOutlined } from "@ant-design/icons/lib";
 import "../../assets/Style/Profil/userProfile.less";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
 import Button from "../../components/Ui/Button";
-import query from "apollo-cache-inmemory/lib/fragmentMatcherIntrospectionQuery";
 
 
 declare interface ProfileData {
@@ -28,8 +27,8 @@ const updateUserMutation = graphqlLoader("../../graphql/mutation/profile/updateU
 
 const UserProfile = () => {
   const [form] = Form.useForm();
-  const { loading, data, refetch} = useQuery<ProfileData>(getUserInformations, {
-    fetchPolicy: 'cache-first'
+  const { data } = useQuery<ProfileData>(getUserInformations, {
+    fetchPolicy: "cache-first"
   });
     const [updateUser] = useMutation(updateUserMutation, {
         refetchQueries: [{
@@ -52,17 +51,17 @@ const UserProfile = () => {
         }}
         onFinish={(val) => {
             console.log(val);
-            // updateUser({
-            //     variables: {
-            //         lastName: val.lastName,
-            //         firstName: val.firstName,
-            //         email: val.email,
-            //         password: val.password? val.password : undefined,
-            //         phone: val.phone,
-            //     }
-            // }).catch((err) => {
-            //     console.log(err)
-            // });
+            updateUser({
+                variables: {
+                    lastName: val.lastName,
+                    firstName: val.firstName,
+                    email: val.email,
+                    password: val.password? val.password : undefined,
+                    phone: val.phone,
+                }
+            }).catch((err) => {
+                console.log(err)
+            });
         }}
       >
         <Col className={"main-col"}>
@@ -166,10 +165,10 @@ const UserProfile = () => {
                                 ({ getFieldValue }) => ({
                                     validator(rule, value) {
                                         console.log(getFieldValue("password"));
-                                        if (!value || getFieldValue('password') === value) {
+                                        if (!value || getFieldValue("password") === value) {
                                             return Promise.resolve();
                                         }
-                                        return Promise.reject('Les deux mots de passe ne sont pas les mêmes!');
+                                        return Promise.reject("Les deux mots de passe ne sont pas les mêmes!");
                                     },
                                 }),
                             ]}>
