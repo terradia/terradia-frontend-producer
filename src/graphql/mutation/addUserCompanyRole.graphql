@@ -1,0 +1,5 @@
+mutation addUserCompanyRole($companyUserId: String!, $roleId: String!) {
+  addUserCompanyRole(companyUserId: $companyUserId, roleId: $roleId) {
+    id
+  }
+}

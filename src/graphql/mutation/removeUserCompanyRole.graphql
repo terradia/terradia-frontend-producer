@@ -1,0 +1,5 @@
+mutation removeUserCompanyRole($companyUserId: String!, $roleId: String!) {
+  removeUserCompanyRole(companyUserId: $companyUserId, roleId: $roleId) {
+    id
+  }
+}

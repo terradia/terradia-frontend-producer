@@ -1,0 +1,6 @@
+query getAllRoles {
+  getAllRoles {
+    id
+    slugName
+  }
+}
