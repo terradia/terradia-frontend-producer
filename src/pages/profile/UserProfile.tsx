@@ -6,6 +6,7 @@ import { useMutation, useQuery } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
 import Button from "../../components/Ui/Button";
 import { RcFile } from "antd/lib/upload/interface";
+import Paragraph from "antd/lib/typography/Paragraph";
 
 const mutationUpdateUserAvatar = graphqlLoader(
   "../../graphql/mutation/updateUserAvatar.graphql"
@@ -139,43 +140,36 @@ const UserProfile = () => {
         >
           <Col className={"main-col"}>
             <Row className={"row-avatar row"}>
-              <Col>
-                <Upload
-                  listType={"picture-card"}
-                  fileList={imageList}
-                  customRequest={() => {
-                    return;
-                  }}
-                  beforeUpload={handleBeforeUpload}
-                  onRemove={handleRemove}
-                  onChange={handleCustomRequest}
-                  showUploadList={false}
-                >
-                  <Avatar
-                    size={100}
-                    icon={
-                      loadingAvatar ? <LoadingOutlined /> : <UserOutlined />
-                    }
-                    src={
-                      loadingAvatar
-                        ? null
-                        : imageUrl !== null
-                        ? `https://media.terradia.eu/${imageUrl}`
-                        : null
-                    }
-                  />
-                </Upload>
-              </Col>
-              <Col>
-                <div className={"member-informations"}>
-                  Membre de Terradia depuis le XX-XX-XXXX
-                </div>
-              </Col>
+              <Upload
+                listType={"picture-card"}
+                className={"avatar-picker"}
+                fileList={imageList}
+                customRequest={() => {
+                  return;
+                }}
+                beforeUpload={handleBeforeUpload}
+                onRemove={handleRemove}
+                onChange={handleCustomRequest}
+                showUploadList={false}
+              >
+                <Avatar
+                  size={100}
+                  icon={loadingAvatar ? <LoadingOutlined /> : <UserOutlined />}
+                  src={
+                    loadingAvatar
+                      ? null
+                      : imageUrl !== null
+                      ? `https://media.terradia.eu/${imageUrl}`
+                      : null
+                  }
+                />
+              </Upload>
+              <span>{"Cliquer sur l'image pour la modifier."}</span>
             </Row>
             <Row className={"row-name"}>
               <Col className={"col"}>
                 <Form.Item>
-                  <div className={"label-profile"}>NOM DE FAMILLE</div>
+                  <div className={"label"}>NOM</div>
                   <Form.Item
                     name={"lastName"}
                     rules={[
@@ -195,7 +189,7 @@ const UserProfile = () => {
               </Col>
               <Col className={"col"}>
                 <Form.Item>
-                  <div className={"label-profile"}>PRENOM</div>
+                  <div className={"label"}>PRENOM</div>
                   <Form.Item
                     name={"firstName"}
                     rules={[
@@ -217,7 +211,7 @@ const UserProfile = () => {
             <Row className={"row-email"}>
               <Col className={"col"}>
                 <Form.Item>
-                  <div className={"label-profile"}>COURRIEL</div>
+                  <div className={"label"}>COURRIEL</div>
                   <Form.Item
                     name={"email"}
                     rules={[
@@ -240,7 +234,7 @@ const UserProfile = () => {
             <Row className={"row-name"}>
               <Col className={"col"}>
                 <Form.Item>
-                  <div className={"label-profile"}>MOT DE PASSE</div>
+                  <div className={"label"}>NOUVEAU MOT DE PASSE</div>
                   <Form.Item
                     name={"password"}
                     rules={[
@@ -258,9 +252,9 @@ const UserProfile = () => {
                 </Form.Item>
               </Col>
               <Col className={"col"}>
-                <div className={"label-profile"}>
+                <Paragraph className={"label"} ellipsis={true}>
                   CONFIRMATION DU NOUVEAU MOT DE PASSE
-                </div>
+                </Paragraph>
                 <Form.Item
                   name={"confirm"}
                   dependencies={["password"]}
@@ -284,7 +278,7 @@ const UserProfile = () => {
             <Row className={"row-name"}>
               <Col className={"col"}>
                 <Form.Item>
-                  <div className={"label-profile"}>NUMÉRO DE TELEPHONE</div>
+                  <div className={"label"}>NUMÉRO DE TELEPHONE</div>
                   <Form.Item
                     name={"phone"}
                     rules={[
@@ -304,19 +298,15 @@ const UserProfile = () => {
                   </Form.Item>
                 </Form.Item>
               </Col>
-              <Col className={"col"}>
-                <Form.Item>
-                  <div className={"label-profile"}>LANGUE</div>
-                  <div>Français</div>
-                </Form.Item>
-              </Col>
             </Row>
           </Col>
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              Modifier
-            </Button>
-          </Form.Item>
+          <div className={"submit-col"}>
+            <Form.Item>
+              <Button type={"primary"} htmlType="submit">
+                Modifier
+              </Button>
+            </Form.Item>
+          </div>
         </Form>
       </div>
     );
