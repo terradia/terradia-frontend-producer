@@ -43,7 +43,7 @@ const CompanyCardSelector = () => {
       window.location.href = "http://localhost:8000/graphql";
     else {
       console.log("redirect to home from company selector");
-      history.push("/Home");
+      history.push("/home");
     }
   };
 
@@ -57,8 +57,18 @@ const CompanyCardSelector = () => {
             id={companyData.id}
             selected={selected === companyData.id}
             name={companyData.name}
-            logo={companyData.logo}
-            cover={companyData.cover}
+            logo={
+              companyData.logo
+                ? "https://terradia-bucket-assets.s3.eu-west-3.amazonaws.com/" +
+                  companyData.logo.filename
+                : null
+            }
+            cover={
+              companyData.cover
+                ? "https://terradia-bucket-assets.s3.eu-west-3.amazonaws.com/" +
+                  companyData.cover.filename
+                : null
+            }
             onClick={onSelected}
           />
         );

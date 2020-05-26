@@ -206,7 +206,12 @@ function CategoryProducts(props: CategoryProductsProps) {
                               <span
                                 className="card-background"
                                 style={{
-                                  backgroundImage: `url('${product.image}')`,
+                                  backgroundImage: product.cover
+                                    ? `url('${
+                                        "https://terradia-bucket-assets.s3.eu-west-3.amazonaws.com/" +
+                                        product.cover.filename
+                                      }')`
+                                    : null,
                                 }}
                               />
                               <p className="card-title card-item">

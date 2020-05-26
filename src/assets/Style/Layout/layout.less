@@ -1,0 +1,63 @@
+@import "../../../../src/index.less";
+
+.ant-menu-item {
+  height: 3.2em !important;
+  margin: 0 !important;
+  .button-container {
+    width: 230px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    .icon-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 20%;
+      span {
+        font-size: 25px;
+        color: #BBB;
+        margin: 0 !important;
+      }
+    }
+    .label-container {
+      display: flex;
+      padding-left: 1em;
+      justify-content: flex-start;
+      color: #BBB;
+      align-items: center;
+      width: 80%;
+    }
+    .selected {
+      color: @primary-color;
+      span {
+        color: @primary-color;
+      }
+    }
+  }
+  .button-container:hover {
+    .icon-container {
+      span {
+        color: @primary-color;
+      }
+    }
+    .label-container {
+      color: @primary-color;
+    }
+  }
+}
+
+.sidebar-part {
+  width: 100%;
+  display: flex;
+  flex-grow: 1;
+  flex-wrap: wrap;
+  flex-flow: column;
+  justify-content: center;
+  align-content: space-around;
+}
+.sidebar-part.begin {
+  align-items: flex-start;
+}
+.sidebar-part.end {
+  align-items: flex-end;
+}

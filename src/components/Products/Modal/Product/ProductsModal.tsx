@@ -1,7 +1,4 @@
 import React, { useState } from "react";
-// import Modal from "../../Ui/Modal";
-// import Input from "../../Ui/Input";
-// import Button from "../../../Ui/Button";
 import { Button, Modal, Popconfirm } from "antd";
 import ProductsForm from "./ProductsForm";
 import "../../../../assets/Style/Products/Modal/ProductsModal.less";
@@ -109,11 +106,12 @@ function ProductsModal(props: ProductsModalProps) {
         name: values.name,
         description: values.description,
         companyProductsCategoryId:
-          values.category === "nonCat" ? null : values.category,
+          values.category === `nonCat${companyId}` ? null : values.category,
         price: values.price,
         quantityForUnit: values.quantityUnit,
         unitId: values.unit === "null" ? null : values.unit,
         companyId: companyId,
+        coverId: values.cover,
       },
     })
       .then(() => {
@@ -139,10 +137,12 @@ function ProductsModal(props: ProductsModalProps) {
   }
 
   function updateProduct(values) {
+    // TODO une seule mutation
     if (values.category !== props.updateProduct.category) {
       updateProductCompanyCategory({
         variables: {
-          categoryId: values.category === "nonCat" ? null : values.category,
+          categoryId:
+            values.category === `nonCat${companyId}` ? null : values.category,
           productId: props.updateProduct.id,
         },
       }).catch((error) => {
@@ -158,7 +158,11 @@ function ProductsModal(props: ProductsModalProps) {
       values.unit !==
         (props.updateProduct.unit !== null
           ? props.updateProduct.unit.id
-          : "null")
+          : "null") ||
+      values.cover !==
+        (props.updateProduct.cover !== null
+          ? props.updateProduct.cover.id
+          : null)
     ) {
       updateProductMutation({
         variables: {
@@ -168,6 +172,7 @@ function ProductsModal(props: ProductsModalProps) {
           unitId: values.unit === "null" ? null : values.unit,
           quantityForUnit: values.quantityUnit,
           price: values.price,
+          coverId: values.cover === undefined ? null : values.cover,
         },
       }).catch((error) => {
         console.log(error);
@@ -213,7 +218,7 @@ function ProductsModal(props: ProductsModalProps) {
             </Popconfirm>
           )}
           <Button onClick={handleCancel}>Annuler</Button>
-          <Button onClick={handleOk}>
+          <Button onClick={handleOk} type={"primary"}>
             {props.updateProduct ? "Modifier" : "Créer"}
           </Button>
         </div>

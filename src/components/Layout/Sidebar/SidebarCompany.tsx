@@ -1,13 +1,16 @@
 import React from "react";
 import PageButton from "../../Ui/PageButton";
-import HomeIcon from "../../Icons/PageIcon/HomeIcon";
-import ProductIcon from "../../Icons/PageIcon/ProductIcon";
-import CategoriesIcon from "../../Icons/PageIcon/CategoriesIcon";
-import StatisticsIcon from "../../Icons/PageIcon/StatisticsIcon";
-import StaffIcon from "../../Icons/PageIcon/StaffIcon";
-import DocumentIcon from "../../Icons/PageIcon/DocumentIcon";
-import CompanyIcon from "../../Icons/PageIcon/CompanyIcon";
-import { Menu } from "antd";
+import { Divider, Menu } from "antd";
+import {
+  EyeOutlined,
+  FileImageOutlined,
+  HomeOutlined,
+  PieChartOutlined,
+  ShoppingCartOutlined,
+  TeamOutlined,
+} from "@ant-design/icons/lib";
+
+import Logout from "../../Authentication/Logout/Logout";
 
 declare interface SidebarCompanyProps {
   onClickedLink: (href) => void;
@@ -16,88 +19,85 @@ declare interface SidebarCompanyProps {
 
 const SidebarCompany = (props: SidebarCompanyProps) => {
   return (
-    <Menu
-      defaultSelectedKeys={[props.currentPage]}
-      mode={"inline"}
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        flexFlow: "column",
-        justifyContent: "center",
-        alignContent: "space-around",
-      }}
-    >
-      <PageButton
-        link={"/home"}
-        label={"Home"}
-        onClick={props.onClickedLink}
-        icon={
-          <HomeIcon
-            style={{ width: "32px", height: "32px", display: "flex" }}
-          />
-        }
-      />
-      <PageButton
-        link={"/products"}
-        label={"Product"}
-        onClick={props.onClickedLink}
-        icon={
-          <ProductIcon
-            style={{ width: "32px", height: "32px", display: "flex" }}
-          />
-        }
-      />
-      <PageButton
-        link={"/categories"}
-        label={"Categories"}
-        onClick={props.onClickedLink}
-        icon={
-          <CategoriesIcon
-            style={{ width: "32px", height: "32px", display: "flex" }}
-          />
-        }
-      />
-      <PageButton
-        link={"/statistics"}
-        label={"Statistics"}
-        onClick={props.onClickedLink}
-        icon={
-          <StatisticsIcon
-            style={{ width: "32px", height: "32px", display: "flex" }}
-          />
-        }
-      />
-      <PageButton
-        link={"/staff"}
-        label={"Staff"}
-        onClick={props.onClickedLink}
-        icon={
-          <StaffIcon
-            style={{ width: "32px", height: "32px", display: "flex" }}
-          />
-        }
-      />
-      <PageButton
-        link={"/document"}
-        label={"Documents"}
-        onClick={props.onClickedLink}
-        icon={
-          <DocumentIcon
-            style={{ width: "32px", height: "32px", display: "flex" }}
-          />
-        }
-      />
-      <PageButton
-        link={"/company"}
-        label={"Company"}
-        onClick={props.onClickedLink}
-        icon={
-          <CompanyIcon
-            style={{ width: "32px", height: "32px", display: "flex" }}
-          />
-        }
-      />
-    </Menu>
+    <>
+      <Menu
+        defaultSelectedKeys={[props.currentPage]}
+        mode={"inline"}
+        style={{
+          width: "100%",
+          display: "flex",
+          flexWrap: "wrap",
+          flexGrow: 1,
+          flexFlow: "column",
+          justifyContent: "center",
+          alignContent: "space-around",
+        }}
+      >
+        <PageButton
+          key={"/home"}
+          link={"/home"}
+          label={"Accueil"}
+          onClick={props.onClickedLink}
+          selected={props.currentPage === "/home"}
+          icon={<HomeOutlined />}
+        />
+        <PageButton
+          key={"/products"}
+          link={"/products"}
+          label={"Produits"}
+          onClick={props.onClickedLink}
+          selected={props.currentPage === "/products"}
+          icon={<ShoppingCartOutlined />}
+        />
+        <PageButton
+          key={"/statistics"}
+          link={"/statistics"}
+          label={"Statistiques"}
+          onClick={props.onClickedLink}
+          selected={props.currentPage === "/statistics"}
+          icon={<PieChartOutlined />}
+        />
+        <PageButton
+          key={"/staff"}
+          link={"/staff"}
+          label={"Employés"}
+          onClick={props.onClickedLink}
+          selected={props.currentPage === "/staff"}
+          icon={<TeamOutlined />}
+        />
+        <PageButton
+          key={"/files"}
+          link={"/files"}
+          label={"Galerie d'images"}
+          onClick={props.onClickedLink}
+          selected={props.currentPage === "/files"}
+          icon={<FileImageOutlined />}
+        />
+        <PageButton
+          key={"/company"}
+          link={"/company"}
+          label={"Entreprise"}
+          onClick={props.onClickedLink}
+          selected={props.currentPage === "/company"}
+          icon={<EyeOutlined />}
+        />
+      </Menu>
+      <Divider />
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          flexWrap: "wrap",
+          flexFlow: "column",
+          justifyContent: "flex-start",
+          alignContent: "space-around",
+          alignItems: "center",
+          paddingLeft: 24,
+        }}
+      >
+        <Logout key={"logout"} />
+      </div>
+    </>
   );
 };
 

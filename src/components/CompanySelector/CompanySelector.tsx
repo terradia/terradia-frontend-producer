@@ -6,10 +6,33 @@ import UserContext from "../Context/UserContext";
 import { loader as graphqlLoader } from "graphql.macro";
 import { useQuery } from "@apollo/react-hooks";
 import { useHistory, useLocation } from "react-router";
+import Logout from "../Authentication/Logout/Logout";
+import PageButton from "../Ui/PageButton";
+import { LoadingOutlined, ShopOutlined } from "@ant-design/icons/lib";
 
 const queryGetCompaniesByUser = graphqlLoader(
   "../../graphql/query/getCompaniesByUser.graphql"
 );
+
+const getUserInformations = graphqlLoader(
+  "../../graphql/query/getUser.graphql"
+);
+
+declare interface ProfileData {
+  getUser: {
+    id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    validated: boolean;
+    phone: string;
+    password: string;
+    avatar: string;
+    companies: {
+      id;
+    };
+  };
+}
 
 const CompanySelector = () => {
   const currentUrl = useLocation();
@@ -24,12 +47,35 @@ const CompanySelector = () => {
   const userContext = useContext(UserContext);
   const [menu, setMenu] = useState(null);
   const [information, setInformation] = useState(null);
+  const [avatarLoading, setAvatarLoading] = useState(true);
 
   const { data, loading, error } = useQuery(queryGetCompaniesByUser, {
     variables: {
       userId: userContext.id,
     },
   });
+
+  const { data: userData, loading: userLoading, error: userError } = useQuery<
+    ProfileData
+  >(getUserInformations, {
+    fetchPolicy: "cache-only",
+  });
+
+  const onClickedLink = useCallback(
+    (href: string) => {
+      setCurrentPage(href);
+      history.push(href);
+    },
+    [history]
+  );
+
+  useEffect(() => {
+    if (userLoading && !userError) {
+      setAvatarLoading(true);
+    } else {
+      setAvatarLoading(false);
+    }
+  }, [userLoading, userError]);
 
   const findCurrentCompanyData = useCallback(
     (newCompanyId) => {
@@ -41,7 +87,7 @@ const CompanySelector = () => {
           setCurrentCompanyData(company.company);
           return true;
         }
-        return null;
+        return false;
       });
     },
     [data, currentCompanyId]
@@ -86,32 +132,52 @@ const CompanySelector = () => {
               data.getCompaniesByUser.map((company) => {
                 return (
                   <Menu.Item
-                    title={company.company.name}
                     key={company.company.id}
                     onClick={() => {
                       setCurrentCompanyId(company.company.id);
                       handleChangeCompany(company.company.id);
                     }}
+                    style={{
+                      display: "flex",
+                      justifyContent: "flex-start",
+                      alignItems: "center",
+                      width: "100%",
+                      padding: "16",
+                    }}
                   >
-                    <p>{company.company.name}</p>
+                    <div className={"button-container"}>
+                      <span className={"icon-container"}>
+                        {<ShopOutlined />}
+                      </span>
+                      <span className={"label-container"}>
+                        {company.company.name}
+                      </span>
+                    </div>
                   </Menu.Item>
                 );
               })}
           </Menu.ItemGroup>
           <Menu.Divider />
           <Menu.ItemGroup key="settings" title="Paramètres">
+            <PageButton
+              link={"/profile/userProfile"}
+              label={"Profil"}
+              icon={<UserOutlined />}
+              onClick={onClickedLink}
+            />
             <Menu.Item>
-              <p
-                onClick={() => {
-                  setCurrentPage("/profile/userProfile");
-                  history.push("/profile/userProfile");
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  flexWrap: "wrap",
+                  flexFlow: "column",
+                  justifyContent: "center",
+                  alignItems: "flex-start",
                 }}
               >
-                Profil
-              </p>
-            </Menu.Item>
-            <Menu.Item>
-              <p>Se deconnecter</p>
+                <Logout />
+              </div>
             </Menu.Item>
           </Menu.ItemGroup>
         </Menu>
@@ -125,6 +191,7 @@ const CompanySelector = () => {
     history,
     currentCompanyId,
     handleChangeCompany,
+    onClickedLink,
   ]);
 
   useEffect(() => {
@@ -139,7 +206,7 @@ const CompanySelector = () => {
                 alignItems: "center",
               }}
             >
-              {userContext.firstName + " " + userContext.lastName}
+              {userData.getUser.firstName + " " + userData.getUser.lastName}
             </div>
             <div
               style={{
@@ -173,18 +240,26 @@ const CompanySelector = () => {
               size={"large"}
               shape={"circle"}
               alt={"profile"}
+              icon={avatarLoading ? <LoadingOutlined /> : <UserOutlined />}
               src={
-                currentCompanyData.logo && currentCompanyData.logo.filename
-                  ? currentCompanyData.logo.filename
+                avatarLoading
+                  ? null
+                  : userData.getUser.avatar
+                  ? `https://media.terradia.eu/${userData.getUser.avatar}`
                   : null
               }
-              icon={<UserOutlined />}
             />
           </div>
         </div>
       );
     }
-  }, [currentCompanyData, userContext.lastName, userContext.firstName]);
+  }, [
+    currentCompanyData,
+    userContext.lastName,
+    userContext.firstName,
+    userData,
+    avatarLoading,
+  ]);
 
   if (data && !loading && !error && menu !== null && information !== null) {
     return (

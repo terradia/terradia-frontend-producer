@@ -4,7 +4,7 @@ import Button from "../../Ui/Button";
 import { Checkbox, Divider, Input } from "antd";
 import * as Yup from "yup";
 import { loader as graphqlLoader } from "graphql.macro";
-import { useMutation } from "@apollo/react-hooks";
+import { useApolloClient, useMutation } from "@apollo/react-hooks";
 import "../../../assets/Style/Login-Register/registerForm.less";
 import FacebookIcon from "../../Icons/FacebookIcon";
 import AppleIcon from "../../Icons/AppleIcon";
@@ -35,10 +35,18 @@ const RegisterSchema = Yup.object().shape({
   ),
 });
 
-const RegisterForm = () => {
-  const [register, { loading, error }] = useMutation(mutationRegister);
+declare interface RegisterFormProps {
+  onRegister?: () => void;
+}
 
-  if (error) console.log(error);
+const RegisterForm = (props: RegisterFormProps) => {
+  const [
+    register,
+    { loading: registerLoading, error: registerError },
+  ] = useMutation(mutationRegister);
+  const client = useApolloClient();
+
+  if (registerError) console.log(registerError);
 
   const OnErrorHandler = (data: { message: any }) => {
     console.log(data.message);
@@ -60,7 +68,13 @@ const RegisterForm = () => {
         phone: values.phone,
       },
     }).then((data: any) => {
-      if (data) {
+      console.log(data);
+      if (data !== null && data.data.register !== undefined) {
+        localStorage.setItem("token", data.data.register.token);
+        client.resetStore();
+        if (props.onRegister) {
+          props.onRegister();
+        }
         console.log(data);
       } else {
         OnErrorHandler(data);
@@ -207,7 +221,7 @@ const RegisterForm = () => {
                   }
                 </Checkbox>
                 <Button
-                  isLoading={loading}
+                  isLoading={registerLoading}
                   text={"S'inscrire"}
                   className={"form_item"}
                   id={"login_button"}

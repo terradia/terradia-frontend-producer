@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useQuery } from "@apollo/react-hooks";
+import { useMutation, useQuery } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
 import InfoCard, { Info } from "../components/CompanyInfo/InfoCard";
 import Title from "../components/Ui/Title";
 import UserViewButton from "../components/Ui/UserViewButton";
 import AdButton from "../components/Ui/AdButton";
 import moment from "moment";
+import Button from "../components/Ui/Button";
 
 declare interface CompanyData {
   getCompany: {
@@ -14,8 +15,14 @@ declare interface CompanyData {
     description: string;
     email: string;
     phone: string;
-    logo: string;
-    cover: string;
+    logo: {
+      id: string;
+      filename: string;
+    };
+    cover: {
+      id: string;
+      filename: string;
+    };
     address: string;
     openingDays: [
       {
@@ -34,6 +41,9 @@ declare interface CompanyData {
 }
 
 const getCompanyById = graphqlLoader("../graphql/query/getCompanyById.graphql");
+const deleteComapnyMutation = graphqlLoader(
+  "../graphql/mutation/deleteCompany.graphql"
+);
 
 const defaultOfficeHours: Info[] = [
   { label: "monday.label", daySlugName: "monday", openHours: [] },
@@ -52,6 +62,7 @@ const Company = () => {
     fetchPolicy: "cache-first",
   });
   const [officeHours, setOfficeHours] = useState<Info[]>(defaultOfficeHours);
+  const [deleteCompany] = useMutation(deleteComapnyMutation);
 
   useEffect(() => {
     if (data) {
@@ -75,6 +86,25 @@ const Company = () => {
       });
     }
   }, [data]);
+
+  const onDeleteCompany = () => {
+    deleteCompany({
+      variables: { companyId: localStorage.getItem("companyId") },
+    }).then((data) => {
+      if (data) {
+        const companyId = localStorage.getItem("companyId");
+        localStorage.setItem("companyId", null);
+        localStorage.setItem("rememberCompany", null);
+        dispatchEvent(
+          new StorageEvent("storage", {
+            key: "companyId",
+            oldValue: companyId,
+            newValue: null,
+          })
+        );
+      }
+    });
+  };
 
   if (loading || !data || officeHours === null || officeHours === undefined)
     return <div>loading</div>;
@@ -126,9 +156,18 @@ const Company = () => {
             { label: "TYPE DE PRODUITS: ", text: "test product" },
             {
               label: "LOGO ENTREPRISE:",
-              icon: loading ? "" : data.getCompany.logo,
+              icon:
+                data && data.getCompany && data.getCompany.logo === null
+                  ? ""
+                  : data.getCompany.logo.filename,
             },
-            { label: "BANIERE ENTREPRISE:", icon: data.getCompany.cover },
+            {
+              label: "BANIERE ENTREPRISE:",
+              icon:
+                data && data.getCompany && data.getCompany.cover === null
+                  ? ""
+                  : data.getCompany.cover.filename,
+            },
           ]}
           loading={loading}
           refetch={refetch}
@@ -159,6 +198,9 @@ const Company = () => {
           loading={loading}
           refetch={refetch}
         />
+        <Button accentColor={""} onClick={onDeleteCompany}>
+          {"Supprimer l'entreprise"}
+        </Button>
       </div>
     </>
   );

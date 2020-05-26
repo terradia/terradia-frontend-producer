@@ -6,6 +6,7 @@ query getUser {
         email
         password
         validated
+        avatar
         companies {
             id
         }

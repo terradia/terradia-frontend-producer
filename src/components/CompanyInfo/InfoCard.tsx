@@ -118,7 +118,10 @@ const InfoCard = (props: InfoCardProps) => {
                 }}
                 size={64}
                 shape={"square"}
-                src={info.icon}
+                src={
+                  "https://terradia-bucket-assets.s3.eu-west-3.amazonaws.com/" +
+                  info.icon
+                }
               />
             </>
           )}

@@ -2,7 +2,6 @@ mutation addProductToCompanyCategory($categoryId: String!, $productId: String!) 
     addProductToCompanyCategory(categoryId: $categoryId, productId: $productId) {
         id
         name
-        image
         position
         description
         unit {
