@@ -1,6 +1,6 @@
 import React from "react";
 import { Avatar, Card } from "antd";
-import { UserOutlined } from "@ant-design/icons";
+import { UserOutlined, PlusOutlined } from "@ant-design/icons";
 
 const textStyle = {
   fontWeight: 600,
@@ -17,15 +17,17 @@ declare interface CompanyCardProps {
   cover?: string;
   logo?: string;
   onClick: (arg: string) => void;
+  create?: boolean;
 }
 
 const CompanyCard = ({
   id,
   selected = false,
   loading = false,
-  name = "Mon compte personnel",
-  logo = "/src/assets/company/defaultLogo",
+  name = "Enregistrer une entreprise",
+  logo,
   onClick,
+  create,
 }: CompanyCardProps) => {
   const onClickHandler = () => {
     onClick(id);
@@ -57,7 +59,7 @@ const CompanyCard = ({
           shape={"square"}
           alt={"profile"}
           src={logo}
-          icon={<UserOutlined />}
+          icon={create ? <PlusOutlined /> : <UserOutlined />}
         />
       </Card>
       <span style={textStyle}>{name}</span>
