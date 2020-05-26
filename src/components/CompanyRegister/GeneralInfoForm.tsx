@@ -21,7 +21,6 @@ const GeneralInfoForm = (props: GeneralInfoFormProps) => {
     imageFile: UploadChangeParam,
     uploadedImage: AddCompanyImageData
   ) => {
-    console.log(imageFile);
     if (imageFile.fileList.length === 0) {
       setCurrentLogo(undefined);
       return;
