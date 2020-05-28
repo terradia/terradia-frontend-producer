@@ -3,7 +3,18 @@ import { useHistory, useLocation } from "react-router";
 import SidebarCompany from "./SidebarCompany";
 import SidebarProfile from "./SidebarProfile";
 
-const Sidebar = () => {
+interface Props {
+  onClickOnElement?: () => void;
+  isMobile?: boolean;
+  collapsed?: boolean;
+}
+
+const Sidebar: React.FC<Props> = ({
+  onClickOnElement,
+  isMobile = false,
+  collapsed = false,
+  ...props
+}: Props) => {
   const currentUrl = useLocation().pathname;
   const history = useHistory();
   const [currentPage, setCurrentPage] = useState(currentUrl);
@@ -12,6 +23,7 @@ const Sidebar = () => {
   const OnClickedLink = (href: string) => {
     setCurrentPage(href);
     history.push(href);
+    isMobile === true && onClickOnElement && onClickOnElement();
   };
 
   useEffect(() => {
@@ -20,11 +32,19 @@ const Sidebar = () => {
 
   if (isProfile !== null) {
     return (
-      <SidebarProfile onClickedLink={OnClickedLink} currentPage={currentPage} />
+      <SidebarProfile
+        collapsed={collapsed}
+        onClickedLink={OnClickedLink}
+        currentPage={currentPage}
+      />
     );
   } else {
     return (
-      <SidebarCompany onClickedLink={OnClickedLink} currentPage={currentPage} />
+      <SidebarCompany
+        collapsed={collapsed}
+        onClickedLink={OnClickedLink}
+        currentPage={currentPage}
+      />
     );
   }
 };

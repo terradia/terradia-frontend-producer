@@ -1,20 +1,12 @@
 @import "../../../../src/index.less";
 
 .ant-menu-item {
-  padding: 0 2em !important;
-}
-
-.ant-dropdown-menu-item {
-  .ant-menu-item !important;
-}
-
-.logout-button-container {
   cursor: pointer;
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  padding: 0 !important;
+  padding: 0 1.5em !important;
   .icon-container {
     display: flex !important;
     justify-content: center !important;
@@ -40,6 +32,12 @@
     margin: 0 !important;
     transition: color 0.2s;
   }
+  .selected {
+    color: @primary-color;
+    span {
+      color: @primary-color;
+    }
+  }
   .icon-container.collapsed {
     width: 100%;
     span {
@@ -53,16 +51,33 @@
   }
 }
 
-.logout-button-container:hover {
+.ant-menu-item:hover {
   .icon-container {
     span {
-      color: @error-color;
+      color: @primary-color;
     }
   }
   .label-container {
-    color: @error-color;
+    color: @primary-color;
   }
   .label-container.collapsed {
     color: transparent;
+  }
+}
+
+.ant-dropdown-menu-item-group-list {
+  margin: 0 !important;
+}
+
+.ant-dropdown-menu-item {
+  .ant-menu-item !important;
+  padding: 0.8em !important;
+  .icon-container {
+    span {
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      margin: 0 !important;
+    }
   }
 }

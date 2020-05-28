@@ -52,7 +52,10 @@ const ProductCard: React.FC<Props> = ({
       <p className="card-information card-item price">
         <span>{product.price.toFixed(2) + "€"}</span>
         <span>/</span>
-        <span>{product.quantityForUnit + product.unit.notation}</span>
+        <span>
+          {product.quantityForUnit +
+            (product.unit ? product.unit.notation : " Pièce(s)")}
+        </span>
       </p>
     </div>
   );

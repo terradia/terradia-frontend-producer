@@ -7,12 +7,108 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: #CBCBCB solid thin;
+  border-bottom: #cbcbcb solid thin;
   .logo-container {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 250px; // set to the width of the sidebar
     height: 100%;
+  }
+  @media (max-width: 1024px) {
+    .mobile-header-element {
+      width: 33%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+    .mobile-header-element.first {
+      justify-content: flex-start;
+      padding-left: @padding-lg;
+    }
+    .mobile-header-element.third {
+      justify-content: flex-end;
+      padding-right: @padding-lg;
+    }
+    .logo-container {
+      width: 33%;
+    }
+  }
+}
+
+.company-selector-item {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  padding: @padding-md;
+}
+.ant-dropdown-menu-item-selected {
+  div {
+    span {
+      color: @primary-color !important;
+      svg {
+        fill: @primary-color;
+      }
+    }
+  }
+}
+
+.user-information-container {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  cursor: pointer;
+  height: @layout-header-height;
+  padding-right: @padding-md;
+  .info-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 90%;
+    height: 80%;
+    font-size: large;
+    .user-name {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      justify-content: flex-end;
+      height: 50%;
+      line-height: 0;
+    }
+    .company-indicator {
+      color: #5cc04a;
+      font-size: 17px;
+      width: 100%;
+      // childs of the layout of the header have all a minimum height, if you put one on top of the other, looks like shit.
+      height: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      .company-name {
+        margin-left: @padding-xs;
+        display: flex;
+        align-items: center;
+        line-height: 0;
+        max-height: inherit;
+        height: inherit;
+      }
+    }
+  }
+  .avatar-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+}
+@media (max-width: 1024px) {
+  .user-information-container {
+    padding-right: 0;
+    .avatar-container {
+      .avatar {
+        margin-left: @padding-xs;
+      }
+    }
   }
 }

@@ -1,23 +1,64 @@
 import React from "react";
-import { Tabs } from "antd";
+import { Divider, Empty } from "antd";
 import "../assets/Style/Files/index.less";
-import ImagesTab from "../components/Files/ImagesTab";
+import ImagesUploadButton from "../components/Files/ImagesUploadButton";
+import CompanyImage from "../interfaces/Files/CompanyImage";
+import ImageCard from "../components/Files/ImageCard";
+import { useQuery } from "@apollo/react-hooks";
+import { LoadingOutlined } from "@ant-design/icons/lib";
+import { loader as graphqlLoader } from "graphql.macro";
 
-const { TabPane } = Tabs;
+const queryCompanyImages = graphqlLoader(
+  "../graphql/query/getCompanyImages.graphql"
+);
 
 const Files = () => {
   const companyId = localStorage.getItem("selectedCompany");
+  const {
+    loading: loadingCompanyImages,
+    data: dataCompanyImages,
+    refetch,
+  } = useQuery(queryCompanyImages, {
+    variables: { page: 0, companyId: companyId },
+  });
+
+  // TODO : handle errors and notify user
+
+  if (loadingCompanyImages)
+    return (
+      <div className={"company-images-container"}>
+        <LoadingOutlined style={{ fontSize: 40 }} />
+      </div>
+    );
+
+  const handleRefetch = () => refetch();
 
   return (
     <div className="card-container">
-      <Tabs type={"card"} defaultActiveKey="1">
-        <TabPane tab="Images" key="1">
-          <ImagesTab companyId={companyId} />
-        </TabPane>
-        <TabPane tab="Fichiers" key="2">
-          Liste des fichiers
-        </TabPane>
-      </Tabs>
+      <nav className={"images-tab-header"}>
+        <ImagesUploadButton onUpload={handleRefetch} />
+      </nav>
+      <Divider />
+      <div className={"company-images-container"}>
+        {dataCompanyImages.getCompanyImages.length === 0 && (
+          <Empty
+            description={"Aucune image pour le moment"} // TODO : Translate this.
+            image={Empty.PRESENTED_IMAGE_SIMPLE}
+          />
+        )}
+        {dataCompanyImages.getCompanyImages.map(
+          (companyImage: CompanyImage) => {
+            return (
+              <ImageCard
+                key={companyImage.filename}
+                companyImage={companyImage}
+                onRemove={handleRefetch}
+                onUpdate={handleRefetch}
+              />
+            );
+          }
+        )}
+      </div>
     </div>
   );
 };

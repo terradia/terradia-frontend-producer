@@ -9,8 +9,8 @@ import { loader } from "graphql.macro";
 import { useMutation } from "@apollo/react-hooks";
 
 export declare interface Hours {
-  startTime: Moment;
-  endTime: Moment;
+  startTime: any;
+  endTime: any;
 }
 
 export declare interface Info {
@@ -94,6 +94,7 @@ const InfoCard = (props: InfoCardProps) => {
             flexWrap: "wrap",
           }}
         >
+          {console.log(info)}
           <span
             key={info.label}
             style={{
@@ -127,21 +128,24 @@ const InfoCard = (props: InfoCardProps) => {
           )}
           {info.openHours && (
             <div className={"hours-container"}>
-              {info.openHours.map((hour, index) => (
-                <div key={info.label + "-" + index}>
-                  <RangePicker
-                    className={"ant-picker-borderless picker-input-color"}
-                    bordered={false}
-                    inputReadOnly
-                    disabled
-                    picker={"time"}
-                    value={[hour.startTime, hour.endTime]}
-                    format={"HH:mm"}
-                    suffixIcon={null}
-                  />
-                  {index !== info.openHours.length - 1 && <span>{"&"}</span>}
-                </div>
-              ))}
+              {info.openHours.map((hour, index) => {
+                console.log(hour);
+                return (
+                  <div key={info.label + "-" + index}>
+                    <RangePicker
+                      className={"ant-picker-borderless picker-input-color"}
+                      bordered={false}
+                      inputReadOnly
+                      disabled
+                      picker={"time"}
+                      value={[hour.startTime, hour.endTime]}
+                      format={"HH:mm"}
+                      suffixIcon={null}
+                    />
+                    {index !== info.openHours.length - 1 && <span>{"&"}</span>}
+                  </div>
+                );
+              })}
             </div>
           )}
         </div>
