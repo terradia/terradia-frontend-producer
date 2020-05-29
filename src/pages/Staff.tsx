@@ -4,7 +4,7 @@ import { loader as graphqlLoader } from "graphql.macro";
 import { ReactComponent as AddIcon } from "../assets/Icon/ui/add.svg";
 import "../assets/Style/Products/ProductsPage.less";
 import { useQuery, useMutation } from "@apollo/react-hooks";
-import { Table, Tag, Modal, Select, AutoComplete } from "antd";
+import { Table, Tag, Modal, AutoComplete } from "antd";
 import Popconfirm from "antd/es/popconfirm";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 
@@ -34,7 +34,6 @@ const mutationRemoveUserCompanyRole = graphqlLoader(
 
 const Staff = () => {
   const companyId = localStorage.getItem("selectedCompany");
-
   const { loading, error: errorDataCompany, data: dataCompany } = useQuery(
     queryCompanyUsers,
     {
@@ -110,27 +109,28 @@ const Staff = () => {
       leaveCompany({
         variables: {
           companyId: companyId,
-          userId: userData.user.id,
+          userId: userData.id,
         },
       }).catch((error) => {
         console.log(error);
       });
   };
 
-  const tagRenderer = (roles: { slugName: string }[]) => {
+  // TODO : translate the roleSlugname
+  const roleRenderer = (roles: { slugName: string }[]) => {
     return (
       <span>
-        {roles.map((tag: { slugName: string }, index: string | number) => {
+        {roles.map((role: { slugName: string }, index: string | number) => {
           let color = "green";
-          if (tag.slugName === "admin") {
+          if (role.slugName === "admin") {
             color = "volcano";
           }
-          if (tag.slugName === "owner") {
+          if (role.slugName === "owner") {
             color = "cyan";
           }
           return (
             <Tag color={color} key={index}>
-              {tag.slugName.toUpperCase()}
+              {role.slugName.toUpperCase()}
             </Tag>
           );
         })}
@@ -138,28 +138,11 @@ const Staff = () => {
     );
   };
 
-  // Add role to user
   const [roles, setRoles] = React.useState([]); // All roles availables
   const [userSelectedRole, setuserSelectedRole] = React.useState({
     companyId: null,
     roles: [],
-  }); //Copy user where role will be changed
-
-  // qud je clique sur la croix
-  // function removedTagsFunction(tag) {
-  //   const tmpUserSelectedRole = {
-  //     companyId: userSelectedRole.companyId,
-  //     roles: [],
-  //   };
-  //   userSelectedRole.roles.forEach((role) => {
-  //     if (role.id === tag) return;
-  //     else {
-  //       tmpUserSelectedRole.roles = [...tmpUserSelectedRole.roles, role.id];
-  //     }
-  //   });
-  //   setuserSelectedRole(tmpUserSelectedRole);
-  //   console.log("tmpUserSelectedRole", tmpUserSelectedRole);
-  // }
+  });
 
   function isRoleSelected(roleId, userSelected) {
     if (userSelected) {
@@ -169,11 +152,7 @@ const Staff = () => {
     }
     return false;
   }
-  //owner  6f468563-efbe-435e-b574-495194fa1f51
-  //member 52ccce99-1113-4908-8c0e-70193699c4d0
-  //admin  62c27e2c-dafb-4c5f-a16b-5bf7269fa61a
 
-  //Fonction a la fin de lajout du role
   const handleAddRoleUser = (roleId) => {
     addUserCompanyRole({
       variables: {
@@ -198,15 +177,16 @@ const Staff = () => {
     return openRole === true ? setOpenRole(false) : setOpenRole(true);
   };
 
-  function handleChange(tag) {
-    if (isRoleSelected(tag, userSelectedRole)) return;
-    handleAddRoleUser(tag);
+  function handleChange(role) {
+    if (isRoleSelected(role, userSelectedRole)) return;
+    handleAddRoleUser(role);
   }
 
-  function handleClose(removedTag) {
-    handleRemovedRoleUser(removedTag);
+  function handleClose(removedRole) {
+    handleRemovedRoleUser(removedRole);
   }
 
+  // TODO : translate the roleSlugname
   function handleChangeRole() {
     return (
       <div>
@@ -221,7 +201,7 @@ const Staff = () => {
             color={isRoleSelected(role.id, userSelectedRole) ? "green" : null}
             onClick={() => handleChange(role.id)}
           >
-            {role.slugName}
+            {role.slugName.toUpperCase()}
           </Tag>
         ))}
       </div>
@@ -256,6 +236,7 @@ const Staff = () => {
     return openRole === true ? setOpenRole(false) : setOpenRole(true);
   };
 
+  // TODO : translate actions titles
   const actions = (text, record) => {
     return (
       <div>
@@ -270,8 +251,7 @@ const Staff = () => {
           placement="top"
           title={"Voulez-vous vraiment supprimer ce membre?"}
           onConfirm={(event) => {
-            console.log("Delete");
-            handleDeleteUser(record);
+            handleDeleteUser(record.user);
             event.stopPropagation();
           }}
           onCancel={(event) => {
@@ -301,6 +281,7 @@ const Staff = () => {
     );
   };
 
+  // TODO : translate
   const columns = [
     {
       title: "Nom",
@@ -321,10 +302,10 @@ const Staff = () => {
       render: (user) => `${user.email}`,
     },
     {
-      title: "Tags",
-      key: "tags",
+      title: "Roles",
+      key: "roles",
       dataIndex: "roles",
-      render: tagRenderer,
+      render: roleRenderer,
     },
     {
       title: "Opérations",
@@ -333,7 +314,6 @@ const Staff = () => {
     },
   ];
 
-  // Add user to company
   const [allUsersState, setAllUsers] = React.useState([]);
 
   const handleOpenAddUser = () => {
@@ -375,8 +355,17 @@ const Staff = () => {
     return openUser === true ? setOpenUser(false) : setOpenUser(true);
   };
 
-  if (loading || loadingRoles || loadingAllUsers) return <div>loading</div>;
+  // TODO : translate loading
+  if (
+    loading ||
+    loadingRoles ||
+    loadingAllUsers ||
+    leaveCompanyLoading ||
+    removeUserCompanyRoleLoading
+  )
+    return <div>loading</div>;
 
+  // TODO : translate the text, title, placeHolder
   return (
     <div className={"product-page"}>
       <div className={"sub-header"}>
