@@ -1,12 +1,15 @@
 import React from "react";
 import Button from "../components/Ui/Button";
 import { loader as graphqlLoader } from "graphql.macro";
-import { ReactComponent as AddIcon } from "../assets/Icon/ui/add.svg";
 import "../assets/Style/Products/ProductsPage.less";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { Table, Tag, Modal, AutoComplete } from "antd";
 import Popconfirm from "antd/es/popconfirm";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  PlusOutlined,
+} from "@ant-design/icons/lib";
 
 const queryCompanyUsers = graphqlLoader(
   "../graphql/query/getCompanyUsers.graphql"
@@ -249,7 +252,7 @@ const Staff = () => {
         />
         <Popconfirm
           placement="top"
-          title={"Voulez-vous vraiment supprimer ce membre?"}
+          title={"Êtes vous sûr(e)?"}
           onConfirm={(event) => {
             handleDeleteUser(record.user);
             event.stopPropagation();
@@ -372,9 +375,8 @@ const Staff = () => {
         <Button
           className={"button"}
           text={"Ajouter un employé"}
-          icon={<AddIcon />}
-          size={"large"}
-          onClick={() => handleOpenAddUser()}
+          icon={<PlusOutlined />}
+          onClick={handleOpenAddUser}
         />
         <Modal
           title="Ajouter un employé"
