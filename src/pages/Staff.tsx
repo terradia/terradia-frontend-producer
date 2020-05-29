@@ -6,6 +6,7 @@ import "../assets/Style/Products/ProductsPage.less";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { Table, Tag, Modal, Select, AutoComplete } from "antd";
 import Popconfirm from "antd/es/popconfirm";
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 
 const queryCompanyUsers = graphqlLoader(
   "../graphql/query/getCompanyUsers.graphql"
@@ -27,9 +28,9 @@ const mutationAddUserCompanyRole = graphqlLoader(
   "../graphql/mutation/addUserCompanyRole.graphql"
 );
 
-// const mutationRemoveUserCompanyRole = graphqlLoader(
-//   "../graphql/mutation/removeUserCompanyRole.graphql"
-// );
+const mutationRemoveUserCompanyRole = graphqlLoader(
+  "../graphql/mutation/removeUserCompanyRole.graphql"
+);
 
 const Staff = () => {
   const companyId = localStorage.getItem("selectedCompany");
@@ -89,10 +90,17 @@ const Staff = () => {
     ],
   });
 
-  // const [
-  //   removeUserCompanyRole,
-  //   { loading: removeUserCompanyRoleLoading },
-  // ] = useMutation(mutationRemoveUserCompanyRole);
+  const [
+    removeUserCompanyRole,
+    { loading: removeUserCompanyRoleLoading },
+  ] = useMutation(mutationRemoveUserCompanyRole, {
+    refetchQueries: [
+      {
+        query: queryCompanyUsers,
+        variables: { companyId: companyId },
+      },
+    ],
+  });
 
   const [openUser, setOpenUser] = React.useState(false);
   const [openRole, setOpenRole] = React.useState(false);
@@ -117,6 +125,9 @@ const Staff = () => {
           if (tag.slugName === "admin") {
             color = "volcano";
           }
+          if (tag.slugName === "owner") {
+            color = "cyan";
+          }
           return (
             <Tag color={color} key={index}>
               {tag.slugName.toUpperCase()}
@@ -127,28 +138,178 @@ const Staff = () => {
     );
   };
 
-  const confirmDelete = (text, record) => {
+  // Add role to user
+  const [roles, setRoles] = React.useState([]); // All roles availables
+  const [userSelectedRole, setuserSelectedRole] = React.useState({
+    companyId: null,
+    roles: [],
+  }); //Copy user where role will be changed
+
+  // qud je clique sur la croix
+  // function removedTagsFunction(tag) {
+  //   const tmpUserSelectedRole = {
+  //     companyId: userSelectedRole.companyId,
+  //     roles: [],
+  //   };
+  //   userSelectedRole.roles.forEach((role) => {
+  //     if (role.id === tag) return;
+  //     else {
+  //       tmpUserSelectedRole.roles = [...tmpUserSelectedRole.roles, role.id];
+  //     }
+  //   });
+  //   setuserSelectedRole(tmpUserSelectedRole);
+  //   console.log("tmpUserSelectedRole", tmpUserSelectedRole);
+  // }
+
+  function isRoleSelected(roleId, userSelected) {
+    if (userSelected) {
+      return userSelected.roles.find((role) => role.id === roleId)
+        ? true
+        : false;
+    }
+    return false;
+  }
+  //owner  6f468563-efbe-435e-b574-495194fa1f51
+  //member 52ccce99-1113-4908-8c0e-70193699c4d0
+  //admin  62c27e2c-dafb-4c5f-a16b-5bf7269fa61a
+
+  //Fonction a la fin de lajout du role
+  const handleAddRoleUser = (roleId) => {
+    addUserCompanyRole({
+      variables: {
+        companyUserId: userSelectedRole.companyId,
+        roleId: roleId,
+      },
+    }).catch((error) => {
+      console.log(error);
+    });
+    return openRole === true ? setOpenRole(false) : setOpenRole(true);
+  };
+
+  const handleRemovedRoleUser = (roleId) => {
+    removeUserCompanyRole({
+      variables: {
+        companyUserId: userSelectedRole.companyId,
+        roleId: roleId,
+      },
+    }).catch((error) => {
+      console.log(error);
+    });
+    return openRole === true ? setOpenRole(false) : setOpenRole(true);
+  };
+
+  function handleChange(tag) {
+    if (isRoleSelected(tag, userSelectedRole)) return;
+    handleAddRoleUser(tag);
+  }
+
+  function handleClose(removedTag) {
+    handleRemovedRoleUser(removedTag);
+  }
+
+  function handleChangeRole() {
     return (
-      <Popconfirm
-        key={record}
-        title="Sure to delete?"
-        okButtonProps={{ loading: leaveCompanyLoading }}
-        onConfirm={() => handleDeleteUser(record)}
-      >
-        <a href={"/#"}>Delete</a>
-      </Popconfirm>
+      <div>
+        {roles.map((role) => (
+          <Tag
+            closable={isRoleSelected(role.id, userSelectedRole)}
+            key={role.id}
+            onClose={(e) => {
+              e.preventDefault();
+              handleClose(role.id);
+            }}
+            color={isRoleSelected(role.id, userSelectedRole) ? "green" : null}
+            onClick={() => handleChange(role.id)}
+          >
+            {role.slugName}
+          </Tag>
+        ))}
+      </div>
+    );
+  }
+
+  const handleOpenRole = (userRecord) => {
+    let tmpRole = [];
+    let tmpUser = {
+      companyId: null,
+      roles: [],
+    };
+    if (userSelectedRole)
+      setuserSelectedRole({
+        companyId: null,
+        roles: [],
+      });
+    if (!errorRoles) {
+      dataRoles.getAllRoles.forEach((role) => {
+        tmpRole = [
+          ...tmpRole,
+          {
+            id: role.id,
+            slugName: role.slugName,
+          },
+        ];
+      });
+      tmpUser = { companyId: userRecord.id, roles: userRecord.roles };
+      setRoles(tmpRole);
+      setuserSelectedRole(tmpUser);
+    } else console.log(errorRoles);
+    return openRole === true ? setOpenRole(false) : setOpenRole(true);
+  };
+
+  const actions = (text, record) => {
+    return (
+      <div>
+        <EditOutlined
+          className={"category-icon"}
+          onClick={(event) => {
+            handleOpenRole(record);
+            event.stopPropagation();
+          }}
+        />
+        <Popconfirm
+          placement="top"
+          title={"Voulez-vous vraiment supprimer ce membre?"}
+          onConfirm={(event) => {
+            console.log("Delete");
+            handleDeleteUser(record);
+            event.stopPropagation();
+          }}
+          onCancel={(event) => {
+            event.stopPropagation();
+          }}
+          okText="Oui"
+          cancelText="Non"
+        >
+          <DeleteOutlined
+            className={"category-icon"}
+            style={{ color: "red" }}
+            onClick={(event) => {
+              event.stopPropagation();
+            }}
+          />
+        </Popconfirm>
+        <Modal
+          title="Modifier le rôle de l'employé"
+          centered
+          visible={openRole}
+          confirmLoading={addUserCompanyRoleLoading}
+          onCancel={() => handleOpenRole(record)}
+        >
+          <div>{handleChangeRole()}</div>
+        </Modal>
+      </div>
     );
   };
 
   const columns = [
     {
-      title: "Last Name",
+      title: "Nom",
       dataIndex: "user",
       key: "lastNameId",
       render: (user) => `${user.lastName}`,
     },
     {
-      title: "First Name",
+      title: "Prénom",
       dataIndex: "user",
       key: "firstNameId",
       render: (user) => `${user.firstName}`,
@@ -166,9 +327,9 @@ const Staff = () => {
       render: tagRenderer,
     },
     {
-      title: "Operation",
+      title: "Opérations",
       dataIndex: "operation",
-      render: confirmDelete,
+      render: actions,
     },
   ];
 
@@ -214,47 +375,6 @@ const Staff = () => {
     return openUser === true ? setOpenUser(false) : setOpenUser(true);
   };
 
-  // Add role to user
-  const [roles, setRoles] = React.useState([]);
-  const [roleChanged, setRoleChanged] = React.useState("");
-  const [userChanged, setUserChanged] = React.useState("");
-  function handleChangeRole(value) {
-    setRoleChanged(value);
-  }
-
-  const handleOpenRole = () => {
-    let tmpRole = [];
-    if (!errorRoles) {
-      dataRoles.getAllRoles.forEach((user) => {
-        tmpRole = [
-          ...tmpRole,
-          {
-            id: user.id,
-            slugName: user.slugName,
-          },
-        ];
-      });
-      setRoles(tmpRole);
-    } else console.log(errorRoles);
-    return openRole === true ? setOpenRole(false) : setOpenRole(true);
-  };
-
-  function handleChangeUserRole(value) {
-    setUserChanged(value);
-  }
-
-  const handleAddRoleUser = () => {
-    addUserCompanyRole({
-      variables: {
-        companyUserId: userChanged,
-        roleId: roleChanged,
-      },
-    }).catch((error) => {
-      console.log(error);
-    });
-    return openRole === true ? setOpenRole(false) : setOpenRole(true);
-  };
-
   if (loading || loadingRoles || loadingAllUsers) return <div>loading</div>;
 
   return (
@@ -266,13 +386,6 @@ const Staff = () => {
           icon={<AddIcon />}
           size={"large"}
           onClick={() => handleOpenAddUser()}
-        />
-        <Button
-          className={"button"}
-          text={"Modifier le rôle"}
-          icon={<AddIcon />}
-          size={"large"}
-          onClick={() => handleOpenRole()}
         />
         <Modal
           title="Ajouter un employé"
@@ -295,42 +408,6 @@ const Staff = () => {
                 </AutoComplete.Option>
               ))}
             </AutoComplete>
-          )}
-        </Modal>
-        <Modal
-          title="Ajouté un rôle a un employé"
-          centered
-          visible={openRole}
-          confirmLoading={addUserCompanyRoleLoading}
-          onOk={() => handleAddRoleUser()}
-          onCancel={() => handleOpenRole()}
-        >
-          <Select
-            defaultValue="Choose the role"
-            style={{ width: 240 }}
-            onChange={handleChangeRole}
-          >
-            {roles
-              ? roles.map((item) => (
-                  <Select.Option value={item.id} key={item.id}>
-                    {item.slugName}
-                  </Select.Option>
-                ))
-              : null}
-          </Select>
-          {dataCompany.getCompany && (
-            <Select
-              defaultValue="Choose your member"
-              style={{ width: 240 }}
-              onChange={handleChangeUserRole}
-            >
-              {dataCompany.getCompany.users &&
-                dataCompany.getCompany.users.map((user) => (
-                  <Select.Option value={user.id} key={user.user.id}>
-                    {user.user.firstName}
-                  </Select.Option>
-                ))}
-            </Select>
           )}
         </Modal>
       </div>
