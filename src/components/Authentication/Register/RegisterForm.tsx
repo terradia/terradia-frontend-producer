@@ -68,14 +68,12 @@ const RegisterForm = (props: RegisterFormProps) => {
         phone: values.phone,
       },
     }).then((data: any) => {
-      console.log(data);
       if (data !== null && data.data.register !== undefined) {
         localStorage.setItem("token", data.data.register.token);
         client.resetStore();
         if (props.onRegister) {
           props.onRegister();
         }
-        console.log(data);
       } else {
         OnErrorHandler(data);
       }
