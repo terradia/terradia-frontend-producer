@@ -302,7 +302,7 @@ const Staff = () => {
       render: (user) => `${user.email}`,
     },
     {
-      title: "Roles",
+      title: "Rôles",
       key: "roles",
       dataIndex: "roles",
       render: roleRenderer,
