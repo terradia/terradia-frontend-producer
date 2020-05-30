@@ -55,7 +55,6 @@ const ImageUploadModal: React.FC<Props> = ({ visible, ...props }: Props) => {
         return image;
       })
     );
-    console.log("error uploading the image(s) : ", data);
   };
 
   const [mutation] = useMutation<AddCompanyImageData>(addCompanyImage, {
@@ -75,7 +74,6 @@ const ImageUploadModal: React.FC<Props> = ({ visible, ...props }: Props) => {
   };
 
   const handleCustomRequest = (files: UploadChangeParam): void => {
-    console.log(files);
     if (files.file.status !== "uploading") {
       props.onUpload(files);
       return;

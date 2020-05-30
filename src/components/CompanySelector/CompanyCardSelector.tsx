@@ -4,8 +4,7 @@ import { useQuery } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
 import Button from "../Ui/Button";
 import { useHistory } from "react-router";
-import CheckBox from "rc-checkbox";
-import { notification } from "antd";
+import { notification, Checkbox } from "antd";
 
 const getCompanies = graphqlLoader("../../graphql/query/getCompanies.graphql");
 
@@ -17,6 +16,23 @@ const CompanyCardSelector = () => {
   let card;
 
   if (error) console.log(error);
+  const OnValidatedSelection = () => {
+    if (selected === null) {
+      notification.warn({
+        key: "emptySelection",
+        message: "Veuillez sélectionner une entreprise",
+      });
+      return;
+    }
+    notification.close("emptySelection");
+    if (selected === "createCompany") {
+      history.push("/companyRegister");
+    } else {
+      localStorage.setItem("rememberCompany", remember.toString());
+      localStorage.setItem("selectedCompany", selected);
+      history.push("/home");
+    }
+  };
 
   useEffect(() => {
     if (!localStorage.getItem("token")) {
@@ -28,27 +44,7 @@ const CompanyCardSelector = () => {
     setSelected(companyId);
   };
 
-  const OnValidatedSelection = () => {
-    if (selected === null) {
-      notification.warn({
-        key: "emptySelection",
-        message: "Veuillez sélectionner une entreprise",
-      });
-      return;
-    }
-    notification.close("emptySelection");
-    localStorage.setItem("rememberCompany", remember.toString());
-    localStorage.setItem("selectedCompany", selected);
-    if (selected === "user")
-      window.location.href = "http://localhost:8000/graphql";
-    else {
-      console.log("redirect to home from company selector");
-      history.push("/home");
-    }
-  };
-
   if (!loading && companiesData && companiesData.getCompanies) {
-    if (companiesData.getCompanies.length < 1) history.push("/Login");
     card = companiesData.getCompanies.map((companyData: any) => {
       if (companyData) {
         return (
@@ -89,9 +85,10 @@ const CompanyCardSelector = () => {
         }}
       >
         <CompanyCard
-          id={"user"}
-          selected={selected === "user"}
+          id={"createCompany"}
+          selected={selected === "createCompany"}
           onClick={setSelected}
+          create
         />
         {card}
       </div>
@@ -107,9 +104,9 @@ const CompanyCardSelector = () => {
         isLoading={loading}
         text={"Valider"}
       />
-      <CheckBox onClick={(event) => setRemember(event.currentTarget.checked)}>
+      <Checkbox onChange={(event) => setRemember(event.target.checked)}>
         se souvenir de mon choix
-      </CheckBox>
+      </Checkbox>
     </>
   );
 };
