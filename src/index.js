@@ -9,6 +9,7 @@ import "./index.less";
 import { createUploadLink } from "apollo-upload-client";
 import ApolloClient from "apollo-client";
 import { InMemoryCache } from "apollo-cache-inmemory";
+import i18n from "./i18n";
 
 const httpLink = createUploadLink({
   //uri: "https://api.terradia.eu/graphql",
@@ -46,9 +47,11 @@ const client = new ApolloClient({
 });
 
 ReactDOM.render(
-  <ApolloProvider client={client}>
-    <App />
-  </ApolloProvider>,
+    //<Suspense fallback="Loading...">
+      <ApolloProvider client={client}>
+        <App />
+      </ApolloProvider>,
+    //</Suspense>,
   document.getElementById("root")
 );
 

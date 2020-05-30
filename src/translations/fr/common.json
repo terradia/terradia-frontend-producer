@@ -1,0 +1,7 @@
+{
+  "title": "Bienvenue sur cette application qui utilise React et i18n",
+  "description": {
+    "part1": "Blablabla en français",
+    "part2": "Euh salut !"
+  }
+}
