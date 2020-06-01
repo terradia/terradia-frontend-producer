@@ -1,8 +1,12 @@
-import React, { useEffect } from "react";
-import { Form, Input } from "antd";
+import React, { useEffect, useState } from "react";
+import { Form, Input, Upload } from "antd";
 import { Info } from "./InfoCard";
 import EditOfficeHour from "./EditOfficeHour";
 import ImageSelectorButton from "../Gallery/ImageSelectorButton";
+import { UploadChangeParam, UploadFile } from "antd/lib/upload/interface";
+import { CompanyImageData } from "../Files/ImageUploadModal";
+import { loader } from "graphql.macro";
+import { useMutation } from "@apollo/react-hooks";
 
 declare interface EditInfoFormProps {
   infos: Info[];
@@ -27,8 +31,13 @@ const boldTextStyle = {
   color: "#828282",
 };
 
+const updateCompany = loader("../../graphql/mutation/updateCompany.graphql");
+
 const EditInfoForm = (props: EditInfoFormProps) => {
   const [form] = Form.useForm();
+  const [currentLogo, setCurrentLogo] = useState<UploadFile[]>();
+  const [currentCover, setCurrentCover] = useState<UploadFile[]>();
+  const [updateCompanyMutation] = useMutation(updateCompany);
 
   useEffect(() => {
     if (props.isSubmitting === true) {
@@ -44,9 +53,57 @@ const EditInfoForm = (props: EditInfoFormProps) => {
         return initialHours.push([hour.startTime, hour.endTime]);
       });
       initialValues[info.daySlugName] = initialHours;
+    } else {
+      initialValues[info.slugName] = info.text;
     }
     return null;
   });
+
+  const onUploaded = (
+    imageFile: UploadChangeParam,
+    uploadedImage: CompanyImageData,
+    isLogo: boolean
+  ) => {
+    console.log(uploadedImage);
+    if (imageFile.fileList.length === 0) {
+      if (isLogo) {
+        setCurrentLogo(undefined);
+      } else {
+        setCurrentCover(undefined);
+      }
+      return;
+    }
+    imageFile.fileList[0].percent = 100;
+    imageFile.fileList[0].status = "done";
+    imageFile.fileList[0].url =
+      "https://terradia-bucket-assets.s3.eu-west-3.amazonaws.com/" +
+      uploadedImage.filename;
+    if (isLogo) {
+      setCurrentLogo(imageFile.fileList);
+      updateCompanyMutation({
+        variables: {
+          companyId: localStorage.getItem("selectedCompany"),
+          newValues: { logoId: uploadedImage.id },
+        },
+      });
+    } else {
+      setCurrentCover(imageFile.fileList);
+      updateCompanyMutation({
+        variables: {
+          companyId: localStorage.getItem("selectedCompany"),
+          newValues: { coverId: uploadedImage.id },
+        },
+      });
+    }
+  };
+
+  const onRemove = (isLogo: boolean) => {
+    if (isLogo) {
+      setCurrentLogo(undefined);
+    } else {
+      setCurrentCover(undefined);
+    }
+  };
 
   const info = props.infos.map((info) => (
     <div
@@ -62,13 +119,26 @@ const EditInfoForm = (props: EditInfoFormProps) => {
         {info.label}
       </span>
       {info.text !== undefined && (
-        <Form.Item name={info.label}>
-          <Input placeholder={info.text} style={textStyle} />
+        <Form.Item name={info.slugName}>
+          <Input style={textStyle} />
         </Form.Item>
       )}
       {info.icon !== undefined && (
         <Form.Item>
-          <ImageSelectorButton onlyOneImageByOne />
+          <ImageSelectorButton
+            onlyOneImageByOne
+            onUpload={(imageFile, uploadedImage) =>
+              onUploaded(imageFile, uploadedImage, info.isLogo)
+            }
+          />
+          {currentLogo && (
+            <Upload
+              name={info.slugName}
+              fileList={info.isLogo ? currentLogo : currentCover}
+              listType={"picture"}
+              onRemove={() => onRemove(info.isLogo)}
+            />
+          )}
         </Form.Item>
       )}
       {info.openHours && (
