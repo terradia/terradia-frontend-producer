@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { loader as graphqlLoader } from "graphql.macro";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 
@@ -46,6 +46,15 @@ const move = (source, destination, droppableSource, droppableDestination) => {
 
 const Products = () => {
   const companyId = localStorage.getItem("selectedCompany");
+  const collaspedCategory = JSON.parse(
+    localStorage.getItem("collapsedCategory")
+  );
+
+  useEffect(() => {
+    if (!collaspedCategory) {
+      localStorage.setItem("collapsedCategory", JSON.stringify([]));
+    }
+  }, []);
 
   const {
     loading: loadingCategories,

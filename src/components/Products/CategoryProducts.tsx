@@ -45,6 +45,9 @@ const getListStyle = (isDraggingOver) => ({
 
 function CategoryProducts(props: CategoryProductsProps) {
   const companyId = localStorage.getItem("selectedCompany");
+  const collapsedCategory = JSON.parse(
+    localStorage.getItem("collapsedCategory")
+  );
 
   const [collapsed, setCollapsed] = useState(false);
   const [draggingOver, setDraggingOver] = useState(false);
@@ -73,6 +76,40 @@ function CategoryProducts(props: CategoryProductsProps) {
     setCollapsed(false);
   }, [draggingOver]);
 
+  useEffect(() => {
+    if (collapsedCategory) {
+      const indexLocalStorage = collapsedCategory.findIndex((elem) => {
+        return elem === props.cat.id;
+      });
+      if (indexLocalStorage !== -1) {
+        setCollapsed(true);
+      }
+    }
+  }, []);
+
+  function handleCollapse() {
+    if (collapsed) {
+      setCollapsed(false);
+      const indexLocalStorage = collapsedCategory.findIndex((elem) => {
+        return elem === props.cat.id;
+      });
+      if (indexLocalStorage !== -1) {
+        collapsedCategory.splice(indexLocalStorage, 1);
+        localStorage.setItem(
+          "collapsedCategory",
+          JSON.stringify(collapsedCategory)
+        );
+      }
+    } else {
+      setCollapsed(true);
+      collapsedCategory.push(props.cat.id);
+      localStorage.setItem(
+        "collapsedCategory",
+        JSON.stringify(collapsedCategory)
+      );
+    }
+  }
+
   return (
     <div
       className={`category ${collapsed === true ? "collapsed-category" : ""}`}
@@ -100,13 +137,7 @@ function CategoryProducts(props: CategoryProductsProps) {
               <div
                 ref={provided.innerRef}
                 className={"category-title"}
-                onClick={() => {
-                  if (collapsed) {
-                    setCollapsed(false);
-                  } else {
-                    setCollapsed(true);
-                  }
-                }}
+                onClick={handleCollapse}
               >
                 <CarretIcon
                   style={{
@@ -218,7 +249,7 @@ function CategoryProducts(props: CategoryProductsProps) {
                                 {product.name}
                               </p>
                               <p className="card-information card-item">
-                                {product.price}€
+                                {product.price.toFixed(2)}€
                               </p>
                               <p className="card-information card-item">459</p>
                             </div>

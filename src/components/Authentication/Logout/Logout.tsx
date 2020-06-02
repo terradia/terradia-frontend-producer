@@ -8,6 +8,7 @@ const Logout = ({ ...props }: {}) => {
 
   const onLogoutHandler = (): void => {
     localStorage.removeItem("token");
+    localStorage.removeItem("collapsedCategory");
     client.resetStore().then(null);
   };
 
