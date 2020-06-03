@@ -156,19 +156,38 @@ const Staff = () => {
     return false;
   }
 
-  const handleAddRoleUser = (roleId) => {
+  const handleAddRoleUser = (role) => {
+    let tmpUser = {
+      companyId: null,
+      roles: [],
+    };
     addUserCompanyRole({
       variables: {
         companyUserId: userSelectedRole.companyId,
-        roleId: roleId,
+        roleId: role.id,
       },
     }).catch((error) => {
       console.log(error);
     });
-    return openRole === true ? setOpenRole(false) : setOpenRole(true);
+    tmpUser = {
+      companyId: userSelectedRole.companyId,
+      roles: [
+        ...userSelectedRole.roles,
+        {
+          id: role.id,
+          slugName: role.slugName,
+        },
+      ],
+    };
+    setuserSelectedRole(tmpUser);
+    return;
   };
 
   const handleRemovedRoleUser = (roleId) => {
+    let tmpUser = {
+      companyId: null,
+      roles: [],
+    };
     removeUserCompanyRole({
       variables: {
         companyUserId: userSelectedRole.companyId,
@@ -177,11 +196,16 @@ const Staff = () => {
     }).catch((error) => {
       console.log(error);
     });
-    return openRole === true ? setOpenRole(false) : setOpenRole(true);
+    tmpUser = {
+      companyId: userSelectedRole.companyId,
+      roles: userSelectedRole.roles.filter((role) => role.id !== roleId),
+    };
+    setuserSelectedRole(tmpUser);
+    return;
   };
 
   function handleChange(role) {
-    if (isRoleSelected(role, userSelectedRole)) return;
+    if (isRoleSelected(role.id, userSelectedRole)) return;
     handleAddRoleUser(role);
   }
 
@@ -202,7 +226,7 @@ const Staff = () => {
               handleClose(role.id);
             }}
             color={isRoleSelected(role.id, userSelectedRole) ? "green" : null}
-            onClick={() => handleChange(role.id)}
+            onClick={() => handleChange(role)}
           >
             {role.slugName.toUpperCase()}
           </Tag>
@@ -211,12 +235,17 @@ const Staff = () => {
     );
   }
 
+  const handleRoles = () => {
+    return openRole === true ? setOpenRole(false) : setOpenRole(true);
+  };
+
   const handleOpenRole = (userRecord) => {
     let tmpRole = [];
     let tmpUser = {
       companyId: null,
       roles: [],
     };
+    openRole === true ? setOpenRole(false) : setOpenRole(true);
     if (userSelectedRole)
       setuserSelectedRole({
         companyId: null,
@@ -236,7 +265,7 @@ const Staff = () => {
       setRoles(tmpRole);
       setuserSelectedRole(tmpUser);
     } else console.log(errorRoles);
-    return openRole === true ? setOpenRole(false) : setOpenRole(true);
+    return;
   };
 
   // TODO : translate actions titles
@@ -271,15 +300,6 @@ const Staff = () => {
             }}
           />
         </Popconfirm>
-        <Modal
-          title="Modifier le rôle de l'employé"
-          centered
-          visible={openRole}
-          confirmLoading={addUserCompanyRoleLoading}
-          onCancel={() => handleOpenRole(record)}
-        >
-          <div>{handleChangeRole()}</div>
-        </Modal>
       </div>
     );
   };
@@ -400,6 +420,16 @@ const Staff = () => {
               ))}
             </AutoComplete>
           )}
+        </Modal>
+        <Modal
+          title="Modifier le rôle de l'employé"
+          centered
+          visible={openRole}
+          confirmLoading={addUserCompanyRoleLoading}
+          onOk={() => handleRoles()}
+          onCancel={() => handleRoles()}
+        >
+          <div>{handleChangeRole()}</div>
         </Modal>
       </div>
       <Table
