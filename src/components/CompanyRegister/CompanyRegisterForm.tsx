@@ -9,8 +9,10 @@ import LoginForm from "../Authentication/Login/LoginForm";
 import { useApolloClient, useMutation } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
 import { LeftOutlined } from "@ant-design/icons";
-import { AddCompanyImageData } from "../Files/ImageUploadModal";
+import { CompanyImageData } from "../Files/ImageUploadModal";
 import { UploadChangeParam } from "antd/lib/upload";
+import { Redirect } from "react-router";
+import Logout from "../Authentication/Logout/Logout";
 
 const createCompanyMutation = graphqlLoader(
   "../../graphql/mutation/createCompany.graphql"
@@ -25,33 +27,52 @@ const CompanyRegisterForm = () => {
   const [isCreated, setIsCreated] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [hasAccount, setHasAccount] = useState(false);
+  const [redirect, setRedirect] = useState(false);
   const [logoId, setLogoId] = useState(null);
   const [coverId, setCoverId] = useState(null);
+  const client = useApolloClient();
+  const [user, setUser] = useState(null);
+  try {
+    if (user === null) {
+      const cachedUser = client.readQuery({ query: getUser });
+      setUser(cachedUser);
+    }
+  } catch {
+    setUser(undefined);
+  }
   const [createCompany, { loading: createLoading }] = useMutation(
     createCompanyMutation
   );
   const [updateCompany, { loading: updateLoading }] = useMutation(
     updateCompanyMutation
   );
-  const client = useApolloClient();
 
   const onUpload = (
     file: UploadChangeParam,
-    updateFile: AddCompanyImageData,
+    updateFile: CompanyImageData,
     type: "logo" | "cover"
   ) => {
     if (type === "logo") {
-      setLogoId(updateFile.addCompanyImage.id);
+      setLogoId(updateFile.id);
     } else if (type === "cover") {
-      setCoverId(updateFile.addCompanyImage.id);
+      setCoverId(updateFile.id);
     }
   };
 
-  const steps = [
-    {
-      title: "S'enregistrer",
-      content: <RegisterForm />,
-    },
+  const onAuth = () => {
+    setCurrentStep((step) => step + 1);
+  };
+
+  const [steps, setSteps] = useState([
+    user
+      ? {
+          title: "Se connecter",
+          content: <LoginForm onLogin={onAuth} />,
+        }
+      : {
+          title: "S'enregistrer",
+          content: <RegisterForm onRegister={onAuth} />,
+        },
     {
       title: "Création de l'entreprise",
       content: <AdministrativeInfoForm />,
@@ -60,28 +81,27 @@ const CompanyRegisterForm = () => {
       title: "Information complémentaires",
       content: <GeneralInfoForm onUpload={onUpload} />,
     },
-  ];
+  ]);
 
   useEffect(() => {
-    const user = client.readQuery({ query: getUser });
-    if (user) {
-      steps[0].title = "Se connecter";
-      steps[0].content = (
-        <LoginForm onLogin={() => setCurrentStep(currentStep + 1)} />
-      );
-      setCurrentStep(1);
+    if (client) {
+      if (user) {
+        setCurrentStep(1);
+      } else {
+        setCurrentStep(0);
+      }
+    } else {
+      throw new Error("Apollo client is not defined");
     }
-  }, [client, currentStep, steps]);
+  }, [client, user]);
 
   const onSubmit = (values) => {
-    console.log(values);
     if (!isCreated) {
       createCompany({ variables: values }).then((data) => {
-        if (data.data) {
-          localStorage.setItem("selectedCompany", data.data.createCompany.id);
-          setIsCreated(true);
-          setCurrentStep(currentStep + 1);
-        }
+        localStorage.setItem("selectedCompany", data.data.createCompany.id);
+        localStorage.setItem("rememberCompany", "false");
+        setCurrentStep((step) => step + 1);
+        setIsCreated(true);
       });
     } else {
       values["logoId"] = logoId;
@@ -91,28 +111,33 @@ const CompanyRegisterForm = () => {
           companyId: localStorage.getItem("selectedCompany"),
           newValues: values,
         },
-      }).then((data) => {
-        console.log(data);
+      }).then(() => {
+        dispatchEvent(
+          new StorageEvent("storage", {
+            key: "token",
+            oldValue: "",
+            newValue: localStorage.getItem("token"),
+          })
+        );
+        setRedirect(true);
       });
     }
   };
 
   const switchLoginRegister = () => {
-    setHasAccount(!hasAccount);
+    const prevSteps = [...steps];
     if (hasAccount) {
-      steps[0].title = "S'enregistrer";
-      steps[0].content = (
-        <RegisterForm onRegister={() => setCurrentStep(currentStep + 1)} />
-      );
+      prevSteps[0].title = "S'enregistrer";
+      prevSteps[0].content = <RegisterForm onRegister={onAuth} />;
     } else {
-      steps[0].title = "Se connecter";
-      steps[0].content = (
-        <LoginForm onLogin={() => setCurrentStep(currentStep + 1)} />
-      );
+      prevSteps[0].title = "Se connecter";
+      prevSteps[0].content = <LoginForm onLogin={onAuth} />;
     }
+    setSteps(prevSteps);
+    setHasAccount(!hasAccount);
   };
 
-  if (currentStep === 0)
+  if (currentStep === 0) {
     return (
       <>
         <div className={"register_box"}>
@@ -123,7 +148,6 @@ const CompanyRegisterForm = () => {
               ))}
             </Steps>
             <Button
-              //isLoading={loading}
               text={
                 hasAccount
                   ? "Je souhaite créer un compte Terradia"
@@ -139,6 +163,11 @@ const CompanyRegisterForm = () => {
         {steps[0].content};
       </>
     );
+  }
+
+  if (redirect) {
+    return <Redirect to={"/home"} />;
+  }
 
   return (
     <div className={"register_box"}>
@@ -162,11 +191,16 @@ const CompanyRegisterForm = () => {
           </Steps>
           {currentStep > 0 && (
             <div
-              onClick={() => setCurrentStep(currentStep - 1)}
+              onClick={() => setCurrentStep((step) => step - 1)}
               className={"prev_step"}
             >
-              <LeftOutlined />
-              <span>{"Retour à l’étape précédente"}</span>
+              {currentStep === 1 && <Logout />}
+              {currentStep > 1 && (
+                <>
+                  <LeftOutlined />
+                  <span>{"Retour à l’étape précédente"}</span>
+                </>
+              )}
             </div>
           )}
           <span
@@ -197,9 +231,7 @@ const CompanyRegisterForm = () => {
                 className={"form_item"}
                 id={"next_step"}
                 size={"large"}
-                onClick={() => {
-                  form.submit();
-                }}
+                htmlType={"submit"}
               />
             )}
             {currentStep === steps.length - 1 && (

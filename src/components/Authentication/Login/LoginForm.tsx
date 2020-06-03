@@ -5,13 +5,12 @@ import {
   useLazyQuery,
   useMutation,
 } from "@apollo/react-hooks";
-import { Checkbox, Divider, notification, Input } from "antd";
+import { Checkbox, Divider, Input } from "antd";
 import { loader as graphqlLoader } from "graphql.macro";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import Button from "../../Ui/Button";
 import "../../../assets/Style/Login-Register/loginForm.less";
-import CreateCompanyButton from "../../Ui/CreateCompanyButton";
 import UserContext from "../../Context/UserContext";
 import { AppleFilled, FacebookFilled } from "@ant-design/icons/lib";
 
@@ -62,7 +61,10 @@ const LoginForm = (props: LoginFormProps) => {
     }
   };
 
-  const [getUserQuery] = useLazyQuery(getUser, { onCompleted: onGetUser });
+  const [getUserQuery] = useLazyQuery(getUser, {
+    onCompleted: onGetUser,
+    onError: (e) => console.log(e),
+  });
 
   useEffect(() => {
     if (userContext) getCompaniesQuery();
@@ -73,7 +75,6 @@ const LoginForm = (props: LoginFormProps) => {
       if (
         companiesData &&
         companiesData.getCompanies &&
-        companiesData.getCompanies.length >= 1 &&
         (!localStorage.getItem("rememberCompany") ||
           localStorage.getItem("rememberCompany") === "false")
       ) {
@@ -85,24 +86,12 @@ const LoginForm = (props: LoginFormProps) => {
           localStorage.getItem("rememberCompany") === "true"
         ) {
           setRedirect("/home");
-        } else {
-          if (history.location.pathname !== "/companyRegister") {
-            notification["warn"]({
-              message: "Vous n'avez pas d'entreprise. ",
-              btn: (
-                <CreateCompanyButton
-                  callback={() => setRedirect("/companyRegister")}
-                />
-              ),
-            });
-          }
         }
       }
     }
   }, [called, companiesData, companiesLoading, history]);
 
   if (redirect !== "" && localStorage.getItem("token")) {
-    console.log("redirect to: " + redirect);
     return <Redirect to={redirect} />;
   }
 
@@ -114,29 +103,21 @@ const LoginForm = (props: LoginFormProps) => {
     login({ variables: { email: values.email, password: values.password } })
       .then((loginData: LoginData) => {
         if (loginData) {
+          const prevToken = localStorage.getItem("token");
           localStorage.setItem("token", loginData.data.login.token);
-          if (!props.onLogin) {
-            const prevToken = localStorage.getItem("token");
-            dispatchEvent(
-              new StorageEvent("storage", {
-                key: "token",
-                oldValue: prevToken,
-                newValue: loginData.data.login.token,
-              })
-            );
-          }
-          client
-            .resetStore()
-            .then(() => {
-              getCompaniesQuery();
-              getUserQuery();
-              if (props.onLogin) {
-                props.onLogin();
-              }
-            })
-            .catch((error) => {
-              console.log(error);
-            });
+          client.clearStore().then(() => {
+            getCompaniesQuery();
+            getUserQuery();
+            if (!props.onLogin) {
+              dispatchEvent(
+                new StorageEvent("storage", {
+                  key: "token",
+                  oldValue: prevToken,
+                  newValue: loginData.data.login.token,
+                })
+              );
+            }
+          });
         } else {
           OnErrorHandler(loginData);
         }
