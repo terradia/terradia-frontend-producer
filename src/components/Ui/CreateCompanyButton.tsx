@@ -16,7 +16,7 @@ const CreateCompanyButton = (props: CreateCompanyButtonProps) => {
       }}
       onClick={props.callback}
     >
-      Enregistrer une entreprise
+      Enregistrer une entreprise {/* TODO : translate this. */}
     </Button>
   );
 };

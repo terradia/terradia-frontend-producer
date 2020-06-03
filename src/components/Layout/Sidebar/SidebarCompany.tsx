@@ -11,7 +11,6 @@ import {
 } from "@ant-design/icons/lib";
 
 import Logout from "../../Authentication/Logout/Logout";
-import Paragraph from "antd/lib/typography/Paragraph";
 
 declare interface SidebarCompanyProps {
   onClickedLink: (href) => void;

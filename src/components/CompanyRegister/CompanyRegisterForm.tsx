@@ -66,18 +66,22 @@ const CompanyRegisterForm = () => {
   const [steps, setSteps] = useState([
     user
       ? {
+          /* TODO : translate this. */
           title: "Se connecter",
           content: <LoginForm onLogin={onAuth} />,
         }
       : {
+          /* TODO : translate this. */
           title: "S'enregistrer",
           content: <RegisterForm onRegister={onAuth} />,
         },
     {
+      /* TODO : translate this. */
       title: "Création de l'entreprise",
       content: <AdministrativeInfoForm />,
     },
     {
+      /* TODO : translate this. */
       title: "Information complémentaires",
       content: <GeneralInfoForm onUpload={onUpload} />,
     },

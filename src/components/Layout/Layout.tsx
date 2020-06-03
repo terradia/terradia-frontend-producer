@@ -21,15 +21,11 @@ const Layout = (props: LayoutProps) => {
   const [collapsed, setCollapsed] = useState(false);
   const toggle = () => setCollapsed(!collapsed);
 
-  const [width, setWidth] = useState(window.innerWidth);
-  const isMobile = width < 1024;
-  useEffect(() => {
-    setWidth(window.innerWidth);
-  });
+  const isMobile = window.innerWidth < 1024;
   // this hook is only run one time (at construction) because of the second parameter
   useEffect(() => {
     setCollapsed(isMobile);
-  }, []);
+  }, [isMobile]);
 
   if (
     localStorage.getItem("selectedCompany") === null ||

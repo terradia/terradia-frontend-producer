@@ -229,6 +229,7 @@ const CompanySelector: React.FC<Props> = ({
     userContext.firstName,
     userData,
     avatarLoading,
+    isMobile,
   ]);
 
   if (data && !loading && !error && menu !== null && information !== null) {
