@@ -198,6 +198,7 @@ const ProfileView: React.FC = () => {
           visible={modalVisible}
           user={userData.getUser}
           onClickToClose={() => setModalVisible(false)}
+          onValidate={() => console.log("validated")}
         />
       </div>
     </div>
