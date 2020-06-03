@@ -5,6 +5,7 @@ query getCompanyById($companyId: ID!) {
     description
     email
     phone
+    siren
     logo {
       id
       filename
