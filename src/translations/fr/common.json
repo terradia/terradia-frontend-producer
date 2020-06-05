@@ -1,7 +1,127 @@
 {
-  "title": "Bienvenue sur cette application qui utilise React et i18n",
-  "description": {
-    "part1": "Blablabla en français",
-    "part2": "Euh salut !"
+  "Menu": {
+    "home": "Accueil",
+    "products": "Produits",
+    "stats": "Statistiques",
+    "employees": "Employés",
+    "gallery": "Gallerie d'images",
+    "company": "Entreprise",
+    "disconnect": "Se déconnecter"
+  },
+  "CompanyPage": {
+    "genInformations": {
+      "categoryName": "Information Générales",
+      "name": "Nom",
+      "address": "Adresse",
+      "phone": "Numéro de tel.",
+      "email": "Adresse Email",
+      "description": "Description",
+      "productType": "Type de Produit",
+      "logo": "Logo Entreprise",
+      "banner": "Bannière Entreprise"
+    },
+    "adminInformations": {
+      "categoryName": "Information Administratives",
+      "siret": "Siret",
+      "rib": "IBAN / RIB",
+      "email": "Adresse Email",
+      "desc": "Description",
+      "marketPres": "Présence Marché",
+      "frequency": "Fréquence",
+      "selfDelivery": "Livraison vous-même"
+    },
+    "schedule": {
+      "categoryName": "Horaire d'ouverture",
+      "days": {
+        "monday": "Lundi",
+        "tuesday": "Mardi",
+        "wednesday": "Mercredi",
+        "thursday": "Jeudi",
+        "friday": "Vendredi",
+        "saturday": "Samedi",
+        "sunday": "Dimanche"
+      }
+    },
+    "buttons": {
+      "deleteCompany": "Supprimer l'entreprise"
+    }
+  },
+  "ProductsPage": {
+    "noProductInCategory": "Aucun produit n'est disponible pour cette catégorie",
+    "uncategorizedProducts": "Produits non catégorisés",
+    "buttons": {
+      "createCategory": "Créer une catégorie",
+      "createProduct": "Créer un produit"
+    },
+    "createCategoryModal": {
+      "editModalName": "Modifier une catégorie",
+      "modalName": "Créer une nouvelle catégorie",
+      "name": "Nom",
+      "buttons": {
+        "cancel": "Annuler",
+        "validate": "Ok"
+      }
+    },
+    "createProductModal": {
+      "editModalName": "Modifier un produit",
+      "modalName": "Créer un nouveau produit",
+      "productName": "Nom du produit",
+      "productCategory": "Catégorie du produit",
+      "portion": "Portion",
+      "price": "Prix",
+      "desc": "Description",
+      "image": "Image du produit",
+      "buttons": {
+        "selectImage": "Sélectionner une image",
+        "cancel": "Annuler",
+        "create": "Créer"
+      }
+    }
+  },
+  "StaffPage": {
+    "buttons": {
+      "addEmployee": "Ajouter un employé",
+      "editRole": "Modifier le rôle",
+      "delete": "Retirer"
+    },
+    "columns": {
+      "email": "Adresse email",
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "tags": "Tags",
+      "operation": "Opérations"
+    },
+    "roles": {
+      "owner": "Propriétaire",
+      "admin": "Administrateur",
+      "member": "Membre"
+    }
+  },
+  "FilesPage": {
+    "Images": {
+      "noImage": "Aucune image pour le moment",
+      "buttons": {
+        "loadImages": "Télécharger des images"
+      },
+      "addImageModal": {
+        "modalName": "Télécharger des images",
+        "explanation": "Cliquez ici pour choisir les images ou glissez - déposez les directement dans la zone",
+        "littleExplanation": "Fonctionne avec un ou plusieurs fichiers.",
+        "buttons": {
+          "close": "Fermer"
+        }
+      },
+      "editImageModal": {
+        "name": "Nom",
+        "uses": "Produits qui utilisent cette image",
+        "noUses": "Aucun produit à lister",
+        "buttons": {
+          "close": "Fermer"
+        }
+      }
+    },
+    "Files": {
+      "list": "Liste des fichiers"
+    }
   }
 }
