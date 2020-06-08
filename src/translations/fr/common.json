@@ -8,6 +8,16 @@
     "company": "Entreprise",
     "disconnect": "Se déconnecter"
   },
+  "ProfilMenu": {
+    "Labels": {
+      "yourCompanies": "Vos entreprises",
+      "parameters": "Paramètres"
+    },
+    "buttons": {
+      "profile": "Profil",
+      "disconnect": "Se déconnecter"
+    }
+  },
   "CompanyPage": {
     "genInformations": {
       "categoryName": "Information Générales",
@@ -122,6 +132,18 @@
     },
     "Files": {
       "list": "Liste des fichiers"
+    }
+  },
+  "ProfilePage": {
+    "buttons": {
+      "edit": "Modifier"
+    },
+    "labels": {
+      "lastName": "Nom",
+      "firstName": "Prénom",
+      "email": "Email",
+      "phone": "Numéro de téléphone",
+      "image": "Cliquer sur l'image pour la modifier"
     }
   }
 }

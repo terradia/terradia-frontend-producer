@@ -1,7 +1,150 @@
 {
-  "title": "Welcome to react using react-i18next",
-  "description": {
-    "part1": "To get started, edit <1>src/App.js</1> and save to reload.",
-    "part2": "Switch language between english and german using buttons above."
+  "Menu": {
+    "home": "Home",
+    "products": "Products",
+    "stats": "Statistics",
+    "employees": "Employees",
+    "gallery": "Image Gallery",
+    "company": "Company",
+    "disconnect": "Logout"
+  },
+  "ProfilMenu": {
+    "Labels": {
+      "yourCompanies": "Your companies",
+      "parameters": "Parameters"
+    },
+    "buttons": {
+      "profile": "Profile",
+      "disconnect": "Logout"
+    }
+  },
+  "CompanyPage": {
+    "genInformations": {
+      "categoryName": "Global informations",
+      "name": "Name",
+      "address": "Address",
+      "phone": "Phone num.",
+      "email": "Email",
+      "description": "Description",
+      "productType": "Product type",
+      "logo": "Company Logo",
+      "banner": "Company banner"
+    },
+    "adminInformations": {
+      "categoryName": "Administrative informations",
+      "siret": "Siret",
+      "rib": "IBAN / RIB",
+      "email": "Email",
+      "desc": "Description",
+      "marketPres": "Markets",
+      "frequency": "Frequency",
+      "selfDelivery": "Self delivery"
+    },
+    "schedule": {
+      "categoryName": "Opening time",
+      "days": {
+        "monday": "Monday",
+        "tuesday": "Tuesday",
+        "wednesday": "Wednesday",
+        "thursday": "Thursday",
+        "friday": "Friday",
+        "saturday": "Saturday",
+        "sunday": "Sunday"
+      }
+    },
+    "buttons": {
+      "deleteCompany": "Delete Company"
+    }
+  },
+  "ProductsPage": {
+    "noProductInCategory": "No product available in this category",
+    "uncategorizedProducts": "Uncategorized Products",
+    "buttons": {
+      "createCategory": "Create a category",
+      "createProduct": "Create a product"
+    },
+    "createCategoryModal": {
+      "editModalName": "Edit category",
+      "modalName": "Create new category",
+      "name": "Name",
+      "buttons": {
+        "cancel": "Cancel",
+        "validate": "Ok"
+      }
+    },
+    "createProductModal": {
+      "editModalName": "Modifier un produit",
+      "modalName": "Créer un nouveau produit",
+      "productName": "Nom du produit",
+      "productCategory": "Catégorie du produit",
+      "portion": "Portion",
+      "price": "Prix",
+      "desc": "Description",
+      "image": "Image du produit",
+      "buttons": {
+        "selectImage": "Sélectionner une image",
+        "cancel": "Annuler",
+        "create": "Créer"
+      }
+    }
+  },
+  "StaffPage": {
+    "buttons": {
+      "addEmployee": "Ajouter un employé",
+      "editRole": "Modifier le rôle",
+      "delete": "Retirer"
+    },
+    "columns": {
+      "email": "Adresse email",
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "tags": "Tags",
+      "operation": "Opérations"
+    },
+    "roles": {
+      "owner": "Propriétaire",
+      "admin": "Administrateur",
+      "member": "Membre"
+    }
+  },
+  "FilesPage": {
+    "Images": {
+      "noImage": "Aucune image pour le moment",
+      "buttons": {
+        "loadImages": "Télécharger des images"
+      },
+      "addImageModal": {
+        "modalName": "Télécharger des images",
+        "explanation": "Cliquez ici pour choisir les images ou glissez - déposez les directement dans la zone",
+        "littleExplanation": "Fonctionne avec un ou plusieurs fichiers.",
+        "buttons": {
+          "close": "Fermer"
+        }
+      },
+      "editImageModal": {
+        "name": "Nom",
+        "uses": "Produits qui utilisent cette image",
+        "noUses": "Aucun produit à lister",
+        "buttons": {
+          "close": "Fermer"
+        }
+      }
+    },
+    "Files": {
+      "list": "Liste des fichiers"
+    }
+  },
+  "ProfilePage": {
+    "buttons": {
+      "edit": "Modifier"
+    },
+    "labels": {
+      "lastName": "Nom",
+      "firstName": "Prénom",
+      "email": "Email",
+      "phone": "Numéro de téléphone",
+      "image": "Cliquer sur l'image pour la modifier"
+    }
   }
 }
+
