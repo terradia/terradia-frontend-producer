@@ -59,6 +59,11 @@
   "ProductsPage": {
     "noProductInCategory": "Aucun produit n'est disponible pour cette catégorie",
     "uncategorizedProducts": "Produits non catégorisés",
+    "deleteCategory": {
+      "title": "Voulez-vous vraiment supprimer cette catégorie?",
+      "yes": "Oui",
+      "no": "Non"
+    },
     "buttons": {
       "createCategory": "Créer une catégorie",
       "createProduct": "Créer un produit"
@@ -70,6 +75,11 @@
       "buttons": {
         "cancel": "Annuler",
         "validate": "Ok"
+      },
+      "errors": {
+        "name": "Le nom de la catégorie est requis",
+        "min": "Le nom de la catégorie nom est trop court",
+        "whitespace": "Le nom de la catégorie ne peut être vide"
       }
     },
     "createProductModal": {
@@ -77,6 +87,7 @@
       "modalName": "Créer un nouveau produit",
       "productName": "Nom du produit",
       "productCategory": "Catégorie du produit",
+      "selectCategory": "Selectionner une catégorie",
       "portion": "Portion",
       "price": "Prix",
       "desc": "Description",
@@ -84,7 +95,24 @@
       "buttons": {
         "selectImage": "Sélectionner une image",
         "cancel": "Annuler",
-        "create": "Créer"
+        "create": "Créer",
+        "edit": "Modifier",
+        "delete": "Supprimer"
+      },
+      "popUp": {
+        "title": "Vouslez-vous vraiment supprimer ce produit?",
+        "yes": "Oui",
+        "no": "Non"
+      },
+      "portionValidation": {
+        "unity": {
+          "name": "Unité",
+          "errors": "L'unité du produit est requise"
+        },
+        "portion": {
+          "name": "Quantité de portion",
+          "errors": "La quantité de portion est requise"
+        }
       }
     }
   },
@@ -144,6 +172,12 @@
       "email": "Email",
       "phone": "Numéro de téléphone",
       "image": "Cliquer sur l'image pour la modifier"
+    }
+  },
+  "ImageSelectorButton": {
+    "labels": {
+      "singular": "Sélectionner une image",
+      "plural": "Sélectionner des images"
     }
   }
 }

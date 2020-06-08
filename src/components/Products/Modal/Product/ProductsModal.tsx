@@ -4,6 +4,7 @@ import ProductsForm from "./ProductsForm";
 import "../../../../assets/Style/Products/Modal/ProductsModal.less";
 import { loader as graphqlLoader } from "graphql.macro";
 import { useMutation } from "@apollo/react-hooks";
+import { useTranslation } from "react-i18next";
 
 const mutationCreateProduct = graphqlLoader(
   "../../../../graphql/mutation/products/createProduct.graphql"
@@ -191,10 +192,12 @@ function ProductsModal(props: ProductsModalProps) {
     });
   }
 
+  const { t } = useTranslation("common");
+
   return (
     <Modal
       title={
-        props.updateProduct ? "Modifier un produit" : "Créer un nouveau produit"
+        props.updateProduct ? t("ProductsPage.createProductModal.editModalName") : t("ProductsPage.createProductModal.modalName")
       }
       className={"modal-product"}
       visible={props.visible}
@@ -207,19 +210,19 @@ function ProductsModal(props: ProductsModalProps) {
           {props.updateProduct && (
             <Popconfirm
               placement="bottom"
-              title={"Voulez-vous vraiment supprimer ce produit?"}
+              title={t("ProductsPage.createProductModal.popUp.title")}
               onConfirm={() => {
                 deleteProduct();
               }}
-              okText="Oui"
-              cancelText="Non"
+              okText={t("ProductsPage.createProductModal.popUp.yes")}
+              cancelText={t("ProductsPage.createProductModal.popUp.no")}
             >
-              <Button>Supprimer</Button>
+              <Button>{t("ProductsPage.createProductModal.buttons.delete")}</Button>
             </Popconfirm>
           )}
-          <Button onClick={handleCancel}>Annuler</Button>
+          <Button onClick={handleCancel}>{t("ProductsPage.createProductModal.buttons.cancel")}</Button>
           <Button onClick={handleOk} type={"primary"}>
-            {props.updateProduct ? "Modifier" : "Créer"}
+            {props.updateProduct ? t("ProductsPage.createProductModal.buttons.edit") : t("ProductsPage.createProductModal.buttons.create")}
           </Button>
         </div>
       }

@@ -4,6 +4,7 @@ import CategoryForm from "./CategoryForm";
 import "../../../../assets/Style/Products/Modal/ProductsModal.less";
 import { loader as graphqlLoader } from "graphql.macro";
 import { useMutation } from "@apollo/react-hooks";
+import { useTranslation } from "react-i18next";
 
 const mutationCreateCategory = graphqlLoader(
   "../../../../graphql/mutation/category/createCompanyProductsCategory.graphql"
@@ -93,12 +94,14 @@ function CategoryModal(props: CategoryModalProps) {
     }
   }
 
+  const { t } = useTranslation("common");
+
   return (
     <Modal
       title={
         props.categoryId
-          ? "Modifier une catégorie"
-          : "Créer une nouvelle catégorie"
+          ? t("ProductsPage.createCategoryModal.editModalName")
+          : t("ProductsPage.createCategoryModal.modalName")
       }
       className={"modal-product"}
       visible={props.visible}
@@ -106,7 +109,9 @@ function CategoryModal(props: CategoryModalProps) {
       width={"45%"}
       destroyOnClose={true}
       onCancel={handleCancel}
+      cancelText={t("ProductsPage.createCategoryModal.buttons.cancel")}
       onOk={handleOk}
+      okText={t("ProductsPage.createCategoryModal.buttons.validate")}
     >
       <CategoryForm
         setForm={setForm}

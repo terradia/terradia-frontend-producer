@@ -59,9 +59,14 @@
   "ProductsPage": {
     "noProductInCategory": "No product available in this category",
     "uncategorizedProducts": "Uncategorized Products",
+    "deleteCategory": {
+      "title": "Are you sure?",
+      "yes": "Yes",
+      "no": "No"
+    },
     "buttons": {
-      "createCategory": "Create a category",
-      "createProduct": "Create a product"
+      "createCategory": "Create new category",
+      "createProduct": "Create new product"
     },
     "createCategoryModal": {
       "editModalName": "Edit category",
@@ -70,6 +75,11 @@
       "buttons": {
         "cancel": "Cancel",
         "validate": "Ok"
+      },
+      "errors": {
+        "name": "Category name is required",
+        "min": "Category name is to short",
+        "whitespace": "Category name can not be empty"
       }
     },
     "createProductModal": {
@@ -77,6 +87,7 @@
       "modalName": "Create new product",
       "productName": "Product Name",
       "productCategory": "Product category",
+      "selectCategory": "Select category for this product",
       "portion": "Portion",
       "price": "Price",
       "desc": "Description",
@@ -84,7 +95,24 @@
       "buttons": {
         "selectImage": "Select image",
         "cancel": "Cancel",
-        "create": "Create"
+        "create": "Create",
+        "edit": "Edit",
+        "delete": "Delete"
+      },
+      "popUp": {
+        "title": "Are you sure?",
+        "yes": "Yes",
+        "no": "No"
+      },
+      "portionValidation": {
+        "unity": {
+          "name": "Unity",
+          "errors": "Product unity is required"
+        },
+        "portion": {
+          "name": "Portion quantity",
+          "errors": "Portion quantity is required"
+        }
       }
     }
   },
@@ -144,6 +172,12 @@
       "email": "Email",
       "phone": "Phone number",
       "image": "Click on image for edit"
+    }
+  },
+  "ImageSelectorButton": {
+    "labels": {
+      "singular": "Select image",
+      "plural": "Select images"
     }
   }
 }

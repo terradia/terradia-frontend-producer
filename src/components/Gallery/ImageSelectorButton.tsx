@@ -3,6 +3,7 @@ import Button from "../Ui/Button";
 import ImageSelectorModal from "./ImageSelectorModal";
 import { FileImageOutlined } from "@ant-design/icons/lib";
 import CompanyImage from "../../interfaces/Files/CompanyImage";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   onCloseModal?: () => void; // called when the modal is closed
@@ -31,13 +32,15 @@ const ImageSelectorButton: React.FC<Props> = ({
     onOpenModal && onOpenModal();
   };
 
+  const { t } = useTranslation("common");
+
   return (
     <>
       <Button
         text={
           onlyOneImageByOne === true
-            ? "Séléctionner une image"
-            : "Séléctionner des images"
+            ? `${t("ImageSelectorButton.labels.singular")}`
+            : `${t("ImageSelectorButton.labels.plural")}`
         }
         icon={<FileImageOutlined />}
         onClick={handleOpen}
