@@ -9,10 +9,8 @@ import {
   ShoppingCartOutlined,
   TeamOutlined,
 } from "@ant-design/icons/lib";
-
 import Logout from "../../Authentication/Logout/Logout";
-import { useTranslation } from 'react-i18next';
-import i18n from '../../../i18n';
+import { useTranslation } from "react-i18next";
 
 declare interface SidebarCompanyProps {
   onClickedLink: (href) => void;

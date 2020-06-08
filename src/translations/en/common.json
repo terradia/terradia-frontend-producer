@@ -73,77 +73,77 @@
       }
     },
     "createProductModal": {
-      "editModalName": "Modifier un produit",
-      "modalName": "Créer un nouveau produit",
-      "productName": "Nom du produit",
-      "productCategory": "Catégorie du produit",
+      "editModalName": "Edit product",
+      "modalName": "Create new product",
+      "productName": "Product Name",
+      "productCategory": "Product category",
       "portion": "Portion",
-      "price": "Prix",
+      "price": "Price",
       "desc": "Description",
-      "image": "Image du produit",
+      "image": "Product image",
       "buttons": {
-        "selectImage": "Sélectionner une image",
-        "cancel": "Annuler",
-        "create": "Créer"
+        "selectImage": "Select image",
+        "cancel": "Cancel",
+        "create": "Create"
       }
     }
   },
   "StaffPage": {
     "buttons": {
-      "addEmployee": "Ajouter un employé",
-      "editRole": "Modifier le rôle",
-      "delete": "Retirer"
+      "addEmployee": "Add an employee",
+      "editRole": "Edit role",
+      "delete": "Delete"
     },
     "columns": {
-      "email": "Adresse email",
-      "firstName": "Prénom",
-      "lastName": "Nom",
+      "email": "Email",
+      "firstName": "Firstname",
+      "lastName": "Lastname",
       "tags": "Tags",
-      "operation": "Opérations"
+      "operation": "Operations"
     },
     "roles": {
-      "owner": "Propriétaire",
-      "admin": "Administrateur",
-      "member": "Membre"
+      "owner": "Owner",
+      "admin": "Administrator",
+      "member": "Member"
     }
   },
   "FilesPage": {
     "Images": {
       "noImage": "Aucune image pour le moment",
       "buttons": {
-        "loadImages": "Télécharger des images"
+        "loadImages": "Upload images"
       },
       "addImageModal": {
-        "modalName": "Télécharger des images",
+        "modalName": "Upload images",
         "explanation": "Cliquez ici pour choisir les images ou glissez - déposez les directement dans la zone",
         "littleExplanation": "Fonctionne avec un ou plusieurs fichiers.",
         "buttons": {
-          "close": "Fermer"
+          "close": "Close"
         }
       },
       "editImageModal": {
-        "name": "Nom",
+        "name": "Name",
         "uses": "Produits qui utilisent cette image",
         "noUses": "Aucun produit à lister",
         "buttons": {
-          "close": "Fermer"
+          "close": "Close"
         }
       }
     },
     "Files": {
-      "list": "Liste des fichiers"
+      "list": "Files list"
     }
   },
   "ProfilePage": {
     "buttons": {
-      "edit": "Modifier"
+      "edit": "Edit"
     },
     "labels": {
-      "lastName": "Nom",
-      "firstName": "Prénom",
+      "lastName": "Lastname",
+      "firstName": "Firstname",
       "email": "Email",
-      "phone": "Numéro de téléphone",
-      "image": "Cliquer sur l'image pour la modifier"
+      "phone": "Phone number",
+      "image": "Click on image for edit"
     }
   }
 }
