@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import { PlusCircleOutlined } from "@ant-design/icons";
-import { ReactComponent as CarretIcon } from "../../assets/Icon/ui/caret.svg";
-import { ReactComponent as BookmarkIcon } from "../../assets/Icon/ui/bookmark.svg";
+import { ReactComponent as CarretIcon } from "../../../../assets/Icon/ui/caret.svg";
+import { ReactComponent as BookmarkIcon } from "../../../../assets/Icon/ui/bookmark.svg";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons/lib";
 import { Popconfirm } from "antd";
 import { useTranslation } from "react-i18next";
 
 import { loader as graphqlLoader } from "graphql.macro";
-import "../../assets/Style/Products/ProductsPage.less";
+import "../../../../assets/Style/Products/ProductsPage.less";
 import { useMutation } from "@apollo/react-hooks";
 import ProductCard from "./ProductCard";
 
 const mutationDeleteCategory = graphqlLoader(
-  "../../graphql/mutation/category/deleteCompanyProductCategory.graphql"
+  "../../../../graphql/mutation/category/deleteCompanyProductCategory.graphql"
 );
 const queryGetCategories = graphqlLoader(
-  "../../graphql/query/getAllCompanyProductsCategories.graphql"
+  "../../../../graphql/query/getAllCompanyProductsCategories.graphql"
 );
 
 interface CategoryProductsProps {
