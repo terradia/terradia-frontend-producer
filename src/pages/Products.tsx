@@ -54,7 +54,7 @@ const Products = () => {
     if (!collaspedCategory) {
       localStorage.setItem("collapsedCategory", JSON.stringify([]));
     }
-  }, []);
+  }, [collaspedCategory]);
 
   const {
     loading: loadingCategories,

@@ -85,7 +85,7 @@ function CategoryProducts(props: CategoryProductsProps) {
         setCollapsed(true);
       }
     }
-  }, []);
+  }, [collapsedCategory, props.cat.id]);
 
   function handleCollapse() {
     if (collapsed) {
