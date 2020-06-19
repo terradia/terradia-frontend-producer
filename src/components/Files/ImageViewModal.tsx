@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Card, Divider, Empty, Input, Modal } from "antd";
-import CompanyImage from "../../interfaces/Files/CompanyImage";
+import CompanyImage from "../../interfaces/CompanyImage";
 
 interface Props {
   visible?: boolean;
@@ -28,7 +28,7 @@ const ImageViewModal: React.FC<Props> = ({
 
   const footer = [
     <Button key="close" onClick={() => handleClose()}>
-      Fermer
+      Fermer {/* TODO : translate this */}
     </Button>,
   ];
 
@@ -42,7 +42,7 @@ const ImageViewModal: React.FC<Props> = ({
           onImageUpdate(companyImageName);
         }}
       >
-        Enregistrer & Fermer
+        Enregistrer & Fermer {/* TODO : translate this */}
       </Button>
     );
   }

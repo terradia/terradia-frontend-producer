@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { DeleteOutlined, EyeOutlined } from "@ant-design/icons/lib";
 import { Card } from "antd";
 import ImageViewModal from "./ImageViewModal";
-import CompanyImage from "../../interfaces/Files/CompanyImage";
+import CompanyImage from "../../interfaces/CompanyImage";
 import ImageRemoveConfirmModal from "./ImageRemoveConfirmModal";
 import { useMutation } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";

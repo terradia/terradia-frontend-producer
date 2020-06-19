@@ -1,0 +1,51 @@
+@import "../../../../src/index.less";
+
+.main-container {
+  padding: @padding-sm;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  label.field-label {
+    width: 100%;
+    float: left;
+    color: @primary-color;
+    font-size: @font-size-sm;
+    transition: font-size 0.3s, color 0.3s;
+  }
+  label.field-label.edit-mode {
+    font-size: calc(@font-size-sm * 0.8);
+    color: @text-color-secondary;
+  }
+  div.value-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    overflow: hidden;
+    width: 100%;
+    text-overflow: ellipsis;
+    word-break: break-word;
+    span.field-value {
+      color: @text-color;
+      font-size: @font-size-lg;
+      @media (max-width: 1024px) {
+        font-size: @font-size-base;
+      }
+    }
+    div.icon-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: @padding-md;
+      cursor: pointer;
+      width: 30px;
+      height: 30px;
+      span {
+        font-size: calc(@font-size-lg * 1.3);
+      }
+    }
+  }
+}

@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Card, Divider, Empty, Modal } from "antd";
-import CompanyImage from "../../interfaces/Files/CompanyImage";
+import CompanyImage from "../../interfaces/CompanyImage";
 
 interface Props {
   visible?: boolean;

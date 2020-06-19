@@ -2,11 +2,12 @@ import React from "react";
 import { Divider, Empty } from "antd";
 import "../assets/Style/Files/index.less";
 import ImagesUploadButton from "../components/Files/ImagesUploadButton";
-import CompanyImage from "../interfaces/Files/CompanyImage";
+import CompanyImage from "../interfaces/CompanyImage";
 import ImageCard from "../components/Files/ImageCard";
 import { useQuery } from "@apollo/react-hooks";
 import { LoadingOutlined } from "@ant-design/icons/lib";
 import { loader as graphqlLoader } from "graphql.macro";
+import TerradiaLoader from '../components/TerradiaLoader';
 
 const queryCompanyImages = graphqlLoader(
   "../graphql/query/getCompanyImages.graphql"
@@ -27,7 +28,7 @@ const Files = () => {
   if (loadingCompanyImages)
     return (
       <div className={"company-images-container"}>
-        <LoadingOutlined style={{ fontSize: 40 }} />
+        <TerradiaLoader />
       </div>
     );
 

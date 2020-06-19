@@ -1,9 +1,12 @@
+import Unit from "./Unit";
+import CompanyImage from "./CompanyImage";
+
 export default interface Product {
   id: string;
   name: string;
   price: number;
-  cover: { id: string; filename: string; name: string | null };
+  cover: CompanyImage;
   description: string;
-  unit: { notation: string; name: string };
+  unit: Unit;
   quantityForUnit: number;
 }
