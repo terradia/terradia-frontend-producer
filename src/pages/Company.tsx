@@ -15,6 +15,7 @@ declare interface CompanyData {
     description: string;
     email: string;
     phone: string;
+    siren;
     logo: {
       id: string;
       filename: string;
@@ -136,37 +137,49 @@ const Company = () => {
         <InfoCard
           title={"INFORMATION GENERALES"}
           infos={[
-            { label: "NOM: ", text: loading ? "" : data.getCompany.name },
+            {
+              label: "NOM: ",
+              slugName: "name",
+              text: loading ? "" : data.getCompany.name,
+            },
             {
               label: "ADRESSE: ",
+              slugName: "address",
               text: loading ? "" : data.getCompany.address,
             },
             {
               label: "NUMÉRO DE TEL.: ",
+              slugName: "phone",
               text: loading ? "" : data.getCompany.phone,
             },
             {
               label: "ADRESSE EMAIL: ",
+              slugName: "email",
               text: loading ? "" : data.getCompany.email,
             },
             {
               label: "DESCRIPTION: ",
+              slugName: "description",
               text: loading ? "" : data.getCompany.description,
             },
             { label: "TYPE DE PRODUITS: ", text: "test product" },
             {
               label: "LOGO ENTREPRISE:",
+              slugName: "logoId",
               icon:
                 data && data.getCompany && data.getCompany.logo === null
                   ? ""
                   : data.getCompany.logo.filename,
+              isLogo: true,
             },
             {
               label: "BANIERE ENTREPRISE:",
+              slugName: "coverId",
               icon:
                 data && data.getCompany && data.getCompany.cover === null
                   ? ""
                   : data.getCompany.cover.filename,
+              isLogo: false,
             },
           ]}
           loading={loading}
@@ -175,14 +188,20 @@ const Company = () => {
         <InfoCard
           title={"INFORMATION ADMINISTRATIVES"}
           infos={[
-            { label: "SIRET: ", text: "xxx xxx xxx xxxxx" },
+            {
+              label: "SIREN: ",
+              slugName: "siren",
+              text: data.getCompany.siren,
+            },
             { label: "IBAN / RIB: ", text: "rib.pdf" },
             {
               label: "ADRESSE EMAIL: ",
+              slugName: "email",
               text: loading ? "" : data.getCompany.email,
             },
             {
               label: "DESCRIPTION: ",
+              slugName: "description",
               text: loading ? "" : data.getCompany.description,
             },
             { label: "PRESENCE MARCHES: ", text: "oui" },

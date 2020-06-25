@@ -7,11 +7,18 @@ import ImageCard from "./ImageCard";
 import { LoadingOutlined } from "@ant-design/icons/lib";
 import "../../assets/Style/Gallery/style.less";
 import ImagesUploadButton from "../Files/ImagesUploadButton";
+import { UploadChangeParam } from "antd/lib/upload";
+import { CompanyImageData } from "../Files/ImageUploadModal";
+import { UploadFile } from "antd/lib/upload/interface";
+import { fileToObject } from "antd/lib/upload/utils";
 
 interface Props {
   visible?: boolean;
   onClickClose: () => void;
-  onUpload?: (uploadedImage) => void; // function called for each upload (on multiple call this function for each element).
+  onUpload?: (
+    imageFile: UploadChangeParam,
+    uploadedImage?: CompanyImageData
+  ) => void; // function called for each upload (on multiple call this function for each element).
   onValidate?: (selectedImages: [CompanyImage]) => void; // function called when the modal is closed and there is images that are selected
   onlyOneImageByOne?: boolean; // if you want the user to upload only one image at the time.
 }
@@ -19,6 +26,9 @@ interface Props {
 const queryCompanyImages = graphqlLoader(
   "../../graphql/query/getCompanyImages.graphql"
 );
+
+const now = +new Date();
+let index = 0;
 
 // ⚠️ DO NOT USE THIS COMPONENT ⚠️
 // This is a component that is implemented by the ImagesSelectorButton
@@ -28,6 +38,7 @@ const ImageSelectorModal: React.FC<Props> = ({
   onClickClose,
   onValidate,
   onlyOneImageByOne = false,
+  onUpload,
   ...props
 }: Props) => {
   const companyId = localStorage.getItem("selectedCompany");
@@ -46,7 +57,20 @@ const ImageSelectorModal: React.FC<Props> = ({
     onClickClose();
   };
 
+  const uid = () => {
+    return `rc-upload-${now}-${++index}`;
+  };
+
+  const generateUploadFile = (selectedFiles) => {
+    const fileList: UploadFile[] = selectedFiles.map((file) => {
+      file.uid = uid();
+      return fileToObject(file);
+    });
+    onUpload({ file: fileList[0], fileList: fileList }, selectedFiles[0]);
+  };
+
   const handleValidate = () => {
+    console.log("validating");
     const companyImages = dataCompanyImages.getCompanyImages;
     const selectedList = Object.keys(selectedImages).map((key) => {
       return selectedImages[key] === true ? key : undefined;
@@ -54,11 +78,20 @@ const ImageSelectorModal: React.FC<Props> = ({
     const res = companyImages.filter((image) => {
       return selectedList.findIndex((elem) => elem === image.id) !== -1;
     });
+    console.log(res);
     onValidate && onValidate(res);
+    onUpload && generateUploadFile(res);
     handleClose();
   };
 
-  const handleRefetch = () => refetch();
+  const handleRefetch = (
+    imageFile: UploadChangeParam,
+    uploadedImage?: CompanyImageData
+  ) => {
+    console.log("refetching");
+    refetch();
+    onUpload(imageFile, uploadedImage);
+  };
 
   const handleNewSelection = (companyImage: CompanyImage) => {
     if (onlyOneImageByOne === true)
