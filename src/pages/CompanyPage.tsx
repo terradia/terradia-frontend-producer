@@ -4,7 +4,7 @@ import { loader as graphqlLoader } from "graphql.macro";
 import { Info } from "../components/CompanyInfo/InfoCard";
 import moment from "moment";
 import CompanyInfoCard from "../components/Company/CompanyInfoCard";
-import Company from "../interfaces/Company";
+import { Company } from "../interfaces/Company";
 import TerradiaLoader from "../components/TerradiaLoader";
 import { Divider } from "antd";
 import CompanyHoursCard from "../components/Company/CompanyHoursCard";

@@ -1,5 +1,5 @@
 import React from "react";
-import Company from "../../interfaces/Company";
+import { Company } from "../../interfaces/Company";
 import "../../assets/Style/CompanyPage/CompanyInfoCard.less";
 import { EditOutlined } from "@ant-design/icons/lib";
 import ImageSelectorButton from "../Gallery/ImageSelectorButton";
