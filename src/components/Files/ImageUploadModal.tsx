@@ -49,7 +49,7 @@ const ImageUploadModal: React.FC<Props> = ({ visible, ...props }: Props) => {
     console.log(data);
   };
 
-  const handleErrorUpload = (data) => {
+  const handleErrorUpload = () => {
     // TODO : put a notification showing the error of the server.
     setImageList(
       imageList.map((image) => {

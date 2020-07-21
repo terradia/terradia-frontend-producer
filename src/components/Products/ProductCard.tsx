@@ -12,10 +12,12 @@ interface Props {
 
 const ProductCard: React.FC<Props> = ({
   provided,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   snapshot,
   style,
   onClick,
   product,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ...props
 }: Props) => {
   const productName = product.name;

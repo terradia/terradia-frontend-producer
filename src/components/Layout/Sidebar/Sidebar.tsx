@@ -13,6 +13,7 @@ const Sidebar: React.FC<Props> = ({
   onClickOnElement,
   isMobile = false,
   collapsed = false,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ...props
 }: Props) => {
   const currentUrl = useLocation().pathname;

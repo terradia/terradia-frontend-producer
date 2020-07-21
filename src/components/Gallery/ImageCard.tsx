@@ -12,6 +12,7 @@ const ImageCard: React.FC<Props> = ({
   companyImage,
   selected = false,
   onClick,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ...props
 }: Props) => {
   return (

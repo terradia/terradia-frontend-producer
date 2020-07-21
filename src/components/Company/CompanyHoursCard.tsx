@@ -141,8 +141,7 @@ const CompanyHoursCard = (props: Props) => {
           <div
             className={"hours-container"}
             key={info.label + info.text + info.icon}
-            style={{
-            }}
+            style={{}}
           >
             <span
               key={info.label}

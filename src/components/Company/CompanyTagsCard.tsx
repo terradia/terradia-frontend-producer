@@ -5,6 +5,7 @@ interface Props {
   company: Company;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const CompanyTagsCard: React.FC<Props> = ({ ...props }: Props) => {
   return <div className={"card"}>CompanyTagsCard</div>;
 };

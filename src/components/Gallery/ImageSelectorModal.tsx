@@ -41,6 +41,7 @@ const ImageSelectorModal: React.FC<Props> = ({
   onlyOneImageByOne = false,
   onUpload,
   customTitle,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ...props
 }: Props) => {
   const companyId = localStorage.getItem("selectedCompany");

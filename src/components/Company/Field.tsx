@@ -26,6 +26,7 @@ const Field: React.FC<Props> = ({
   type = "text",
   onStartEdit,
   onValidate,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ...props
 }) => {
   const [editMode, setEditMode] = useState(

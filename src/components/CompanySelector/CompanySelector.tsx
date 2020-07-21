@@ -40,6 +40,7 @@ declare interface ProfileData {
 
 const CompanySelector: React.FC<Props> = ({
   isMobile = false,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ...props
 }: Props) => {
   const currentUrl = useLocation();

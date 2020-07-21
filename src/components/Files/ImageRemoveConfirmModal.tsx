@@ -14,6 +14,7 @@ const ImageRemoveConfirmModal: React.FC<Props> = ({
   companyImage,
   onClickClose,
   onClickConfirm,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ...props
 }: Props) => {
   return (

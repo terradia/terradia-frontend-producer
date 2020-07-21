@@ -14,6 +14,7 @@ const ImageViewModal: React.FC<Props> = ({
   companyImage,
   onClickClose,
   onImageUpdate,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ...props
 }: Props) => {
   const originalValue = companyImage.name
