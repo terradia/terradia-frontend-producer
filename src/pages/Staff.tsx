@@ -3,7 +3,7 @@ import Button from "../components/Ui/Button";
 import { loader as graphqlLoader } from "graphql.macro";
 import "../assets/Style/Products/ProductsPage.less";
 import { useQuery, useMutation } from "@apollo/react-hooks";
-import { Table, Tag, Modal, Select, AutoComplete } from "antd";
+import { Table, Tag, Modal, AutoComplete } from "antd";
 import Popconfirm from "antd/es/popconfirm";
 import {
   DeleteOutlined,
@@ -31,13 +31,12 @@ const mutationAddUserCompanyRole = graphqlLoader(
   "../graphql/mutation/addUserCompanyRole.graphql"
 );
 
-// const mutationRemoveUserCompanyRole = graphqlLoader(
-//   "../graphql/mutation/removeUserCompanyRole.graphql"
-// );
+const mutationRemoveUserCompanyRole = graphqlLoader(
+  "../graphql/mutation/removeUserCompanyRole.graphql"
+);
 
 const Staff = () => {
   const companyId = localStorage.getItem("selectedCompany");
-
   const { loading, error: errorDataCompany, data: dataCompany } = useQuery(
     queryCompanyUsers,
     {
@@ -93,10 +92,17 @@ const Staff = () => {
     ],
   });
 
-  // const [
-  //   removeUserCompanyRole,
-  //   { loading: removeUserCompanyRoleLoading },
-  // ] = useMutation(mutationRemoveUserCompanyRole);
+  const [
+    removeUserCompanyRole,
+    { loading: removeUserCompanyRoleLoading },
+  ] = useMutation(mutationRemoveUserCompanyRole, {
+    refetchQueries: [
+      {
+        query: queryCompanyUsers,
+        variables: { companyId: companyId },
+      },
+    ],
+  });
 
   const [openUser, setOpenUser] = React.useState(false);
   const [openRole, setOpenRole] = React.useState(false);
@@ -106,24 +112,28 @@ const Staff = () => {
       leaveCompany({
         variables: {
           companyId: companyId,
-          userId: userData.user.id,
+          userId: userData.id,
         },
       }).catch((error) => {
         console.log(error);
       });
   };
 
-  const tagRenderer = (roles: { slugName: string }[]) => {
+  // TODO : translate the roleSlugname
+  const roleRenderer = (roles: { slugName: string }[]) => {
     return (
       <span>
-        {roles.map((tag: { slugName: string }, index: string | number) => {
+        {roles.map((role: { slugName: string }, index: string | number) => {
           let color = "green";
-          if (tag.slugName === "admin") {
+          if (role.slugName === "admin") {
             color = "volcano";
+          }
+          if (role.slugName === "owner") {
+            color = "cyan";
           }
           return (
             <Tag color={color} key={index}>
-              {tag.slugName.toUpperCase()}
+              {role.slugName.toUpperCase()}
             </Tag>
           );
         })}
@@ -131,19 +141,170 @@ const Staff = () => {
     );
   };
 
-  const confirmDelete = (text, record) => {
+  const [roles, setRoles] = React.useState([]); // All roles availables
+  const [userSelectedRole, setuserSelectedRole] = React.useState({
+    companyId: null,
+    roles: [],
+  });
+
+  function isRoleSelected(roleId, userSelected) {
+    if (userSelected) {
+      return userSelected.roles.find((role) => role.id === roleId)
+        ? true
+        : false;
+    }
+    return false;
+  }
+
+  const handleAddRoleUser = (role) => {
+    let tmpUser = {
+      companyId: null,
+      roles: [],
+    };
+    addUserCompanyRole({
+      variables: {
+        companyUserId: userSelectedRole.companyId,
+        roleId: role.id,
+      },
+    }).catch((error) => {
+      console.log(error);
+    });
+    tmpUser = {
+      companyId: userSelectedRole.companyId,
+      roles: [
+        ...userSelectedRole.roles,
+        {
+          id: role.id,
+          slugName: role.slugName,
+        },
+      ],
+    };
+    setuserSelectedRole(tmpUser);
+    return;
+  };
+
+  const handleRemovedRoleUser = (roleId) => {
+    let tmpUser = {
+      companyId: null,
+      roles: [],
+    };
+    removeUserCompanyRole({
+      variables: {
+        companyUserId: userSelectedRole.companyId,
+        roleId: roleId,
+      },
+    }).catch((error) => {
+      console.log(error);
+    });
+    tmpUser = {
+      companyId: userSelectedRole.companyId,
+      roles: userSelectedRole.roles.filter((role) => role.id !== roleId),
+    };
+    setuserSelectedRole(tmpUser);
+    return;
+  };
+
+  function handleChange(role) {
+    if (isRoleSelected(role.id, userSelectedRole)) return;
+    handleAddRoleUser(role);
+  }
+
+  function handleClose(removedRole) {
+    handleRemovedRoleUser(removedRole);
+  }
+
+  // TODO : translate the roleSlugname
+  function handleChangeRole() {
     return (
-      <Popconfirm
-        key={record}
-        title="Êtes vous sûr(e)?"
-        okButtonProps={{ loading: leaveCompanyLoading }}
-        onConfirm={() => handleDeleteUser(record)}
-      >
-        <DeleteOutlined type={"danger"} style={{ fontSize: 20 }} />
-      </Popconfirm>
+      <div>
+        {roles.map((role) => (
+          <Tag
+            closable={isRoleSelected(role.id, userSelectedRole)}
+            key={role.id}
+            onClose={(e) => {
+              e.preventDefault();
+              handleClose(role.id);
+            }}
+            color={isRoleSelected(role.id, userSelectedRole) ? "green" : null}
+            onClick={() => handleChange(role)}
+          >
+            {role.slugName.toUpperCase()}
+          </Tag>
+        ))}
+      </div>
+    );
+  }
+
+  const handleRoles = () => {
+    return openRole === true ? setOpenRole(false) : setOpenRole(true);
+  };
+
+  const handleOpenRole = (userRecord) => {
+    let tmpRole = [];
+    let tmpUser = {
+      companyId: null,
+      roles: [],
+    };
+    openRole === true ? setOpenRole(false) : setOpenRole(true);
+    if (userSelectedRole)
+      setuserSelectedRole({
+        companyId: null,
+        roles: [],
+      });
+    if (!errorRoles) {
+      dataRoles.getAllRoles.forEach((role) => {
+        tmpRole = [
+          ...tmpRole,
+          {
+            id: role.id,
+            slugName: role.slugName,
+          },
+        ];
+      });
+      tmpUser = { companyId: userRecord.id, roles: userRecord.roles };
+      setRoles(tmpRole);
+      setuserSelectedRole(tmpUser);
+    } else console.log(errorRoles);
+    return;
+  };
+
+  // TODO : translate actions titles
+  const actions = (text, record) => {
+    return (
+      <div>
+        <EditOutlined
+          className={"category-icon"}
+          onClick={(event) => {
+            handleOpenRole(record);
+            event.stopPropagation();
+          }}
+        />
+        <Popconfirm
+          placement="top"
+          title={"Êtes vous sûr(e)?"}
+          onConfirm={(event) => {
+            handleDeleteUser(record.user);
+            event.stopPropagation();
+          }}
+          onCancel={(event) => {
+            event.stopPropagation();
+          }}
+          okText="Oui"
+          cancelText="Non"
+        >
+          <DeleteOutlined
+            className={"category-icon"}
+            style={{ color: "red" }}
+            onClick={(event) => {
+              event.stopPropagation();
+            }}
+          />
+        </Popconfirm>
+      </div>
     );
   };
 
+  // TODO : translate
   const columns = [
     {
       title: "Nom",
@@ -165,18 +326,17 @@ const Staff = () => {
     },
     {
       title: "Rôles",
-      key: "tags",
+      key: "roles",
       dataIndex: "roles",
-      render: tagRenderer,
+      render: roleRenderer,
     },
     {
-      title: "Actions",
+      title: "Opérations",
       dataIndex: "operation",
-      render: confirmDelete,
+      render: actions,
     },
   ];
 
-  // Add user to company
   const [allUsersState, setAllUsers] = React.useState([]);
 
   const handleOpenAddUser = () => {
@@ -218,49 +378,17 @@ const Staff = () => {
     return openUser === true ? setOpenUser(false) : setOpenUser(true);
   };
 
-  // Add role to user
-  const [roles, setRoles] = React.useState([]);
-  const [roleChanged, setRoleChanged] = React.useState("");
-  const [userChanged, setUserChanged] = React.useState("");
-  function handleChangeRole(value) {
-    setRoleChanged(value);
-  }
+  // TODO : translate loading
+  if (
+    loading ||
+    loadingRoles ||
+    loadingAllUsers ||
+    leaveCompanyLoading ||
+    removeUserCompanyRoleLoading
+  )
+    return <div>loading</div>;
 
-  const handleOpenRole = () => {
-    let tmpRole = [];
-    if (!errorRoles) {
-      dataRoles.getAllRoles.forEach((user) => {
-        tmpRole = [
-          ...tmpRole,
-          {
-            id: user.id,
-            slugName: user.slugName,
-          },
-        ];
-      });
-      setRoles(tmpRole);
-    } else console.log(errorRoles);
-    return openRole === true ? setOpenRole(false) : setOpenRole(true);
-  };
-
-  function handleChangeUserRole(value) {
-    setUserChanged(value);
-  }
-
-  const handleAddRoleUser = () => {
-    addUserCompanyRole({
-      variables: {
-        companyUserId: userChanged,
-        roleId: roleChanged,
-      },
-    }).catch((error) => {
-      console.log(error);
-    });
-    return openRole === true ? setOpenRole(false) : setOpenRole(true);
-  };
-
-  if (loading || loadingRoles || loadingAllUsers) return <div>loading</div>;
-
+  // TODO : translate the text, title, placeHolder
   return (
     <div className={"product-page"}>
       <div className={"sub-header"}>
@@ -269,12 +397,6 @@ const Staff = () => {
           text={"Ajouter un employé"}
           icon={<PlusOutlined />}
           onClick={handleOpenAddUser}
-        />
-        <Button
-          className={"button"}
-          text={"Modifier les rôles"}
-          icon={<EditOutlined />}
-          onClick={handleOpenRole}
         />
         <Modal
           title="Ajouter un employé"
@@ -300,40 +422,14 @@ const Staff = () => {
           )}
         </Modal>
         <Modal
-          title="Ajouté un rôle a un employé"
+          title="Modifier le rôle de l'employé"
           centered
           visible={openRole}
           confirmLoading={addUserCompanyRoleLoading}
-          onOk={() => handleAddRoleUser()}
-          onCancel={() => handleOpenRole()}
+          onOk={() => handleRoles()}
+          onCancel={() => handleRoles()}
         >
-          <Select
-            defaultValue="Choisir un rôle"
-            style={{ width: 240 }}
-            onChange={handleChangeRole}
-          >
-            {roles
-              ? roles.map((item) => (
-                  <Select.Option value={item.id} key={item.id}>
-                    {item.slugName}
-                  </Select.Option>
-                ))
-              : null}
-          </Select>
-          {dataCompany.getCompany && (
-            <Select
-              defaultValue="Choisir un membre"
-              style={{ width: 240 }}
-              onChange={handleChangeUserRole}
-            >
-              {dataCompany.getCompany.users &&
-                dataCompany.getCompany.users.map((user) => (
-                  <Select.Option value={user.id} key={user.user.id}>
-                    {user.user.firstName}
-                  </Select.Option>
-                ))}
-            </Select>
-          )}
+          <div>{handleChangeRole()}</div>
         </Modal>
       </div>
       <Table

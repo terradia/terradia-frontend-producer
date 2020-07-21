@@ -12,6 +12,7 @@ const Logout: React.FC<Props> = ({ collapsed = false, ...props }: Props) => {
 
   const onLogoutHandler = (): void => {
     localStorage.removeItem("token");
+    localStorage.removeItem("collapsedCategory");
     client.resetStore().then(null);
   };
 
