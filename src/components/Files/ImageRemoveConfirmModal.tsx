@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Card, Divider, Empty, Modal } from "antd";
-import CompanyImage from "../../interfaces/Files/CompanyImage";
+import { CompanyImage } from "../../interfaces/CompanyImage";
 
 interface Props {
   visible?: boolean;
@@ -14,6 +14,7 @@ const ImageRemoveConfirmModal: React.FC<Props> = ({
   companyImage,
   onClickClose,
   onClickConfirm,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ...props
 }: Props) => {
   return (
@@ -40,7 +41,7 @@ const ImageRemoveConfirmModal: React.FC<Props> = ({
           cover={
             <img
               alt={companyImage.filename}
-              src={`https://terradia-bucket-assets.s3.eu-west-3.amazonaws.com/${companyImage.filename}`}
+              src={`https://media.terradia.eu/${companyImage.filename}`}
             />
           }
           bodyStyle={{ height: 0, padding: 0 }}

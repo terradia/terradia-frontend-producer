@@ -3,7 +3,11 @@ import { useApolloClient } from "@apollo/react-hooks";
 import { LogoutOutlined } from "@ant-design/icons/lib";
 import "../../../assets/Style/Layout/logout.less";
 
-const Logout = ({ ...props }: {}) => {
+interface Props {
+  collapsed?: boolean;
+}
+
+const Logout: React.FC<Props> = ({ collapsed = false }: Props) => {
   const client = useApolloClient();
 
   const onLogoutHandler = (): void => {
@@ -13,11 +17,17 @@ const Logout = ({ ...props }: {}) => {
   };
 
   return (
-    <div className={"button-container"} onClick={onLogoutHandler}>
-      <span className={"icon-container"}>
+    <div className={"logout-button-container"} onClick={onLogoutHandler}>
+      <span
+        className={"icon-container" + (collapsed === true ? " collapsed" : "")}
+      >
         <LogoutOutlined />
       </span>
-      <span className={"label-container"}>{"Se déconnecter"}</span>
+      <span
+        className={"label-container" + (collapsed === true ? " collapsed" : "")}
+      >
+        {"Se déconnecter"}
+      </span>
     </div>
   );
 };

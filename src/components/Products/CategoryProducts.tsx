@@ -9,6 +9,7 @@ import { Popconfirm } from "antd";
 import { loader as graphqlLoader } from "graphql.macro";
 import "../../assets/Style/Products/ProductsPage.less";
 import { useMutation } from "@apollo/react-hooks";
+import ProductCard from "./ProductCard";
 
 const mutationDeleteCategory = graphqlLoader(
   "../../graphql/mutation/category/deleteCompanyProductCategory.graphql"
@@ -216,43 +217,22 @@ function CategoryProducts(props: CategoryProductsProps) {
                       >
                         {(provided, snapshot) => {
                           return (
-                            <div
-                              className={"card"}
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
+                            <ProductCard
+                              provided={provided}
+                              snapshot={snapshot}
                               style={{
                                 ...getItemStyle(
                                   snapshot.isDragging,
                                   provided.draggableProps.style
                                 ),
-                                ...{},
                               }}
                               onClick={() => {
                                 product.category = props.cat.name;
                                 props.ProductModal.setUpdateProduct(product);
                                 props.ProductModal.setVisible(true);
                               }}
-                            >
-                              <span
-                                className="card-background"
-                                style={{
-                                  backgroundImage: product.cover
-                                    ? `url('${
-                                        "https://terradia-bucket-assets.s3.eu-west-3.amazonaws.com/" +
-                                        product.cover.filename
-                                      }')`
-                                    : null,
-                                }}
-                              />
-                              <p className="card-title card-item">
-                                {product.name}
-                              </p>
-                              <p className="card-information card-item">
-                                {product.price.toFixed(2)}€
-                              </p>
-                              <p className="card-information card-item">459</p>
-                            </div>
+                              product={product}
+                            />
                           );
                         }}
                       </Draggable>

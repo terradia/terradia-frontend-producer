@@ -1,0 +1,61 @@
+@import "../../../../src/index.less";
+
+.company-hours-card {
+  h2 {
+    color: @text-color-secondary;
+    font-weight: bold;
+    width: 100%;
+    margin: 0;
+  }
+  .icon-container {
+    span {
+      font-size: calc(@font-size-lg * 1.3);
+    }
+  }
+  .hours-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+  @media(max-width: 1024px) {
+    .hours-container {
+      justify-content: center;
+    }
+  }
+}
+
+.hours-container {
+  display: flex;
+  align-content: center;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  .modifiers-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .picker-input-color {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    div.ant-picker-input {
+      width: 75px;
+      input {
+        text-align: center;
+      }
+      input:disabled {
+        color: rgb(87, 87, 87);
+      }
+    }
+  }
+}
+
+.ant-picker-time-panel-column::-webkit-scrollbar {
+  display: none;
+}
+/* Hide scrollbar for IE, Edge and Firefox */
+.ant-picker-time-panel-column {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}

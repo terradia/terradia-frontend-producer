@@ -6,6 +6,7 @@ import { LeftOutlined, UserOutlined } from "@ant-design/icons/lib";
 declare interface SidebarProfileProps {
   onClickedLink: (href) => void;
   currentPage: string;
+  collapsed?: boolean;
 }
 
 const SidebarProfile = (props: SidebarProfileProps) => {
@@ -22,15 +23,21 @@ const SidebarProfile = (props: SidebarProfileProps) => {
       }}
     >
       <PageButton
+        key={"/home"}
         link={"/home"}
-        label={"Retour"}
+        label={"Accueil"} // TODO : Translate this.
         onClick={props.onClickedLink}
+        collapsed={props.collapsed}
+        selected={false}
         icon={<LeftOutlined />}
       />
       <PageButton
+        key={"/profile/userProfile"}
         link={"/profile/userProfile"}
-        label={"Profil"}
+        label={"Profil"} // TODO : Translate this.
         onClick={props.onClickedLink}
+        collapsed={props.collapsed}
+        selected={props.currentPage === "/profile/userProfile"}
         icon={<UserOutlined />}
       />
     </Menu>

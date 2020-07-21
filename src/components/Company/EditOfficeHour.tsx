@@ -1,5 +1,5 @@
 import React from "react";
-import { Hours } from "./InfoCard";
+import { Hours } from "../CompanyInfo/InfoCard";
 import { TimePicker, Form } from "antd";
 import { FormInstance } from "antd/lib/form";
 import { MinusCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
@@ -33,6 +33,7 @@ const EditOfficeHour = (props: EditOfficeHourProps) => {
                     allowClear={false}
                     suffixIcon={null}
                     clearIcon={null}
+                    placeholder={["ouverture", "fermeture"]}
                     minuteStep={15}
                   />
                 </Form.Item>

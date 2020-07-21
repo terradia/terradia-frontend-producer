@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Divider, Empty, Modal } from "antd";
 import { useQuery } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
-import CompanyImage from "../../interfaces/Files/CompanyImage";
+import { CompanyImage } from "../../interfaces/CompanyImage";
 import ImageCard from "./ImageCard";
 import { LoadingOutlined } from "@ant-design/icons/lib";
 import "../../assets/Style/Gallery/style.less";
@@ -21,6 +21,7 @@ interface Props {
   ) => void; // function called for each upload (on multiple call this function for each element).
   onValidate?: (selectedImages: [CompanyImage]) => void; // function called when the modal is closed and there is images that are selected
   onlyOneImageByOne?: boolean; // if you want the user to upload only one image at the time.
+  customTitle?: string;
 }
 
 const queryCompanyImages = graphqlLoader(
@@ -39,6 +40,8 @@ const ImageSelectorModal: React.FC<Props> = ({
   onValidate,
   onlyOneImageByOne = false,
   onUpload,
+  customTitle,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ...props
 }: Props) => {
   const companyId = localStorage.getItem("selectedCompany");
@@ -70,7 +73,6 @@ const ImageSelectorModal: React.FC<Props> = ({
   };
 
   const handleValidate = () => {
-    console.log("validating");
     const companyImages = dataCompanyImages.getCompanyImages;
     const selectedList = Object.keys(selectedImages).map((key) => {
       return selectedImages[key] === true ? key : undefined;
@@ -78,7 +80,6 @@ const ImageSelectorModal: React.FC<Props> = ({
     const res = companyImages.filter((image) => {
       return selectedList.findIndex((elem) => elem === image.id) !== -1;
     });
-    console.log(res);
     onValidate && onValidate(res);
     onUpload && generateUploadFile(res);
     handleClose();
@@ -88,7 +89,6 @@ const ImageSelectorModal: React.FC<Props> = ({
     imageFile: UploadChangeParam,
     uploadedImage?: CompanyImageData
   ) => {
-    console.log("refetching");
     refetch();
     onUpload(imageFile, uploadedImage);
   };
@@ -127,7 +127,9 @@ const ImageSelectorModal: React.FC<Props> = ({
     <Modal
       className={"modal"}
       title={
-        onlyOneImageByOne === true
+        customTitle !== undefined
+          ? customTitle
+          : onlyOneImageByOne === true
           ? "Sélection d'une image"
           : "Séléction d'images"
       }

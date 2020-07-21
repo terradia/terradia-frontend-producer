@@ -1,4 +1,4 @@
-export default interface CompanyImage {
+export interface CompanyImage {
   filename: string;
   id: string;
   name: string;

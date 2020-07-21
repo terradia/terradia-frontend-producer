@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { DeleteOutlined, EyeOutlined } from "@ant-design/icons/lib";
 import { Card } from "antd";
 import ImageViewModal from "./ImageViewModal";
-import CompanyImage from "../../interfaces/Files/CompanyImage";
+import { CompanyImage } from "../../interfaces/CompanyImage";
 import ImageRemoveConfirmModal from "./ImageRemoveConfirmModal";
 import { useMutation } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
@@ -33,6 +33,7 @@ const ImageCard: React.FC<Props> = ({
   onCloseRemoveModal,
   onRemove,
   onUpdate,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ...props
 }: Props) => {
   const [isViewModalVisible, setViewModalVisible] = useState(false);
@@ -86,7 +87,7 @@ const ImageCard: React.FC<Props> = ({
           <img
             onClick={handleOpenViewModal}
             alt={companyImage.filename}
-            src={`https://terradia-bucket-assets.s3.eu-west-3.amazonaws.com/${companyImage.filename}`}
+            src={`https://media.terradia.eu/${companyImage.filename}`}
           />
         }
         bodyStyle={{ height: 0, padding: 0 }}
