@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useMutation, useQuery } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
 import { Info } from "../components/CompanyInfo/InfoCard";
 import moment from "moment";
@@ -15,9 +15,9 @@ declare interface CompanyData {
 }
 
 const getCompanyById = graphqlLoader("../graphql/query/getCompanyById.graphql");
-const deleteCompanyMutation = graphqlLoader(
-  "../graphql/mutation/deleteCompany.graphql"
-);
+// const deleteCompanyMutation = graphqlLoader(
+//   "../graphql/mutation/deleteCompany.graphql"
+// );
 
 const defaultOfficeHours: Info[] = [
   { label: "monday.label", daySlugName: "monday", openHours: [] },
@@ -36,7 +36,7 @@ const CompanyPage = () => {
     fetchPolicy: "cache-first",
   });
   const [officeHours, setOfficeHours] = useState<Info[]>(defaultOfficeHours);
-  const [deleteCompany] = useMutation(deleteCompanyMutation);
+  // const [deleteCompany] = useMutation(deleteCompanyMutation);
 
   useEffect(() => {
     if (data) {
@@ -61,24 +61,24 @@ const CompanyPage = () => {
     }
   }, [data]);
 
-  const onDeleteCompany = () => {
-    deleteCompany({
-      variables: { companyId: localStorage.getItem("companyId") },
-    }).then((data) => {
-      if (data) {
-        const companyId = localStorage.getItem("companyId");
-        localStorage.setItem("companyId", null);
-        localStorage.setItem("rememberCompany", null);
-        dispatchEvent(
-          new StorageEvent("storage", {
-            key: "companyId",
-            oldValue: companyId,
-            newValue: null,
-          })
-        );
-      }
-    });
-  };
+  // const onDeleteCompany = () => {
+  //   deleteCompany({
+  //     variables: { companyId: localStorage.getItem("companyId") },
+  //   }).then((data) => {
+  //     if (data) {
+  //       const companyId = localStorage.getItem("companyId");
+  //       localStorage.setItem("companyId", null);
+  //       localStorage.setItem("rememberCompany", null);
+  //       dispatchEvent(
+  //         new StorageEvent("storage", {
+  //           key: "companyId",
+  //           oldValue: companyId,
+  //           newValue: null,
+  //         })
+  //       );
+  //     }
+  //   });
+  // };
 
   if (loading || !data || officeHours === null || officeHours === undefined)
     return <TerradiaLoader />;
