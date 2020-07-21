@@ -7,7 +7,6 @@ import { UploadChangeParam } from "antd/lib/upload";
 import { CompanyImageData } from "../Files/ImageUploadModal";
 import { SizeType } from "antd/lib/config-provider/SizeContext";
 import { ButtonType } from "antd/es/button";
-import CompanyImage from "../../interfaces/Files/CompanyImage";
 import { useTranslation } from "react-i18next";
 
 interface Props {

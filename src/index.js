@@ -9,7 +9,6 @@ import "./index.less";
 import { createUploadLink } from "apollo-upload-client";
 import ApolloClient from "apollo-client";
 import { InMemoryCache } from "apollo-cache-inmemory";
-import i18n from "./i18n";
 
 const httpLink = createUploadLink({
   // uri: "https://api.terradia.eu/graphql",
