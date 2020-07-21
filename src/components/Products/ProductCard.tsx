@@ -1,5 +1,5 @@
 import React from "react";
-import Product from "../../interfaces/Product";
+import { Product } from "../../interfaces/Product";
 import { EditOutlined } from "@ant-design/icons/lib";
 
 interface Props {

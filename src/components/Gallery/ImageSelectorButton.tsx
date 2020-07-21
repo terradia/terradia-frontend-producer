@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Button from "../Ui/Button";
 import ImageSelectorModal from "./ImageSelectorModal";
 import { FileImageOutlined } from "@ant-design/icons/lib";
-import CompanyImage from "../../interfaces/CompanyImage";
+import { CompanyImage } from "../../interfaces/CompanyImage";
 import { UploadChangeParam } from "antd/lib/upload";
 import { CompanyImageData } from "../Files/ImageUploadModal";
 import { SizeType } from "antd/lib/config-provider/SizeContext";

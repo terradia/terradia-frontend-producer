@@ -2,7 +2,7 @@ import React from "react";
 import { Divider, Empty } from "antd";
 import "../assets/Style/Files/index.less";
 import ImagesUploadButton from "../components/Files/ImagesUploadButton";
-import CompanyImage from "../interfaces/CompanyImage";
+import { CompanyImage } from "../interfaces/CompanyImage";
 import ImageCard from "../components/Files/ImageCard";
 import { useQuery } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";

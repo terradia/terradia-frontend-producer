@@ -1,7 +1,7 @@
-import Unit from "./Unit";
-import CompanyImage from "./CompanyImage";
+import { Unit } from "./Unit";
+import { CompanyImage } from "./CompanyImage";
 
-export default interface Product {
+export interface Product {
   id: string;
   name: string;
   price: number;

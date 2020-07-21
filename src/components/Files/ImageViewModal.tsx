@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Card, Divider, Empty, Input, Modal } from "antd";
-import CompanyImage from "../../interfaces/CompanyImage";
+import { CompanyImage } from "../../interfaces/CompanyImage";
 
 interface Props {
   visible?: boolean;

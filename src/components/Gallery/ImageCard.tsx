@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, Checkbox } from "antd";
-import CompanyImage from "../../interfaces/CompanyImage";
+import { CompanyImage } from "../../interfaces/CompanyImage";
 
 interface Props {
   companyImage: CompanyImage;

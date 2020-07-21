@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Divider, Empty, Modal } from "antd";
 import { useQuery } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
-import CompanyImage from "../../interfaces/CompanyImage";
+import { CompanyImage } from "../../interfaces/CompanyImage";
 import ImageCard from "./ImageCard";
 import { LoadingOutlined } from "@ant-design/icons/lib";
 import "../../assets/Style/Gallery/style.less";

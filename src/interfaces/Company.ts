@@ -1,4 +1,4 @@
-import CompanyImage from "./CompanyImage";
+import { CompanyImage } from "./CompanyImage";
 
 export interface CompanyOpeningDayHours {
   startTime: Date;
@@ -23,4 +23,4 @@ export default interface Company {
   cover: CompanyImage;
   address: string;
   openingDays: [CompanyOpeningDay];
-}
+};;;;;;;;;;

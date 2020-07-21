@@ -1,4 +1,4 @@
-export default interface Unit {
+export interface Unit {
   id: string;
   notation: string;
   name: string;

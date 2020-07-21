@@ -7,7 +7,7 @@ interface Props {
   collapsed?: boolean;
 }
 
-const Logout: React.FC<Props> = ({ collapsed = false, ...props }: Props) => {
+const Logout: React.FC<Props> = ({ collapsed = false }: Props) => {
   const client = useApolloClient();
 
   const onLogoutHandler = (): void => {

@@ -25,7 +25,6 @@ const UserProfileModal = ({
   user,
   onClickToClose,
   onValidate,
-  ...props
 }: Props) => {
   const [form] = Form.useForm();
 

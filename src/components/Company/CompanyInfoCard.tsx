@@ -3,7 +3,7 @@ import Company from "../../interfaces/Company";
 import "../../assets/Style/CompanyPage/CompanyInfoCard.less";
 import { EditOutlined } from "@ant-design/icons/lib";
 import ImageSelectorButton from "../Gallery/ImageSelectorButton";
-import CompanyImage from "../../interfaces/CompanyImage";
+import { CompanyImage } from "../../interfaces/CompanyImage";
 import { loader } from "graphql.macro";
 import { useMutation } from "@apollo/react-hooks";
 import Field from "./Field";
@@ -17,12 +17,7 @@ interface Props {
 
 const updateCompany = loader("../../graphql/mutation/updateCompany.graphql");
 
-const CompanyInfoCard: React.FC<Props> = ({
-  company,
-  refetch,
-  loading,
-  ...props
-}: Props) => {
+const CompanyInfoCard: React.FC<Props> = ({ company, refetch }: Props) => {
   const [updateCompanyMutation] = useMutation(updateCompany);
 
   const handleChangeImage = async (
