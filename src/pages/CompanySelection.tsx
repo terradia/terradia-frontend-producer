@@ -29,7 +29,8 @@ const CompanySelection = () => {
             flexFlow: "column wrap",
           }}
         >
-          <span style={textStyle}>Choisissez votre entreprise par défaut</span>
+          <span style={textStyle}>Choisissez votre entreprise</span>{" "}
+          {/* TODO : translate this. */}
           <CompanyCardSelector />
         </AntLayout.Content>
       </AntLayout>

@@ -139,6 +139,7 @@ function ProductsModal(props: ProductsModalProps) {
 
   function updateProduct(values) {
     // TODO une seule mutation
+    // TODO query pour supprimer un produit d'une cat via la modal
     if (values.category !== props.updateProduct.category) {
       updateProductCompanyCategory({
         variables: {

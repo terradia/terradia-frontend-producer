@@ -12,7 +12,7 @@ import { InMemoryCache } from "apollo-cache-inmemory";
 import i18n from "./i18n";
 
 const httpLink = createUploadLink({
-  //uri: "https://api.terradia.eu/graphql",
+  // uri: "https://api.terradia.eu/graphql",
   uri: "http://localhost:8000/graphql",
   fetch: fetch,
 });

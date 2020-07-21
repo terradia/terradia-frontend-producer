@@ -24,7 +24,7 @@ const CompanyCard = ({
   id,
   selected = false,
   loading = false,
-  name = "Enregistrer une entreprise",
+  name = "Enregistrer une entreprise" /* TODO : translate this. */,
   logo,
   onClick,
   create,

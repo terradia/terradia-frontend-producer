@@ -15,6 +15,7 @@ import { useTranslation } from "react-i18next";
 declare interface SidebarCompanyProps {
   onClickedLink: (href) => void;
   currentPage: string;
+  collapsed?: boolean;
 }
 
 const SidebarCompany = (props: SidebarCompanyProps) => {
@@ -24,6 +25,7 @@ const SidebarCompany = (props: SidebarCompanyProps) => {
       <Menu
         defaultSelectedKeys={[props.currentPage]}
         mode={"inline"}
+        inlineCollapsed={true}
         style={{
           width: "100%",
           display: "flex",
@@ -39,6 +41,7 @@ const SidebarCompany = (props: SidebarCompanyProps) => {
           link={"/home"}
           label={t("Menu.home")}
           onClick={props.onClickedLink}
+          collapsed={props.collapsed}
           selected={props.currentPage === "/home"}
           icon={<HomeOutlined />}
         />
@@ -47,6 +50,7 @@ const SidebarCompany = (props: SidebarCompanyProps) => {
           link={"/products"}
           label={t("Menu.products")}
           onClick={props.onClickedLink}
+          collapsed={props.collapsed}
           selected={props.currentPage === "/products"}
           icon={<ShoppingCartOutlined />}
         />
@@ -55,6 +59,7 @@ const SidebarCompany = (props: SidebarCompanyProps) => {
           link={"/statistics"}
           label={t("Menu.stats")}
           onClick={props.onClickedLink}
+          collapsed={props.collapsed}
           selected={props.currentPage === "/statistics"}
           icon={<PieChartOutlined />}
         />
@@ -63,6 +68,7 @@ const SidebarCompany = (props: SidebarCompanyProps) => {
           link={"/staff"}
           label={t("Menu.employees")}
           onClick={props.onClickedLink}
+          collapsed={props.collapsed}
           selected={props.currentPage === "/staff"}
           icon={<TeamOutlined />}
         />
@@ -71,6 +77,7 @@ const SidebarCompany = (props: SidebarCompanyProps) => {
           link={"/files"}
           label={t("Menu.gallery")}
           onClick={props.onClickedLink}
+          collapsed={props.collapsed}
           selected={props.currentPage === "/files"}
           icon={<FileImageOutlined />}
         />
@@ -79,6 +86,7 @@ const SidebarCompany = (props: SidebarCompanyProps) => {
           link={"/company"}
           label={t("Menu.company")}
           onClick={props.onClickedLink}
+          collapsed={props.collapsed}
           selected={props.currentPage === "/company"}
           icon={<EyeOutlined />}
         />
@@ -93,10 +101,10 @@ const SidebarCompany = (props: SidebarCompanyProps) => {
           justifyContent: "flex-start",
           alignContent: "space-around",
           alignItems: "center",
-          paddingLeft: 24,
+          padding: "1.5em",
         }}
       >
-        <Logout key={"logout"} />
+        <Logout key={"logout"} collapsed={props.collapsed} />
       </div>
     </>
   );

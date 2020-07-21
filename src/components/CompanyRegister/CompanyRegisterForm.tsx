@@ -9,7 +9,7 @@ import LoginForm from "../Authentication/Login/LoginForm";
 import { useApolloClient, useMutation } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
 import { LeftOutlined } from "@ant-design/icons";
-import { AddCompanyImageData } from "../Files/ImageUploadModal";
+import { CompanyImageData } from "../Files/ImageUploadModal";
 import { UploadChangeParam } from "antd/lib/upload";
 import { Redirect } from "react-router";
 import Logout from "../Authentication/Logout/Logout";
@@ -49,13 +49,13 @@ const CompanyRegisterForm = () => {
 
   const onUpload = (
     file: UploadChangeParam,
-    updateFile: AddCompanyImageData,
+    updateFile: CompanyImageData,
     type: "logo" | "cover"
   ) => {
     if (type === "logo") {
-      setLogoId(updateFile.addCompanyImage.id);
+      setLogoId(updateFile.id);
     } else if (type === "cover") {
-      setCoverId(updateFile.addCompanyImage.id);
+      setCoverId(updateFile.id);
     }
   };
 
@@ -66,18 +66,22 @@ const CompanyRegisterForm = () => {
   const [steps, setSteps] = useState([
     user
       ? {
+          /* TODO : translate this. */
           title: "Se connecter",
           content: <LoginForm onLogin={onAuth} />,
         }
       : {
+          /* TODO : translate this. */
           title: "S'enregistrer",
           content: <RegisterForm onRegister={onAuth} />,
         },
     {
+      /* TODO : translate this. */
       title: "Création de l'entreprise",
       content: <AdministrativeInfoForm />,
     },
     {
+      /* TODO : translate this. */
       title: "Information complémentaires",
       content: <GeneralInfoForm onUpload={onUpload} />,
     },

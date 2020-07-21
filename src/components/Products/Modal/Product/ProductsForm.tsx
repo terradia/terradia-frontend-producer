@@ -66,6 +66,11 @@ function ProductsForm(props: AddProductsFormProps) {
         ? props.updateProduct.unit.id
         : "null"
       : undefined,
+    cover: props.updateProduct
+      ? props.updateProduct.cover !== null
+        ? props.updateProduct.cover.id
+        : null
+      : undefined,
   };
 
   useEffect(() => {
@@ -199,6 +204,9 @@ function ProductsForm(props: AddProductsFormProps) {
                     fileList={fileList}
                     onRemove={() => {
                       setFileList(null);
+                      form.setFieldsValue({
+                        cover: null,
+                      });
                     }}
                   />
                 )}

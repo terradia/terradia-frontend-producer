@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Card, Divider, Empty, Input, Modal } from "antd";
-import CompanyImage from "../../interfaces/Files/CompanyImage";
+import { CompanyImage } from "../../interfaces/CompanyImage";
 
 interface Props {
   visible?: boolean;
@@ -14,6 +14,7 @@ const ImageViewModal: React.FC<Props> = ({
   companyImage,
   onClickClose,
   onImageUpdate,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ...props
 }: Props) => {
   const originalValue = companyImage.name
@@ -28,7 +29,7 @@ const ImageViewModal: React.FC<Props> = ({
 
   const footer = [
     <Button key="close" onClick={() => handleClose()}>
-      Fermer
+      Fermer {/* TODO : translate this */}
     </Button>,
   ];
 
@@ -42,7 +43,7 @@ const ImageViewModal: React.FC<Props> = ({
           onImageUpdate(companyImageName);
         }}
       >
-        Enregistrer & Fermer
+        Enregistrer & Fermer {/* TODO : translate this */}
       </Button>
     );
   }
@@ -62,7 +63,7 @@ const ImageViewModal: React.FC<Props> = ({
           cover={
             <img
               alt={companyImage.filename}
-              src={`https://terradia-bucket-assets.s3.eu-west-3.amazonaws.com/${companyImage.filename}`}
+              src={`https://media.terradia.eu/${companyImage.filename}`}
             />
           }
           bodyStyle={{ height: 0, padding: 0 }}

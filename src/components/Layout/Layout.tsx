@@ -3,9 +3,10 @@ import { Layout as AntLayout } from "antd";
 import Header from "./Header";
 import Sidebar from "./Sidebar/Sidebar";
 import "../../assets/Style/Layout/layout.less";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import Breakpoint, { sm } from "../Context/Breakpoint";
 import { Redirect } from "react-router";
+import { useEffect } from "react";
 
 const { Content, Sider } = AntLayout;
 
@@ -17,6 +18,15 @@ type LayoutProps = {
 const Layout = (props: LayoutProps) => {
   const breakpoint = useContext(Breakpoint);
 
+  const [collapsed, setCollapsed] = useState(false);
+  const toggle = () => setCollapsed(!collapsed);
+
+  const isMobile = window.innerWidth < 1024;
+  // this hook is only run one time (at construction) because of the second parameter
+  useEffect(() => {
+    setCollapsed(isMobile);
+  }, [isMobile]);
+
   if (
     localStorage.getItem("selectedCompany") === null ||
     localStorage.getItem("rememberCompany") === null
@@ -25,10 +35,18 @@ const Layout = (props: LayoutProps) => {
   }
   return (
     <AntLayout style={{ background: "white" }}>
-      <Header />
+      <Header
+        isMobile={isMobile}
+        onClickOnBurger={toggle}
+        collapsed={collapsed}
+      />
       <AntLayout hasSider>
         <Sider
-          width={"250px"}
+          width={isMobile ? "100%" : "250px"}
+          trigger={isMobile === true ? null : undefined}
+          collapsible={true}
+          collapsed={collapsed}
+          onCollapse={toggle}
           theme={"light"}
           breakpoint={"md"}
           collapsedWidth={breakpoint < sm ? 0 : 80}
@@ -40,7 +58,11 @@ const Layout = (props: LayoutProps) => {
             left: 0,
           }}
         >
-          <Sidebar />
+          <Sidebar
+            isMobile={isMobile}
+            onClickOnElement={toggle}
+            collapsed={collapsed}
+          />
         </Sider>
         <Content
           style={{
