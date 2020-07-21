@@ -12,7 +12,7 @@ export interface CompanyOpeningDay {
   hours: [CompanyOpeningDayHours];
 }
 
-export default interface Company {
+export interface Company {
   id: string;
   name: string;
   description: string;
@@ -23,4 +23,4 @@ export default interface Company {
   cover: CompanyImage;
   address: string;
   openingDays: [CompanyOpeningDay];
-};;;;;;;;;;
+}
