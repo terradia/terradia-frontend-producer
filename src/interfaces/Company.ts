@@ -18,7 +18,7 @@ export default interface Company {
   description: string;
   email: string;
   phone: string;
-  siren;
+  siren: string;
   logo: CompanyImage;
   cover: CompanyImage;
   address: string;

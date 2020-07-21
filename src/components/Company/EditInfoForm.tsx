@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Form, Input, Upload } from "antd";
-import { Info } from "./InfoCard";
+import { Info } from "../CompanyInfo/InfoCard";
 import EditOfficeHour from "./EditOfficeHour";
 import ImageSelectorButton from "../Gallery/ImageSelectorButton";
 import { UploadChangeParam, UploadFile } from "antd/lib/upload/interface";
@@ -76,8 +76,7 @@ const EditInfoForm = (props: EditInfoFormProps) => {
     imageFile.fileList[0].percent = 100;
     imageFile.fileList[0].status = "done";
     imageFile.fileList[0].url =
-      "https://terradia-bucket-assets.s3.eu-west-3.amazonaws.com/" +
-      uploadedImage.filename;
+      "https://media.terradia.eu/" + uploadedImage.filename;
     if (isLogo) {
       setCurrentLogo(imageFile.fileList);
       updateCompanyMutation({
@@ -107,11 +106,9 @@ const EditInfoForm = (props: EditInfoFormProps) => {
 
   const info = props.infos.map((info) => (
     <div
+      className={"hours-container"}
       key={info.label}
       style={{
-        display: "flex",
-        justifyContent: "flex-start",
-        alignItems: "center",
         marginBottom: "16px",
       }}
     >

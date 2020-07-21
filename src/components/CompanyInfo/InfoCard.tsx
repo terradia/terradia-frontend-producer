@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Avatar, Card, TimePicker } from "antd";
 import EditButton from "../Ui/EditButton";
 import SubmitButton from "../Ui/SubmitButton";
-import EditInfoForm from "./EditInfoForm";
+import EditInfoForm from "../Company/EditInfoForm";
 import { Moment } from "moment";
 import "../../assets/Style/CompanyPage/InfoCard.less";
 import { loader } from "graphql.macro";

@@ -11,8 +11,8 @@ import ApolloClient from "apollo-client";
 import { InMemoryCache } from "apollo-cache-inmemory";
 
 const httpLink = createUploadLink({
-  uri: "https://api.terradia.eu/graphql",
-  // uri: "http://localhost:8000/graphql",
+  // uri: "https://api.terradia.eu/graphql",
+  uri: "http://localhost:8000/graphql",
   fetch: fetch,
 });
 

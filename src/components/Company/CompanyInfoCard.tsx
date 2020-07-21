@@ -40,7 +40,17 @@ const CompanyInfoCard: React.FC<Props> = ({
     refetch && refetch();
   };
 
-  console.log(company);
+  const handleFieldValidation = async (key, value) => {
+    await updateCompanyMutation({
+      variables: {
+        companyId: localStorage.getItem("selectedCompany"),
+        newValues: { [key]: value },
+      },
+    });
+    refetch && refetch();
+    // TODO : if it's the mail : say there is a validating mail that was sent
+    // TODO : notify the user that the field was correctly updated.
+  };
 
   return (
     <div className={"card"}>
@@ -96,18 +106,38 @@ const CompanyInfoCard: React.FC<Props> = ({
             width: "100%",
             padding: 0,
           }}
-          value={
-            "Ceci est une description d'entreprise en dur pour faire un test et voir si visuellement ce n'est pas trop moche. Ce texte et long et ne sert a rien m'ai j'imagine que c'est mieux qu'un simple Lorem Ispum"
-          }
+          name={"description"}
+          value={company.description}
           label={"Description"}
           type={"description"}
+          onValidate={handleFieldValidation}
         />
         <Divider />
-        <h2>Informations générales</h2>
-        <Field value={company.address} label={"Adresse postale"} />
-        {/* TODO : translate this. */}
-        <Field value={company.email} label={"Adresse e-mail"} />
-        <Field value={company.phone} label={"Numéro de téléphone"} />
+        <h2>Informations générales</h2> {/* TODO : translate this. */}
+        <Field
+          value={company.siren}
+          name={"siren"}
+          label={"SIREN"}
+          editable={false}
+        />
+        <Field
+          value={company.address}
+          name={"address"}
+          label={"Adresse postale"}
+          onValidate={handleFieldValidation}
+        />
+        <Field
+          value={company.email}
+          name={"email"}
+          label={"Adresse e-mail"}
+          onValidate={handleFieldValidation}
+        />
+        <Field
+          value={company.phone}
+          name={"phone"}
+          label={"Numéro de téléphone"}
+          onValidate={handleFieldValidation}
+        />
       </div>
     </div>
   );

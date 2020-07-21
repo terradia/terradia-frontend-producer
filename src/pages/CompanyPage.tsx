@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
-import InfoCard, { Info } from "../components/CompanyInfo/InfoCard";
-import Title from "../components/Ui/Title";
+import { Info } from "../components/CompanyInfo/InfoCard";
 import moment from "moment";
-import Button from "../components/Ui/Button";
 import CompanyInfoCard from "../components/Company/CompanyInfoCard";
 import Company from "../interfaces/Company";
-import { LoadingOutlined } from "@ant-design/icons/lib";
-import TerradiaLoader from '../components/TerradiaLoader';
+import TerradiaLoader from "../components/TerradiaLoader";
+import { Divider } from "antd";
+import CompanyHoursCard from "../components/Company/CompanyHoursCard";
+import CompanyTagsCard from "../components/Company/CompanyTagsCard";
 
 declare interface CompanyData {
   getCompany: Company;
@@ -89,6 +89,14 @@ const CompanyPage = () => {
         refetch={refetch}
         loading={loading}
       />
+      <Divider className={"invisible-divider padding-size"} />
+      <CompanyHoursCard
+        infos={officeHours}
+        loading={loading}
+        refetch={refetch}
+      />
+      <Divider className={"invisible-divider padding-size"} />
+      <CompanyTagsCard company={data.getCompany} />
       {/*<Title*/}
       {/*  title={!loading && data && data.getCompany ? data.getCompany.name : ""}*/}
       {/*/>*/}
@@ -174,12 +182,6 @@ const CompanyPage = () => {
       {/*      { label: "FRÉQUENCE: ", text: "bihebdomadaire" },*/}
       {/*      { label: "LIVRAISON VOUS-MEME: ", text: "oui" },*/}
       {/*    ]}*/}
-      {/*    loading={loading}*/}
-      {/*    refetch={refetch}*/}
-      {/*  />*/}
-      {/*  <InfoCard*/}
-      {/*    title={"HORAIRE D'OUVERTURE"}*/}
-      {/*    infos={officeHours}*/}
       {/*    loading={loading}*/}
       {/*    refetch={refetch}*/}
       {/*  />*/}

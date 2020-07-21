@@ -5,9 +5,8 @@ import ImagesUploadButton from "../components/Files/ImagesUploadButton";
 import CompanyImage from "../interfaces/CompanyImage";
 import ImageCard from "../components/Files/ImageCard";
 import { useQuery } from "@apollo/react-hooks";
-import { LoadingOutlined } from "@ant-design/icons/lib";
 import { loader as graphqlLoader } from "graphql.macro";
-import TerradiaLoader from '../components/TerradiaLoader';
+import TerradiaLoader from "../components/TerradiaLoader";
 
 const queryCompanyImages = graphqlLoader(
   "../graphql/query/getCompanyImages.graphql"

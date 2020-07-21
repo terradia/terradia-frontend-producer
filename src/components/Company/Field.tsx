@@ -7,21 +7,25 @@ import TextArea from "antd/lib/input/TextArea";
 interface Props {
   value: string;
   label?: string;
+  name: string;
   style?: CSSProperties;
   editable?: boolean;
   defaultEditMode?: boolean;
   type?: "phone" | "address" | "text" | "description";
-  onStartEdit?: (value: any) => void;
-  onValidate?: (value: any) => void;
+  onStartEdit?: (key: string, value: any) => void;
+  onValidate?: (key: string, value: any) => void;
 }
 
 const Field: React.FC<Props> = ({
   value,
   label,
+  name,
   editable = true,
   defaultEditMode,
   style,
   type = "text",
+  onStartEdit,
+  onValidate,
   ...props
 }) => {
   const [editMode, setEditMode] = useState(
@@ -31,10 +35,16 @@ const Field: React.FC<Props> = ({
 
   const handleClickEditBtn = () => {
     setEditMode(!editMode);
+    if (editMode === true) {
+      onValidate && onValidate(name, inputValue);
+    } else {
+      onStartEdit && onStartEdit(name, inputValue);
+    }
   };
 
-  const handleChange = (data) => {
-    console.log(data);
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setValue(value);
   };
 
   let inputComponent;
@@ -44,6 +54,7 @@ const Field: React.FC<Props> = ({
         <TextArea
           key={"1"}
           value={inputValue}
+          name={name}
           onChange={handleChange}
           rows={4}
         />
@@ -54,6 +65,7 @@ const Field: React.FC<Props> = ({
       inputComponent = (
         <Input
           key={"1"}
+          name={name}
           value={inputValue}
           onChange={handleChange}
           type={"text"}
