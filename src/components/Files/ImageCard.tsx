@@ -33,6 +33,7 @@ const ImageCard: React.FC<Props> = ({
   onCloseRemoveModal,
   onRemove,
   onUpdate,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ...props
 }: Props) => {
   const [isViewModalVisible, setViewModalVisible] = useState(false);
