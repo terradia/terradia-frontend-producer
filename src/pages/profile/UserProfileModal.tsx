@@ -5,6 +5,7 @@ import { useMutation } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
 import Button from "../../components/Ui/Button";
 import { User } from "../../interfaces";
+import { useTranslation } from "react-i18next";
 
 const getUserInformations = graphqlLoader(
   "../../graphql/query/getUser.graphql"
@@ -46,13 +47,15 @@ const UserProfileModal = ({
     onValidate && onValidate();
   };
 
+  const { t } = useTranslation("common");
+
   if (user !== undefined) {
     return (
       <Modal
         visible={visible}
         onCancel={handleClose}
         className={"profile-card"}
-        title={"Éditer le profil"}
+        title={t("ProfilePage.editProfileModal.name")}
         footer={[
           <div key={"footer"} className={"line"}>
             <Form.Item key={"validate"}>
@@ -61,7 +64,7 @@ const UserProfileModal = ({
                 htmlType="submit"
                 onClick={handleValidation}
               >
-                Valider {/* TODO : Translate this. */}
+                {t("ProfilePage.editProfileModal.validate")}
               </Button>
             </Form.Item>
             <Button
@@ -69,7 +72,7 @@ const UserProfileModal = ({
               onClick={handleClose}
               className={"close-button"}
             >
-              Fermer {/* TODO : Translate this. */}
+              {t("ProfilePage.editProfileModal.close")}
             </Button>
           </div>,
         ]}
@@ -99,7 +102,7 @@ const UserProfileModal = ({
           }}
         >
           <Form.Item>
-            <div className={"label"}>NOM</div>
+            <div className={"label"}>{t("ProfilePage.editProfileModal.firstName")}</div>
             <Form.Item
               name={"lastName"}
               rules={[
@@ -117,7 +120,7 @@ const UserProfileModal = ({
             </Form.Item>
           </Form.Item>
           <Form.Item>
-            <div className={"label"}>PRENOM</div>
+            <div className={"label"}>{t("ProfilePage.editProfileModal.lastName")}</div>
             <Form.Item
               name={"firstName"}
               rules={[
@@ -135,7 +138,7 @@ const UserProfileModal = ({
             </Form.Item>
           </Form.Item>
           <Form.Item>
-            <div className={"label"}>COURRIEL</div>
+            <div className={"label"}>{t("ProfilePage.editProfileModal.email")}</div>
             <Form.Item
               name={"email"}
               rules={[
@@ -154,7 +157,7 @@ const UserProfileModal = ({
             </Form.Item>
           </Form.Item>
           <Form.Item>
-            <div className={"label"}>NUMÉRO DE TELEPHONE</div>
+            <div className={"label"}>{t("ProfilePage.editProfileModal.phone")}</div>
             <Form.Item
               name={"phone"}
               rules={[

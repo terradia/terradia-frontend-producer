@@ -164,14 +164,28 @@
   },
   "ProfilePage": {
     "buttons": {
-      "edit": "Edit"
+      "edit": "Edit my account",
+      "delete": "Delete my account"
     },
     "labels": {
       "lastName": "Lastname",
       "firstName": "Firstname",
       "email": "Email",
       "phone": "Phone number",
-      "image": "Click on image for edit"
+      "image": "Click on image for edit",
+      "tooltip": {
+        "addImage": "Click here for add an image",
+        "editImage": "Click here for update image"
+      }
+    },
+    "editProfileModal": {
+      "name": "Edit profile",
+      "validate": "Update",
+      "close": "Close",
+      "lastName": "LASTNAME",
+      "firstName": "FIRSTNAME",
+      "email": "EMAIL",
+      "phone": "PHONE NUMBER"
     }
   },
   "ImageSelectorButton": {
