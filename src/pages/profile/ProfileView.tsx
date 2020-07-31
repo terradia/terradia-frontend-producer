@@ -14,6 +14,7 @@ import { RcFile } from "antd/lib/upload/interface";
 import "../../assets/Style/Profil/profileView.less";
 import Button from "../../components/Ui/Button";
 import UserProfileModal from "./UserProfileModal";
+import { useTranslation } from "react-i18next";
 
 // QUERIES
 const getUserData = graphqlLoader("../../graphql/query/getUser.graphql");
@@ -93,6 +94,8 @@ const ProfileView: React.FC = () => {
     }
   };
 
+  const { t } = useTranslation("common");
+
   return (
     <div>
       <div className={"card user-profile-data-card"}>
@@ -113,8 +116,8 @@ const ProfileView: React.FC = () => {
               <Tooltip
                 title={
                   imageUrl === null
-                    ? "Cliquer ici pour ajouter une image"
-                    : "Cliquer ici pour modifier l'image" // TODO : translate this.
+                    ? t("ProfilePage.labels.tooltip.addImage")
+                    : t("ProfilePage.labels.tooltip.editImage")
                 }
                 arrowPointAtCenter={true}
                 placement={"top"}
@@ -141,8 +144,8 @@ const ProfileView: React.FC = () => {
               <Tooltip
                 title={
                   imageUrl === null
-                    ? "Cliquer ici pour ajouter une image"
-                    : "Cliquer ici pour modifier l'image" // TODO : translate this.
+                    ? t("ProfilePage.labels.tooltip.addImage")
+                    : t("ProfilePage.labels.tooltip.editImage")
                 }
                 arrowPointAtCenter={true}
                 placement={"top"}
@@ -156,7 +159,7 @@ const ProfileView: React.FC = () => {
           <div className={"second-element"}>
             <div className={"data-container"}>
               <div className={"data-label"}>
-                {"Nom" /* TODO : translate this. */}
+                {t("ProfilePage.labels.lastName")}
               </div>
               <div className={"data"}>
                 {userData.getUser.firstName +
@@ -166,13 +169,13 @@ const ProfileView: React.FC = () => {
             </div>
             <div className={"data-container"}>
               <div className={"data-label"}>
-                {"E-mail" /* TODO : translate this. */}
+                {t("ProfilePage.labels.email")}
               </div>
               <div className={"data"}>{userData.getUser.email}</div>
             </div>
             <div className={"data-container"}>
               <div className={"data-label"}>
-                {"Numéro de téléphone" /* TODO : translate this. */}
+                {t("ProfilePage.labels.phone")}
               </div>
               <div className={"data"}>{userData.getUser.phone}</div>
             </div>
@@ -184,14 +187,14 @@ const ProfileView: React.FC = () => {
             icon={<EditOutlined />}
             onClick={() => setModalVisible(!modalVisible)}
           >
-            {"Modifier mon compte" /* TODO : Translate this */}
+            {t("ProfilePage.buttons.edit")}
           </Button>
           <Button
             className={"delete-button"}
             icon={<DeleteOutlined />}
             danger={true}
           >
-            {"Supprimer mon compte" /* TODO : Translate this */}
+            {t("ProfilePage.buttons.delete")}
           </Button>
         </div>
         <UserProfileModal

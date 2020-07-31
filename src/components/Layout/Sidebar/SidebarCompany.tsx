@@ -9,8 +9,8 @@ import {
   ShoppingCartOutlined,
   TeamOutlined,
 } from "@ant-design/icons/lib";
-
 import Logout from "../../Authentication/Logout/Logout";
+import { useTranslation } from "react-i18next";
 
 declare interface SidebarCompanyProps {
   onClickedLink: (href) => void;
@@ -19,6 +19,7 @@ declare interface SidebarCompanyProps {
 }
 
 const SidebarCompany = (props: SidebarCompanyProps) => {
+  const { t } = useTranslation("common");
   return (
     <>
       <Menu
@@ -38,7 +39,7 @@ const SidebarCompany = (props: SidebarCompanyProps) => {
         <PageButton
           key={"/home"}
           link={"/home"}
-          label={"Accueil"}
+          label={t("Menu.home")}
           onClick={props.onClickedLink}
           collapsed={props.collapsed}
           selected={props.currentPage === "/home"}
@@ -47,7 +48,7 @@ const SidebarCompany = (props: SidebarCompanyProps) => {
         <PageButton
           key={"/products"}
           link={"/products"}
-          label={"Produits"}
+          label={t("Menu.products")}
           onClick={props.onClickedLink}
           collapsed={props.collapsed}
           selected={props.currentPage === "/products"}
@@ -56,7 +57,7 @@ const SidebarCompany = (props: SidebarCompanyProps) => {
         <PageButton
           key={"/statistics"}
           link={"/statistics"}
-          label={"Statistiques"}
+          label={t("Menu.stats")}
           onClick={props.onClickedLink}
           collapsed={props.collapsed}
           selected={props.currentPage === "/statistics"}
@@ -65,7 +66,7 @@ const SidebarCompany = (props: SidebarCompanyProps) => {
         <PageButton
           key={"/staff"}
           link={"/staff"}
-          label={"Employés"}
+          label={t("Menu.employees")}
           onClick={props.onClickedLink}
           collapsed={props.collapsed}
           selected={props.currentPage === "/staff"}
@@ -74,7 +75,7 @@ const SidebarCompany = (props: SidebarCompanyProps) => {
         <PageButton
           key={"/files"}
           link={"/files"}
-          label={"Galerie d'images"}
+          label={t("Menu.gallery")}
           onClick={props.onClickedLink}
           collapsed={props.collapsed}
           selected={props.currentPage === "/files"}
@@ -83,7 +84,7 @@ const SidebarCompany = (props: SidebarCompanyProps) => {
         <PageButton
           key={"/company"}
           link={"/company"}
-          label={"Entreprise"}
+          label={t("Menu.company")}
           onClick={props.onClickedLink}
           collapsed={props.collapsed}
           selected={props.currentPage === "/company"}

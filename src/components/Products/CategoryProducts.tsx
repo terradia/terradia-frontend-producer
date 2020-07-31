@@ -5,6 +5,7 @@ import { ReactComponent as CarretIcon } from "../../assets/Icon/ui/caret.svg";
 import { ReactComponent as BookmarkIcon } from "../../assets/Icon/ui/bookmark.svg";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons/lib";
 import { Popconfirm } from "antd";
+import { useTranslation } from "react-i18next";
 
 import { loader as graphqlLoader } from "graphql.macro";
 import "../../assets/Style/Products/ProductsPage.less";
@@ -111,6 +112,8 @@ function CategoryProducts(props: CategoryProductsProps) {
     }
   }
 
+  const { t } = useTranslation("common");
+
   return (
     <div
       className={`category ${collapsed === true ? "collapsed-category" : ""}`}
@@ -175,7 +178,7 @@ function CategoryProducts(props: CategoryProductsProps) {
                   {props.cat.id !== `nonCat${companyId}` && (
                     <Popconfirm
                       placement="top"
-                      title={"Voulez-vous vraiment supprimer cette catégorie?"}
+                      title={t("ProductsPage.deleteCategory.title")}
                       onConfirm={(event) => {
                         deleteCategory();
                         event.stopPropagation();
@@ -183,8 +186,8 @@ function CategoryProducts(props: CategoryProductsProps) {
                       onCancel={(event) => {
                         event.stopPropagation();
                       }}
-                      okText="Oui"
-                      cancelText="Non"
+                      okText={t("ProductsPage.deleteCategory.yes")}
+                      cancelText={t("ProductsPage.deleteCategory.no")}
                     >
                       <DeleteOutlined
                         className={"category-icon"}
@@ -252,9 +255,7 @@ function CategoryProducts(props: CategoryProductsProps) {
                       }}
                     >
                       <BookmarkIcon style={{ height: "100px" }} />
-                      <p>
-                        {"Aucun produit n'est disponible pour cette catégorie"}
-                      </p>
+                      <p>{t("ProductsPage.noProductInCategory")}</p>
                     </div>
                     {provided.placeholder}
                   </div>

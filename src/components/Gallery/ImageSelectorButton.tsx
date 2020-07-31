@@ -7,6 +7,7 @@ import { UploadChangeParam } from "antd/lib/upload";
 import { CompanyImageData } from "../Files/ImageUploadModal";
 import { SizeType } from "antd/lib/config-provider/SizeContext";
 import { ButtonType } from "antd/es/button";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   onCloseModal?: () => void; // called when the modal is closed
@@ -52,6 +53,8 @@ const ImageSelectorButton: React.FC<Props> = ({
     onOpenModal && onOpenModal();
   };
 
+  const { t } = useTranslation("common");
+
   return (
     <>
       <Button
@@ -59,8 +62,8 @@ const ImageSelectorButton: React.FC<Props> = ({
           customText !== undefined
             ? customText
             : onlyOneImageByOne === true
-            ? "Séléctionner une image"
-            : "Séléctionner des images"
+            ? `${t("ImageSelectorButton.labels.singular")}`
+            : `${t("ImageSelectorButton.labels.plural")}`
         }
         icon={customIcon ? customIcon : <FileImageOutlined />}
         onClick={handleOpen}

@@ -46,9 +46,11 @@ const client = new ApolloClient({
 });
 
 ReactDOM.render(
-  <ApolloProvider client={client}>
-    <App />
-  </ApolloProvider>,
+    //<Suspense fallback="Loading...">
+      <ApolloProvider client={client}>
+        <App />
+      </ApolloProvider>,
+    //</Suspense>,
   document.getElementById("root")
 );
 

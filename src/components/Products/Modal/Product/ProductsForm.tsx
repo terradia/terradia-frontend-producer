@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Col, Form, Input, InputNumber, Row, Select, Upload } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import ImageSelectorButton from "../../../Gallery/ImageSelectorButton";
+import { useTranslation } from "react-i18next";
 
 interface AddProductsFormProps {
   setForm: (e) => void; // To pass the form to the modal
@@ -93,6 +94,8 @@ function ProductsForm(props: AddProductsFormProps) {
     }
   }, [form, props, props.units]);
 
+  const { t } = useTranslation("common");
+
   return (
     <Form
       layout={"vertical"}
@@ -105,20 +108,20 @@ function ProductsForm(props: AddProductsFormProps) {
         <Col xl={11} span={24}>
           <Form.Item
             name="name"
-            label="Nom du produit"
+            label={t("ProductsPage.createProductModal.productName")}
             rules={[{ required: true }]}
           >
             <Input />
           </Form.Item>
           <Form.Item
             name="category"
-            label="Catégorie du produit"
+            label={t("ProductsPage.createProductModal.productCategory")}
             rules={[{ required: true }]}
           >
             <Select
               showSearch
               style={{ width: "100%" }}
-              placeholder="Sélectionner une catégorie"
+              placeholder={t("ProductsPage.createProductModal.selectCategory")}
               optionFilterProp="children"
               filterOption={(input, option) =>
                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
@@ -127,7 +130,10 @@ function ProductsForm(props: AddProductsFormProps) {
               {props.categoryList}
             </Select>
           </Form.Item>
-          <Form.Item label={"Portion"} required={true}>
+          <Form.Item
+            label={t("ProductsPage.createProductModal.portion")}
+            required={true}
+          >
             <Input.Group compact>
               <Form.Item
                 name={"quantityUnit"}
@@ -135,7 +141,9 @@ function ProductsForm(props: AddProductsFormProps) {
                 rules={[
                   {
                     required: true,
-                    message: "La portion a vendre est requise",
+                    message: `${t(
+                      "ProductsPage.createProductModal.portionValidation.portion.errors"
+                    )}`,
                   },
                 ]}
               >
@@ -145,23 +153,39 @@ function ProductsForm(props: AddProductsFormProps) {
                   precision={0}
                   className={"input-text-right"}
                   style={{ width: "70%", height: "100%", textAlign: "right" }}
-                  placeholder="Quantité de portion"
+                  placeholder={t(
+                    "ProductsPage.createProductModal.portionValidation.portion.name"
+                  )}
                 />
               </Form.Item>
               <Form.Item
                 name={"unit"}
                 noStyle
                 rules={[
-                  { required: true, message: "L'unité du produit est requise" },
+                  {
+                    required: true,
+                    message: `${t(
+                      "ProductsPage.createProductModal.portionValidation.unity.errors"
+                    )}`,
+                  },
                 ]}
               >
-                <Select placeholder={"Unité"} style={{ width: "30%" }}>
+                <Select
+                  placeholder={t(
+                    "ProductsPage.createProductModal.portionValidation.unity.name"
+                  )}
+                  style={{ width: "30%" }}
+                >
                   {unitList}
                 </Select>
               </Form.Item>
             </Input.Group>
           </Form.Item>
-          <Form.Item name="price" label={"Prix"} rules={[{ required: true }]}>
+          <Form.Item
+            name="price"
+            label={t("ProductsPage.createProductModal.price")}
+            rules={[{ required: true }]}
+          >
             <InputNumber
               min={0}
               step={0.01}
@@ -178,12 +202,12 @@ function ProductsForm(props: AddProductsFormProps) {
         <Col xl={11} span={24}>
           <Form.Item
             name={"description"}
-            label={"Description"}
+            label={t("ProductsPage.createProductModal.desc")}
             rules={[{ required: true }]}
           >
             <TextArea rows={4} />
           </Form.Item>
-          <Form.Item label="Image du produit">
+          <Form.Item label={t("ProductsPage.createProductModal.image")}>
             <Form.Item name="cover" noStyle>
               <>
                 <ImageSelectorButton

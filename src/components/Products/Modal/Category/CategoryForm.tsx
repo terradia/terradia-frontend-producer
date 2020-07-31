@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Col, Form, Input, Row } from "antd";
+import { useTranslation } from "react-i18next";
 
 interface AddCategoryFormProps {
   setForm: any;
@@ -13,6 +14,8 @@ function CategoryForm(props: AddCategoryFormProps) {
   useEffect(() => {
     props.setForm(form);
   });
+
+  const { t } = useTranslation("common");
 
   return (
     <Form
@@ -30,20 +33,22 @@ function CategoryForm(props: AddCategoryFormProps) {
         <Col xl={2} span={4} />
         <Col xl={20} span={16}>
           <Form.Item
-            label={"Nom"}
+            label={t("ProductsPage.createCategoryModal.name")}
             name={"name"}
             rules={[
               {
                 required: true,
-                message: "Le nom de la catégorie est requis",
+                message: `${t("ProductsPage.createCategoryModal.errors.name")}`,
               },
               {
                 min: 2,
-                message: "Le nom de la catégorie nom est trop court",
+                message: `${t("ProductsPage.createCategoryModal.errors.min")}`,
               },
               {
                 whitespace: true,
-                message: "Le nom de la catégorie ne peut être vide",
+                message: `${t(
+                  "ProductsPage.createCategoryModal.errors.whitespace"
+                )}`,
               },
             ]}
           >
