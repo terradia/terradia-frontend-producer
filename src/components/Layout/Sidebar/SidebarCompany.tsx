@@ -19,8 +19,8 @@ declare interface SidebarCompanyProps {
 }
 
 const SidebarCompany = (props: SidebarCompanyProps) => {
-    const { t } = useTranslation("common");
-    return (
+  const { t } = useTranslation("common");
+  return (
     <>
       <Menu
         defaultSelectedKeys={[props.currentPage]}

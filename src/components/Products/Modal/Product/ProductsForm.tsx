@@ -130,7 +130,10 @@ function ProductsForm(props: AddProductsFormProps) {
               {props.categoryList}
             </Select>
           </Form.Item>
-          <Form.Item label={t("ProductsPage.createProductModal.portion")} required={true}>
+          <Form.Item
+            label={t("ProductsPage.createProductModal.portion")}
+            required={true}
+          >
             <Input.Group compact>
               <Form.Item
                 name={"quantityUnit"}
@@ -138,7 +141,9 @@ function ProductsForm(props: AddProductsFormProps) {
                 rules={[
                   {
                     required: true,
-                    message:  `${t("ProductsPage.createProductModal.portionValidation.portion.errors")}`,
+                    message: `${t(
+                      "ProductsPage.createProductModal.portionValidation.portion.errors"
+                    )}`,
                   },
                 ]}
               >
@@ -148,23 +153,39 @@ function ProductsForm(props: AddProductsFormProps) {
                   precision={0}
                   className={"input-text-right"}
                   style={{ width: "70%", height: "100%", textAlign: "right" }}
-                  placeholder={t("ProductsPage.createProductModal.portionValidation.portion.name")}
+                  placeholder={t(
+                    "ProductsPage.createProductModal.portionValidation.portion.name"
+                  )}
                 />
               </Form.Item>
               <Form.Item
                 name={"unit"}
                 noStyle
                 rules={[
-                  { required: true, message: `${t("ProductsPage.createProductModal.portionValidation.unity.errors")}` },
+                  {
+                    required: true,
+                    message: `${t(
+                      "ProductsPage.createProductModal.portionValidation.unity.errors"
+                    )}`,
+                  },
                 ]}
               >
-                <Select placeholder={t("ProductsPage.createProductModal.portionValidation.unity.name")} style={{ width: "30%" }}>
+                <Select
+                  placeholder={t(
+                    "ProductsPage.createProductModal.portionValidation.unity.name"
+                  )}
+                  style={{ width: "30%" }}
+                >
                   {unitList}
                 </Select>
               </Form.Item>
             </Input.Group>
           </Form.Item>
-          <Form.Item name="price" label={t("ProductsPage.createProductModal.price")} rules={[{ required: true }]}>
+          <Form.Item
+            name="price"
+            label={t("ProductsPage.createProductModal.price")}
+            rules={[{ required: true }]}
+          >
             <InputNumber
               min={0}
               step={0.01}

@@ -7,7 +7,6 @@ import { DeleteOutlined, EditOutlined } from "@ant-design/icons/lib";
 import { Popconfirm } from "antd";
 import { useTranslation } from "react-i18next";
 
-
 import { loader as graphqlLoader } from "graphql.macro";
 import "../../assets/Style/Products/ProductsPage.less";
 import { useMutation } from "@apollo/react-hooks";
@@ -256,9 +255,7 @@ function CategoryProducts(props: CategoryProductsProps) {
                       }}
                     >
                       <BookmarkIcon style={{ height: "100px" }} />
-                      <p>
-                        {t("ProductsPage.noProductInCategory")}
-                      </p>
+                      <p>{t("ProductsPage.noProductInCategory")}</p>
                     </div>
                     {provided.placeholder}
                   </div>

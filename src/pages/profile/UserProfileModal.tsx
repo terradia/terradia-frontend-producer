@@ -102,7 +102,9 @@ const UserProfileModal = ({
           }}
         >
           <Form.Item>
-            <div className={"label"}>{t("ProfilePage.editProfileModal.firstName")}</div>
+            <div className={"label"}>
+              {t("ProfilePage.editProfileModal.firstName")}
+            </div>
             <Form.Item
               name={"lastName"}
               rules={[
@@ -120,7 +122,9 @@ const UserProfileModal = ({
             </Form.Item>
           </Form.Item>
           <Form.Item>
-            <div className={"label"}>{t("ProfilePage.editProfileModal.lastName")}</div>
+            <div className={"label"}>
+              {t("ProfilePage.editProfileModal.lastName")}
+            </div>
             <Form.Item
               name={"firstName"}
               rules={[
@@ -138,7 +142,9 @@ const UserProfileModal = ({
             </Form.Item>
           </Form.Item>
           <Form.Item>
-            <div className={"label"}>{t("ProfilePage.editProfileModal.email")}</div>
+            <div className={"label"}>
+              {t("ProfilePage.editProfileModal.email")}
+            </div>
             <Form.Item
               name={"email"}
               rules={[
@@ -157,7 +163,9 @@ const UserProfileModal = ({
             </Form.Item>
           </Form.Item>
           <Form.Item>
-            <div className={"label"}>{t("ProfilePage.editProfileModal.phone")}</div>
+            <div className={"label"}>
+              {t("ProfilePage.editProfileModal.phone")}
+            </div>
             <Form.Item
               name={"phone"}
               rules={[

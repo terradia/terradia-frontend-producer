@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "./components/Layout/Layout";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import Home from "./pages/Home";
@@ -72,7 +72,7 @@ const App = () => {
     return <LoadingFullPage />;
   // TODO add a loader in order to not display /Home (for 1 sec) when user isn't log
   return (
-      <UserContext.Provider value={data ? data.getUser : null}>
+    <UserContext.Provider value={data ? data.getUser : null}>
       <BrowserRouter>
         <Switch>
           <Route exact path={"/companyRegister"}>

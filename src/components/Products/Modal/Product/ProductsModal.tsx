@@ -198,7 +198,9 @@ function ProductsModal(props: ProductsModalProps) {
   return (
     <Modal
       title={
-        props.updateProduct ? t("ProductsPage.createProductModal.editModalName") : t("ProductsPage.createProductModal.modalName")
+        props.updateProduct
+          ? t("ProductsPage.createProductModal.editModalName")
+          : t("ProductsPage.createProductModal.modalName")
       }
       className={"modal-product"}
       visible={props.visible}
@@ -218,12 +220,18 @@ function ProductsModal(props: ProductsModalProps) {
               okText={t("ProductsPage.createProductModal.popUp.yes")}
               cancelText={t("ProductsPage.createProductModal.popUp.no")}
             >
-              <Button>{t("ProductsPage.createProductModal.buttons.delete")}</Button>
+              <Button>
+                {t("ProductsPage.createProductModal.buttons.delete")}
+              </Button>
             </Popconfirm>
           )}
-          <Button onClick={handleCancel}>{t("ProductsPage.createProductModal.buttons.cancel")}</Button>
+          <Button onClick={handleCancel}>
+            {t("ProductsPage.createProductModal.buttons.cancel")}
+          </Button>
           <Button onClick={handleOk} type={"primary"}>
-            {props.updateProduct ? t("ProductsPage.createProductModal.buttons.edit") : t("ProductsPage.createProductModal.buttons.create")}
+            {props.updateProduct
+              ? t("ProductsPage.createProductModal.buttons.edit")
+              : t("ProductsPage.createProductModal.buttons.create")}
           </Button>
         </div>
       }

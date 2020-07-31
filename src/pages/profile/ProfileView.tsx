@@ -116,8 +116,8 @@ const ProfileView: React.FC = () => {
               <Tooltip
                 title={
                   imageUrl === null
-                      ? t("ProfilePage.labels.tooltip.addImage")
-                      : t("ProfilePage.labels.tooltip.editImage")
+                    ? t("ProfilePage.labels.tooltip.addImage")
+                    : t("ProfilePage.labels.tooltip.editImage")
                 }
                 arrowPointAtCenter={true}
                 placement={"top"}
@@ -144,8 +144,8 @@ const ProfileView: React.FC = () => {
               <Tooltip
                 title={
                   imageUrl === null
-                      ? t("ProfilePage.labels.tooltip.addImage")
-                      : t("ProfilePage.labels.tooltip.editImage")
+                    ? t("ProfilePage.labels.tooltip.addImage")
+                    : t("ProfilePage.labels.tooltip.editImage")
                 }
                 arrowPointAtCenter={true}
                 placement={"top"}

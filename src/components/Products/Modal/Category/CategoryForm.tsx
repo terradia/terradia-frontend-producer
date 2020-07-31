@@ -15,9 +15,9 @@ function CategoryForm(props: AddCategoryFormProps) {
     props.setForm(form);
   });
 
-    const { t } = useTranslation("common");
+  const { t } = useTranslation("common");
 
-    return (
+  return (
     <Form
       layout={"vertical"}
       form={form}
@@ -46,7 +46,9 @@ function CategoryForm(props: AddCategoryFormProps) {
               },
               {
                 whitespace: true,
-                message: `${t("ProductsPage.createCategoryModal.errors.whitespace")}`,
+                message: `${t(
+                  "ProductsPage.createCategoryModal.errors.whitespace"
+                )}`,
               },
             ]}
           >
