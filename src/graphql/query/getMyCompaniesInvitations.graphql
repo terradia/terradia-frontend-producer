@@ -1,0 +1,15 @@
+query getMyCompaniesInvitations($status: String) {
+  getMyCompaniesInvitations(status: $status) {
+    id
+    fromUser {
+      firstName
+      lastName
+      email
+    }
+    status
+    company {
+      name
+    }
+    createdAt
+  }
+}
