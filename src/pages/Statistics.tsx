@@ -77,7 +77,7 @@ const Statistics = () => {
 
   const employeesNumber = () => {
     let employeesNb = 0;
-    dataCompany.getCompany.users.map(() => (employeesNb += 1));
+    if (dataCompany) dataCompany.getCompany.users.map(() => (employeesNb += 1));
     return employeesNb;
   };
 

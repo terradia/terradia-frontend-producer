@@ -1,50 +1,68 @@
 @import "../../../../src/index.less";
 
 .ant-menu-item {
-  height: 3.2em !important;
-  margin: 0 !important;
+  padding: 0 2em !important;
 }
 
-.button-container {
+.ant-dropdown-menu-item {
+  .ant-menu-item !important;
+}
+
+.logout-button-container {
   cursor: pointer;
-  width: 230px;
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
+  padding: 0 !important;
   .icon-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 20%;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 2.5em;
+    transition: color 0.2s;
     span {
-      font-size: 25px;
+      font-size: 1.6em;
       color: #bbb;
       margin: 0 !important;
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      transition: color 0.2s;
     }
   }
   .label-container {
     display: flex;
-    padding-left: 1em;
     justify-content: flex-start;
+    padding-left: @padding-md;
     color: #bbb;
     align-items: center;
-    width: 80%;
+    margin: 0 !important;
+    transition: color 0.2s;
   }
-  .selected {
-    color: @primary-color;
+  .icon-container.collapsed {
+    width: 100%;
     span {
-      color: @primary-color;
+      font-size: 1.6em;
     }
+  }
+  .label-container.collapsed {
+    width: 0;
+    padding-left: 0;
+    color: transparent;
   }
 }
 
-.button-container:hover {
+.logout-button-container:hover {
   .icon-container {
     span {
-      color: @primary-color;
+      color: @error-color;
     }
   }
   .label-container {
-    color: @primary-color;
+    color: @error-color;
+  }
+  .label-container.collapsed {
+    color: transparent;
   }
 }

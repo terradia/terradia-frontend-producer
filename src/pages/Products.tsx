@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { loader as graphqlLoader } from "graphql.macro";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 
@@ -11,6 +11,7 @@ import CategoryModal from "../components/Products/Modal/Category/CategoryModal";
 import "../assets/Style/Products/ProductsPage.less";
 import { DragDropContext } from "react-beautiful-dnd";
 import { PlusOutlined } from "@ant-design/icons/lib";
+import { useTranslation } from "react-i18next";
 
 const { Option } = Select;
 
@@ -46,6 +47,17 @@ const move = (source, destination, droppableSource, droppableDestination) => {
 
 const Products = () => {
   const companyId = localStorage.getItem("selectedCompany");
+  const collaspedCategory = JSON.parse(
+    localStorage.getItem("collapsedCategory")
+  );
+
+  useEffect(() => {
+    if (!collaspedCategory) {
+      localStorage.setItem("collapsedCategory", JSON.stringify([]));
+    }
+  }, [collaspedCategory]);
+
+  const { t } = useTranslation("common");
 
   const {
     loading: loadingCategories,
@@ -240,13 +252,13 @@ const Products = () => {
       <div className={"sub-header"}>
         <Button
           className={"button"}
-          text={"Créer une catégorie"}
+          text={t("ProductsPage.buttons.createCategory")}
           icon={<PlusOutlined />}
           onClick={() => setCategoryVisible(true)}
         />
         <Button
           className={"button"}
-          text={"Créer un produit"}
+          text={t("ProductsPage.buttons.createProduct")}
           icon={<PlusOutlined />}
           onClick={() => {
             setDefaultCategory(undefined);
@@ -275,7 +287,7 @@ const Products = () => {
                       dataCategories.getAllCompanyProductsCategories[
                         indexNullCat
                       ].id,
-                    name: "Produits non catégorisés",
+                    name: t("ProductsPage.uncategorizedProducts"),
                     products:
                       dataCategories.getAllCompanyProductsCategories[
                         indexNullCat

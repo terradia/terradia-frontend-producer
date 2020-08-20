@@ -1,0 +1,198 @@
+{
+  "Menu": {
+    "home": "Home",
+    "products": "Products",
+    "stats": "Statistics",
+    "employees": "Employees",
+    "gallery": "Image Gallery",
+    "company": "Company",
+    "disconnect": "Logout"
+  },
+  "ProfilMenu": {
+    "Labels": {
+      "yourCompanies": "Your companies",
+      "parameters": "Parameters"
+    },
+    "buttons": {
+      "profile": "Profile",
+      "disconnect": "Logout"
+    }
+  },
+  "CompanyPage": {
+    "genInformations": {
+      "categoryName": "Global informations",
+      "name": "Name",
+      "address": "Address",
+      "phone": "Phone num.",
+      "email": "Email",
+      "description": "Description",
+      "productType": "Product type",
+      "logo": "Company Logo",
+      "banner": "Company banner"
+    },
+    "adminInformations": {
+      "categoryName": "Administrative informations",
+      "siret": "Siret",
+      "rib": "IBAN / RIB",
+      "email": "Email",
+      "desc": "Description",
+      "marketPres": "Markets",
+      "frequency": "Frequency",
+      "selfDelivery": "Self delivery"
+    },
+    "schedule": {
+      "categoryName": "Opening time",
+      "days": {
+        "monday": "Monday",
+        "tuesday": "Tuesday",
+        "wednesday": "Wednesday",
+        "thursday": "Thursday",
+        "friday": "Friday",
+        "saturday": "Saturday",
+        "sunday": "Sunday"
+      }
+    },
+    "buttons": {
+      "deleteCompany": "Delete Company"
+    }
+  },
+  "ProductsPage": {
+    "noProductInCategory": "No product available in this category",
+    "uncategorizedProducts": "Uncategorized Products",
+    "deleteCategory": {
+      "title": "Are you sure?",
+      "yes": "Yes",
+      "no": "No"
+    },
+    "buttons": {
+      "createCategory": "Create new category",
+      "createProduct": "Create new product"
+    },
+    "createCategoryModal": {
+      "editModalName": "Edit category",
+      "modalName": "Create new category",
+      "name": "Name",
+      "buttons": {
+        "cancel": "Cancel",
+        "validate": "Ok"
+      },
+      "errors": {
+        "name": "Category name is required",
+        "min": "Category name is to short",
+        "whitespace": "Category name can not be empty"
+      }
+    },
+    "createProductModal": {
+      "editModalName": "Edit product",
+      "modalName": "Create new product",
+      "productName": "Product Name",
+      "productCategory": "Product category",
+      "selectCategory": "Select category for this product",
+      "portion": "Portion",
+      "price": "Price",
+      "desc": "Description",
+      "image": "Product image",
+      "buttons": {
+        "selectImage": "Select image",
+        "cancel": "Cancel",
+        "create": "Create",
+        "edit": "Edit",
+        "delete": "Delete"
+      },
+      "popUp": {
+        "title": "Are you sure?",
+        "yes": "Yes",
+        "no": "No"
+      },
+      "portionValidation": {
+        "unity": {
+          "name": "Unity",
+          "errors": "Product unity is required"
+        },
+        "portion": {
+          "name": "Portion quantity",
+          "errors": "Portion quantity is required"
+        }
+      }
+    }
+  },
+  "StaffPage": {
+    "buttons": {
+      "addEmployee": "Add an employee",
+      "editRole": "Edit role",
+      "delete": "Delete"
+    },
+    "columns": {
+      "email": "Email",
+      "firstName": "Firstname",
+      "lastName": "Lastname",
+      "tags": "Tags",
+      "operation": "Operations"
+    },
+    "roles": {
+      "owner": "Owner",
+      "admin": "Administrator",
+      "member": "Member"
+    }
+  },
+  "FilesPage": {
+    "Images": {
+      "noImage": "Aucune image pour le moment",
+      "buttons": {
+        "loadImages": "Upload images"
+      },
+      "addImageModal": {
+        "modalName": "Upload images",
+        "explanation": "Cliquez ici pour choisir les images ou glissez - déposez les directement dans la zone",
+        "littleExplanation": "Fonctionne avec un ou plusieurs fichiers.",
+        "buttons": {
+          "close": "Close"
+        }
+      },
+      "editImageModal": {
+        "name": "Name",
+        "uses": "Produits qui utilisent cette image",
+        "noUses": "Aucun produit à lister",
+        "buttons": {
+          "close": "Close"
+        }
+      }
+    },
+    "Files": {
+      "list": "Files list"
+    }
+  },
+  "ProfilePage": {
+    "buttons": {
+      "edit": "Edit my account",
+      "delete": "Delete my account"
+    },
+    "labels": {
+      "lastName": "Lastname",
+      "firstName": "Firstname",
+      "email": "Email",
+      "phone": "Phone number",
+      "image": "Click on image for edit",
+      "tooltip": {
+        "addImage": "Click here for add an image",
+        "editImage": "Click here for update image"
+      }
+    },
+    "editProfileModal": {
+      "name": "Edit profile",
+      "validate": "Update",
+      "close": "Close",
+      "lastName": "LASTNAME",
+      "firstName": "FIRSTNAME",
+      "email": "EMAIL",
+      "phone": "PHONE NUMBER"
+    }
+  },
+  "ImageSelectorButton": {
+    "labels": {
+      "singular": "Select image",
+      "plural": "Select images"
+    }
+  }
+}
+

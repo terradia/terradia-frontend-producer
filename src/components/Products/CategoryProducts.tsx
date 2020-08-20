@@ -5,10 +5,12 @@ import { ReactComponent as CarretIcon } from "../../assets/Icon/ui/caret.svg";
 import { ReactComponent as BookmarkIcon } from "../../assets/Icon/ui/bookmark.svg";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons/lib";
 import { Popconfirm } from "antd";
+import { useTranslation } from "react-i18next";
 
 import { loader as graphqlLoader } from "graphql.macro";
 import "../../assets/Style/Products/ProductsPage.less";
 import { useMutation } from "@apollo/react-hooks";
+import ProductCard from "./ProductCard";
 
 const mutationDeleteCategory = graphqlLoader(
   "../../graphql/mutation/category/deleteCompanyProductCategory.graphql"
@@ -45,6 +47,9 @@ const getListStyle = (isDraggingOver) => ({
 
 function CategoryProducts(props: CategoryProductsProps) {
   const companyId = localStorage.getItem("selectedCompany");
+  const collapsedCategory = JSON.parse(
+    localStorage.getItem("collapsedCategory")
+  );
 
   const [collapsed, setCollapsed] = useState(false);
   const [draggingOver, setDraggingOver] = useState(false);
@@ -73,6 +78,42 @@ function CategoryProducts(props: CategoryProductsProps) {
     setCollapsed(false);
   }, [draggingOver]);
 
+  useEffect(() => {
+    if (collapsedCategory) {
+      const indexLocalStorage = collapsedCategory.findIndex((elem) => {
+        return elem === props.cat.id;
+      });
+      if (indexLocalStorage !== -1) {
+        setCollapsed(true);
+      }
+    }
+  }, [collapsedCategory, props.cat.id]);
+
+  function handleCollapse() {
+    if (collapsed) {
+      setCollapsed(false);
+      const indexLocalStorage = collapsedCategory.findIndex((elem) => {
+        return elem === props.cat.id;
+      });
+      if (indexLocalStorage !== -1) {
+        collapsedCategory.splice(indexLocalStorage, 1);
+        localStorage.setItem(
+          "collapsedCategory",
+          JSON.stringify(collapsedCategory)
+        );
+      }
+    } else {
+      setCollapsed(true);
+      collapsedCategory.push(props.cat.id);
+      localStorage.setItem(
+        "collapsedCategory",
+        JSON.stringify(collapsedCategory)
+      );
+    }
+  }
+
+  const { t } = useTranslation("common");
+
   return (
     <div
       className={`category ${collapsed === true ? "collapsed-category" : ""}`}
@@ -100,13 +141,7 @@ function CategoryProducts(props: CategoryProductsProps) {
               <div
                 ref={provided.innerRef}
                 className={"category-title"}
-                onClick={() => {
-                  if (collapsed) {
-                    setCollapsed(false);
-                  } else {
-                    setCollapsed(true);
-                  }
-                }}
+                onClick={handleCollapse}
               >
                 <CarretIcon
                   style={{
@@ -143,7 +178,7 @@ function CategoryProducts(props: CategoryProductsProps) {
                   {props.cat.id !== `nonCat${companyId}` && (
                     <Popconfirm
                       placement="top"
-                      title={"Voulez-vous vraiment supprimer cette catégorie?"}
+                      title={t("ProductsPage.deleteCategory.title")}
                       onConfirm={(event) => {
                         deleteCategory();
                         event.stopPropagation();
@@ -151,8 +186,8 @@ function CategoryProducts(props: CategoryProductsProps) {
                       onCancel={(event) => {
                         event.stopPropagation();
                       }}
-                      okText="Oui"
-                      cancelText="Non"
+                      okText={t("ProductsPage.deleteCategory.yes")}
+                      cancelText={t("ProductsPage.deleteCategory.no")}
                     >
                       <DeleteOutlined
                         className={"category-icon"}
@@ -185,43 +220,22 @@ function CategoryProducts(props: CategoryProductsProps) {
                       >
                         {(provided, snapshot) => {
                           return (
-                            <div
-                              className={"card"}
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
+                            <ProductCard
+                              provided={provided}
+                              snapshot={snapshot}
                               style={{
                                 ...getItemStyle(
                                   snapshot.isDragging,
                                   provided.draggableProps.style
                                 ),
-                                ...{},
                               }}
                               onClick={() => {
                                 product.category = props.cat.name;
                                 props.ProductModal.setUpdateProduct(product);
                                 props.ProductModal.setVisible(true);
                               }}
-                            >
-                              <span
-                                className="card-background"
-                                style={{
-                                  backgroundImage: product.cover
-                                    ? `url('${
-                                        "https://terradia-bucket-assets.s3.eu-west-3.amazonaws.com/" +
-                                        product.cover.filename
-                                      }')`
-                                    : null,
-                                }}
-                              />
-                              <p className="card-title card-item">
-                                {product.name}
-                              </p>
-                              <p className="card-information card-item">
-                                {product.price}€
-                              </p>
-                              <p className="card-information card-item">459</p>
-                            </div>
+                              product={product}
+                            />
                           );
                         }}
                       </Draggable>
@@ -241,9 +255,7 @@ function CategoryProducts(props: CategoryProductsProps) {
                       }}
                     >
                       <BookmarkIcon style={{ height: "100px" }} />
-                      <p>
-                        {"Aucun produit n'est disponible pour cette catégorie"}
-                      </p>
+                      <p>{t("ProductsPage.noProductInCategory")}</p>
                     </div>
                     {provided.placeholder}
                   </div>

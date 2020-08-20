@@ -3,63 +3,24 @@
 .profile-card {
   width: 100%;
   background-color: white;
-  padding: @padding-md;
   border-radius: @border-radius-base;
-  .edit-profile-icon {
-    font-size: xx-large;
-  }
-  .main-col {
-    display: flex;
-    flex-direction: column;
-    .row-avatar {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      .avatar-picker {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-    }
-    .row-name {
-      display: flex;
-      flex-wrap: wrap;
-      flex-direction: row;
-      justify-content: space-evenly;
-    }
-    .row-email {
-      display: flex;
-      flex-wrap: wrap;
-      flex-direction: row;
-      justify-content: space-evenly;
-    }
-    .submit-col {
-      display: flex;
-      padding: @padding-md;
-      justify-content: flex-end;
-      align-items: center;
-      flex-direction: row;
-    }
-    .col {
-      padding-left: @padding-md;
-      padding-right: @padding-md;
-      width: 50%;
-      justify-content: flex-start;
-      .ant-form-item {
-        .ant-form-item-label {
-          max-height: fit-content;
-          label {
-            font-size: smaller;
-            color: #5cc04a;
-          }
-        }
-      }
-    }
-  }
+  padding-bottom: 0 !important;
   .label {
     font-size: smaller;
     color: #5cc04a;
-    min-width: 220px;
     margin: 0 !important;
+  }
+  .ant-modal-footer {
+    .line {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      .ant-form-item {
+        margin-bottom: 0;
+      }
+      .close-button {
+        margin-left: @padding-md;
+      }
+    }
   }
 }

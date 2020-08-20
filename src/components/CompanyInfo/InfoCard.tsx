@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import { Avatar, Card, TimePicker } from "antd";
 import EditButton from "../Ui/EditButton";
 import SubmitButton from "../Ui/SubmitButton";
-import EditInfoForm from "./EditInfoForm";
+import EditInfoForm from "../Company/EditInfoForm";
 import { Moment } from "moment";
-import "../../assets/Style/CompanyInfo/InfoCard.less";
+import "../../assets/Style/CompanyPage/InfoCard.less";
 import { loader } from "graphql.macro";
 import { useMutation } from "@apollo/react-hooks";
 
 export declare interface Hours {
-  startTime: Moment;
-  endTime: Moment;
+  startTime: any;
+  endTime: any;
 }
 
 export declare interface Info {
