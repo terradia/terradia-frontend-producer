@@ -10,7 +10,6 @@ import Files from "./pages/Files";
 import Login from "./pages/Login";
 import CompanyPage from "./pages/CompanyPage";
 import Orders from "./pages/Orders";
-import CompanyPage from "./pages/CompanyPage";
 import Profile from "./pages/profile/Profile";
 import { useLazyQuery } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
