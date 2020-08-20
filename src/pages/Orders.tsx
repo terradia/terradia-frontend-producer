@@ -3,7 +3,6 @@ import "../assets/Style/Products/ProductsPage.less";
 import { Table } from "antd";
 import Title from "../components/Ui/Title";
 import { MoreOutlined } from "@ant-design/icons";
-import Button from "antd/es/button";
 
 // const queryCompanyUsers = graphqlLoader(
 //   "../graphql/query/getCompanyUsers.graphql"
