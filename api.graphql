@@ -264,7 +264,7 @@ type Query {
     getCompanyTag(companyTagId: String, slugName: String): CompanyTag
     getCustomer(userId: String!): Customer
     getCustomerFavoriteCompanies(userId: String): [Company]
-    getMyCompaniesInvitations(status: String): [CompanyUserInvitation!]
+    getMyCompaniesInvitations(status: CompanyUserInvitationStatusRequest): [CompanyUserInvitation!]
     getProduct(id: ID!): Product!
     getProductReviews(id: ID!, limit: Int!, offset: Int!): [ProductReview]
     getProductsByCompany(companyId: String): [Product]!
@@ -331,6 +331,13 @@ enum CacheControlScope {
 
 enum CompanyUserInvitationStatus {
     ACCEPTED
+    DECLINED
+    PENDING
+}
+
+enum CompanyUserInvitationStatusRequest {
+    ACCEPTED
+    ALL
     DECLINED
     PENDING
 }

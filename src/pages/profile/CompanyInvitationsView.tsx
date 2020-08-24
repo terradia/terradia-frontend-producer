@@ -18,14 +18,17 @@ declare interface InvitationsData {
 }
 
 const CompanyInvitationsView: React.FC = () => {
-  const { data: companiesInvitationsData, loading, error } = useQuery<
-    InvitationsData
-  >(getMyCompaniesInvitations);
-
   const tmpFilter = localStorage.getItem("companiesInvitationsFilter");
   const [filter, changeFilter] = useState(
     tmpFilter === null ? "ALL" : tmpFilter
   );
+  const { data: companiesInvitationsData, loading, error } = useQuery<
+    InvitationsData
+  >(getMyCompaniesInvitations, {
+    variables: { status: filter },
+  });
+
+  if (error) console.error(error);
 
   const handleChangeFilter = (data) => {
     changeFilter(data);
@@ -33,6 +36,7 @@ const CompanyInvitationsView: React.FC = () => {
   };
 
   if (loading === true) return <TerradiaLoader />;
+  console.log(companiesInvitationsData);
   const invitationsToPrompt = companiesInvitationsData.getMyCompaniesInvitations.filter(
     (invitation) => {
       return filter === "ALL" ? true : filter === invitation.status;

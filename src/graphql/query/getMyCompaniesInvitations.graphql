@@ -1,4 +1,4 @@
-query getMyCompaniesInvitations($status: String) {
+query getMyCompaniesInvitations($status: CompanyUserInvitationStatusRequest) {
   getMyCompaniesInvitations(status: $status) {
     id
     fromUser {
