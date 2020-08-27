@@ -1,6 +1,6 @@
 import React from "react";
-import { Layout as AntLayout } from "antd";
-import Header from "../components/Layout/Header";
+import { ReactComponent as TerradiaLogo } from "../assets/Logo/Terradia.svg";
+import { Layout as AntLayout, Divider } from "antd";
 import CompanyCardSelector from "../components/CompanySelector/CompanyCardSelector";
 
 const textStyle = {
@@ -14,7 +14,23 @@ const textStyle = {
 const CompanySelection = () => {
   return (
     <AntLayout style={{ background: "white" }}>
-      <Header Company />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          width: "100%",
+          height: "4em",
+          alignItems: "center",
+          alignContent: "center",
+        }}
+      >
+        <TerradiaLogo
+          height={"40px"}
+          width={"200px"}
+          style={{ marginTop: "1em" }}
+        />
+      </div>
+      <Divider />
       <AntLayout
         style={{
           background: "white",

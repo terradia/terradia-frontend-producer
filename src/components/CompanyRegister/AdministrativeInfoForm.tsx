@@ -11,12 +11,13 @@ const AdministrativeInfoForm = () => {
         rules={[
           {
             required: true,
+            //TODO: Translate this
             message: "Veuillez renseigner le SIREN de votre entreprise",
           },
         ]}
       >
         <div className={"form_item_wrapper required"}>
-          <Input className={"input_item"} placeholder={"SIREN"} />
+          <Input className={"form_item"} placeholder={"SIREN"} />
         </div>
       </Form.Item>
       <Form.Item
@@ -24,13 +25,14 @@ const AdministrativeInfoForm = () => {
         rules={[
           {
             required: true,
+            //TODO: translate this
             message: "Veuillez renseigner le nom de l'entreprise",
           },
         ]}
       >
         <div className={"form_item_wrapper required"}>
           <Input
-            className={"input_item required"}
+            className={"form_item required"}
             placeholder={"Nom de l'entreprise"}
           />
         </div>
@@ -48,6 +50,7 @@ const AdministrativeInfoForm = () => {
         rules={[
           {
             required: true,
+            //TODO: Translate this
             message: "Veuillez renseigner un email",
           },
         ]}
@@ -61,13 +64,14 @@ const AdministrativeInfoForm = () => {
         rules={[
           {
             required: true,
+            //TODO: Translate this
             message: "Veuillez renseigner un numéro de téléphone",
           },
         ]}
       >
         <div className={"form_item_wrapper required"}>
           <Input
-            className={"input_item"}
+            className={"form_item"}
             placeholder={"Phone"}
             addonBefore={<CountryCode />}
           />
