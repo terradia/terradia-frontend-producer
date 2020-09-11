@@ -5,17 +5,26 @@ import { loader as graphqlLoader } from "graphql.macro";
 import Button from "../Ui/Button";
 import { useHistory } from "react-router";
 import { notification, Checkbox } from "antd";
+import { QueryResult } from "@apollo/react-common";
 
 const getCompanies = graphqlLoader("../../graphql/query/getCompanies.graphql");
 
-const CompanyCardSelector = () => {
+interface Props {
+  queryCompaniesObject?: QueryResult;
+}
+
+const CompanyCardSelector: React.FC<Props> = ({ queryCompaniesObject }) => {
   const history = useHistory();
-  const { loading, error, data: companiesData } = useQuery(getCompanies);
+  let queryResult;
+  if (!queryCompaniesObject) {
+    queryResult = useQuery(getCompanies);
+  } else {
+    queryResult = queryCompaniesObject;
+  }
   const [selected, setSelected] = useState(null);
   const [remember, setRemember] = useState(false);
   let card;
 
-  if (error) console.log(error);
   const OnValidatedSelection = () => {
     if (selected === null) {
       notification.warn({
@@ -44,8 +53,12 @@ const CompanyCardSelector = () => {
     setSelected(companyId);
   };
 
-  if (!loading && companiesData && companiesData.getCompanies) {
-    card = companiesData.getCompanies.map((companyData: any) => {
+  if (
+    !queryResult.loading &&
+    queryResult.data &&
+    queryResult.data.getCompanies
+  ) {
+    card = queryResult.data.getCompanies.map((companyData: any) => {
       if (companyData) {
         return (
           <CompanyCard
@@ -102,7 +115,7 @@ const CompanyCardSelector = () => {
           width: "25%",
         }}
         onClick={OnValidatedSelection}
-        isLoading={loading}
+        isLoading={queryResult.loading}
         text={"Valider"}
       />
       <Checkbox onChange={(event) => setRemember(event.target.checked)}>

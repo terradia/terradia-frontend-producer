@@ -49,10 +49,19 @@
         width: 45%;
       }
     }
+    @media (max-width: 1024px) {
+      .external_connexion {
+        flex-direction: column;
+        .button_register {
+          margin-bottom: @padding-sm;
+          width: 100%;
+        }
+      }
+    }
 
     .register-catching {
       font-size: @font-size-lg - 1px;
-      padding-top: @padding-lg;
+      padding-top: @padding-md;
       padding-bottom: @padding-md;
     }
 

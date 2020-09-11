@@ -39,16 +39,18 @@ type Company {
     cover: CompanyImage
     createdAt: Date
     customerCarts: [Cart]
+    deliveryDays: [CompanyDeliveryDay]
     description: String
     distance: Float
-    email: String
+    email: String!
     geoPosition: GeographicPoint
     id: ID!
     logo: CompanyImage
     name: String!
     numberOfMarks: Int
+    officialName: String
     openingDays: [CompanyOpeningDay]
-    phone: String
+    phone: String!
     products: [Product]
     productsCategories: [CompanyProductsCategory]
     reviews: [CompanyReview]
@@ -56,6 +58,21 @@ type Company {
     tags: [CompanyTag]
     updatedAt: Date
     users: [CompanyUser]
+}
+
+type CompanyDeliveryDay {
+    company: Company!
+    daySlugName: String!
+    dayTranslationKey: String!
+    hours: [CompanyDeliveryDayHours!]!
+    id: ID!
+}
+
+type CompanyDeliveryDayHours {
+    day: CompanyDeliveryDay!
+    endTime: Date!
+    id: ID!
+    startTime: Date!
 }
 
 type CompanyImage {
@@ -148,6 +165,7 @@ type Mutation {
     addCategoryToProduct(categoryName: String!, productId: String!): Product!
     addCompanyImage(companyId: ID!, image: Upload!, name: String): CompanyImage
     addCompanyImages(companyId: ID!, images: [Upload]!, names: [String]): [CompanyImage]
+    addDeliveryDay(companyId: String!, day: String!, hours: [ScheduleInput]): CompanyDeliveryDay!
     addFavoriteCompany(companyId: String!): Customer
     addImageToProduct(companyImageId: String!, isCover: Boolean, productId: String!): CompanyImage
     addOpeningDay(companyId: String!, day: String!, hours: [ScheduleInput]): CompanyOpeningDay!
@@ -181,6 +199,8 @@ type Mutation {
     removeCompanyImage(imageId: ID!): CompanyImage
     removeCompanyImages(imagesId: [ID]!): [CompanyImage]
     removeCompanyProductsCategory(categoryId: String!): CompanyProductsCategory
+    removeDeliveryDay(DeliveryDayId: String!): CompanyDeliveryDay!
+    removeDeliveryHours(hourId: String!): CompanyDeliveryDayHours!
     removeFavoriteCompany(companyId: String!): Customer
     removeOpeningDay(openingDayId: String!): CompanyOpeningDay!
     removeOpeningHours(hourId: String!): CompanyOpeningDayHours!
@@ -194,6 +214,8 @@ type Mutation {
     updateCompany(companyId: ID!, newValues: CompanyUpdateInput): Company!
     updateCompanyImageName(imageId: ID!, name: String!): CompanyImage
     updateCompanyProductsCategory(categoryId: String!, name: String): CompanyProductsCategory
+    updateDeliveryDay(DeliveryDayId: String!, hours: [ScheduleInput]): CompanyDeliveryDay!
+    updateDeliveryHours(hourId: String!, hours: ScheduleInput!): CompanyDeliveryDayHours!
     updateOpeningDay(hours: [ScheduleInput], openingDayId: String!): CompanyOpeningDay!
     updateOpeningHours(hourId: String!, hours: ScheduleInput!): CompanyOpeningDayHours!
     updateProduct(coverId: String, description: String, name: String, price: Float, productId: String, quantityForUnit: Float, unitId: String): Product
@@ -331,6 +353,7 @@ enum CacheControlScope {
 
 enum CompanyUserInvitationStatus {
     ACCEPTED
+    CANCELED
     DECLINED
     PENDING
 }
@@ -338,6 +361,7 @@ enum CompanyUserInvitationStatus {
 enum CompanyUserInvitationStatusRequest {
     ACCEPTED
     ALL
+    CANCELED
     DECLINED
     PENDING
 }

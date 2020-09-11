@@ -75,26 +75,28 @@ const CompanyCard = ({
           alignItems: "center",
           justifyContent: "center",
         }}
-      onClick={onClickHandler}
-      loading={loading}
-              cover={
-          create ? null : (
-            <img
-              style={{
-                width: "200px",
-                height: "200px",
-                objectFit: "contain",
-              }}
-              alt={"profile"}
-              src={logo}
-            />
-          )
+        onClick={onClickHandler}
+        loading={loading}
+        cover={
+          create
+            ? null
+            : logo && (
+                <img
+                  style={{
+                    width: "200px",
+                    height: "200px",
+                    objectFit: "contain",
+                  }}
+                  alt={"profile"}
+                  src={logo}
+                />
+              )
         }
         bodyStyle={{
-          display: create ? "flex" : "none",
+          display: create || !logo ? "flex" : "none",
         }}
-    >
-            {create && (
+      >
+        {(create || !logo) && (
           <Avatar
             size={200}
             shape={"square"}

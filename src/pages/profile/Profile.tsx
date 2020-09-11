@@ -1,7 +1,7 @@
 import React from "react";
 import { Route } from "react-router";
-import CompanyInvitationsView from "./CompanyInvitationsView";
-import ProfileView from "../../components/Profile/ProfileView";
+import ProfileView from "./ProfileView";
+import InvitationsListCard from "../../components/Staff/InvitationsListCard";
 
 const Profile = () => {
   return (
@@ -10,7 +10,7 @@ const Profile = () => {
         <ProfileView />
       </Route>
       <Route exact path={"/profile/company-invitations"}>
-        <CompanyInvitationsView />
+        <InvitationsListCard companyView={false} />
       </Route>
     </>
   );

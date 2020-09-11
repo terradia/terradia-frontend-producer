@@ -15,47 +15,5 @@
     }
   }
   .invitations-container {
-    .card {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      .first-part {
-        width: calc(100% - 100px);
-        display: flex;
-        flex-direction: row;
-        .data {
-          margin-bottom: @padding-xs;
-          margin-right: @padding-md;
-          label {
-            color: @primary-color;
-            font-size: @font-size-sm;
-          }
-          div {
-            font-size: @font-size-lg;
-          }
-        }
-      }
-      .second-part {
-        width: 100px;
-        display: flex;
-        height: 100%;
-        align-items: center;
-        flex-direction: row;
-        justify-content: center;
-        button {
-          svg {
-            font-size: calc(@font-size-lg * 1.5);
-          }
-        }
-        .response-icon {
-          font-size: calc(@font-size-lg * 1.5);
-        }
-      }
-      @media(max-width: 1024px) {
-        .first-part {
-          flex-direction: column;
-        }
-      }
-    }
   }
 }

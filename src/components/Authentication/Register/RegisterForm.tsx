@@ -6,8 +6,7 @@ import * as Yup from "yup";
 import { loader as graphqlLoader } from "graphql.macro";
 import { useApolloClient, useMutation } from "@apollo/react-hooks";
 import "../../../assets/Style/Login-Register/registerForm.less";
-import FacebookIcon from "../../Icons/FacebookIcon";
-import AppleIcon from "../../Icons/AppleIcon";
+import { AppleFilled, FacebookFilled } from "@ant-design/icons/lib";
 import { Redirect } from "react-router-dom";
 
 const mutationRegister = graphqlLoader(
@@ -104,153 +103,146 @@ const RegisterForm = (props: RegisterFormProps) => {
     >
       {({ errors, handleChange, handleSubmit }) => {
         return (
-          <div className={"register_box"}>
-            <div className={"register_form_div"}>
-              <form className={"auth_form"} onSubmit={handleSubmit}>
-                {errors.email && (
-                  <div
-                    id="feedback"
-                    className={"error-description error-email"}
-                  >
-                    {errors.email}
-                  </div>
-                )}
-                <Input
-                  name={"email"}
-                  className={"form_item input_item"}
-                  id={"input_email"}
-                  size={"large"}
-                  type={"default"}
-                  placeholder={"E-mail"}
-                  style={{
-                    color: errors.email ? "#f5222d" : undefined,
-                    borderColor: errors.email ? "#f5222d" : undefined,
-                  }}
-                  autoComplete={"email"}
-                  onChange={handleChange}
-                />
-                {errors.password && (
-                  <div id="feedback" className={"error-description"}>
-                    {errors.password}
-                  </div>
-                )}
-                <Input
-                  name={"password"}
-                  className={"form_item input_item"}
-                  id={"input_password"}
-                  size={"large"}
-                  type={"password"}
-                  placeholder={"Mot de passe"}
-                  style={{
-                    color: errors.password ? "red" : undefined,
-                    borderColor: errors.password ? "red" : undefined,
-                  }}
-                  autoComplete={"current-password"}
-                  onChange={handleChange}
-                />
-                <div className={"external_connexion"}>
-                  <span>
-                    {errors.lastname && (
-                      <div id="feedback" className={"error-description"}>
-                        {errors.lastname}
-                      </div>
-                    )}
-                    <Input
-                      name={"lastname"}
-                      className={"form_item input_item"}
-                      id={"input_lastname"}
-                      size={"large"}
-                      type={"default"}
-                      placeholder={"Nom"}
-                      style={{
-                        color: errors.lastname ? "red" : undefined,
-                        borderColor: errors.lastname ? "red" : undefined,
-                      }}
-                      onChange={handleChange}
-                    />
-                  </span>
-                  <Divider type={"vertical"} style={{ background: "none" }} />
-                  <span>
-                    {errors.firstname && (
-                      <div id="feedback" className={"error-description"}>
-                        {errors.firstname}
-                      </div>
-                    )}
-                    <Input
-                      name={"firstname"}
-                      className={"form_item input_item"}
-                      id={"input_firstname"}
-                      size={"large"}
-                      type={"default"}
-                      placeholder={"Prénom"}
-                      style={{
-                        color: errors.firstname ? "red" : undefined,
-                        borderColor: errors.firstname ? "red" : undefined,
-                      }}
-                      onChange={handleChange}
-                    />
-                  </span>
+          <div className={"register_form"}>
+            <form className={"auth_form"} onSubmit={handleSubmit}>
+              {errors.email && (
+                <div id="feedback" className={"error-description error-email"}>
+                  {errors.email}
                 </div>
-                {errors.phone && (
-                  <div id="feedback" className={"error-description"}>
-                    {errors.phone}
-                  </div>
-                )}
-                <Input
-                  name={"phone"}
-                  className={"form_item input_item"}
-                  id={"input_phone"}
-                  size={"large"}
-                  type={"default"}
-                  placeholder={"Numéro de téléphone"}
-                  style={{
-                    color: errors.phone ? "red" : undefined,
-                    borderColor: errors.phone ? "red" : undefined,
-                  }}
-                  onChange={handleChange}
-                />
-                {errors.acceptedCondition && (
-                  <div id="feedback" className={"error-description"}>
-                    {errors.acceptedCondition}
-                  </div>
-                )}
-                <Checkbox
-                  name={"acceptedCondition"}
-                  onChange={handleChange}
-                  className={"form_item"}
-                >
-                  {
-                    "J'ai lu et j'accepte les conditions générales d'utilisation"
-                  }
-                </Checkbox>
-                <Button
-                  isLoading={registerLoading}
-                  text={"S'inscrire"}
-                  className={"form_item"}
-                  id={"login_button"}
-                  size={"large"}
-                  htmlType={"submit"}
-                />
-              </form>
-              <Divider className={"auth_divider"}>OU</Divider>
+              )}
+              <Input
+                name={"email"}
+                className={"form_item input_item"}
+                id={"input_email"}
+                size={"large"}
+                type={"default"}
+                placeholder={"E-mail"}
+                style={{
+                  color: errors.email ? "#f5222d" : undefined,
+                  borderColor: errors.email ? "#f5222d" : undefined,
+                }}
+                autoComplete={"email"}
+                onChange={handleChange}
+              />
+              {errors.password && (
+                <div id="feedback" className={"error-description"}>
+                  {errors.password}
+                </div>
+              )}
+              <Input
+                name={"password"}
+                className={"form_item input_item"}
+                id={"input_password"}
+                size={"large"}
+                type={"password"}
+                placeholder={"Mot de passe"}
+                style={{
+                  color: errors.password ? "red" : undefined,
+                  borderColor: errors.password ? "red" : undefined,
+                }}
+                autoComplete={"current-password"}
+                onChange={handleChange}
+              />
               <div className={"external_connexion"}>
-                <Button
-                  className={"button_register"}
-                  text={"Facebook"}
-                  size={"large"}
-                  id={"facebook_button"}
-                  accentColor={"#2174EE"}
-                  icon={<FacebookIcon />}
-                />
-                <Button
-                  className={"button_register"}
-                  text={"Apple"}
-                  size={"large"}
-                  id={"apple_button"}
-                  accentColor={"#202020"}
-                  icon={<AppleIcon />}
-                />
+                <span>
+                  {errors.lastname && (
+                    <div id="feedback" className={"error-description"}>
+                      {errors.lastname}
+                    </div>
+                  )}
+                  <Input
+                    name={"lastname"}
+                    className={"form_item input_item"}
+                    id={"input_lastname"}
+                    size={"large"}
+                    type={"default"}
+                    placeholder={"Nom"}
+                    style={{
+                      color: errors.lastname ? "red" : undefined,
+                      borderColor: errors.lastname ? "red" : undefined,
+                    }}
+                    onChange={handleChange}
+                  />
+                </span>
+                <Divider type={"vertical"} className={"invisible-divider"} />
+                <span>
+                  {errors.firstname && (
+                    <div id="feedback" className={"error-description"}>
+                      {errors.firstname}
+                    </div>
+                  )}
+                  <Input
+                    name={"firstname"}
+                    className={"form_item input_item"}
+                    id={"input_firstname"}
+                    size={"large"}
+                    type={"default"}
+                    placeholder={"Prénom"}
+                    style={{
+                      color: errors.firstname ? "red" : undefined,
+                      borderColor: errors.firstname ? "red" : undefined,
+                    }}
+                    onChange={handleChange}
+                  />
+                </span>
               </div>
+              {errors.phone && (
+                <div id="feedback" className={"error-description"}>
+                  {errors.phone}
+                </div>
+              )}
+              <Input
+                name={"phone"}
+                className={"form_item input_item"}
+                id={"input_phone"}
+                size={"large"}
+                type={"default"}
+                placeholder={"Numéro de téléphone"}
+                style={{
+                  color: errors.phone ? "red" : undefined,
+                  borderColor: errors.phone ? "red" : undefined,
+                }}
+                onChange={handleChange}
+              />
+              {errors.acceptedCondition && (
+                <div id="feedback" className={"error-description"}>
+                  {errors.acceptedCondition}
+                </div>
+              )}
+              <Checkbox
+                name={"acceptedCondition"}
+                onChange={handleChange}
+                className={"form_item"}
+              >
+                {"J'ai lu et j'accepte les conditions générales d'utilisation"}
+              </Checkbox>
+              <Button
+                isLoading={registerLoading}
+                text={"S'inscrire"}
+                className={"form_item"}
+                id={"login_button"}
+                size={"large"}
+                htmlType={"submit"}
+              />
+            </form>
+            <Divider className={"auth_divider"}>OU</Divider>
+            <div className={"external_connexion"}>
+              <Button
+                className={"button_register"}
+                text={"Facebook"}
+                size={"large"}
+                id={"facebook_button"}
+                accentColor={"#2174EE"}
+                icon={<FacebookFilled />}
+              />
+              <Button
+                className={"button_register"}
+                text={"Apple"}
+                size={"large"}
+                id={"apple_button"}
+                accentColor={"#202020"}
+                icon={<AppleFilled />}
+              />
             </div>
           </div>
         );

@@ -1,0 +1,15 @@
+query getCompaniesInvitations($companyId: String!) {
+    getCompaniesInvitations(companyId: $companyId) {
+        id
+        invitationEmail
+        status
+        fromUser {
+            firstName
+            lastName
+        }
+        company {
+            name
+        }
+        createdAt
+    }
+}

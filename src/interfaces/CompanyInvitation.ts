@@ -6,6 +6,6 @@ export interface CompanyInvitation {
   invitationEmail: string;
   fromUser: User;
   company: Company;
-  status: "PENDING" | "ACCEPTED" | "DECLINED";
+  status: "PENDING" | "ACCEPTED" | "DECLINED" | "CANCELED";
   createdAt: Date;
 }

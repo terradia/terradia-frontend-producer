@@ -1,0 +1,37 @@
+@import "../../../index";
+
+.card {
+  .ant-card-body {
+    overflow: scroll;
+  }
+  .card-header {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    .status-filter {
+      margin-right: @padding-md;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      width: 250px;
+      label {
+        color: @primary-color;
+        font-size: @font-size-sm;
+      }
+    }
+  }
+  @media(max-width: 1024px) {
+    .card-header {
+      align-items: center;
+      justify-content: center;
+      .status-filter {
+        margin-right: 0;
+        margin-bottom: @padding-md;
+      }
+      select {
+        width: 100%;
+      }
+    }
+  }
+}
