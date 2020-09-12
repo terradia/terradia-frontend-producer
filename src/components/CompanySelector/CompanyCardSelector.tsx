@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import CompanyCard from "./CompanyCard";
-import { useQuery } from "@apollo/react-hooks";
+import { useLazyQuery } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
 import Button from "../Ui/Button";
 import { useHistory } from "react-router";
@@ -15,9 +15,10 @@ interface Props {
 
 const CompanyCardSelector: React.FC<Props> = ({ queryCompaniesObject }) => {
   const history = useHistory();
+  const [getCompaniesQuery] = useLazyQuery(getCompanies);
   let queryResult;
   if (!queryCompaniesObject) {
-    queryResult = useQuery(getCompanies);
+    queryResult = getCompaniesQuery();
   } else {
     queryResult = queryCompaniesObject;
   }

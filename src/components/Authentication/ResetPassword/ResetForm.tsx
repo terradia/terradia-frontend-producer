@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Input } from "antd";
 import * as Yup from "yup";
 import { Formik } from "formik";
@@ -16,6 +16,7 @@ import {
   CloseCircleOutlined,
 } from "@ant-design/icons/lib";
 import ReactCodeInput from "react-verification-code-input/dist";
+import { Redirect } from "react-router-dom";
 
 const ResetSchema = Yup.object().shape({
   email: Yup.string()
@@ -49,15 +50,58 @@ const ResetForm: React.FC = () => {
   const [signInWithgeneratedCode] = useMutation(
     mutationSignInWithgeneratedCode
   );
-
-  const [getCompaniesQuery] = useLazyQuery(getCompanies);
-  const [getUserQuery] = useLazyQuery(getUser);
-
   const [isCodeGenerated, setCodeIsGenerated] = React.useState(false);
   const [code, setCode] = React.useState("");
   const [email, setEmail] = React.useState("");
+  const [prevToken, setPrevToken] = useState("");
+  const [redirect, setRedirect] = useState("");
 
   const handleCodeChange = (vals) => setCode(vals);
+
+  const finaliseRedirect = () => {
+    dispatchEvent(
+      new StorageEvent("storage", {
+        key: "token",
+        oldValue: prevToken,
+        newValue: localStorage.getItem("token"),
+      })
+    );
+    localStorage.setItem("connectedAsPasswordForgot", "true");
+    addNotification({
+      message: "Connexion",
+      description:
+        "Vous avez bien été connecté, pensez à changer votre mot de passe (Dans la section profil)",
+      icon: <CheckCircleOutlined style={{ color: "#5CC04A" }} />,
+    });
+  };
+
+  const redirectToHome = (data) => {
+    if (
+      data &&
+      data.getCompanies &&
+      (!localStorage.getItem("rememberCompany") ||
+        localStorage.getItem("rememberCompany") === "false")
+    ) {
+      setRedirect("CompanySelection");
+      finaliseRedirect();
+    } else if (data && data.getCompanies) {
+      if (
+        data.getCompanies.length >= 1 &&
+        !!localStorage.getItem("rememberCompany") &&
+        localStorage.getItem("rememberCompany") === "true"
+      ) {
+        setRedirect("/home");
+        finaliseRedirect();
+      }
+    }
+  };
+
+  const [getCompaniesQuery] = useLazyQuery(getCompanies, {
+    onCompleted: redirectToHome,
+  });
+  const [getUserQuery] = useLazyQuery(getUser, {
+    onCompleted: () => getCompaniesQuery(),
+  });
 
   const onSubmit = () => {
     if (code.length !== 6) {
@@ -75,28 +119,13 @@ const ResetForm: React.FC = () => {
       },
     })
       .then((response: ResetData) => {
-        const prevToken = localStorage.getItem("token");
+        setPrevToken(localStorage.getItem("token"));
         localStorage.setItem(
           "token",
           response.data.signInWithgeneratedCode.token
         );
         client.clearStore().then(() => {
-          getCompaniesQuery();
           getUserQuery();
-          dispatchEvent(
-            new StorageEvent("storage", {
-              key: "token",
-              oldValue: prevToken,
-              newValue: response.data.signInWithgeneratedCode.token,
-            })
-          );
-        });
-        localStorage.setItem("connectedAsPasswordForgot", "true");
-        addNotification({
-          message: "Connexion",
-          description:
-            "Vous avez bien été connecté, pensez à changer votre mot de passe (Dans la section profil)",
-          icon: <CheckCircleOutlined style={{ color: "#5CC04A" }} />,
         });
       })
       .catch((error) => {
@@ -107,6 +136,10 @@ const ResetForm: React.FC = () => {
         });
       });
   };
+
+  if (redirect !== "" && localStorage.getItem("token")) {
+    return <Redirect to={redirect} />;
+  }
 
   if (isCodeGenerated === true)
     return (
