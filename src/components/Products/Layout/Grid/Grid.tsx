@@ -5,6 +5,8 @@ import { DragDropContext } from "react-beautiful-dnd";
 import { useMutation } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
 
+import "../../../../assets/Style/Products/Grid.less";
+
 const mutationUpdateProductsPosition = graphqlLoader(
   "../../../../graphql/mutation/products/updateProductsPositions.graphql"
 );
@@ -21,12 +23,11 @@ declare interface GridProps {
   setCategoryVisible: (e) => void;
   setCategoryToUpdate: (e) => void;
   setCategoryName: (e) => void;
+  indexNullCat: number;
 }
 
 function Grid(props: GridProps) {
   const companyId = localStorage.getItem("selectedCompany");
-
-  let indexNullCat = -1;
 
   const [updateProductsPositions] = useMutation(
     mutationUpdateProductsPosition,
@@ -39,26 +40,6 @@ function Grid(props: GridProps) {
       ],
     }
   );
-
-  if (props.data) {
-    // TODO a supprimer et a faire en back
-    props.data.getAllCompanyProductsCategories.forEach((cat, index) => {
-      props.data.getAllCompanyProductsCategories[index].products.sort(
-        (a: any, b: any) => {
-          if (a.position > b.position) {
-            return 1;
-          } else if (a.position === b.position) {
-            return 0;
-          } else {
-            return -1;
-          }
-        }
-      );
-    });
-    indexNullCat = props.data.getAllCompanyProductsCategories.findIndex(
-      (cat) => cat.id === `nonCat${companyId}`
-    );
-  }
 
   const move = (source, destination, droppableSource, droppableDestination) => {
     const sourceClone = Array.from(source);
@@ -207,13 +188,15 @@ function Grid(props: GridProps) {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      {indexNullCat !== -1 && (
+      {props.indexNullCat !== -1 && (
         <CategoryProducts
           cat={{
-            id: props.data.getAllCompanyProductsCategories[indexNullCat].id,
+            id:
+              props.data.getAllCompanyProductsCategories[props.indexNullCat].id,
             name: "Produits non catégorisés",
             products:
-              props.data.getAllCompanyProductsCategories[indexNullCat].products,
+              props.data.getAllCompanyProductsCategories[props.indexNullCat]
+                .products,
           }}
           ProductModal={{
             setVisible: props.setAddProductVisible,

@@ -18,6 +18,9 @@ import Grid from "../components/Products/Layout/Grid/Grid";
 import Board from "../components/Products/Layout/Board/Board";
 import List from "../components/Products/Layout/List/List";
 
+import { Player, Controls } from "@lottiefiles/react-lottie-player";
+import animationLottie from "../assets/Animation/loading.json";
+
 const { Option } = Select;
 
 const queryAllCompanyProductsCategories = graphqlLoader(
@@ -65,6 +68,7 @@ const Products = () => {
   const [productLayout, setProductLayout] = useState("grid");
 
   const categoryList = [];
+  let indexNullCat = -1;
 
   if (dataCategories) {
     dataCategories.getAllCompanyProductsCategories.forEach((cat) => {
@@ -76,6 +80,26 @@ const Products = () => {
         </Option>
       );
     });
+  }
+
+  if (dataCategories) {
+    // TODO a supprimer et a faire en back
+    dataCategories.getAllCompanyProductsCategories.forEach((cat, index) => {
+      dataCategories.getAllCompanyProductsCategories[index].products.sort(
+        (a: any, b: any) => {
+          if (a.position > b.position) {
+            return 1;
+          } else if (a.position === b.position) {
+            return 0;
+          } else {
+            return -1;
+          }
+        }
+      );
+    });
+    indexNullCat = dataCategories.getAllCompanyProductsCategories.findIndex(
+      (cat) => cat.id === `nonCat${companyId}`
+    );
   }
 
   function handleChangeLayout(value) {
@@ -154,7 +178,9 @@ const Products = () => {
           </Radio.Group>
         </div>
       </div>
-      <div className={"categories-list"}>
+      <div
+        className={`categories-list ${productLayout === "0" ? "board" : ""}`}
+      >
         {!loadingCategories &&
           dataCategories !== undefined &&
           !errorCategories &&
@@ -169,7 +195,18 @@ const Products = () => {
         {!loadingCategories &&
           dataCategories !== undefined &&
           !errorCategories &&
-          productLayout === "0" && <Board />}
+          productLayout === "0" && (
+            <Board
+              data={dataCategories}
+              setAddProductVisible={setAddProductVisible}
+              setDefaultCategory={setDefaultCategory}
+              setUpdateProduct={setUpdateProduct}
+              setCategoryName={setCategoryName}
+              setCategoryToUpdate={setCategoryToUpdate}
+              setCategoryVisible={setCategoryVisible}
+              indexNullCat={indexNullCat}
+            />
+          )}
         {!loadingCategories &&
           dataCategories !== undefined &&
           !errorCategories &&
@@ -182,12 +219,36 @@ const Products = () => {
               setCategoryName={setCategoryName}
               setCategoryToUpdate={setCategoryToUpdate}
               setCategoryVisible={setCategoryVisible}
+              indexNullCat={indexNullCat}
             />
           )}
         {!loadingCategories &&
           dataCategories !== undefined &&
           !errorCategories &&
-          productLayout === "2" && <List />}
+          productLayout === "2" && (
+            <List
+              data={dataCategories}
+              indexNullCat={indexNullCat}
+              ProductModal={{
+                setVisible: setAddProductVisible,
+                setDefaultCategory: setDefaultCategory,
+                setUpdateProduct: setUpdateProduct,
+              }}
+            />
+          )}
+        {loadingUnits && !dataCategories && !errorCategories && (
+          <Player
+            autoplay
+            loop
+            src={animationLottie}
+            style={{ height: "300px", width: "300px" }}
+          >
+            <Controls
+              visible={false}
+              buttons={["play", "repeat", "frame", "debug"]}
+            />
+          </Player>
+        )}
       </div>
       {!loadingUnits && !errorUnits && (
         <ProductsModal

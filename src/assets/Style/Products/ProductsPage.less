@@ -1,6 +1,8 @@
 @import "../../../index";
 
 .product-page {
+  height: 100%;
+
   .empty-card {
     background: white;
     border-radius: 4px;
@@ -31,29 +33,32 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 90%;
+  }
 
-    .category {
-      overflow-y: hidden;
-      overflow-x: auto;
-      transition: max-height 0.2s linear;
-    }
+  .board {
+    flex-direction: row;
+    justify-content: flex-start;
+    overflow-x: auto;
+    height: calc(100% - 40px);
+  }
 
-    .collapsed-category {
-      overflow-x: hidden;
-    }
+  .board::-webkit-scrollbar-track
+  {
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.04);
+  }
 
-    .category-title {
-      height: 20%;
-      font-size: large;
-      font-weight: bold;
-      font-family: Montserrat, serif;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      flex-direction: row;
-    }
+  .board::-webkit-scrollbar
+  {
+    height: 10px;
+    background-color: rgba(0, 0, 0, 0.04);
+  ;
+  }
 
+  .board::-webkit-scrollbar-thumb
+  {
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.06);
     .category-title-icon {
       transition: all 0.2s ease-in;
       opacity: 0;
