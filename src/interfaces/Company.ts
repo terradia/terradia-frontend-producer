@@ -23,4 +23,5 @@ export interface Company {
   cover: CompanyImage;
   address: string;
   openingDays: [CompanyOpeningDay];
+  deliveryDays: [CompanyOpeningDay];
 }

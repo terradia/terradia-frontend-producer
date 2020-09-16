@@ -7,8 +7,8 @@ import CompanyInfoCard from "../components/Company/CompanyInfoCard";
 import { Company } from "../interfaces/Company";
 import TerradiaLoader from "../components/TerradiaLoader";
 import { Divider } from "antd";
-import CompanyHoursCard from "../components/Company/CompanyHoursCard";
 import CompanyTagsCard from "../components/Company/CompanyTagsCard";
+import CompanyHoursCard from "../components/Company/CompanyHoursCards";
 
 declare interface CompanyData {
   getCompany: Company;
@@ -36,27 +36,43 @@ const CompanyPage = () => {
     fetchPolicy: "cache-first",
   });
   const [officeHours, setOfficeHours] = useState<Info[]>(defaultOfficeHours);
+  const [deliveryHours, setDeliveryHours] = useState<Info[]>(
+    defaultOfficeHours
+  );
   // const [deleteCompany] = useMutation(deleteCompanyMutation);
 
   useEffect(() => {
-    if (data) {
-      setOfficeHours((prevState) => {
-        return prevState.map((item) => {
-          const existingHours = data.getCompany.openingDays.find(
+    const initHours = (prevState, isDelivery) => {
+      return prevState.map((item) => {
+        let existingHours;
+        if (isDelivery) {
+          existingHours = data.getCompany.deliveryDays.find(
             (value) => value.daySlugName === item.daySlugName
           );
-          if (existingHours === undefined) return item;
-          return Object.assign({}, item, {
-            label: existingHours.dayTranslationKey,
-            daySlugName: existingHours.daySlugName,
-            openHours: existingHours.hours.map((hour) => {
-              return {
-                startTime: moment(hour.startTime).local(),
-                endTime: moment(hour.endTime).local(),
-              };
-            }),
-          });
+        } else {
+          existingHours = data.getCompany.openingDays.find(
+            (value) => value.daySlugName === item.daySlugName
+          );
+        }
+        if (existingHours === undefined) return item;
+        return Object.assign({}, item, {
+          label: existingHours.dayTranslationKey,
+          daySlugName: existingHours.daySlugName,
+          openHours: existingHours.hours.map((hour) => {
+            return {
+              startTime: moment(hour.startTime).local(),
+              endTime: moment(hour.endTime).local(),
+            };
+          }),
         });
+      });
+    };
+    if (data) {
+      setOfficeHours((prevState) => {
+        return initHours(prevState, false);
+      });
+      setDeliveryHours((prevState) => {
+        return initHours(prevState, true);
       });
     }
   }, [data]);
@@ -94,6 +110,13 @@ const CompanyPage = () => {
         infos={officeHours}
         loading={loading}
         refetch={refetch}
+      />
+      <Divider className={"invisible-divider padding-size"} />
+      <CompanyHoursCard
+        infos={deliveryHours}
+        loading={loading}
+        refetch={refetch}
+        isDelivery
       />
       <Divider className={"invisible-divider padding-size"} />
       <CompanyTagsCard company={data.getCompany} />

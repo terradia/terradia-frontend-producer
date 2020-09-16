@@ -25,5 +25,15 @@ query getCompanyById($companyId: ID!) {
         endTime
       }
     }
+    deliveryDays {
+      id
+      daySlugName
+      dayTranslationKey
+      hours {
+        id
+        startTime
+        endTime
+      }
+    }
   }
 }
