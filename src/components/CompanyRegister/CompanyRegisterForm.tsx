@@ -148,7 +148,11 @@ const CompanyRegisterForm = () => {
           <div className={"register_form_div"}>
             <Steps current={currentStep} labelPlacement={"vertical"}>
               {steps.map((item) => (
-                <Steps.Step key={item.title} title={item.title} />
+                <Steps.Step
+                  key={item.title}
+                  title={item.title}
+                  className={"item-title"}
+                />
               ))}
             </Steps>
             <Button
@@ -188,9 +192,21 @@ const CompanyRegisterForm = () => {
             flexFlow: "column",
           }}
         >
+          <div
+            style={{
+              margin: "2em",
+              display: "flex",
+            }}
+          >
+            <Logout />
+          </div>
           <Steps current={currentStep} labelPlacement={"vertical"}>
             {steps.map((item) => (
-              <Steps.Step key={item.title} title={item.title} />
+              <Steps.Step
+                key={item.title}
+                title={item.title}
+                className={"item-title"}
+              />
             ))}
           </Steps>
           {currentStep > 0 && (
@@ -198,7 +214,7 @@ const CompanyRegisterForm = () => {
               onClick={() => setCurrentStep((step) => step - 1)}
               className={"prev_step"}
             >
-              {currentStep === 1 && <Logout />}
+              {currentStep === 1}
               {currentStep > 1 && (
                 <>
                   <LeftOutlined />
