@@ -173,6 +173,7 @@
       "email": "Email",
       "phone": "Numéro de téléphone",
       "image": "Cliquer sur l'image pour la modifier",
+      "chooseLanguage": "Choisissez le language de l'application",
       "tooltip": {
         "addImage": "Cliquer ici pour ajouter une image",
         "editImage": "Cliquer ici pour modifier l'image"
