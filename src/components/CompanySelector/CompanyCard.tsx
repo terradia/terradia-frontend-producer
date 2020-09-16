@@ -1,6 +1,14 @@
-import React from "react";
-import { Avatar, Card } from "antd";
+import React, { useState } from "react";
+import { Avatar, Card, Popover } from "antd";
 import { UserOutlined, PlusOutlined } from "@ant-design/icons";
+import "../../assets/Style/CompanySelector/CompanyCard.less";
+import moment from "moment";
+import { useMutation } from "@apollo/react-hooks";
+import { loader as graphqlLoader } from "graphql.macro";
+
+const restoreCompanyMutation = graphqlLoader(
+  "../../graphql/mutation/restoreCompany.graphql"
+);
 
 const textStyle = {
   fontWeight: 600,
@@ -18,6 +26,7 @@ declare interface CompanyCardProps {
   logo?: string;
   onClick: (arg: string) => void;
   create?: boolean;
+  archivedAt?: string | null;
 }
 
 const CompanyCard = ({
@@ -28,43 +37,94 @@ const CompanyCard = ({
   logo,
   onClick,
   create,
+  archivedAt,
 }: CompanyCardProps) => {
+  const [archived, setArchived] = useState(!!archivedAt);
+  const [restoreCompany] = useMutation(restoreCompanyMutation);
+
   const onClickHandler = () => {
-    onClick(id);
+    if (archived) {
+      restoreCompany({
+        variables: { companyId: id },
+      }).then((data) => {
+        if (data) {
+          onClick(id);
+          setArchived(false);
+        }
+      });
+    } else {
+      onClick(id);
+    }
   };
 
-  return (
-    <div
+  const deleteIn = () => {
+    const archived = moment(archivedAt).add(30, "days");
+    const nowDate = moment();
+    return archived.diff(nowDate, "days");
+  };
+
+  const card = (
+    <Card
       style={{
-        display: "flex",
-        flexWrap: "wrap",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
+        width: 250,
+        height: 250,
+        margin: "24px",
+        border: "solid ",
+        borderColor: selected ? "#00c537" : "#FFFFFF",
       }}
+      onClick={onClickHandler}
+      loading={loading}
     >
-      <Card
-        style={{
-          width: 250,
-          height: 250,
-          margin: "24px",
-          border: "solid ",
-          borderColor: selected ? "#00c537" : "#FFFFFF",
-        }}
-        onClick={onClickHandler}
-        loading={loading}
-      >
-        <Avatar
-          size={200}
-          shape={"square"}
-          alt={"profile"}
-          src={logo}
-          icon={create ? <PlusOutlined /> : <UserOutlined />}
-        />
-      </Card>
-      <span style={textStyle}>{name}</span>
-    </div>
+      <Avatar
+        size={200}
+        shape={"square"}
+        alt={"profile"}
+        src={logo}
+        icon={create ? <PlusOutlined /> : <UserOutlined />}
+      />
+    </Card>
   );
+
+  if (archived) {
+    return (
+      <div
+        className={"archived"}
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Popover
+          content={
+            "Les données de cette entreprise seront supprimées dans " +
+            deleteIn() +
+            " jours cliquer dessus pour restorer les données"
+          }
+        >
+          {card}
+        </Popover>
+        <span style={textStyle}>{name}</span>
+      </div>
+    );
+  } else {
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        {card}
+        <span style={textStyle}>{name}</span>
+      </div>
+    );
+  }
 };
 
 export default CompanyCard;

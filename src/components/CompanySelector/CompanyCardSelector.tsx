@@ -51,6 +51,7 @@ const CompanyCardSelector = () => {
           <CompanyCard
             key={companyData.id}
             id={companyData.id}
+            archivedAt={companyData.archivedAt}
             selected={selected === companyData.id}
             name={companyData.name}
             logo={
