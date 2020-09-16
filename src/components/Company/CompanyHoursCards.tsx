@@ -27,6 +27,7 @@ declare interface Props {
   infos: Info[];
   loading: boolean;
   refetch: () => void;
+  isDelivery?: boolean;
 }
 
 const textStyle = {
@@ -46,12 +47,14 @@ const boldTextStyle = {
 
 const { RangePicker } = TimePicker;
 const addOpeningDay = loader("../../graphql/mutation/addOpeningDay.graphql");
+const addDeliveryDay = loader("../../graphql/mutation/addDeliveryDay.graphql");
 const updateCompany = loader("../../graphql/mutation/updateCompany.graphql");
 
-const CompanyHoursCard = (props: Props) => {
+const CompanyOpenHoursCard = (props: Props) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [addOpeningDayMutation] = useMutation(addOpeningDay);
+  const [addDeliveryDayMutation] = useMutation(addDeliveryDay);
   const [updateCompanyMutation] = useMutation(updateCompany);
 
   const updateOpenHours = async (values) => {
@@ -67,13 +70,23 @@ const CompanyHoursCard = (props: Props) => {
           if (hour === null) return null;
           return { startTime: hour[0].utc(true), endTime: hour[1].utc(true) };
         });
-        await addOpeningDayMutation({
-          variables: {
-            companyId: localStorage.getItem("selectedCompany"),
-            day: key,
-            hours: existingKey.openHours,
-          },
-        });
+        if (props.isDelivery) {
+          await addDeliveryDayMutation({
+            variables: {
+              companyId: localStorage.getItem("selectedCompany"),
+              day: key,
+              hours: existingKey.openHours,
+            },
+          });
+        } else {
+          await addOpeningDayMutation({
+            variables: {
+              companyId: localStorage.getItem("selectedCompany"),
+              day: key,
+              hours: existingKey.openHours,
+            },
+          });
+        }
       }
     }
   };
@@ -113,7 +126,12 @@ const CompanyHoursCard = (props: Props) => {
             alignItems: "center",
           }}
         >
-          <h2>{"Horaires"}</h2> {/* TODO : translate this. */}
+          <h2>
+            {props.isDelivery
+              ? "Horaires de livraison"
+              : "Horaires d'ouverture"}
+          </h2>{" "}
+          {/* TODO : translate this. */}
         </span>
       }
       bordered={false}
@@ -196,4 +214,4 @@ const CompanyHoursCard = (props: Props) => {
   );
 };
 
-export default CompanyHoursCard;
+export default CompanyOpenHoursCard;
