@@ -192,14 +192,14 @@ const ProfileView: React.FC = () => {
           {t("ProfilePage.labels.chooseLanguage")}
           <div className={"flags"}>
             <div onClick={() => i18n.changeLanguage("en")}>
-              <FlagIcon code={"gb"}/>
+              <FlagIcon code={"gb"} />
             </div>
-            <div onClick={() => i18n.changeLanguage("fr")} >
-              <FlagIcon code={"fr"}/>
+            <div onClick={() => i18n.changeLanguage("fr")}>
+              <FlagIcon code={"fr"} />
             </div>
           </div>
         </div>
-        <Divider/>
+        <Divider />
         <div className={"action-bar"}>
           <Button
             icon={<EditOutlined />}
