@@ -15,6 +15,7 @@ import "../../assets/Style/Profil/profileView.less";
 import Button from "../../components/Ui/Button";
 import UserProfileModal from "./UserProfileModal";
 import { useTranslation } from "react-i18next";
+import PasswordModal from "./PasswordModal";
 import FlagIconFactory from "react-flag-icon-css";
 import i18n from "../../i18n";
 
@@ -39,7 +40,8 @@ const ProfileView: React.FC = () => {
   const [imageUrl, setImageUrl] = useState(null);
   const [imageList, setImageList] = useState(null);
   const [loadingAvatar, setLoadingAvatar] = useState(true);
-  const [modalVisible, setModalVisible] = useState(false);
+  const [modalPasswordVisible, setModalPasswordVisible] = useState(false);
+  const [modalUserProfileVisible, setModalUserProfileVisible] = useState(false);
 
   const { data: userData, loading, error } = useQuery<ProfileData>(
     getUserData,
@@ -201,7 +203,13 @@ const ProfileView: React.FC = () => {
         <div className={"action-bar"}>
           <Button
             icon={<EditOutlined />}
-            onClick={() => setModalVisible(!modalVisible)}
+            onClick={() => setModalPasswordVisible(!modalPasswordVisible)} //stateModalPasswordVisible
+          >
+            {t("ProfilePage.buttons.editPassword")}
+          </Button>
+          <Button
+            icon={<EditOutlined />}
+            onClick={() => setModalUserProfileVisible(!modalUserProfileVisible)}
           >
             {t("ProfilePage.buttons.edit")}
           </Button>
@@ -213,10 +221,16 @@ const ProfileView: React.FC = () => {
             {t("ProfilePage.buttons.delete")}
           </Button>
         </div>
-        <UserProfileModal
-          visible={modalVisible}
+        <PasswordModal
+          visible={modalPasswordVisible}
           user={userData.getUser}
-          onClickToClose={() => setModalVisible(false)}
+          onClickToClose={() => setModalPasswordVisible(false)}
+          onValidate={() => console.log("validated")}
+        />
+        <UserProfileModal
+          visible={modalUserProfileVisible}
+          user={userData.getUser}
+          onClickToClose={() => setModalUserProfileVisible(false)}
           onValidate={() => console.log("validated")}
         />
       </div>

@@ -165,6 +165,7 @@
   "ProfilePage": {
     "buttons": {
       "edit": "Modifier mon compte",
+      "editPassword":"Modifier mon mot de passe",
       "delete": "Supprimer mon compte"
     },
     "labels": {
@@ -186,7 +187,15 @@
       "lastName": "NOM",
       "firstName": "PRENOM",
       "email": "COURRIEL",
-      "phone": "NUMERO DE TELEPHONE"
+      "phone": "NUMERO DE TELEPHONE",
+      "actualPassword": "MOT DE PASSE ACTUEL",
+      "newPassword": "NOUVEAU MOT DE PASSE",
+      "confirmNewPassword": "CONFIRMER LE NOUVEAU MOT DE PASSE",
+      "messageActualPassword": "Veuillez saisir le mot de passe actuel",
+      "errorMessageNewPassword": "Votre mot de passe doit contenir entre 2 et 20 caractères",
+      "messageNewPassword": "Veuillez saisir le nouveau mot de passe",
+      "messageConfirmPassword": "Veuillez confirmer le nouveau mot de passe",
+      "missmatchPassword": "Les deux mots de passe ne correspondent pas"
     }
   },
   "ImageSelectorButton": {

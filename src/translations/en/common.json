@@ -165,6 +165,7 @@
   "ProfilePage": {
     "buttons": {
       "edit": "Edit my account",
+      "editPassword":"Edit my password",
       "delete": "Delete my account"
     },
     "labels": {
@@ -186,7 +187,15 @@
       "lastName": "LASTNAME",
       "firstName": "FIRSTNAME",
       "email": "EMAIL",
-      "phone": "PHONE NUMBER"
+      "phone": "PHONE NUMBER",
+      "actualPassword": "ACTUAL PASSWORD",
+      "newPassword": "NEW PASSWORD",
+      "confirmNewPassword": "CONFIRM NEW PASSWORD",
+      "messageActualPassword": "Please input your actual password",
+      "messageNewPassword": "Please input your new password",
+      "errorMessageNewPassword": "Your password must contain between 2 and 20 characters",
+      "messageConfirmPassword": "Please confirm your new password",
+      "missmatchPassword": "The two passwords that you entered do not match"
     }
   },
   "ImageSelectorButton": {
@@ -196,4 +205,3 @@
     }
   }
 }
-
