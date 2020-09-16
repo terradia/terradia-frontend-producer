@@ -9,11 +9,32 @@ import "./index.less";
 import { createUploadLink } from "apollo-upload-client";
 import ApolloClient from "apollo-client";
 import { InMemoryCache } from "apollo-cache-inmemory";
+import { onError } from "apollo-link-error";
+import { ApolloLink } from "apollo-link";
+import { notification } from "antd";
 
 const httpLink = createUploadLink({
   // uri: "https://api.terradia.eu/graphql",
   uri: "http://localhost:8000/graphql",
-  fetch: fetch,
+  fetch: fetch
+});
+
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+  if (graphQLErrors) {
+    graphQLErrors.map(({ message, locations, path }) =>
+      notification.error({
+        message: message
+      })
+    );
+  }
+  if (networkError) {
+    console.log(networkError.message);
+    if (networkError.message === "Failed to fetch") {
+      notification.error({
+        message: "Failed to connect to the server, check your connectivity" // TODO translate
+      });
+    }
+  }
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -21,8 +42,8 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: token ? token : "",
-    },
+      authorization: token ? token : ""
+    }
   };
 });
 
@@ -32,25 +53,25 @@ const cache = new InMemoryCache({
       meLocal: (_, { id }, { getChachedKey }) => {
         return getChachedKey({
           __typename: "User",
-          id: id,
+          id: id
         });
-      },
-    },
-  },
+      }
+    }
+  }
 });
 
 const client = new ApolloClient({
-  link: authLink.concat(httpLink),
+  link: ApolloLink.from([authLink, errorLink, httpLink]),
   cache: cache,
-  connectToDevTools: true,
+  connectToDevTools: true
 });
 
 ReactDOM.render(
-    //<Suspense fallback="Loading...">
-      <ApolloProvider client={client}>
-        <App />
-      </ApolloProvider>,
-    //</Suspense>,
+  //<Suspense fallback="Loading...">
+  <ApolloProvider client={client}>
+    <App />
+  </ApolloProvider>,
+  //</Suspense>,
   document.getElementById("root")
 );
 

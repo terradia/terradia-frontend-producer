@@ -16,6 +16,8 @@ import Button from "../../components/Ui/Button";
 import UserProfileModal from "./UserProfileModal";
 import { useTranslation } from "react-i18next";
 import PasswordModal from "./PasswordModal";
+import FlagIconFactory from "react-flag-icon-css";
+import i18n from "../../i18n";
 
 // QUERIES
 const getUserData = graphqlLoader("../../graphql/query/getUser.graphql");
@@ -31,6 +33,8 @@ const validImageTypes = ["image/jpeg", "image/png"];
 declare interface ProfileData {
   getUser: User;
 }
+
+const FlagIcon = FlagIconFactory(React, { useCssModules: false });
 
 const ProfileView: React.FC = () => {
   const [imageUrl, setImageUrl] = useState(null);
@@ -184,6 +188,18 @@ const ProfileView: React.FC = () => {
           </div>
         </div>
         <Divider />
+        <div className={"languages"}>
+          {t("ProfilePage.labels.chooseLanguage")}
+          <div className={"flags"}>
+            <div onClick={() => i18n.changeLanguage("en")}>
+              <FlagIcon code={"gb"}/>
+            </div>
+            <div onClick={() => i18n.changeLanguage("fr")} >
+              <FlagIcon code={"fr"}/>
+            </div>
+          </div>
+        </div>
+        <Divider/>
         <div className={"action-bar"}>
           <Button
             icon={<EditOutlined />}
