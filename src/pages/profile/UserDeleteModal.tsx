@@ -6,6 +6,7 @@ import Button from "../../components/Ui/Button";
 import { User } from "../../interfaces";
 import { useTranslation } from "react-i18next";
 import { loader as graphqlLoader } from "graphql.macro";
+import { DeleteOutlined } from "@ant-design/icons/lib";
 
 const mutationDeleteUser = graphqlLoader(
   "../../graphql/mutation/profile/deleteUser.graphql"
@@ -46,16 +47,18 @@ const UserDeleteModal = ({
         visible={visible}
         onCancel={handleClose}
         className={"profile-card"}
-        title={t("ProfilePage.editProfileModal.name")}
+        title={t("ProfilePage.deleteAccountModal.name")}
         footer={[
           <div key={"footer"} className={"line"}>
             <Form.Item key={"validate"}>
               <Button
-                type={"primary"}
                 htmlType="submit"
                 onClick={handleValidation}
+                className={"delete-button"}
+                icon={<DeleteOutlined />}
+                danger={true}
               >
-                {t("ProfilePage.editProfileModal.validate")}
+                {t("ProfilePage.deleteAccountModal.delete")}
               </Button>
             </Form.Item>
             <Button
@@ -63,7 +66,7 @@ const UserDeleteModal = ({
               onClick={handleClose}
               className={"close-button"}
             >
-              {t("ProfilePage.editProfileModal.close")}
+              {t("ProfilePage.deleteAccountModal.close")}
             </Button>
           </div>,
         ]}
@@ -84,7 +87,7 @@ const UserDeleteModal = ({
         >
           <Form.Item>
             <div className={"label"}>
-              {t("ProfilePage.editProfileModal.firstName")}
+              {t("ProfilePage.deleteAccountModal.password")}
             </div>
             <Form.Item
               name={"userPassword"}

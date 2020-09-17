@@ -186,6 +186,12 @@
       "firstName": "FIRSTNAME",
       "email": "EMAIL",
       "phone": "PHONE NUMBER"
+    },
+    "deleteAccountModal":{
+      "delete": "Delete account",
+      "close": "Cancel",
+      "name": "Are you sure?",
+      "password": "PASSWORD"
     }
   },
   "ImageSelectorButton": {
