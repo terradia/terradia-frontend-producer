@@ -6,8 +6,9 @@ import { loader as graphqlLoader } from "graphql.macro";
 import { useLazyQuery, useMutation, useQuery } from "@apollo/react-hooks";
 import ProductsAdvice from "./ProductsAdvice";
 import ProductsReviews from "./ProductsReviews";
-const { TabPane } = Tabs;
 import { useTranslation } from "react-i18next";
+
+const { TabPane } = Tabs;
 
 const mutationCreateProduct = graphqlLoader(
   "../../../../graphql/mutation/products/createProduct.graphql"
@@ -115,7 +116,7 @@ function ProductsModal(props: ProductsModalProps) {
       loadReviews({
         variables: {
           id: props.updateProduct.id,
-          limit: 2,
+          limit: 5,
           offset: 0,
         },
       });
@@ -264,7 +265,7 @@ function ProductsModal(props: ProductsModalProps) {
         </div>
       }
     >
-      <Tabs defaultActiveKey="1" onChange={handleChangeTab}>
+      <Tabs defaultActiveKey="1">
         <TabPane tab="Informations du produits" key="1">
           <ProductsForm
             setForm={setForm}

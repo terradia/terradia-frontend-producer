@@ -22,8 +22,10 @@ declare interface ProductsReviewsProps {
   reload: any;
 }
 
+const limitReviews = 5;
+
 function ProductsReviews(props: ProductsReviewsProps) {
-  const [offsetReviews, setOffsetReviews] = useState(2);
+  const [offsetReviews, setOffsetReviews] = useState(limitReviews);
   const [noMoreReviews, setNoMoreReviews] = useState(false);
   const [copyReviews, setCopyReviews] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -37,7 +39,7 @@ function ProductsReviews(props: ProductsReviewsProps) {
     props.fetchMore({
       variables: {
         id: props.updateProduct.id,
-        limit: 2,
+        limit: limitReviews,
         offset: offsetReviews,
       },
       updateQuery: (prev, { fetchMoreResult, ...rest }) => {
@@ -60,7 +62,7 @@ function ProductsReviews(props: ProductsReviewsProps) {
         };
       },
     });
-    setOffsetReviews(offsetReviews + 2);
+    setOffsetReviews(offsetReviews + limitReviews);
   }
 
   return (
@@ -77,10 +79,14 @@ function ProductsReviews(props: ProductsReviewsProps) {
         loading={loading}
         renderItem={(item: Test) => {
           return (
-            <li>
-              <Comment author={item.title} content={item.description} />
+            <List.Item>
+              <Comment
+                author={item.title}
+                content={item.description}
+                style={{ width: "80%" }}
+              />
               <Rate disabled defaultValue={item.customerMark} />
-            </li>
+            </List.Item>
           );
         }}
       />

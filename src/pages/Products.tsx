@@ -136,23 +136,6 @@ const Products = () => {
             setAddProductVisible(true);
           }}
         />
-        <div className={"product-button"}>
-          <Button
-            className={"button"}
-            text={"Créer une catégorie"}
-            icon={<PlusOutlined />}
-            onClick={() => setCategoryVisible(true)}
-          />
-          <Button
-            className={"button"}
-            text={"Créer un produit"}
-            icon={<PlusOutlined />}
-            onClick={() => {
-              setDefaultCategory(undefined);
-              setAddProductVisible(true);
-            }}
-          />
-        </div>
         <div className={"product-layout"}>
           <Radio.Group
             value={productLayout}
@@ -236,19 +219,19 @@ const Products = () => {
               }}
             />
           )}
-        {loadingUnits && !dataCategories && !errorCategories && (
-          <Player
-            autoplay
-            loop
-            src={animationLottie}
-            style={{ height: "300px", width: "300px" }}
-          >
-            <Controls
-              visible={false}
-              buttons={["play", "repeat", "frame", "debug"]}
-            />
-          </Player>
-        )}
+        {/*{loadingUnits && !dataCategories && !errorCategories && (*/}
+        {/*  <Player*/}
+        {/*    autoplay*/}
+        {/*    loop*/}
+        {/*    src={animationLottie}*/}
+        {/*    style={{ height: "300px", width: "300px" }}*/}
+        {/*  >*/}
+        {/*    <Controls*/}
+        {/*      visible={false}*/}
+        {/*      buttons={["play", "repeat", "frame", "debug"]}*/}
+        {/*    />*/}
+        {/*  </Player>*/}
+        {/*)}*/}
       </div>
       {!loadingUnits && !errorUnits && (
         <ProductsModal
