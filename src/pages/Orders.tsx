@@ -1,8 +1,9 @@
 import React from "react";
 import "../assets/Style/Products/ProductsPage.less";
-import { Table } from "antd";
+import { Table, Radio } from "antd";
 import Title from "../components/Ui/Title";
 import { MoreOutlined } from "@ant-design/icons";
+import Modal from "antd/lib/modal/Modal";
 
 // const queryCompanyUsers = graphqlLoader(
 //   "../graphql/query/getCompanyUsers.graphql"
@@ -14,7 +15,7 @@ const myArray = [
     date: new Date("March 13, 08 04:20"),
     status: "payed",
     nbItems: 1,
-    deliveryMode: "Stuart vélo",
+    deliveryMode: "Pick up only", //"Stuart vélo",
     totalPrice: 46,
   },
   {
@@ -22,7 +23,7 @@ const myArray = [
     date: new Date("May 12, 08 04:20"),
     status: "payed",
     nbItems: 12,
-    deliveryMode: "Stuart vélo",
+    deliveryMode: "Pick up only", //"Stuart vélo",
     totalPrice: 16,
   },
   {
@@ -30,7 +31,7 @@ const myArray = [
     date: new Date("March 03, 12 04:20"),
     status: "delivered",
     nbItems: 2,
-    deliveryMode: "Stuart vélo",
+    deliveryMode: "Pick up only", //"Stuart vélo",
     totalPrice: 146,
   },
   {
@@ -38,7 +39,7 @@ const myArray = [
     date: new Date("March 13, 08 04:20"),
     status: "approuved",
     nbItems: 1,
-    deliveryMode: "Stuart fourguon",
+    deliveryMode: "Pick up only", //"Stuart fourguon",
     totalPrice: 460,
   },
   {
@@ -46,7 +47,7 @@ const myArray = [
     date: new Date("March 13, 08 04:20"),
     status: "payed",
     nbItems: 7,
-    deliveryMode: "Stuart scooter",
+    deliveryMode: "Pick up only", //"Stuart scooter",
     totalPrice: 46,
   },
   {
@@ -54,15 +55,15 @@ const myArray = [
     date: new Date("March 21, 20 04:20"),
     status: "canceled",
     nbItems: 5,
-    deliveryMode: "Stuart voiture",
+    deliveryMode: "Pick up only", //"Stuart voiture",
     totalPrice: 45,
   },
   {
     id: "0102030410",
     date: new Date("March 31, 18 04:20"),
-    status: "sent",
+    status: "payed",
     nbItems: 12,
-    deliveryMode: "Stuart vélo",
+    deliveryMode: "Pick up only", //"Stuart vélo",
     totalPrice: 6,
   },
 ];
@@ -97,16 +98,69 @@ const Orders = () => {
     totalPrice: 46,
   */
 
+  //  const [openDetails, setOpenDetails] = React.useState(false);
+
+  // const [orderStatus, setOrderStatus] = React.useState("");
   const [openMoreDetails, setOpenMoreDetails] = React.useState(false);
+  const [statusOrder, setStatusOrder] = React.useState("");
+  const [statusOrderId, setStatusOrderId] = React.useState("");
+  let tmpRecord = [];
+
+  const handleModalDetails = () => {
+    myArray.forEach((order) => {
+      if (order.id === statusOrderId) {
+        order.status = statusOrder;
+      }
+    });
+    if (statusOrder) {
+      openMoreDetails === true
+        ? setOpenMoreDetails(false)
+        : setOpenMoreDetails(true);
+    }
+  };
 
   const handleMoreDetails = (order) => {
-    console.log("Order:", order);
+    // console.log("Order:", order);
+    setStatusOrderId(order.id);
     return openMoreDetails === true
       ? setOpenMoreDetails(false)
       : setOpenMoreDetails(true);
   };
 
+  const onChange = (e) => {
+    setStatusOrder(e.target.value);
+  };
+
+  const handleChangeOrder = () => {
+    const radioStyle = {
+      display: "block",
+      height: "30px",
+      lineHeight: "30px",
+    };
+    return (
+      <div>
+        {tmpRecord && (
+          <Radio.Group onChange={onChange} value={statusOrder}>
+            <Radio style={radioStyle} value={"approuved"}>
+              Approuved
+            </Radio>
+            <Radio style={radioStyle} value={"payed"}>
+              Payed
+            </Radio>
+            <Radio style={radioStyle} value={"delivered"}>
+              Delivered
+            </Radio>
+            <Radio style={radioStyle} value={"cancel"}>
+              Cancel
+            </Radio>
+          </Radio.Group>
+        )}
+      </div>
+    );
+  };
+
   const moreDetails = (text, record) => {
+    tmpRecord = record;
     return (
       <div>
         <MoreOutlined rotate={90} onClick={() => handleMoreDetails(record)} />
@@ -132,11 +186,7 @@ const Orders = () => {
       key: "status",
       filters: [
         {
-          text: "Sent",
-          value: "sent",
-        },
-        {
-          text: "approuved",
+          text: "Approuved",
           value: "approuved",
         },
         {
@@ -152,7 +202,7 @@ const Orders = () => {
           value: "canceled",
         },
       ],
-      filterMultiple: false,
+      filterMultiple: true,
       onFilter: (value, record) => record.status.indexOf(value) === 0,
     },
     {
@@ -188,6 +238,15 @@ const Orders = () => {
 
   return (
     <div className={"order-page"}>
+      <Modal
+        title="Order Status"
+        centered
+        visible={openMoreDetails}
+        onOk={() => handleModalDetails()}
+        onCancel={() => setOpenMoreDetails(false)}
+      >
+        <div>{handleChangeOrder()}</div>
+      </Modal>
       <Title title={"Suivi des commandes"} />
       <Table columns={columns} rowKey={"id"} dataSource={myArray} />
     </div>
