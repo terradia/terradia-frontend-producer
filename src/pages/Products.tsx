@@ -18,9 +18,6 @@ import Grid from "../components/Products/Layout/Grid/Grid";
 import Board from "../components/Products/Layout/Board/Board";
 import List from "../components/Products/Layout/List/List";
 
-import { Player, Controls } from "@lottiefiles/react-lottie-player";
-import animationLottie from "../assets/Animation/loading.json";
-
 const { Option } = Select;
 
 const queryAllCompanyProductsCategories = graphqlLoader(
@@ -219,19 +216,6 @@ const Products = () => {
               }}
             />
           )}
-        {/*{loadingUnits && !dataCategories && !errorCategories && (*/}
-        {/*  <Player*/}
-        {/*    autoplay*/}
-        {/*    loop*/}
-        {/*    src={animationLottie}*/}
-        {/*    style={{ height: "300px", width: "300px" }}*/}
-        {/*  >*/}
-        {/*    <Controls*/}
-        {/*      visible={false}*/}
-        {/*      buttons={["play", "repeat", "frame", "debug"]}*/}
-        {/*    />*/}
-        {/*  </Player>*/}
-        {/*)}*/}
       </div>
       {!loadingUnits && !errorUnits && (
         <ProductsModal

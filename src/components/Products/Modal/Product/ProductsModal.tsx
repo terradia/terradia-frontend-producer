@@ -3,7 +3,7 @@ import { Button, Modal, Popconfirm, Tabs } from "antd";
 import ProductsForm from "./ProductsForm";
 import "../../../../assets/Style/Products/Modal/ProductsModal.less";
 import { loader as graphqlLoader } from "graphql.macro";
-import { useLazyQuery, useMutation, useQuery } from "@apollo/react-hooks";
+import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 import ProductsAdvice from "./ProductsAdvice";
 import ProductsReviews from "./ProductsReviews";
 import { useTranslation } from "react-i18next";
@@ -103,12 +103,7 @@ function ProductsModal(props: ProductsModalProps) {
 
   const [
     loadReviews,
-    {
-      called: calledReviews,
-      loading: loadingReviews,
-      data: dataReviews,
-      fetchMore: fetchMoreReviews,
-    },
+    { loading: loadingReviews, data: dataReviews, fetchMore: fetchMoreReviews },
   ] = useLazyQuery(queryProductReviews);
 
   useEffect(() => {
@@ -121,7 +116,7 @@ function ProductsModal(props: ProductsModalProps) {
         },
       });
     }
-  }, [props.updateProduct]);
+  }, [props.updateProduct, loadReviews]);
 
   function handleCancel() {
     props.setDefaultCategory("");

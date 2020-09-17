@@ -42,7 +42,7 @@ function ProductsReviews(props: ProductsReviewsProps) {
         limit: limitReviews,
         offset: offsetReviews,
       },
-      updateQuery: (prev, { fetchMoreResult, ...rest }) => {
+      updateQuery: (prev, { fetchMoreResult }) => {
         if (!fetchMoreResult) {
           return prev;
         }
@@ -54,6 +54,7 @@ function ProductsReviews(props: ProductsReviewsProps) {
         }
         fetchMoreResult.getProductReviews.map((review) => {
           prev.getProductReviews.push(review);
+          return true;
         });
         setCopyReviews(prev.getProductReviews);
         setLoading(false);
