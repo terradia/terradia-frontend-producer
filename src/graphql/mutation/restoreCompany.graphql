@@ -1,0 +1,11 @@
+mutation restoreCompany($companyId: String!) {
+    restoreCompany(companyId: $companyId) {
+        id
+        name
+        description
+        email
+        phone
+        address
+        archivedAt
+    }
+}

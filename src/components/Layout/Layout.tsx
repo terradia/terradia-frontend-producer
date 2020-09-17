@@ -51,7 +51,7 @@ const Layout = (props: LayoutProps) => {
           breakpoint={"md"}
           collapsedWidth={breakpoint < sm ? 0 : 80}
           style={{
-            minHeight: "100vh",
+            minHeight: "calc(100vh - 80px)",
             maxHeight: "100vh",
             position: "sticky",
             top: 0,
@@ -68,6 +68,8 @@ const Layout = (props: LayoutProps) => {
           style={{
             background: "F6F8FA",
             padding: 24,
+            height: "calc(100vh - 80px)",
+
           }}
         >
           {props.children}

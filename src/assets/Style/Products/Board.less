@@ -1,0 +1,84 @@
+.column {
+  background: white;
+  border-radius: 5px;
+  margin-right: 30px;
+  margin-bottom: 20px;
+  min-width: 250px;
+  height: 97%;
+  padding-bottom: 15px;
+}
+
+.droppable-column {
+  height: 100%;
+}
+
+.column-header {
+  height: 10%;
+  font-size: large;
+  font-weight: bold;
+  font-family: Montserrat, serif;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  padding: 10px 20px;
+
+  .column-title {
+    height: 100%;
+    width: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+  }
+
+  .column-title-icon  {
+    height: 100%;
+    width: 30%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+  }
+}
+
+.column-content {
+  height: 90%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  margin: 0 6px;
+}
+
+.column-content::-webkit-scrollbar-track
+{
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.column-content::-webkit-scrollbar
+{
+  width: 10px;
+  background-color: rgba(0, 0, 0, 0.04);
+;
+}
+
+.column-content::-webkit-scrollbar-thumb
+{
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+.card-list-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.empty-list-board {
+  margin: 1% 10px 1% 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}

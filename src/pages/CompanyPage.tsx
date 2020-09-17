@@ -9,6 +9,7 @@ import TerradiaLoader from "../components/TerradiaLoader";
 import { Divider } from "antd";
 import CompanyTagsCard from "../components/Company/CompanyTagsCard";
 import CompanyHoursCard from "../components/Company/CompanyHoursCards";
+import DeleteCompanyButton from "../components/Ui/DeleteCompanyButton";
 
 declare interface CompanyData {
   getCompany: Company;
@@ -120,6 +121,8 @@ const CompanyPage = () => {
       />
       <Divider className={"invisible-divider padding-size"} />
       <CompanyTagsCard company={data.getCompany} />
+      <Divider className={"invisible-divider padding-size"} />
+      <DeleteCompanyButton />
       {/*<Title*/}
       {/*  title={!loading && data && data.getCompany ? data.getCompany.name : ""}*/}
       {/*/>*/}

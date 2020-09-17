@@ -1,10 +1,14 @@
-import React, { useState } from "react";
-import { Button, Modal, Popconfirm } from "antd";
+import React, { useEffect, useState } from "react";
+import { Button, Modal, Popconfirm, Tabs } from "antd";
 import ProductsForm from "./ProductsForm";
 import "../../../../assets/Style/Products/Modal/ProductsModal.less";
 import { loader as graphqlLoader } from "graphql.macro";
-import { useMutation } from "@apollo/react-hooks";
+import { useLazyQuery, useMutation } from "@apollo/react-hooks";
+import ProductsAdvice from "./ProductsAdvice";
+import ProductsReviews from "./ProductsReviews";
 import { useTranslation } from "react-i18next";
+
+const { TabPane } = Tabs;
 
 const mutationCreateProduct = graphqlLoader(
   "../../../../graphql/mutation/products/createProduct.graphql"
@@ -20,6 +24,9 @@ const mutationUpdateProductCompanyCategory = graphqlLoader(
 );
 const queryGetCategories = graphqlLoader(
   "../../../../graphql/query/getAllCompanyProductsCategories.graphql"
+);
+const queryProductReviews = graphqlLoader(
+  "../../../../graphql/query/getProductReviews.graphql"
 );
 
 interface ProductsModalProps {
@@ -93,6 +100,23 @@ function ProductsModal(props: ProductsModalProps) {
       ],
     }
   );
+
+  const [
+    loadReviews,
+    { loading: loadingReviews, data: dataReviews, fetchMore: fetchMoreReviews },
+  ] = useLazyQuery(queryProductReviews);
+
+  useEffect(() => {
+    if (props.updateProduct) {
+      loadReviews({
+        variables: {
+          id: props.updateProduct.id,
+          limit: 5,
+          offset: 0,
+        },
+      });
+    }
+  }, [props.updateProduct, loadReviews]);
 
   function handleCancel() {
     props.setDefaultCategory("");
@@ -236,14 +260,35 @@ function ProductsModal(props: ProductsModalProps) {
         </div>
       }
     >
-      <ProductsForm
-        setForm={setForm}
-        confirm={handleOk}
-        category={props.category}
-        categoryList={props.categoryList}
-        updateProduct={props.updateProduct}
-        units={props.units}
-      />
+      <Tabs defaultActiveKey="1">
+        <TabPane tab="Informations du produits" key="1">
+          <ProductsForm
+            setForm={setForm}
+            confirm={handleOk}
+            category={props.category}
+            categoryList={props.categoryList}
+            updateProduct={props.updateProduct}
+            units={props.units}
+          />
+        </TabPane>
+        <TabPane tab="Conseil d'utilisation" key="2">
+          <ProductsAdvice
+            setForm={setForm}
+            confirm={handleOk}
+            updateProduct={props.updateProduct}
+          />
+        </TabPane>
+        {props.updateProduct !== null && !loadingReviews && dataReviews && (
+          <TabPane tab="Avis des clients" key="3">
+            <ProductsReviews
+              updateProduct={props.updateProduct}
+              reviews={dataReviews.getProductReviews}
+              fetchMore={fetchMoreReviews}
+              reload={loadReviews}
+            />
+          </TabPane>
+        )}
+      </Tabs>
     </Modal>
   );
 }
