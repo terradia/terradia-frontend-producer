@@ -1,25 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  PlusCircleOutlined,
+} from "@ant-design/icons/lib";
 import { Draggable, Droppable } from "react-beautiful-dnd";
-import { PlusCircleOutlined } from "@ant-design/icons";
-import { ReactComponent as CarretIcon } from "../../assets/Icon/ui/caret.svg";
-import { ReactComponent as BookmarkIcon } from "../../assets/Icon/ui/bookmark.svg";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons/lib";
 import { Popconfirm } from "antd";
-import { useTranslation } from "react-i18next";
-
-import { loader as graphqlLoader } from "graphql.macro";
-import "../../assets/Style/Products/ProductsPage.less";
+import { ReactComponent as BookmarkIcon } from "../../../../assets/Icon/ui/bookmark.svg";
 import { useMutation } from "@apollo/react-hooks";
-import ProductCard from "./ProductCard";
+import { loader as graphqlLoader } from "graphql.macro";
+import ProductCard from "../Grid/ProductCard";
 
 const mutationDeleteCategory = graphqlLoader(
-  "../../graphql/mutation/category/deleteCompanyProductCategory.graphql"
+  "../../../../graphql/mutation/category/deleteCompanyProductCategory.graphql"
 );
 const queryGetCategories = graphqlLoader(
-  "../../graphql/query/getAllCompanyProductsCategories.graphql"
+  "../../../../graphql/query/getAllCompanyProductsCategories.graphql"
 );
 
-interface CategoryProductsProps {
+declare interface CategoryColumnProps {
   cat: { id: string; name: string; products: any };
   ProductModal: {
     setVisible: (e) => void;
@@ -42,16 +41,11 @@ const getItemStyle = (isDragging, draggableStyle) => {
 
 const getListStyle = (isDraggingOver) => ({
   background: isDraggingOver ? "#a3ee71" : null,
-  height: isDraggingOver ? "200px" : null,
 });
 
-function CategoryProducts(props: CategoryProductsProps) {
+function CategoryColumn(props: CategoryColumnProps) {
   const companyId = localStorage.getItem("selectedCompany");
-  const collapsedCategory = JSON.parse(
-    localStorage.getItem("collapsedCategory")
-  );
 
-  const [collapsed, setCollapsed] = useState(false);
   const [draggingOver, setDraggingOver] = useState(false);
   const [isHover, setIsHover] = useState(false);
 
@@ -74,50 +68,9 @@ function CategoryProducts(props: CategoryProductsProps) {
     });
   }
 
-  useEffect(() => {
-    setCollapsed(false);
-  }, [draggingOver]);
-
-  useEffect(() => {
-    if (collapsedCategory) {
-      const indexLocalStorage = collapsedCategory.findIndex((elem) => {
-        return elem === props.cat.id;
-      });
-      if (indexLocalStorage !== -1) {
-        setCollapsed(true);
-      }
-    }
-  }, [collapsedCategory, props.cat.id]);
-
-  function handleCollapse() {
-    if (collapsed) {
-      setCollapsed(false);
-      const indexLocalStorage = collapsedCategory.findIndex((elem) => {
-        return elem === props.cat.id;
-      });
-      if (indexLocalStorage !== -1) {
-        collapsedCategory.splice(indexLocalStorage, 1);
-        localStorage.setItem(
-          "collapsedCategory",
-          JSON.stringify(collapsedCategory)
-        );
-      }
-    } else {
-      setCollapsed(true);
-      collapsedCategory.push(props.cat.id);
-      localStorage.setItem(
-        "collapsedCategory",
-        JSON.stringify(collapsedCategory)
-      );
-    }
-  }
-
-  const { t } = useTranslation("common");
-
   return (
     <div
-      className={`category ${collapsed === true ? "collapsed-category" : ""}`}
-      style={getListStyle(draggingOver)}
+      className={"column"}
       onMouseEnter={() => {
         setIsHover(true);
       }}
@@ -127,32 +80,24 @@ function CategoryProducts(props: CategoryProductsProps) {
     >
       <Droppable
         droppableId={props.cat.id}
-        direction={"horizontal"}
+        direction={"vertical"}
         key={props.cat.id}
       >
         {(provided, snapshot) => {
           setDraggingOver(snapshot.isDraggingOver);
           return (
             <div
-              className={"droppable"}
+              className={"droppable-column"}
               ref={provided.innerRef}
               {...provided.droppableProps}
             >
-              <div
-                ref={provided.innerRef}
-                className={"category-title"}
-                onClick={handleCollapse}
-              >
-                <CarretIcon
-                  style={{
-                    transform: collapsed ? null : "rotate(90deg)",
-                    marginRight: "5px",
-                  }}
-                />
-                {`${props.cat.name} (${props.cat.products.length})`}
+              <div ref={provided.innerRef} className={"column-header"}>
+                <div
+                  className={"column-title"}
+                >{`${props.cat.name} (${props.cat.products.length})`}</div>
                 <div
                   ref={provided.innerRef}
-                  className={`category-title-icon ${
+                  className={`category-title-icon column-title-icon ${
                     isHover === true ? "category-title-icon-isHover" : ""
                   }`}
                 >
@@ -178,7 +123,7 @@ function CategoryProducts(props: CategoryProductsProps) {
                   {props.cat.id !== `nonCat${companyId}` && (
                     <Popconfirm
                       placement="top"
-                      title={t("ProductsPage.deleteCategory.title")}
+                      title={"Voulez-vous vraiment supprimer cette catégorie?"}
                       onConfirm={(event) => {
                         deleteCategory();
                         event.stopPropagation();
@@ -186,8 +131,8 @@ function CategoryProducts(props: CategoryProductsProps) {
                       onCancel={(event) => {
                         event.stopPropagation();
                       }}
-                      okText={t("ProductsPage.deleteCategory.yes")}
-                      cancelText={t("ProductsPage.deleteCategory.no")}
+                      okText="Oui"
+                      cancelText="Non"
                     >
                       <DeleteOutlined
                         className={"category-icon"}
@@ -202,14 +147,13 @@ function CategoryProducts(props: CategoryProductsProps) {
               </div>
               <div
                 ref={provided.innerRef}
-                className={`parent-list ${
-                  collapsed === true ? "collapsed-list" : ""
-                }`}
+                className={"column-content"}
+                style={getListStyle(draggingOver)}
               >
                 {props.cat.products.length !== 0 && (
                   <div
                     ref={provided.innerRef}
-                    className={"card-list"}
+                    className={"card-list-column"}
                     style={{ height: snapshot.isDraggingOver ? "200px" : null }}
                   >
                     {props.cat.products.map((product, index) => (
@@ -244,7 +188,7 @@ function CategoryProducts(props: CategoryProductsProps) {
                   </div>
                 )}
                 {props.cat.products.length === 0 && (
-                  <div ref={provided.innerRef} className={"empty-list"}>
+                  <div ref={provided.innerRef} className={"empty-list-board"}>
                     <div
                       style={{
                         justifyContent: "center",
@@ -252,10 +196,15 @@ function CategoryProducts(props: CategoryProductsProps) {
                         flexDirection: "column",
                         alignItems: "center",
                         fontSize: "larger",
+                        maxWidth: "200px",
                       }}
                     >
-                      <BookmarkIcon style={{ height: "100px" }} />
-                      <p>{t("ProductsPage.noProductInCategory")}</p>
+                      <BookmarkIcon
+                        style={{ height: "100px", maxWidth: "200px" }}
+                      />
+                      <p className={"empty-list-board-text"}>
+                        {"Aucun produit n'est disponible pour cette catégorie"}
+                      </p>
                     </div>
                     {provided.placeholder}
                   </div>
@@ -269,4 +218,4 @@ function CategoryProducts(props: CategoryProductsProps) {
   );
 }
 
-export default CategoryProducts;
+export default CategoryColumn;
