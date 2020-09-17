@@ -14,6 +14,7 @@ import { RcFile } from "antd/lib/upload/interface";
 import "../../assets/Style/Profil/profileView.less";
 import Button from "../../components/Ui/Button";
 import UserProfileModal from "./UserProfileModal";
+import UserDeleteModal from "./UserDeleteModal";
 import { useTranslation } from "react-i18next";
 import PasswordModal from "./PasswordModal";
 import FlagIconFactory from "react-flag-icon-css";
@@ -40,6 +41,8 @@ const ProfileView: React.FC = () => {
   const [imageUrl, setImageUrl] = useState(null);
   const [imageList, setImageList] = useState(null);
   const [loadingAvatar, setLoadingAvatar] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [deleteModaleVisible, setDeleteModalVisible] = useState(false);
   const [modalPasswordVisible, setModalPasswordVisible] = useState(false);
   const [modalUserProfileVisible, setModalUserProfileVisible] = useState(false);
 
@@ -217,6 +220,7 @@ const ProfileView: React.FC = () => {
             className={"delete-button"}
             icon={<DeleteOutlined />}
             danger={true}
+            onClick={() => setDeleteModalVisible(!deleteModaleVisible)}
           >
             {t("ProfilePage.buttons.delete")}
           </Button>
@@ -231,6 +235,12 @@ const ProfileView: React.FC = () => {
           visible={modalUserProfileVisible}
           user={userData.getUser}
           onClickToClose={() => setModalUserProfileVisible(false)}
+          onValidate={() => console.log("validated")}
+        />
+        <UserDeleteModal
+          visible={deleteModaleVisible}
+          user={userData.getUser}
+          onClickToClose={() => setDeleteModalVisible(false)}
           onValidate={() => console.log("validated")}
         />
       </div>

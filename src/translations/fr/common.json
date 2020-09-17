@@ -187,6 +187,13 @@
       "lastName": "NOM",
       "firstName": "PRENOM",
       "email": "COURRIEL",
+      "phone": "NUMERO DE TELEPHONE"
+    },
+    "deleteAccountModal":{
+      "delete": "Supprimer le compte",
+      "close": "Fermer",
+      "name": "Etes-vous certain de vouloir supprimer le compte?",
+      "password": "MOT DE PASSE"
       "phone": "NUMERO DE TELEPHONE",
       "actualPassword": "MOT DE PASSE ACTUEL",
       "newPassword": "NOUVEAU MOT DE PASSE",
