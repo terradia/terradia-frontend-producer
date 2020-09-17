@@ -193,7 +193,7 @@
       "delete": "Delete account",
       "close": "Cancel",
       "name": "Are you sure?",
-      "password": "PASSWORD"
+      "password": "PASSWORD",
       "phone": "PHONE NUMBER",
       "actualPassword": "ACTUAL PASSWORD",
       "newPassword": "NEW PASSWORD",

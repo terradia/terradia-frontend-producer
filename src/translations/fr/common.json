@@ -193,7 +193,7 @@
       "delete": "Supprimer le compte",
       "close": "Fermer",
       "name": "Etes-vous certain de vouloir supprimer le compte?",
-      "password": "MOT DE PASSE"
+      "password": "MOT DE PASSE",
       "phone": "NUMERO DE TELEPHONE",
       "actualPassword": "MOT DE PASSE ACTUEL",
       "newPassword": "NOUVEAU MOT DE PASSE",
