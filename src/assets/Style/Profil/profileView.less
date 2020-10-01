@@ -84,6 +84,22 @@
       margin: @padding-xs;
     }
   }
+
+  .languages {
+    margin-left: 2em;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    color: @primary-color;
+    .flags {
+      margin-top: 1em;
+      width: 10%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+
   @media (max-width: 1024px) {
     div.content {
       justify-content: center;
@@ -99,6 +115,11 @@
       button {
         margin-left: @padding-md;
       }
+    }
+    .flags {
+      display: flex;
+      flex-direction: column;
+      margin-top: 1em;
     }
   }
 }

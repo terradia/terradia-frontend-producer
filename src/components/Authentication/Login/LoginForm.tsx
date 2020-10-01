@@ -55,7 +55,6 @@ const LoginForm = (props: LoginFormProps) => {
   const history = useHistory();
 
   const onGetUser = (data) => {
-    console.log(data);
     if (props.onLogin) {
       props.onLogin();
     }

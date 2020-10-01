@@ -63,7 +63,6 @@ const CompanyOpenHoursCard = (props: Props) => {
         const existingKey = props.infos.find((currentInfo) => {
           return currentInfo.daySlugName === key;
         });
-        console.log(values[key]);
         if (!existingKey.openHours.length && !values[key].length) continue;
         values[key] = values[key].filter((hour) => hour !== undefined);
         existingKey.openHours = values[key].map((hour: [Moment, Moment]) => {

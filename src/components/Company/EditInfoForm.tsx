@@ -64,7 +64,6 @@ const EditInfoForm = (props: EditInfoFormProps) => {
     uploadedImage: CompanyImageData,
     isLogo: boolean
   ) => {
-    console.log(uploadedImage);
     if (imageFile.fileList.length === 0) {
       if (isLogo) {
         setCurrentLogo(undefined);

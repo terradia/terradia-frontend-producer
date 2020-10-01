@@ -8,6 +8,7 @@ import {
   PieChartOutlined,
   ShoppingCartOutlined,
   TeamOutlined,
+  ShoppingOutlined,
 } from "@ant-design/icons/lib";
 import Logout from "../../Authentication/Logout/Logout";
 import { useTranslation } from "react-i18next";
@@ -62,6 +63,14 @@ const SidebarCompany = (props: SidebarCompanyProps) => {
           collapsed={props.collapsed}
           selected={props.currentPage === "/statistics"}
           icon={<PieChartOutlined />}
+        />
+        <PageButton
+          key={"/orders"}
+          link={"/orders"}
+          label={"Commandes"}
+          onClick={props.onClickedLink}
+          selected={props.currentPage === "/orders"}
+          icon={<ShoppingOutlined />}
         />
         <PageButton
           key={"/staff"}

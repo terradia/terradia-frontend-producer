@@ -165,6 +165,7 @@
   "ProfilePage": {
     "buttons": {
       "edit": "Modifier mon compte",
+      "editPassword":"Modifier mon mot de passe",
       "delete": "Supprimer mon compte"
     },
     "labels": {
@@ -173,6 +174,7 @@
       "email": "Email",
       "phone": "Numéro de téléphone",
       "image": "Cliquer sur l'image pour la modifier",
+      "chooseLanguage": "Choisissez le language de l'application",
       "tooltip": {
         "addImage": "Cliquer ici pour ajouter une image",
         "editImage": "Cliquer ici pour modifier l'image"
@@ -186,6 +188,21 @@
       "firstName": "PRENOM",
       "email": "COURRIEL",
       "phone": "NUMERO DE TELEPHONE"
+    },
+    "deleteAccountModal":{
+      "delete": "Supprimer le compte",
+      "close": "Fermer",
+      "name": "Etes-vous certain de vouloir supprimer le compte?",
+      "password": "MOT DE PASSE",
+      "phone": "NUMERO DE TELEPHONE",
+      "actualPassword": "MOT DE PASSE ACTUEL",
+      "newPassword": "NOUVEAU MOT DE PASSE",
+      "confirmNewPassword": "CONFIRMER LE NOUVEAU MOT DE PASSE",
+      "messageActualPassword": "Veuillez saisir le mot de passe actuel",
+      "errorMessageNewPassword": "Votre mot de passe doit contenir entre 2 et 20 caractères",
+      "messageNewPassword": "Veuillez saisir le nouveau mot de passe",
+      "messageConfirmPassword": "Veuillez confirmer le nouveau mot de passe",
+      "missmatchPassword": "Les deux mots de passe ne correspondent pas"
     }
   },
   "ImageSelectorButton": {

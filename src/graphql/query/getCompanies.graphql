@@ -4,6 +4,7 @@ query getCompanies {
     name
     description
     address
+    archivedAt
     logo {
       id
       filename

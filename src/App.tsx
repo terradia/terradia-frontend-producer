@@ -9,6 +9,7 @@ import Staff from "./pages/Staff";
 import Files from "./pages/Files";
 import Login from "./pages/Login";
 import CompanyPage from "./pages/CompanyPage";
+import Orders from "./pages/Orders";
 import Profile from "./pages/profile/Profile";
 import { useLazyQuery } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
@@ -119,6 +120,9 @@ const App = () => {
                 </Route>
                 <Route exact path={"/company"}>
                   <CompanyPage />
+                </Route>
+                <Route exact path={"/orders"}>
+                  <Orders />
                 </Route>
                 <Route exact path={"/profile/:id"}>
                   <Profile />
