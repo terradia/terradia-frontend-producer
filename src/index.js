@@ -15,7 +15,7 @@ import { notification } from "antd";
 
 const httpLink = createUploadLink({
   // uri: "https://api.terradia.eu/graphql",
-  uri: "http://localhost:8000/graphql",
+  uri: "http://localhost:8001/graphql",
   fetch: fetch
 });
 

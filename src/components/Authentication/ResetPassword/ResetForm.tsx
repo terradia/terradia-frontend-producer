@@ -15,7 +15,7 @@ import {
   CheckCircleOutlined,
   CloseCircleOutlined,
 } from "@ant-design/icons/lib";
-import ReactCodeInput from "react-verification-code-input/dist";
+import ReactCodeInput from "react-verification-code-input";
 import { Redirect } from "react-router-dom";
 
 const ResetSchema = Yup.object().shape({
@@ -127,6 +127,7 @@ const ResetForm: React.FC = () => {
         client.clearStore().then(() => {
           getUserQuery();
         });
+        localStorage.setItem("connectedAsPasswordForgot", "true");
       })
       .catch((error) => {
         addNotification({

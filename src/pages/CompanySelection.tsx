@@ -78,7 +78,6 @@ const CompanySelection = () => {
                 ? "2"
                 : "1"
             }
-            centered
             style={{
               margin: "2em",
               height: "100%",
