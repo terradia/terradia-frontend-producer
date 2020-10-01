@@ -37,7 +37,7 @@ const ProductCard: React.FC<Props> = ({
         className="card-background"
         style={{
           backgroundImage: product.cover
-            ? `url('${"https://media.terradia.eu/" + product.cover.filename}')`
+            ? `url('${"https://media.terradia.eu/" + product.cover.companyImage.filename}')`
             : null,
         }}
       />

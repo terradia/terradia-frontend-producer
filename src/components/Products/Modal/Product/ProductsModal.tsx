@@ -162,8 +162,8 @@ function ProductsModal(props: ProductsModalProps) {
           ? props.updateProduct.unit.id
           : "null") ||
       values.cover !==
-        (props.updateProduct.cover !== null
-          ? props.updateProduct.cover.id
+        (props.updateProduct.cover.companyImage !== null
+          ? props.updateProduct.cover.companyImage.id
           : null)
     ) {
       updateProductMutation({
