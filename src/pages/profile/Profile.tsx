@@ -1,6 +1,6 @@
 import React from "react";
 import { Route } from "react-router";
-import ProfileView from "./ProfileView";
+import ProfileView from "../../components/Profile/ProfileView";
 
 const Profile = () => {
   return (

@@ -1,22 +1,22 @@
 import React from "react";
 import { Form, Input, Modal } from "antd";
-import "../../assets/Style/Profil/userProfile.less";
+import "../../../assets/Style/Profil/userProfile.less";
 import { useMutation } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
-import Button from "../../components/Ui/Button";
-import { User } from "../../interfaces";
+import Button from "../../Ui/Button";
+import { User } from "../../../interfaces";
 import { useTranslation } from "react-i18next";
 
 const getUserInformations = graphqlLoader(
-  "../../graphql/query/getUser.graphql"
+  "../../../graphql/query/getUser.graphql"
 );
 
 const passwordValidation = graphqlLoader(
-  "../../graphql/mutation/passwordValidation.graphql"
+  "../../../graphql/mutation/passwordValidation.graphql"
 );
 
 const updateUserMutation = graphqlLoader(
-  "../../graphql/mutation/profile/updateUserDatas.graphql"
+  "../../../graphql/mutation/profile/updateUserDatas.graphql"
 );
 
 interface Props {

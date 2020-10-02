@@ -32,7 +32,7 @@ function ProductsReviews(props: ProductsReviewsProps) {
 
   useEffect(() => {
     setCopyReviews(props.reviews);
-  }, []);
+  }, [props.reviews]);
 
   function handleFetchMore() {
     setLoading(true);
