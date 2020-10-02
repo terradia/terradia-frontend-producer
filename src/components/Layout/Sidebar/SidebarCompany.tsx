@@ -26,7 +26,7 @@ const SidebarCompany = (props: SidebarCompanyProps) => {
       <Menu
         defaultSelectedKeys={[props.currentPage]}
         mode={"inline"}
-        inlineCollapsed={true}
+        //inlineCollapsed={true}
         style={{
           width: "100%",
           display: "flex",
