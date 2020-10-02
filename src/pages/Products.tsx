@@ -118,21 +118,23 @@ const Products = () => {
   return (
     <div className={"product-page"}>
       <div className={"sub-header"}>
-        <Button
-          className={"button"}
-          text={t("ProductsPage.buttons.createCategory")}
-          icon={<PlusOutlined />}
-          onClick={() => setCategoryVisible(true)}
-        />
-        <Button
-          className={"button"}
-          text={t("ProductsPage.buttons.createProduct")}
-          icon={<PlusOutlined />}
-          onClick={() => {
-            setDefaultCategory(undefined);
-            setAddProductVisible(true);
-          }}
-        />
+        <div className={"products-button"}>
+          <Button
+            className={"button"}
+            text={t("ProductsPage.buttons.createCategory")}
+            icon={<PlusOutlined />}
+            onClick={() => setCategoryVisible(true)}
+          />
+          <Button
+            className={"button"}
+            text={t("ProductsPage.buttons.createProduct")}
+            icon={<PlusOutlined />}
+            onClick={() => {
+              setDefaultCategory(undefined);
+              setAddProductVisible(true);
+            }}
+          />
+        </div>
         <div className={"product-layout"}>
           <Radio.Group
             value={productLayout}

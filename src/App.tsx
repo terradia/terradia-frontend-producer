@@ -21,6 +21,8 @@ import CompanyRegister from "./pages/CompanyRegister";
 import UserContext from "./components/Context/UserContext";
 import LoadingFullPage from "./components/LoadingFullPage";
 
+import "./assets/body.less";
+
 const queryGetUser = graphqlLoader("./graphql/query/getUser.graphql");
 
 const App = () => {

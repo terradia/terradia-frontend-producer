@@ -4,8 +4,8 @@
   "homepage": "https://producteurs.terradia.eu",
   "private": true,
   "scripts": {
-    "start": "rimraf ./node_modules/.cache/babel-loader && react-app-rewired start",
-    "build": "react-app-rewired build",
+    "start": "rimraf ./node_modules/.cache/babel-loader && react-app-rewired start --max_old_space_size=4096",
+    "build": "react-app-rewired build --max_old_space_size=4096",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
     "lint": "eslint './src/**/*.{ts,tsx}'",
