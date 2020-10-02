@@ -3,11 +3,7 @@ import { useTranslation } from "react-i18next";
 
 const Home = () => {
   const { t } = useTranslation("common");
-  return (
-    <div>
-      {t("title")}
-    </div>
-  );
+  return <div>{t("title")}</div>;
 };
 
 export default Home;

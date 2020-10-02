@@ -69,7 +69,6 @@ const Layout = (props: LayoutProps) => {
             background: "F6F8FA",
             padding: 24,
             height: "calc(100vh - 80px)",
-
           }}
         >
           {props.children}

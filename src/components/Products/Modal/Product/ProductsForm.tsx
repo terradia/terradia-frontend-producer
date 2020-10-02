@@ -32,8 +32,8 @@ function ProductsForm(props: AddProductsFormProps) {
   const [form] = Form.useForm();
   const [unitList, setUnitList] = useState([]);
   const [coverImage, setCoverImage] = useState(
-    props.updateProduct && props.updateProduct.cover !== null
-      ? props.updateProduct.cover
+    props.updateProduct && props.updateProduct.cover.companyImage !== null
+      ? props.updateProduct.cover.companyImage
       : null
   );
   const [fileList, setFileList] = useState(null);
@@ -67,8 +67,8 @@ function ProductsForm(props: AddProductsFormProps) {
         : "null"
       : undefined,
     cover: props.updateProduct
-      ? props.updateProduct.cover !== null
-        ? props.updateProduct.cover.id
+      ? props.updateProduct.cover.companyImage !== null
+        ? props.updateProduct.cover.companyImage.id
         : null
       : undefined,
   };

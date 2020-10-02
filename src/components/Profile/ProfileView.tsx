@@ -13,10 +13,10 @@ import { User } from "../../interfaces";
 import { RcFile } from "antd/lib/upload/interface";
 import "../../assets/Style/Profil/profileView.less";
 import Button from "../../components/Ui/Button";
-import UserProfileModal from "./UserProfileModal";
-import UserDeleteModal from "./UserDeleteModal";
+import UserProfileModal from "./Modal/UserProfileModal";
+import UserDeleteModal from "./Modal/UserDeleteModal";
 import { useTranslation } from "react-i18next";
-import PasswordModal from "./PasswordModal";
+import PasswordModal from "./Modal/PasswordModal";
 import FlagIconFactory from "react-flag-icon-css";
 import i18n from "../../i18n";
 
@@ -41,7 +41,6 @@ const ProfileView: React.FC = () => {
   const [imageUrl, setImageUrl] = useState(null);
   const [imageList, setImageList] = useState(null);
   const [loadingAvatar, setLoadingAvatar] = useState(true);
-  const [modalVisible, setModalVisible] = useState(false);
   const [deleteModaleVisible, setDeleteModalVisible] = useState(false);
   const [modalPasswordVisible, setModalPasswordVisible] = useState(false);
   const [modalUserProfileVisible, setModalUserProfileVisible] = useState(false);

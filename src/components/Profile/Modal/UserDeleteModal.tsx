@@ -1,15 +1,15 @@
 import React from "react";
 import { Form, Input, Modal } from "antd";
-import "../../assets/Style/Profil/userProfile.less";
+import "../../../assets/Style/Profil/userProfile.less";
 import { useMutation } from "@apollo/react-hooks";
-import Button from "../../components/Ui/Button";
-import { User } from "../../interfaces";
+import Button from "../../Ui/Button";
+import { User } from "../../../interfaces";
 import { useTranslation } from "react-i18next";
 import { loader as graphqlLoader } from "graphql.macro";
 import { DeleteOutlined } from "@ant-design/icons/lib";
 
 const mutationDeleteUser = graphqlLoader(
-  "../../graphql/mutation/profile/deleteUser.graphql"
+  "../../../graphql/mutation/profile/deleteUser.graphql"
 );
 
 interface Props {
