@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik } from "formik";
 import Button from "../../Ui/Button";
 import { Checkbox, Divider, Input } from "antd";
@@ -8,6 +8,7 @@ import { useApolloClient, useMutation } from "@apollo/react-hooks";
 import "../../../assets/Style/Login-Register/registerForm.less";
 import FacebookIcon from "../../Icons/FacebookIcon";
 import AppleIcon from "../../Icons/AppleIcon";
+import { Redirect } from "react-router-dom";
 
 const mutationRegister = graphqlLoader(
   "../../../graphql/mutation/register.graphql"
@@ -45,6 +46,7 @@ const RegisterForm = (props: RegisterFormProps) => {
     { loading: registerLoading, error: registerError },
   ] = useMutation(mutationRegister);
   const client = useApolloClient();
+  const [redirect, setRedirect] = useState("");
 
   if (registerError) console.log(registerError);
 
@@ -74,11 +76,14 @@ const RegisterForm = (props: RegisterFormProps) => {
         if (props.onRegister) {
           props.onRegister();
         }
+        setRedirect("/login");
       } else {
         OnErrorHandler(data);
       }
     });
   };
+
+  if (redirect) return <Redirect to={redirect} />;
 
   return (
     <Formik
