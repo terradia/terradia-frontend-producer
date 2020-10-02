@@ -54,7 +54,7 @@ const LoginForm = (props: LoginFormProps) => {
   ] = useLazyQuery(getCompanies);
   const history = useHistory();
 
-  const onGetUser = (data) => {
+  const onGetUser = () => {
     if (props.onLogin) {
       props.onLogin();
     }
