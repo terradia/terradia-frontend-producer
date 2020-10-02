@@ -74,11 +74,11 @@ const columns = [
           <img
             alt={
               "https://terradia-bucket-assets.s3.eu-west-3.amazonaws.com/" +
-              cover.filename
+              cover.companyImage.filename
             }
             src={
               "https://terradia-bucket-assets.s3.eu-west-3.amazonaws.com/" +
-              cover.filename
+              cover.companyImage.filename
             }
             style={{ height: "50px", width: "50px" }}
           />
