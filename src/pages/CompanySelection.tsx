@@ -44,23 +44,7 @@ const CompanySelection = () => {
 
   return (
     <AntLayout style={{ background: "white" }}>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          width: "100%",
-          height: "4em",
-          alignItems: "center",
-          alignContent: "center",
-        }}
-      >
-        <TerradiaLogo
-          height={"40px"}
-          width={"200px"}
-          style={{ marginTop: "1em" }}
-        />
-      </div>
-      <Divider />
+      <Header Company />
       <AntLayout
         style={{
           background: "white",

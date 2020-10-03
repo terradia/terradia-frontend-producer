@@ -1,4 +1,25 @@
 {
+  "monday": {
+    "label": "Lundi:"
+  },
+  "tuesday": {
+    "label": "Mardi:"
+  },
+  "wednesday": {
+    "label": "Mercredi:"
+  },
+  "thursday": {
+    "label": "Jeudi:"
+  },
+  "friday": {
+    "label": "Vendredi:"
+  },
+  "saturday": {
+    "label": "Samedi:"
+  },
+  "sunday": {
+    "label": "Dimanche:"
+  },
   "Menu": {
     "home": "Accueil",
     "products": "Produits",

@@ -1,7 +1,7 @@
 import React from "react";
 import { Route } from "react-router";
-import ProfileView from "./ProfileView";
 import InvitationsListCard from "../../components/Staff/InvitationsListCard";
+import ProfileView from "../../components/Profile/ProfileView";
 
 const Profile = () => {
   return (

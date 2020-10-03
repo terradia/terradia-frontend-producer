@@ -12,8 +12,12 @@ import * as Yup from "yup";
 import Button from "../../Ui/Button";
 import "../../../assets/Style/Login-Register/loginForm.less";
 import UserContext from "../../Context/UserContext";
-import {AppleFilled, CloseCircleOutlined, FacebookFilled} from "@ant-design/icons/lib";
-import {addNotification} from "../../../utils/notifications";
+import {
+  AppleFilled,
+  CloseCircleOutlined,
+  FacebookFilled,
+} from "@ant-design/icons/lib";
+import { addNotification } from "../../../utils/notifications";
 
 const mutationLogin = graphqlLoader("../../../graphql/mutation/login.graphql");
 const getUser = graphqlLoader("../../../graphql/query/getUser.graphql");

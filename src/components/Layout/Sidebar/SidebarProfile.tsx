@@ -1,7 +1,11 @@
 import React from "react";
 import { Menu } from "antd";
 import PageButton from "../../Ui/PageButton";
-import { LeftOutlined, MailOutlined, UserOutlined } from '@ant-design/icons/lib';
+import {
+  LeftOutlined,
+  MailOutlined,
+  UserOutlined,
+} from "@ant-design/icons/lib";
 
 declare interface SidebarProfileProps {
   onClickedLink: (href) => void;
