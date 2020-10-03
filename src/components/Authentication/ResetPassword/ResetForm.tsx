@@ -184,7 +184,7 @@ const ResetForm: React.FC = () => {
           })
           .catch((error) => {
             addNotification({
-              message: 'Erreur lors de la demande de "mot de passe oublié"',
+              message: "Erreur lors de la demande de mot de passe oublié",
               description: error.message.substr(14),
               icon: <CloseCircleOutlined style={{ color: "#f5222d" }} />,
             });

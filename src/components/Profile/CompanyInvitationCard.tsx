@@ -25,7 +25,6 @@ const CompanyInvitationCard: React.FC<Props> = ({
   onCancel,
   onAccept,
   onDecline,
-  ...props
 }: Props) => {
   return (
     <div

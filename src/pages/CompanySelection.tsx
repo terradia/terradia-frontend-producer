@@ -88,7 +88,7 @@ const CompanySelection = () => {
                 companyView={false}
                 queryInvitationsResult={{
                   ...getMyInvitationsResult,
-                  refetch: (variables) => {
+                  refetch: () => {
                     getCompaniesResult.refetch();
                     return getMyInvitationsResult.refetch({
                       status: "PENDING",

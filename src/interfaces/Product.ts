@@ -1,5 +1,5 @@
 import { Unit } from "./Unit";
-import { CompanyImage, CompanyProductsImage } from "./CompanyImage";
+import { CompanyImage } from "./CompanyImage";
 
 interface CompanyProductImage {
   companyImage: CompanyImage;
