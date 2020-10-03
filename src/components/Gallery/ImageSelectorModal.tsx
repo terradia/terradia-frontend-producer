@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Divider, Empty, Modal } from "antd";
+import { Divider, Empty, Modal } from "antd";
 import { useQuery } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
 import { CompanyImage } from "../../interfaces/CompanyImage";
@@ -11,6 +11,7 @@ import { UploadChangeParam } from "antd/lib/upload";
 import { CompanyImageData } from "../Files/ImageUploadModal";
 import { UploadFile } from "antd/lib/upload/interface";
 import { fileToObject } from "antd/lib/upload/utils";
+import Button from "../Ui/Button";
 
 interface Props {
   visible?: boolean;

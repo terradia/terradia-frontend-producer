@@ -1,27 +1,17 @@
 import React from "react";
-import Button from "../components/Ui/Button";
 import { loader as graphqlLoader } from "graphql.macro";
-import "../assets/Style/Products/ProductsPage.less";
 import { useQuery, useMutation } from "@apollo/react-hooks";
-import { Table, Tag, Modal, AutoComplete } from "antd";
+import { Table, Tag, Modal, Row, Col, Divider, Card } from "antd";
 import Popconfirm from "antd/es/popconfirm";
-import {
-  DeleteOutlined,
-  EditOutlined,
-  PlusOutlined,
-} from "@ant-design/icons/lib";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons/lib";
+import TerradiaLoader from "../components/TerradiaLoader";
+import InvitationsListCard from "../components/Staff/InvitationsListCard";
 
 const queryCompanyUsers = graphqlLoader(
   "../graphql/query/getCompanyUsers.graphql"
 );
 
-const getAllUsers = graphqlLoader("../graphql/query/getAllUsers.graphql");
-
 const getAllRoles = graphqlLoader("../graphql/query/getAllRoles.graphql");
-
-const mutationJoinCompany = graphqlLoader(
-  "../graphql/mutation/joinCompany.graphql"
-);
 
 const mutationLeaveCompany = graphqlLoader(
   "../graphql/mutation/leaveCompany.graphql"
@@ -40,7 +30,7 @@ const Staff = () => {
   const { loading, error: errorDataCompany, data: dataCompany } = useQuery(
     queryCompanyUsers,
     {
-      variables: { companyId: companyId },
+      variables: { companyId },
     }
   );
 
@@ -50,31 +40,13 @@ const Staff = () => {
     data: dataRoles,
   } = useQuery(getAllRoles);
 
-  const {
-    loading: loadingAllUsers,
-    error: errorAllUsers,
-    data: allUsers,
-  } = useQuery(getAllUsers);
-
-  const [joinCompany, { loading: joinCompanyLoading }] = useMutation(
-    mutationJoinCompany,
-    {
-      refetchQueries: [
-        {
-          query: queryCompanyUsers,
-          variables: { companyId: companyId },
-        },
-      ],
-    }
-  );
-
   const [leaveCompany, { loading: leaveCompanyLoading }] = useMutation(
     mutationLeaveCompany,
     {
       refetchQueries: [
         {
           query: queryCompanyUsers,
-          variables: { companyId: companyId },
+          variables: { companyId },
         },
       ],
     }
@@ -87,7 +59,7 @@ const Staff = () => {
     refetchQueries: [
       {
         query: queryCompanyUsers,
-        variables: { companyId: companyId },
+        variables: { companyId },
       },
     ],
   });
@@ -99,12 +71,11 @@ const Staff = () => {
     refetchQueries: [
       {
         query: queryCompanyUsers,
-        variables: { companyId: companyId },
+        variables: { companyId },
       },
     ],
   });
 
-  const [openUser, setOpenUser] = React.useState(false);
   const [openRole, setOpenRole] = React.useState(false);
 
   const handleDeleteUser = (userData) => {
@@ -147,20 +118,14 @@ const Staff = () => {
     roles: [],
   });
 
-  function isRoleSelected(roleId, userSelected) {
+  const isRoleSelected = (roleId, userSelected) => {
     if (userSelected) {
-      return userSelected.roles.find((role) => role.id === roleId)
-        ? true
-        : false;
+      return !!userSelected.roles.find((role) => role.id === roleId);
     }
     return false;
-  }
+  };
 
   const handleAddRoleUser = (role) => {
-    let tmpUser = {
-      companyId: null,
-      roles: [],
-    };
     addUserCompanyRole({
       variables: {
         companyUserId: userSelectedRole.companyId,
@@ -169,7 +134,7 @@ const Staff = () => {
     }).catch((error) => {
       console.log(error);
     });
-    tmpUser = {
+    const tmpUser = {
       companyId: userSelectedRole.companyId,
       roles: [
         ...userSelectedRole.roles,
@@ -184,10 +149,6 @@ const Staff = () => {
   };
 
   const handleRemovedRoleUser = (roleId) => {
-    let tmpUser = {
-      companyId: null,
-      roles: [],
-    };
     removeUserCompanyRole({
       variables: {
         companyUserId: userSelectedRole.companyId,
@@ -196,7 +157,7 @@ const Staff = () => {
     }).catch((error) => {
       console.log(error);
     });
-    tmpUser = {
+    const tmpUser = {
       companyId: userSelectedRole.companyId,
       roles: userSelectedRole.roles.filter((role) => role.id !== roleId),
     };
@@ -204,17 +165,17 @@ const Staff = () => {
     return;
   };
 
-  function handleChange(role) {
+  const handleChange = (role) => {
     if (isRoleSelected(role.id, userSelectedRole)) return;
     handleAddRoleUser(role);
-  }
+  };
 
-  function handleClose(removedRole) {
+  const handleClose = (removedRole) => {
     handleRemovedRoleUser(removedRole);
-  }
+  };
 
   // TODO : translate the roleSlugname
-  function handleChangeRole() {
+  const handleChangeRole = () => {
     return (
       <div>
         {roles.map((role) => (
@@ -233,7 +194,7 @@ const Staff = () => {
         ))}
       </div>
     );
-  }
+  };
 
   const handleRoles = () => {
     return openRole === true ? setOpenRole(false) : setOpenRole(true);
@@ -271,36 +232,40 @@ const Staff = () => {
   // TODO : translate actions titles
   const actions = (text, record) => {
     return (
-      <div>
-        <EditOutlined
-          className={"category-icon"}
-          onClick={(event) => {
-            handleOpenRole(record);
-            event.stopPropagation();
-          }}
-        />
-        <Popconfirm
-          placement="top"
-          title={"Êtes vous sûr(e)?"}
-          onConfirm={(event) => {
-            handleDeleteUser(record.user);
-            event.stopPropagation();
-          }}
-          onCancel={(event) => {
-            event.stopPropagation();
-          }}
-          okText="Oui"
-          cancelText="Non"
-        >
-          <DeleteOutlined
+      <Row>
+        <Col span={6}>
+          <EditOutlined
             className={"category-icon"}
-            style={{ color: "red" }}
             onClick={(event) => {
+              handleOpenRole(record);
               event.stopPropagation();
             }}
           />
-        </Popconfirm>
-      </div>
+        </Col>
+        <Col span={6}>
+          <Popconfirm
+            placement="top"
+            title={"Êtes vous sûr(e)?"}
+            onConfirm={(event) => {
+              handleDeleteUser(record.user);
+              event.stopPropagation();
+            }}
+            onCancel={(event) => {
+              event.stopPropagation();
+            }}
+            okText="Oui"
+            cancelText="Non"
+          >
+            <DeleteOutlined
+              className={"category-icon"}
+              style={{ color: "red" }}
+              onClick={(event) => {
+                event.stopPropagation();
+              }}
+            />
+          </Popconfirm>
+        </Col>
+      </Row>
     );
   };
 
@@ -337,111 +302,43 @@ const Staff = () => {
     },
   ];
 
-  const [allUsersState, setAllUsers] = React.useState([]);
-
-  const handleOpenAddUser = () => {
-    let tmpAllUsers = [];
-    if (!loadingAllUsers && !errorAllUsers) {
-      allUsers.getAllUsers.forEach((user) => {
-        tmpAllUsers = [
-          ...tmpAllUsers,
-          {
-            id: user.id,
-            slugName: user.firstName + " " + user.lastName,
-            firstName: user.firstName,
-            lastName: user.lastName,
-          },
-        ];
-      });
-      setAllUsers(tmpAllUsers);
-    } else console.log(errorAllUsers);
-    return openUser === true ? setOpenUser(false) : setOpenUser(true);
-  };
-
-  const [selectedUserToCompany, setSelectedUserToCompany] = React.useState("");
-
-  const onSelectUser = (userSelected) => {
-    allUsersState.find((user) =>
-      user.slugName === userSelected ? setSelectedUserToCompany(user.id) : null
-    );
-  };
-
-  const handleJoinCompany = () => {
-    joinCompany({
-      variables: {
-        companyId: companyId,
-        userId: selectedUserToCompany,
-      },
-    }).catch((error) => {
-      console.log(error);
-    });
-    return openUser === true ? setOpenUser(false) : setOpenUser(true);
-  };
-
-  // TODO : translate loading
   if (
     loading ||
     loadingRoles ||
-    loadingAllUsers ||
     leaveCompanyLoading ||
     removeUserCompanyRoleLoading
   )
-    return <div>loading</div>;
+    return <TerradiaLoader />;
 
-  // TODO : translate the text, title, placeHolder
   return (
-    <div className={"product-page"}>
-      <div className={"sub-header"}>
-        <Button
-          className={"button"}
-          text={"Ajouter un employé"}
-          icon={<PlusOutlined />}
-          onClick={handleOpenAddUser}
+    <>
+      <Card
+        className={"card"}
+        title={<h2 className={"card-title"}>Employés</h2>}
+      >
+        <Table
+          columns={columns}
+          rowKey={"id"}
+          dataSource={
+            dataCompany
+              ? dataCompany.getCompany.users
+              : console.log(errorDataCompany)
+          }
         />
-        <Modal
-          title="Ajouter un employé"
-          centered
-          visible={openUser}
-          confirmLoading={joinCompanyLoading}
-          onOk={() => handleJoinCompany()}
-          onCancel={() => handleOpenAddUser()}
-        >
-          {allUsersState && (
-            <AutoComplete
-              style={{ width: 200 }}
-              placeholder="Ajouter un employé"
-              onSelect={onSelectUser}
-              onChange={onSelectUser}
-            >
-              {allUsersState.map((user) => (
-                <AutoComplete.Option key={user.id} value={user.slugName}>
-                  {user.slugName}
-                </AutoComplete.Option>
-              ))}
-            </AutoComplete>
-          )}
-        </Modal>
-        <Modal
-          title="Modifier le rôle de l'employé"
-          centered
-          visible={openRole}
-          confirmLoading={addUserCompanyRoleLoading}
-          onOk={() => handleRoles()}
-          onCancel={() => handleRoles()}
-        >
-          <div>{handleChangeRole()}</div>
-        </Modal>
-      </div>
-      <Table
-        columns={columns}
-        rowKey={"id"}
-        dataSource={
-          dataCompany
-            ? dataCompany.getCompany.users
-            : console.log(errorDataCompany)
-        }
-      />
-    </div>
+      </Card>
+      <Modal
+        title="Modifier le rôle de l'employé"
+        centered
+        visible={openRole}
+        confirmLoading={addUserCompanyRoleLoading}
+        onOk={() => handleRoles()}
+        onCancel={() => handleRoles()}
+      >
+        <div>{handleChangeRole()}</div>
+      </Modal>
+      <Divider className={"invisible-divider"} style={{ margin: "12px 0" }} />
+      <InvitationsListCard companyView={true} />
+    </>
   );
 };
 

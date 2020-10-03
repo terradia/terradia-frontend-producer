@@ -11,7 +11,7 @@ const Login = () => {
         <Logo className={"logo"} />
         <Divider className={"presentation-divider"} />
         <p className={"description"}>
-          L’application qui facilite l’accès aux produits locaux
+          Facilitez votre accès aux produits locaux.
         </p>
       </div>
       <div className={"action-auth"}>
