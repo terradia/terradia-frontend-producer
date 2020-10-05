@@ -7,7 +7,7 @@ import {
 } from "@ant-design/icons/lib";
 import "../../assets/Style/Staff/invitationListCard.less";
 import TerradiaLoader from "../TerradiaLoader";
-import { useLazyQuery, useMutation } from "@apollo/react-hooks";
+import { useLazyQuery, useMutation, useQuery } from "@apollo/react-hooks";
 
 import { addNotification } from "../../utils/notifications";
 import CompanyInvitationCard from "../../components/Profile/CompanyInvitationCard";
@@ -61,13 +61,13 @@ const InvitationsListCard: React.FC<Props> = ({
     !tmpFilter ? "ALL" : tmpFilter
   );
   const companyId = localStorage.getItem("selectedCompany");
-  const [getCompaniesQuery] = useLazyQuery(
-    companyView === false ? getMyCompaniesInvitations : getCompaniesInvitations
-  );
 
   let queryResult;
   if (!queryInvitationsResult) {
-    queryResult = getCompaniesQuery(
+    queryResult = useQuery(
+      companyView === false
+        ? getMyCompaniesInvitations
+        : getCompaniesInvitations,
       companyView === false
         ? {
             variables: {
@@ -110,7 +110,7 @@ const InvitationsListCard: React.FC<Props> = ({
           description: "L'invitation à bien été annulée",
           icon: <CheckCircleOutlined style={{ color: "#5CC04A" }} />,
         });
-        queryResult.refetch({ companyId });
+        queryResult && queryResult.refetch({ companyId });
       })
       .catch((error) => {
         addNotification({
@@ -118,7 +118,7 @@ const InvitationsListCard: React.FC<Props> = ({
           description: error.message.substr(14),
           icon: <CloseCircleOutlined style={{ color: "#f5222d" }} />,
         });
-        queryResult.refetch({ companyId });
+        queryResult && queryResult.refetch({ companyId });
       });
   };
 
@@ -134,7 +134,7 @@ const InvitationsListCard: React.FC<Props> = ({
           description: "L'invitation à bien été acceptée",
           icon: <CheckCircleOutlined style={{ color: "#5CC04A" }} />,
         });
-        queryResult.refetch();
+        queryResult && queryResult.refetch();
       })
       .catch((error) => {
         addNotification({
@@ -142,7 +142,7 @@ const InvitationsListCard: React.FC<Props> = ({
           description: error.message.substr(14),
           icon: <CloseCircleOutlined style={{ color: "#f5222d" }} />,
         });
-        queryResult.refetch();
+        queryResult && queryResult.refetch();
       });
   };
 
@@ -158,7 +158,7 @@ const InvitationsListCard: React.FC<Props> = ({
           description: "L'invitation à bien été refusée",
           icon: <CheckCircleOutlined style={{ color: "#5CC04A" }} />,
         });
-        queryResult.refetch();
+        queryResult && queryResult.refetch();
       })
       .catch((error) => {
         addNotification({
@@ -166,11 +166,11 @@ const InvitationsListCard: React.FC<Props> = ({
           description: error.message.substr(14),
           icon: <CloseCircleOutlined style={{ color: "#f5222d" }} />,
         });
-        queryResult.refetch();
+        queryResult && queryResult.refetch();
       });
   };
 
-  if (queryResult.error) console.error(queryResult.error);
+  if (queryResult && queryResult.error) console.error(queryResult.error);
 
   const openInvitationEmailModal = () => {
     setInvitationModalOpen(true);
@@ -188,7 +188,7 @@ const InvitationsListCard: React.FC<Props> = ({
           description: `Une invitation a l'adresse email : ${invitationEmail} à été envoyée.`,
           icon: <CheckCircleOutlined style={{ color: "#5CC04A" }} />,
         });
-        queryResult.refetch({ companyId });
+        queryResult && queryResult.refetch({ companyId });
       })
       .catch((error) => {
         addNotification({
@@ -196,7 +196,7 @@ const InvitationsListCard: React.FC<Props> = ({
           description: error.message.substr(14),
           icon: <CloseCircleOutlined style={{ color: "#f5222d" }} />,
         });
-        queryResult.refetch({ companyId });
+        queryResult && queryResult.refetch({ companyId });
       });
     closeInvitationEmailModal();
   };
@@ -225,6 +225,7 @@ const InvitationsListCard: React.FC<Props> = ({
 
   let invitationsToPrompt = [];
   if (
+    queryResult &&
     queryResult.data &&
     queryResult.data[
       companyView === true
@@ -284,7 +285,7 @@ const InvitationsListCard: React.FC<Props> = ({
             <Divider />
           </>
         )}
-        {queryResult.loading && <TerradiaLoader />}
+        {queryResult && queryResult.loading && <TerradiaLoader />}
         {invitationsToPrompt.map((invitation, index) => {
           return (
             <CompanyInvitationCard
@@ -297,20 +298,21 @@ const InvitationsListCard: React.FC<Props> = ({
             />
           );
         })}
-        {(!queryResult.data ||
-          queryResult.data[
-            companyView === true
-              ? "getCompaniesInvitations"
-              : "getMyCompaniesInvitations"
-          ].length === 0) && (
-          <Empty
-            style={{
-              width: "100%",
-            }}
-            description={"Aucune invitation pour le moment"} // TODO : Translate this.
-            image={Empty.PRESENTED_IMAGE_SIMPLE}
-          />
-        )}
+        {queryResult &&
+          (!queryResult.data ||
+            queryResult.data[
+              companyView === true
+                ? "getCompaniesInvitations"
+                : "getMyCompaniesInvitations"
+            ].length === 0) && (
+            <Empty
+              style={{
+                width: "100%",
+              }}
+              description={"Aucune invitation pour le moment"} // TODO : Translate this.
+              image={Empty.PRESENTED_IMAGE_SIMPLE}
+            />
+          )}
       </Card>
       <Modal
         title="Inviter un employé"
