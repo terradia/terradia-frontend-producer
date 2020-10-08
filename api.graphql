@@ -295,7 +295,10 @@ type Mutation {
     deleteProduct(productId: String!): Int
     deleteTagFromCompany(companyId: String!, companyTagId: String!): Company!
     generateCodePasswordForgot(email: String!): Boolean
+<<<<<<< Updated upstream
     inviteNewMember(companyId: String!, invitationEmail: String!): CompanyUserInvitation
+=======
+>>>>>>> Stashed changes
     joinCompany(companyId: String!, userId: String!): Company!
     leaveCompany(companyId: String!, userId: String!): Company!
     login(email: String!, password: String!): SigninAnswer!
@@ -471,6 +474,7 @@ enum CacheControlScope {
     PUBLIC
 }
 
+<<<<<<< Updated upstream
 enum CompanyUserInvitationStatus {
     ACCEPTED
     CANCELED
@@ -486,6 +490,8 @@ enum CompanyUserInvitationStatusRequest {
     PENDING
 }
 
+=======
+>>>>>>> Stashed changes
 input CompanyUpdateInput {
     address: String
     coverId: String

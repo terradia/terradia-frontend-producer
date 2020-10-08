@@ -50,7 +50,7 @@ const GeneralInfoForm = (props: GeneralInfoFormProps) => {
 
   return (
     <>
-      <Form.Item name={"description"}>
+      <Form.Item name={"description"} preserve>
         <Input.TextArea
           className={"input_item"}
           placeholder={"Description courte (300 caractères)"}
@@ -59,12 +59,8 @@ const GeneralInfoForm = (props: GeneralInfoFormProps) => {
           }}
         />
       </Form.Item>
-      <Form.Item>
-        <ImagesUploadButton
-          onUpload={(imageFile, uploadedImage) =>
-            onUploaded(imageFile, uploadedImage, true)
-          }
-        />
+      <Form.Item preserve>
+        <ImagesUploadButton onUpload={onLogoUploaded} />
         {currentLogo && (
           <Upload
             fileList={currentLogo}
@@ -73,12 +69,8 @@ const GeneralInfoForm = (props: GeneralInfoFormProps) => {
           />
         )}
       </Form.Item>
-      <Form.Item>
-        <ImagesUploadButton
-          onUpload={(imageFile, uploadedImage) =>
-            onUploaded(imageFile, uploadedImage, false)
-          }
-        />
+      <Form.Item preserve>
+        <ImagesUploadButton onUpload={onCoverUpload} />
         {currentCover && (
           <Upload
             fileList={currentCover}

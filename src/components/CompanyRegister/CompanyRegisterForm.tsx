@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import { Form, Steps } from "antd";
 import Button from "../Ui/Button";
 import GeneralInfoForm from "./GeneralInfoForm";
@@ -6,13 +6,18 @@ import AdministrativeInfoForm from "./AdministrativeInfoForm";
 import "../../assets/Style/CompanyRegister/CompanyRegisterForm.less";
 import RegisterForm from "../Authentication/Register/RegisterForm";
 import LoginForm from "../Authentication/Login/LoginForm";
-import { useApolloClient, useMutation } from "@apollo/react-hooks";
+import {
+  useApolloClient,
+  useLazyQuery,
+  useMutation,
+} from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
-import { LeftOutlined } from "@ant-design/icons";
-import { CompanyImageData } from "../Files/ImageUploadModal";
+import { AddCompanyImageData } from "../Files/ImageUploadModal";
 import { UploadChangeParam } from "antd/lib/upload";
 import { Redirect } from "react-router";
-import Logout from "../Authentication/Logout/Logout";
+import { SirenData } from "../../interfaces/Company/CompanyRegister/CompanyRegisterForm";
+import FormStepButton from "./FormStepButton";
+import PersonalInfoForm from "./PersonalInfoForm";
 
 const createCompanyMutation = graphqlLoader(
   "../../graphql/mutation/createCompany.graphql"
@@ -21,6 +26,15 @@ const updateCompanyMutation = graphqlLoader(
   "../../graphql/mutation/updateCompany.graphql"
 );
 const getUser = graphqlLoader("../../graphql/query/getUser.graphql");
+
+const checkSirenQuery = graphqlLoader("../../graphql/query/checkSiren.graphql");
+
+declare interface RegisterStep {
+  title: string;
+  content: ReactNode;
+}
+
+export declare type RegisterStepsState = RegisterStep[];
 
 const CompanyRegisterForm = () => {
   const [form] = Form.useForm();
@@ -46,6 +60,49 @@ const CompanyRegisterForm = () => {
   const [updateCompany, { loading: updateLoading }] = useMutation(
     updateCompanyMutation
   );
+  const [checkSiren, { called, data, error, loading, refetch }] = useLazyQuery<
+    SirenData
+  >(checkSirenQuery, { onError: (error) => console.log(error) });
+
+  useEffect(() => {
+    checkSiren({ variables: { siren: "123456789" } });
+  }, []);
+
+  useEffect(() => {
+    if (called && !loading)
+      if (data) {
+        form.setFields([
+          {
+            name: "officialName",
+            value: data.checkSiren.uniteLegale.denominationUniteLegale,
+          },
+          {
+            name: "name",
+            value: data.checkSiren.uniteLegale.denominationUsuelle1UniteLegale,
+          },
+          {
+            name: "address",
+            value: (
+              data.checkSiren.adresseEtablissement.numeroVoieEtablissement +
+              " " +
+              data.checkSiren.adresseEtablissement.typeVoieEtablissement +
+              " " +
+              data.checkSiren.adresseEtablissement.libelleVoieEtablissement +
+              ", " +
+              data.checkSiren.adresseEtablissement.codePostalEtablissement +
+              " " +
+              data.checkSiren.adresseEtablissement.libelleCommuneEtablissement
+            )
+              .replace(/null/g, "")
+              .trim(),
+          },
+        ]);
+      } else if (error) {
+        console.log(error);
+      }
+  }, [data, error, called, loading, form]);
+
+  console.log(form.getFieldsValue());
 
   const onUpload = (
     file: UploadChangeParam,
@@ -63,7 +120,7 @@ const CompanyRegisterForm = () => {
     setCurrentStep((step) => step + 1);
   };
 
-  const [steps, setSteps] = useState([
+  const [steps, setSteps] = useState<RegisterStepsState>([
     user
       ? {
           /* TODO : translate this. */
@@ -82,6 +139,10 @@ const CompanyRegisterForm = () => {
     },
     {
       /* TODO : translate this. */
+      title: "Informations personnelles",
+      content: <PersonalInfoForm />,
+    },
+    {
       title: "Information complémentaires",
       content: <GeneralInfoForm onUpload={onUpload} />,
     },
@@ -100,32 +161,29 @@ const CompanyRegisterForm = () => {
   }, [client, user]);
 
   const onSubmit = (values) => {
-    if (!isCreated) {
-      createCompany({ variables: values }).then((data) => {
-        localStorage.setItem("selectedCompany", data.data.createCompany.id);
-        localStorage.setItem("rememberCompany", "false");
-        setCurrentStep((step) => step + 1);
-        setIsCreated(true);
-      });
-    } else {
-      values["logoId"] = logoId;
-      values["coverId"] = coverId;
-      updateCompany({
-        variables: {
-          companyId: localStorage.getItem("selectedCompany"),
-          newValues: values,
-        },
-      }).then(() => {
-        dispatchEvent(
-          new StorageEvent("storage", {
-            key: "token",
-            oldValue: "",
-            newValue: localStorage.getItem("token"),
-          })
-        );
-        setRedirect(true);
-      });
-    }
+    console.log(values);
+    createCompany({ variables: values }).then((data) => {
+      localStorage.setItem("selectedCompany", data.data.createCompany.id);
+      localStorage.setItem("rememberCompany", "false");
+      setCurrentStep((step) => step + 1);
+    });
+    values["logoId"] = logoId;
+    values["coverId"] = coverId;
+    updateCompany({
+      variables: {
+        companyId: localStorage.getItem("selectedCompany"),
+        newValues: values,
+      },
+    }).then(() => {
+      dispatchEvent(
+        new StorageEvent("storage", {
+          key: "token",
+          oldValue: "",
+          newValue: localStorage.getItem("token"),
+        })
+      );
+      setRedirect(true);
+    });
   };
 
   const switchLoginRegister = () => {
@@ -183,6 +241,15 @@ const CompanyRegisterForm = () => {
         <Form
           className={"auth_form"}
           form={form}
+          preserve
+          onValuesChange={(value) => {
+            console.log(form.getFieldsValue());
+            if ("siren" in value && value.siren.length === 9) {
+              console.log(called);
+              if (called === false) checkSiren({ variables: value });
+              else refetch(value);
+            }
+          }}
           scrollToFirstError
           onFinish={onSubmit}
           layout={"vertical"}
@@ -209,62 +276,36 @@ const CompanyRegisterForm = () => {
               />
             ))}
           </Steps>
-          {currentStep > 0 && (
-            <div
-              onClick={() => setCurrentStep((step) => step - 1)}
-              className={"prev_step"}
-            >
-              {currentStep === 1}
-              {currentStep > 1 && (
-                <>
-                  <LeftOutlined />
-                  <span>{"Retour à l’étape précédente"}</span>
-                </>
-              )}
-            </div>
-          )}
-          <span
-            className={"form_item_wrapper required"}
-            style={{ display: "flex", alignSelf: "flex-end" }}
+          <FormStepButton
+            currentStep={currentStep}
+            steps={steps}
+            createLoading={createLoading}
+            updateLoading={updateLoading}
+            prevStep={() => setCurrentStep((step) => step - 1)}
+            nextStep={() => setCurrentStep((step) => step + 1)}
+            form={form}
           >
-            champs obligatoires
-          </span>
-          <div>
-            {steps.map((step, index) => {
-              if (index === currentStep) {
-                return <div key={step.title}>{step.content}</div>;
-              } else if (index === 0) {
-                return null;
-              }
-              return (
-                <div key={step.title} style={{ display: "none" }}>
-                  {step.content}
-                </div>
-              );
-            })}
-          </div>
-          <div className="external_connexion">
-            {currentStep < steps.length - 1 && (
-              <Button
-                isLoading={createLoading || updateLoading}
-                text={"Créer l'entreprise"}
-                className={"form_item"}
-                id={"next_step"}
-                size={"large"}
-                htmlType={"submit"}
-              />
-            )}
-            {currentStep === steps.length - 1 && (
-              <Button
-                isLoading={updateLoading}
-                text={"Mettre à jours l'entreprise"}
-                className={"form_item"}
-                id={"login_button"}
-                size={"large"}
-                htmlType={"submit"}
-              />
-            )}
-          </div>
+            <span
+              className={"form_item_wrapper required"}
+              style={{ display: "flex", alignSelf: "flex-end" }}
+            >
+              champs obligatoires
+            </span>
+            <div>
+              {steps.map((step, index) => {
+                if (index === currentStep) {
+                  return <div key={step.title}>{step.content}</div>;
+                } else if (index === 0) {
+                  return null;
+                }
+                return (
+                  <div key={step.title} style={{ display: "none" }}>
+                    {step.content}
+                  </div>
+                );
+              })}
+            </div>
+          </FormStepButton>
         </Form>
       </div>
     </div>

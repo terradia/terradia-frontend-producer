@@ -1,82 +1,80 @@
 import React from "react";
-import { Input, Form } from "antd";
+import { Input } from "antd";
 import "../../assets/Style/Login-Register/registerForm.less";
 import CountryCode from "../Ui/CountryCode";
+import FormRequiredItem from "../Ui/FormRequiredItem";
 
 const AdministrativeInfoForm = () => {
   return (
     <>
-      <Form.Item
+      <FormRequiredItem
         name={"siren"}
         rules={[
+          { message: "Veuillez renseigner le SIREN de votre entreprise" },
+        ]}
+      >
+        <Input className={"input_item"} placeholder={"SIREN"} />
+      </FormRequiredItem>
+      <FormRequiredItem
+        name={"officialName"}
+        style={{
+          width: "100%",
+        }}
+        rules={[
           {
-            required: true,
-            //TODO: Translate this
-            message: "Veuillez renseigner le SIREN de votre entreprise",
+            message: "Veuillez renseigner le nom officiel de l'entreprise",
           },
         ]}
       >
-        <div className={"form_item_wrapper required"}>
-          <Input className={"form_item"} placeholder={"SIREN"} />
-        </div>
-      </Form.Item>
-      <Form.Item
+        <Input
+          className={"input_item"}
+          placeholder={"Nom officel de l'entreprise"}
+        />
+      </FormRequiredItem>
+      <FormRequiredItem
         name={"name"}
         rules={[
           {
-            required: true,
-            //TODO: translate this
             message: "Veuillez renseigner le nom de l'entreprise",
           },
         ]}
       >
-        <div className={"form_item_wrapper required"}>
-          <Input
-            className={"form_item required"}
-            placeholder={"Nom de l'entreprise"}
-          />
-        </div>
-      </Form.Item>
-      <Form.Item name={"address"}>
-        <div className={"form_item_wrapper required"}>
-          <Input
-            className={"form_item input_item required"}
-            placeholder={"Address"}
-          />
-        </div>
-      </Form.Item>
-      <Form.Item
+        <Input className={"input_item"} placeholder={"Nom de l'entreprise"} />
+      </FormRequiredItem>
+      <FormRequiredItem
+        name={"address"}
+        rules={[
+          {
+            message: "Veuillez renseigner l'adresse de l'entreprise",
+          },
+        ]}
+      >
+        <Input className={"form_item input_item"} placeholder={"Address"} />
+      </FormRequiredItem>
+      <FormRequiredItem
         name={"email"}
         rules={[
           {
-            required: true,
-            //TODO: Translate this
             message: "Veuillez renseigner un email",
           },
         ]}
       >
-        <div className={"form_item_wrapper required"}>
-          <Input className={"input_item required"} placeholder={"Email"} />
-        </div>
-      </Form.Item>
-      <Form.Item
+        <Input className={"input_item"} placeholder={"Email"} />
+      </FormRequiredItem>
+      <FormRequiredItem
         name={"phone"}
         rules={[
           {
-            required: true,
-            //TODO: Translate this
             message: "Veuillez renseigner un numéro de téléphone",
           },
         ]}
       >
-        <div className={"form_item_wrapper required"}>
-          <Input
-            className={"form_item"}
-            placeholder={"Phone"}
-            addonBefore={<CountryCode />}
-          />
-        </div>
-      </Form.Item>
+        <Input
+          className={"input_item"}
+          placeholder={"Phone"}
+          addonBefore={<CountryCode />}
+        />
+      </FormRequiredItem>
     </>
   );
 };
