@@ -7,7 +7,7 @@ import {
 } from "@ant-design/icons/lib";
 import "../../assets/Style/Staff/invitationListCard.less";
 import TerradiaLoader from "../TerradiaLoader";
-import { useLazyQuery, useMutation, useQuery } from "@apollo/react-hooks";
+import { useMutation, useQuery } from "@apollo/react-hooks";
 
 import { addNotification } from "../../utils/notifications";
 import CompanyInvitationCard from "../../components/Profile/CompanyInvitationCard";
@@ -63,20 +63,17 @@ const InvitationsListCard: React.FC<Props> = ({
   const companyId = localStorage.getItem("selectedCompany");
 
   let queryResult;
-  if (!queryInvitationsResult) {
-    queryResult = useQuery(
-      companyView === false
-        ? getMyCompaniesInvitations
-        : getCompaniesInvitations,
-      companyView === false
-        ? {
-            variables: {
-              status: canFilter === true ? invitationsFilter : defaultFilter,
-            },
-          }
-        : { variables: { companyId } }
-    );
-  } else {
+  queryResult = useQuery(
+    companyView === false ? getMyCompaniesInvitations : getCompaniesInvitations,
+    companyView === false
+      ? {
+          variables: {
+            status: canFilter === true ? invitationsFilter : defaultFilter,
+          },
+        }
+      : { variables: { companyId } }
+  );
+  if (queryInvitationsResult) {
     queryResult = queryInvitationsResult;
   }
 
