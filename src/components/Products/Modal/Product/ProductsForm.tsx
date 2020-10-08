@@ -57,7 +57,7 @@ function ProductsForm(props: AddProductsFormProps) {
     props.updateProduct &&
       props.updateProduct.cover !== null &&
       props.updateProduct.cover.companyImage.filename !== null
-      ? props.updateProduct.cover.companyImage.filename
+      ? props.updateProduct.cover.companyImage
       : null
   );
 
