@@ -1,0 +1,26 @@
+@import "../../../index";
+
+.profile-card {
+  width: 100%;
+  background-color: white;
+  border-radius: @border-radius-base;
+  padding-bottom: 0 !important;
+  .label {
+    font-size: smaller;
+    color: #5cc04a;
+    margin: 0 !important;
+  }
+  .ant-modal-footer {
+    .line {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      .ant-form-item {
+        margin-bottom: 0;
+      }
+      .close-button {
+        margin-left: @padding-md;
+      }
+    }
+  }
+}

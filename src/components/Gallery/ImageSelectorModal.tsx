@@ -1,24 +1,36 @@
 import React, { useState } from "react";
-import { Button, Divider, Empty, Modal } from "antd";
+import { Divider, Empty, Modal } from "antd";
 import { useQuery } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
-import CompanyImage from "../../interfaces/Files/CompanyImage";
+import { CompanyImage } from "../../interfaces/CompanyImage";
 import ImageCard from "./ImageCard";
 import { LoadingOutlined } from "@ant-design/icons/lib";
 import "../../assets/Style/Gallery/style.less";
 import ImagesUploadButton from "../Files/ImagesUploadButton";
+import { UploadChangeParam } from "antd/lib/upload";
+import { CompanyImageData } from "../Files/ImageUploadModal";
+import { UploadFile } from "antd/lib/upload/interface";
+import { fileToObject } from "antd/lib/upload/utils";
+import Button from "../Ui/Button";
 
 interface Props {
   visible?: boolean;
   onClickClose: () => void;
-  onUpload?: (uploadedImage) => void; // function called for each upload (on multiple call this function for each element).
+  onUpload?: (
+    imageFile: UploadChangeParam,
+    uploadedImage?: CompanyImageData
+  ) => void; // function called for each upload (on multiple call this function for each element).
   onValidate?: (selectedImages: [CompanyImage]) => void; // function called when the modal is closed and there is images that are selected
   onlyOneImageByOne?: boolean; // if you want the user to upload only one image at the time.
+  customTitle?: string;
 }
 
 const queryCompanyImages = graphqlLoader(
   "../../graphql/query/getCompanyImages.graphql"
 );
+
+const now = +new Date();
+let index = 0;
 
 // ⚠️ DO NOT USE THIS COMPONENT ⚠️
 // This is a component that is implemented by the ImagesSelectorButton
@@ -28,6 +40,9 @@ const ImageSelectorModal: React.FC<Props> = ({
   onClickClose,
   onValidate,
   onlyOneImageByOne = false,
+  onUpload,
+  customTitle,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ...props
 }: Props) => {
   const companyId = localStorage.getItem("selectedCompany");
@@ -46,6 +61,18 @@ const ImageSelectorModal: React.FC<Props> = ({
     onClickClose();
   };
 
+  const uid = () => {
+    return `rc-upload-${now}-${++index}`;
+  };
+
+  const generateUploadFile = (selectedFiles) => {
+    const fileList: UploadFile[] = selectedFiles.map((file) => {
+      file.uid = uid();
+      return fileToObject(file);
+    });
+    onUpload({ file: fileList[0], fileList: fileList }, selectedFiles[0]);
+  };
+
   const handleValidate = () => {
     const companyImages = dataCompanyImages.getCompanyImages;
     const selectedList = Object.keys(selectedImages).map((key) => {
@@ -55,10 +82,17 @@ const ImageSelectorModal: React.FC<Props> = ({
       return selectedList.findIndex((elem) => elem === image.id) !== -1;
     });
     onValidate && onValidate(res);
+    onUpload && generateUploadFile(res);
     handleClose();
   };
 
-  const handleRefetch = () => refetch();
+  const handleRefetch = (
+    imageFile: UploadChangeParam,
+    uploadedImage?: CompanyImageData
+  ) => {
+    refetch();
+    onUpload(imageFile, uploadedImage);
+  };
 
   const handleNewSelection = (companyImage: CompanyImage) => {
     if (onlyOneImageByOne === true)
@@ -94,7 +128,9 @@ const ImageSelectorModal: React.FC<Props> = ({
     <Modal
       className={"modal"}
       title={
-        onlyOneImageByOne === true
+        customTitle !== undefined
+          ? customTitle
+          : onlyOneImageByOne === true
           ? "Sélection d'une image"
           : "Séléction d'images"
       }

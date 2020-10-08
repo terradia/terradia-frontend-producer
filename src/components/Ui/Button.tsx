@@ -21,6 +21,7 @@ export interface ButtonProps {
   className?: string;
   accentColor?: string;
   error?: boolean;
+  danger?: boolean;
 }
 
 const Button: React.FunctionComponent<ButtonProps> = ({
@@ -38,6 +39,7 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   style,
   text,
   children,
+  danger,
   ...props
 }) => {
   const defaultStyle: React.CSSProperties = {
@@ -60,6 +62,8 @@ const Button: React.FunctionComponent<ButtonProps> = ({
     defaultStyle["color"] = accentColor;
   }
 
+  if (danger === true) defaultStyle["color"] = "#F5222D";
+
   return (
     <AntButton
       type={type}
@@ -70,6 +74,7 @@ const Button: React.FunctionComponent<ButtonProps> = ({
       target={targetLink}
       block={fitParentWidth}
       htmlType={htmlType}
+      danger={danger}
       icon={
         icon !== undefined &&
         React.cloneElement(icon, {

@@ -1,22 +1,48 @@
 import React, { useEffect, useState } from "react";
 import CompanyCard from "./CompanyCard";
-import { useQuery } from "@apollo/react-hooks";
+import { useLazyQuery } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
 import Button from "../Ui/Button";
 import { useHistory } from "react-router";
-import CheckBox from "rc-checkbox";
-import { notification } from "antd";
+import { notification, Checkbox } from "antd";
+import { QueryResult } from "@apollo/react-common";
 
 const getCompanies = graphqlLoader("../../graphql/query/getCompanies.graphql");
 
-const CompanyCardSelector = () => {
+interface Props {
+  queryCompaniesObject?: QueryResult;
+}
+
+const CompanyCardSelector: React.FC<Props> = ({ queryCompaniesObject }) => {
   const history = useHistory();
-  const { loading, error, data: companiesData } = useQuery(getCompanies);
+  const [getCompaniesQuery] = useLazyQuery(getCompanies);
+  let queryResult;
+  if (!queryCompaniesObject) {
+    queryResult = getCompaniesQuery();
+  } else {
+    queryResult = queryCompaniesObject;
+  }
   const [selected, setSelected] = useState(null);
   const [remember, setRemember] = useState(false);
   let card;
 
-  if (error) console.log(error);
+  const OnValidatedSelection = () => {
+    if (selected === null) {
+      notification.warn({
+        key: "emptySelection",
+        message: "Veuillez sélectionner une entreprise",
+      });
+      return;
+    }
+    notification.close("emptySelection");
+    if (selected === "createCompany") {
+      history.push("/companyRegister");
+    } else {
+      localStorage.setItem("rememberCompany", remember.toString());
+      localStorage.setItem("selectedCompany", selected);
+      history.push("/home");
+    }
+  };
 
   useEffect(() => {
     if (!localStorage.getItem("token")) {
@@ -28,33 +54,18 @@ const CompanyCardSelector = () => {
     setSelected(companyId);
   };
 
-  const OnValidatedSelection = () => {
-    if (selected === null) {
-      notification.warn({
-        key: "emptySelection",
-        message: "Veuillez sélectionner une entreprise",
-      });
-      return;
-    }
-    notification.close("emptySelection");
-    localStorage.setItem("rememberCompany", remember.toString());
-    localStorage.setItem("selectedCompany", selected);
-    if (selected === "user")
-      window.location.href = "http://localhost:8000/graphql";
-    else {
-      console.log("redirect to home from company selector");
-      history.push("/home");
-    }
-  };
-
-  if (!loading && companiesData && companiesData.getCompanies) {
-    if (companiesData.getCompanies.length < 1) history.push("/Login");
-    card = companiesData.getCompanies.map((companyData: any) => {
+  if (
+    !queryResult.loading &&
+    queryResult.data &&
+    queryResult.data.getCompanies
+  ) {
+    card = queryResult.data.getCompanies.map((companyData: any) => {
       if (companyData) {
         return (
           <CompanyCard
             key={companyData.id}
             id={companyData.id}
+            archivedAt={companyData.archivedAt}
             selected={selected === companyData.id}
             name={companyData.name}
             logo={
@@ -89,9 +100,10 @@ const CompanyCardSelector = () => {
         }}
       >
         <CompanyCard
-          id={"user"}
-          selected={selected === "user"}
+          id={"createCompany"}
+          selected={selected === "createCompany"}
           onClick={setSelected}
+          create
         />
         {card}
       </div>
@@ -104,12 +116,12 @@ const CompanyCardSelector = () => {
           width: "25%",
         }}
         onClick={OnValidatedSelection}
-        isLoading={loading}
+        isLoading={queryResult.loading}
         text={"Valider"}
       />
-      <CheckBox onClick={(event) => setRemember(event.currentTarget.checked)}>
+      <Checkbox onChange={(event) => setRemember(event.target.checked)}>
         se souvenir de mon choix
-      </CheckBox>
+      </Checkbox>
     </>
   );
 };

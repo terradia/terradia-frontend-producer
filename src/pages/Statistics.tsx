@@ -1,15 +1,125 @@
-import React from "react";
-import { Card, Progress, Rate, Statistic } from "antd";
+import React, { useState } from "react";
+import { Card, Progress, Rate, Statistic, Radio } from "antd";
 import { LikeOutlined } from "@ant-design/icons";
 import { loader as graphqlLoader } from "graphql.macro";
 import { useQuery } from "@apollo/react-hooks";
+import "../assets/Style/Statistics/Statistics.less";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  LabelList,
+  LineChart,
+  Line,
+} from "recharts";
+
+const data = [
+  {
+    name: "Jan.",
+    pv: Math.floor(Math.random() * (97 - 2 + 1)) + 2,
+  },
+  {
+    name: "Fev.",
+    pv: Math.floor(Math.random() * (97 - 2 + 1)) + 2,
+  },
+  {
+    name: "Mar.",
+    pv: Math.floor(Math.random() * (97 - 2 + 1)) + 2,
+  },
+  {
+    name: "Avr.",
+    pv: Math.floor(Math.random() * (97 - 2 + 1)) + 2,
+  },
+  {
+    name: "Mai",
+    pv: Math.floor(Math.random() * (97 - 2 + 1)) + 2,
+  },
+  {
+    name: "Jui.",
+    pv: Math.floor(Math.random() * (97 - 2 + 1)) + 2,
+  },
+  {
+    name: "Jui.",
+    pv: Math.floor(Math.random() * (97 - 2 + 1)) + 2,
+  },
+  {
+    name: "Aou.",
+    pv: Math.floor(Math.random() * (97 - 2 + 1)) + 2,
+  },
+  {
+    name: "Sep.",
+    pv: Math.floor(Math.random() * (97 - 2 + 1)) + 2,
+  },
+  {
+    name: "Oct.",
+    pv: Math.floor(Math.random() * (97 - 2 + 1)) + 2,
+  },
+  {
+    name: "Nov.",
+    pv: Math.floor(Math.random() * (97 - 2 + 1)) + 2,
+  },
+  {
+    name: "Dec",
+    pv: Math.floor(Math.random() * (97 - 2 + 1)) + 2,
+  },
+];
+const data2 = [
+  {
+    name: "Semaine 1",
+    pv: Math.floor(Math.random() * (54 - 13 + 1)) + 13,
+  },
+  {
+    name: "Semaine 2",
+    pv: Math.floor(Math.random() * (54 - 13 + 1)) + 13,
+  },
+  {
+    name: "Semaine 3",
+    pv: Math.floor(Math.random() * (54 - 13 + 1)) + 13,
+  },
+  {
+    name: "Semaine 4",
+    pv: Math.floor(Math.random() * (54 - 13 + 1)) + 13,
+  },
+];
+
+const data3 = [
+  {
+    name: "Lun",
+    pv: Math.floor(Math.random() * (14 - 1 + 1)) + 1,
+  },
+  {
+    name: "Mar.",
+    pv: Math.floor(Math.random() * (14 - 1 + 1)) + 1,
+  },
+  {
+    name: "Mer.",
+    pv: Math.floor(Math.random() * (14 - 1 + 1)) + 1,
+  },
+  {
+    name: "Jeu.",
+    pv: Math.floor(Math.random() * (14 - 1 + 1)) + 1,
+  },
+  {
+    name: "Ven.",
+    pv: Math.floor(Math.random() * (14 - 1 + 1)) + 1,
+  },
+  {
+    name: "Sam.",
+    pv: Math.floor(Math.random() * (14 - 1 + 1)) + 1,
+  },
+  {
+    name: "Dim.",
+    pv: Math.floor(Math.random() * (14 - 1 + 1)) + 1,
+  },
+];
+
+const monthsRevenue = Math.floor(Math.random() * (1568 - 125 + 1)) + 125;
+const monthsCommands = Math.floor(Math.random() * (87 - 5 + 1)) + 87;
 
 const getCompanyReviews = graphqlLoader(
   "../graphql/query/getCompanyReviews.graphql"
-);
-
-const queryCompanyUsers = graphqlLoader(
-  "../graphql/query/getCompanyUsers.graphql"
 );
 
 const Statistics = () => {
@@ -23,30 +133,6 @@ const Statistics = () => {
     variables: { id: companyId, limit: 10, offset: 1 },
   });
 
-  const {
-    loading: loadingEmployees,
-    error: errorDataCompany,
-    data: dataCompany,
-  } = useQuery(queryCompanyUsers, {
-    variables: { companyId: companyId },
-  });
-
-  const gridStyle = {
-    width: "25%" as const,
-    textAlign: "center" as const,
-    minWidth: "fit-content",
-  };
-  const avisStyle = {
-    display: "flex" as const,
-    flexDirection: "column" as const,
-    alignItems: "center",
-  };
-
-  const bodyStyle = {
-    display: "flex",
-    paddingBottom: 24,
-  };
-
   function rateNumber() {
     let nbReviews = 0;
     dataCompanyReviews.getCompanyReviews.forEach((user) => {
@@ -57,7 +143,7 @@ const Statistics = () => {
     if (nbReviews !== 0) {
       return <>({nbReviews}) </>;
     }
-    return 0;
+    return nbReviews;
   }
 
   const commentUser = () => {
@@ -75,127 +161,144 @@ const Statistics = () => {
     return 0;
   };
 
-  const employeesNumber = () => {
-    let employeesNb = 0;
-    dataCompany.getCompany.users.map(() => (employeesNb += 1));
-    return employeesNb;
+  const [graphScope, setGraphScope] = useState("year");
+
+  const onChange = (event) => {
+    setGraphScope(event.target.value);
   };
 
-  if (loading || loadingEmployees) return <div>loading</div>;
+  if (loading) return <div>loading</div>;
   return (
     <>
-      <div style={bodyStyle}>
-        <div
-          style={{
-            marginRight: "1%",
-            display: "flex",
-            flexGrow: 2,
-            flexDirection: "column",
-          }}
-        >
-          <Card
-            title="Commandes"
-            style={{
-              marginBottom: "1%",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-              }}
-            >
-              <Card.Grid hoverable={false} style={gridStyle}>
-                <Statistic title="Commandes en cours" value={12} />
-              </Card.Grid>
-              <Card.Grid hoverable={false} style={gridStyle}>
-                <Card.Meta title={"Commandes du jour"} />
-                <Progress percent={60} size="small" />
-              </Card.Grid>
-              <Card.Grid hoverable={false} style={gridStyle}>
-                <Statistic title="Commandes totale du mois" value={216} />
-              </Card.Grid>
-            </div>
-          </Card>
-
-          <div>
-            <Card
-              title="Produits"
-              style={{
-                marginBottom: "1%",
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                }}
-              >
-                <Card.Grid hoverable={false} style={gridStyle}>
-                  <Card.Meta title={"Produits disponibles"} />
-                  <Progress percent={84} size="small" />
-                </Card.Grid>
-                <Card.Grid hoverable={false} style={gridStyle}>
-                  <Statistic title="Produit favori" value={"Tomate"} />
-                </Card.Grid>
-                <Card.Grid hoverable={false} style={gridStyle}>
-                  <Card.Meta title={"Chiffre d'affaire du jour"} />
-                  <Progress type="circle" percent={76} size="small" />
-                </Card.Grid>
+      <div className={"statistic-page"}>
+        <div className={"strong-statistics"}>
+          <div className={"head-statistics"}>
+            <Card title="Commandes en cours" className={"statistic-card"}>
+              <div className={"description-card"}>
+                <p className={"green-stats"}>8</p>
+                <p>Commandes sont en attentes de prépatation ou de livraison</p>
               </div>
             </Card>
-          </div>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            flexGrow: 1,
-          }}
-        >
-          <Card
-            title={"Avis"}
-            style={{
-              marginBottom: "1%",
-            }}
-          >
-            <div style={avisStyle}>
-              <Card.Grid hoverable={false} style={gridStyle}>
-                {!errorDataCompany && (
+            <Card title="Clients uniques" className={"statistic-card"}>
+              <div className={"description-card"}>
+                <p className={"green-stats"}>4</p>
+                <p>Clients differents qui ont commandé chez vous</p>
+              </div>
+            </Card>
+            <Card title={"Avis"} className={"statistic-card"}>
+              <Card.Grid hoverable={false} className={"grid-style"}>
+                {!errorCompanyReviews && (
                   <Rate
                     disabled
                     defaultValue={2}
                     allowHalf
                     value={commentUser()}
-                    style={{
-                      display: "flex",
-                    }}
+                    className={"rate"}
                   />
-                )}{" "}
+                )}
                 {rateNumber()}
               </Card.Grid>
-              <Card.Grid hoverable={false} style={gridStyle}>
+              <Card.Grid hoverable={false} className={"grid-style"}>
                 <Statistic
                   title="Entreprise favorite"
                   value={1128}
                   prefix={<LikeOutlined />}
                 />
               </Card.Grid>
-            </div>
-          </Card>
+            </Card>
+          </div>
           <Card
-            title={"Employés"}
-            style={{
-              marginBottom: "1%",
-            }}
+            title="Commandes complétées"
+            extra={
+              <Radio.Group
+                defaultValue="year"
+                onChange={onChange}
+                buttonStyle="solid"
+              >
+                <Radio.Button value="year">Année</Radio.Button>
+                <Radio.Button value="months">Mois</Radio.Button>
+                <Radio.Button value="week">Semaine</Radio.Button>
+              </Radio.Group>
+            }
+            className={"statistic-card"}
           >
-            <div style={avisStyle}>
-              {!errorCompanyReviews && (
-                <Card.Grid hoverable={false} style={gridStyle}>
-                  {employeesNumber()} membres
-                </Card.Grid>
+            <div className={"statistic-graph"}>
+              {graphScope === "year" && (
+                <BarChart width={600} height={400} data={data}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Bar dataKey="pv" fill="#52c41a">
+                    <LabelList dataKey="pv" position="center" />
+                  </Bar>
+                </BarChart>
+              )}
+              {graphScope === "months" && (
+                <BarChart width={500} height={300} data={data2}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Bar dataKey="pv" fill="#52c41a">
+                    <LabelList dataKey="pv" position="center" />
+                  </Bar>
+                </BarChart>
+              )}
+              {graphScope === "week" && (
+                <BarChart width={500} height={300} data={data3}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Bar dataKey="pv" fill="#52c41a">
+                    <LabelList dataKey="pv" position="center" />
+                  </Bar>
+                </BarChart>
               )}
             </div>
           </Card>
+          <Card title="Visites page Producteur" className={"statistic-card"}>
+            <div className={"statistic-graph"}>
+              <LineChart
+                width={500}
+                height={300}
+                data={data}
+                margin={{
+                  top: 5,
+                  right: 30,
+                  left: 20,
+                  bottom: 5,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Line type="monotone" dataKey="pv" stroke="#52c41a" />
+              </LineChart>
+            </div>
+          </Card>
+          <div>
+            <Card title="Produits" className={"statistic-card"}>
+              <div
+                style={{
+                  display: "flex",
+                }}
+              >
+                <Card.Grid hoverable={false} className={"grid-style"}>
+                  <Card.Meta title={"Produits disponibles"} />
+                  <Progress percent={84} size="small" />
+                </Card.Grid>
+                <Card.Grid hoverable={false} className={"grid-style"}>
+                  <Statistic title="Produit favori" value={"Tomate"} />
+                </Card.Grid>
+                <Card.Grid hoverable={false} className={"grid-style"}>
+                  <Card.Meta title={`Revenus ${monthsRevenue}€`} />
+                  <p>
+                    Vous avez completez {monthsCommands} commandes durant le
+                    mois de Septembre
+                  </p>
+                </Card.Grid>
+              </div>
+            </Card>
+          </div>
         </div>
       </div>
     </>

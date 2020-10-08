@@ -45,6 +45,12 @@
   background: #fff;
 }
 
+.card-container {
+  background: white;
+  border-radius: @border-radius-base;
+  padding: @padding-md;
+}
+
 .images-tab-header {
   display: flex;
   align-items: center;
@@ -76,7 +82,7 @@
     height: 18em;
     .ant-card-cover {
       img {
-        object-fit: cover;
+        object-fit: contain;
         width: 15em;
         height: 15em;
         cursor: pointer;
@@ -114,6 +120,7 @@
           justify-content: center;
           align-items: center;
           .ant-card-cover {
+            height: 100%;
             img {
               object-fit: contain;
               width: 100%;

@@ -1,22 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Avatar, Card, TimePicker } from "antd";
 import EditButton from "../Ui/EditButton";
 import SubmitButton from "../Ui/SubmitButton";
-import EditInfoForm from "./EditInfoForm";
+import EditInfoForm from "../Company/EditInfoForm";
 import { Moment } from "moment";
-import "../../assets/Style/CompanyInfo/InfoCard.less";
+import "../../assets/Style/CompanyPage/InfoCard.less";
 import { loader } from "graphql.macro";
 import { useMutation } from "@apollo/react-hooks";
 
 export declare interface Hours {
-  startTime: Moment;
-  endTime: Moment;
+  startTime: any;
+  endTime: any;
 }
 
 export declare interface Info {
+  slugName?: string;
   label: string;
   text?: string;
   icon?: string;
+  isLogo?: boolean;
   daySlugName?: string;
   openHours?: Hours[];
 }
@@ -26,6 +28,17 @@ declare interface InfoCardProps {
   infos: Info[];
   loading: boolean;
   refetch: () => void;
+}
+
+declare interface UpdateCompanyInput {
+  name?: string;
+  description?: string;
+  email?: string;
+  phone?: string;
+  address?: string;
+  siren?: string;
+  logoId?: string;
+  coverId?: string;
 }
 
 const textStyle = {
@@ -45,26 +58,21 @@ const boldTextStyle = {
 
 const { RangePicker } = TimePicker;
 const addOpeningDay = loader("../../graphql/mutation/addOpeningDay.graphql");
+const updateCompany = loader("../../graphql/mutation/updateCompany.graphql");
 
 const InfoCard = (props: InfoCardProps) => {
-  const [infos, setInfos] = useState<React.ReactNode[]>(null);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [addOpeningDayMutation] = useMutation(addOpeningDay);
+  const [updateCompanyMutation] = useMutation(updateCompany);
 
-  const onSubmit = async (values) => {
-    const newValues: Info[] = props.infos;
-    const i = 0;
-
-    setIsSubmitting(false);
-    setIsEditing(false);
+  const updateOpenHours = async (values) => {
     for (const key in values) {
-      if (values[key] !== undefined && typeof values[key] === "string")
-        newValues[i] = { label: key, text: values[key] };
-      else if (values[key] !== undefined && typeof values[key] !== "string") {
-        const existingKey = newValues.find((currentInfo) => {
+      if (values[key] !== undefined && typeof values[key] !== "string") {
+        const existingKey = props.infos.find((currentInfo) => {
           return currentInfo.daySlugName === key;
         });
+        if (!existingKey.openHours.length && !values[key].length) continue;
         values[key] = values[key].filter((hour) => hour !== undefined);
         existingKey.openHours = values[key].map((hour: [Moment, Moment]) => {
           if (hour === null) return null;
@@ -79,75 +87,22 @@ const InfoCard = (props: InfoCardProps) => {
         });
       }
     }
-    props.refetch();
   };
 
-  useEffect(() => {
-    setInfos(
-      props.infos.map((info) => (
-        <div
-          key={info.label + info.text + info.icon}
-          style={{
-            display: "flex",
-            justifyContent: "flex-start",
-            alignItems: "center",
-            flexWrap: "wrap",
-          }}
-        >
-          <span
-            key={info.label}
-            style={{
-              ...boldTextStyle,
-              marginRight: "16px",
-            }}
-          >
-            {info.label}
-          </span>
-          {info.text && (
-            <span key={info.text} style={textStyle}>
-              {info.text}
-            </span>
-          )}
-          {info.icon && (
-            <>
-              <br />
-              <Avatar
-                key={info.icon}
-                style={{
-                  marginLeft: "10px",
-                }}
-                size={64}
-                shape={"square"}
-                src={
-                  "https://terradia-bucket-assets.s3.eu-west-3.amazonaws.com/" +
-                  info.icon
-                }
-              />
-            </>
-          )}
-          {info.openHours && (
-            <div className={"hours-container"}>
-              {info.openHours.map((hour, index) => (
-                <div key={info.label + "-" + index}>
-                  <RangePicker
-                    className={"ant-picker-borderless picker-input-color"}
-                    bordered={false}
-                    inputReadOnly
-                    disabled
-                    picker={"time"}
-                    value={[hour.startTime, hour.endTime]}
-                    format={"HH:mm"}
-                    suffixIcon={null}
-                  />
-                  {index !== info.openHours.length - 1 && <span>{"&"}</span>}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      ))
-    );
-  }, [props]);
+  const onSubmit = async (values) => {
+    setIsSubmitting(false);
+    setIsEditing(false);
+    if (props.infos[0].openHours) {
+      return updateOpenHours(values);
+    }
+    await updateCompanyMutation({
+      variables: {
+        companyId: localStorage.getItem("selectedCompany"),
+        newValues: values,
+      },
+    });
+    props.refetch();
+  };
 
   const headerButton = isEditing ? (
     <SubmitButton callback={() => setIsSubmitting(true)} />
@@ -198,7 +153,71 @@ const InfoCard = (props: InfoCardProps) => {
             setIsEditing={setIsEditing}
           />
         )}
-        {!isEditing && [infos]}
+        {!isEditing &&
+          props.infos.map((info) => (
+            <div
+              key={info.label + info.text + info.icon}
+              style={{
+                display: "flex",
+                justifyContent: "flex-start",
+                alignItems: "center",
+                flexWrap: "wrap",
+              }}
+            >
+              <span
+                key={info.label}
+                style={{
+                  ...boldTextStyle,
+                  marginRight: "16px",
+                }}
+              >
+                {info.label}
+              </span>
+              {info.text && (
+                <span key={info.text} style={textStyle}>
+                  {info.text}
+                </span>
+              )}
+              {info.icon && (
+                <>
+                  <br />
+                  <Avatar
+                    key={info.icon}
+                    style={{
+                      marginLeft: "10px",
+                    }}
+                    size={64}
+                    shape={"square"}
+                    src={
+                      "https://terradia-bucket-assets.s3.eu-west-3.amazonaws.com/" +
+                      info.icon
+                    }
+                  />
+                </>
+              )}
+              {info.openHours && (
+                <div className={"hours-container"}>
+                  {info.openHours.map((hour, index) => (
+                    <div key={info.label + "-" + index}>
+                      <RangePicker
+                        className={"ant-picker-borderless picker-input-color"}
+                        bordered={false}
+                        inputReadOnly
+                        disabled
+                        picker={"time"}
+                        value={[hour.startTime, hour.endTime]}
+                        format={"HH:mm"}
+                        suffixIcon={null}
+                      />
+                      {index !== info.openHours.length - 1 && (
+                        <span>{"&"}</span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
       </Card>
     </div>
   );

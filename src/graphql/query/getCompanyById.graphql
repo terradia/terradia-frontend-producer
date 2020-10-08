@@ -5,6 +5,7 @@ query getCompanyById($companyId: ID!) {
     description
     email
     phone
+    siren
     logo {
       id
       filename
@@ -15,6 +16,16 @@ query getCompanyById($companyId: ID!) {
     }
     address
     openingDays {
+      id
+      daySlugName
+      dayTranslationKey
+      hours {
+        id
+        startTime
+        endTime
+      }
+    }
+    deliveryDays {
       id
       daySlugName
       dayTranslationKey

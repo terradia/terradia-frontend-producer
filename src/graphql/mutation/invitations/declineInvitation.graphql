@@ -1,0 +1,5 @@
+mutation declineInvitation($invitationId: String!) {
+    declineInvitation(invitationId: $invitationId) {
+        id
+    }
+}

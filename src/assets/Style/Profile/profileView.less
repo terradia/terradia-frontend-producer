@@ -1,0 +1,125 @@
+@import "../../../index";
+
+.card.user-profile-data-card {
+  position: relative;
+  display: flex;
+  background: white;
+  flex-wrap: wrap;
+  border-radius: @border-radius-sm;
+  padding: @padding-md;
+  div.content {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    flex-wrap: wrap;
+    .first-element {
+      .avatar-picker {
+        div.ant-upload {
+          position: relative;
+          border-radius: 300px;
+          .avatar-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 12em;
+            height: 12em;
+            overflow: hidden;
+            span {
+              width: 100%;
+              height: 100%;
+              img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+              }
+            }
+          }
+          .avatar-info-icon-container {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            span {
+              font-size: @font-size-lg;
+            }
+          }
+          .no-avatar-icon-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 12em;
+            height: 12em;
+            span {
+              font-size: 9em;
+            }
+          }
+        }
+      }
+    }
+    .second-element {
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      padding: @padding-md;
+      .data-container {
+        width: 100%;
+        .data-label {
+          font-size: @font-size-base;
+          color: @primary-color;
+        }
+        .data {
+          font-size: @font-size-lg;
+        }
+      }
+    }
+  }
+  .action-bar {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    button {
+      margin: @padding-xs;
+    }
+  }
+
+  .languages {
+    margin-left: 2em;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    color: @primary-color;
+    .flags {
+      margin-top: 1em;
+      width: 10%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    div.content {
+      justify-content: center;
+      align-items: center;
+      .second-element {
+        .data-container {
+          margin-bottom: @padding-sm;
+        }
+      }
+    }
+    .action-bar {
+      justify-content: center;
+      button {
+        margin-left: @padding-md;
+      }
+    }
+    .flags {
+      display: flex;
+      flex-direction: column;
+      margin-top: 1em;
+    }
+  }
+}

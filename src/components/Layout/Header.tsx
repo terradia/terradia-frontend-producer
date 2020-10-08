@@ -4,17 +4,25 @@ import Logout from "../Authentication/Logout/Logout";
 import { Layout as AntLayout } from "antd";
 import CompanySelector from "../CompanySelector/CompanySelector";
 import "../../assets/Style/Layout/header.less";
-import "../../assets/Style/Header/user-informations.less";
+import { CloseOutlined, MenuOutlined } from "@ant-design/icons/lib";
 
 const AntHeader = AntLayout.Header;
 
 declare interface HeaderProps {
   Company?: boolean;
+  onClickOnBurger?: () => void;
+  collapsed?: boolean;
+  isMobile?: boolean;
 }
 
 //TODO Faire un burger menu si la taille est trop petite
 
-const Header = (props: HeaderProps) => {
+const Header = ({
+  onClickOnBurger,
+  collapsed = false,
+  isMobile = false,
+  ...props
+}: HeaderProps) => {
   let displayedInfo;
 
   if (props.Company) {
@@ -40,17 +48,37 @@ const Header = (props: HeaderProps) => {
   return (
     <>
       <AntHeader className={"main-header"}>
-        <div className={"logo-container"}>
-          <TerradiaLogo height={"40px"} width={"200px"} />
-        </div>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          {displayedInfo}
-        </div>
+        {isMobile !== true ? (
+          <>
+            <div className={"logo-container"}>
+              <TerradiaLogo height={"40px"} width={"200px"} />
+            </div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              {displayedInfo}
+            </div>
+          </>
+        ) : (
+          <>
+            <div className={"mobile-header-element first"}>
+              {React.createElement(collapsed ? MenuOutlined : CloseOutlined, {
+                className: "trigger",
+                onClick: onClickOnBurger,
+                style: { fontSize: "1.5em" },
+              })}
+            </div>
+            <div className={"mobile-header-element second logo-container"}>
+              <TerradiaLogo height={"50px"} width={"100px"} />
+            </div>
+            <div className={"mobile-header-element third"}>
+              <CompanySelector isMobile={true} />
+            </div>
+          </>
+        )}
       </AntHeader>
     </>
   );

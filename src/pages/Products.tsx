@@ -1,16 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { loader as graphqlLoader } from "graphql.macro";
-import { useMutation, useQuery } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/react-hooks";
 
-import { Empty, Select } from "antd";
+import { Empty, Select, Radio } from "antd";
 import Button from "../components/Ui/Button";
-import CategoryProducts from "../components/Products/CategoryProducts";
 import ProductsModal from "../components/Products/Modal/Product/ProductsModal";
 import CategoryModal from "../components/Products/Modal/Category/CategoryModal";
 
 import "../assets/Style/Products/ProductsPage.less";
-import { DragDropContext } from "react-beautiful-dnd";
+import { ReactComponent as BoardIcon } from "../assets/Icon/ui/board.svg";
+import { ReactComponent as GridIcon } from "../assets/Icon/ui/grid.svg";
+import { ReactComponent as ListIcon } from "../assets/Icon/ui/list.svg";
+
 import { PlusOutlined } from "@ant-design/icons/lib";
+import { useTranslation } from "react-i18next";
+import Grid from "../components/Products/Layout/Grid/Grid";
+import Board from "../components/Products/Layout/Board/Board";
+import List from "../components/Products/Layout/List/List";
 
 const { Option } = Select;
 
@@ -18,34 +24,21 @@ const queryAllCompanyProductsCategories = graphqlLoader(
   "../graphql/query/getAllCompanyProductsCategories.graphql"
 );
 const queryAllUnits = graphqlLoader("../graphql/query/getAllUnits.graphql");
-const mutationUpdateProductsPosition = graphqlLoader(
-  "../graphql/mutation/products/updateProductsPositions.graphql"
-);
-
-const reorder = (list, startIndex, endIndex) => {
-  const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
-
-  return result;
-};
-
-const move = (source, destination, droppableSource, droppableDestination) => {
-  const sourceClone = Array.from(source);
-  const destClone = Array.from(destination);
-  const [removed] = sourceClone.splice(droppableSource.index, 1);
-
-  destClone.splice(droppableDestination.index, 0, removed);
-
-  const result = {};
-  result[0] = sourceClone;
-  result[1] = destClone;
-
-  return result;
-};
 
 const Products = () => {
   const companyId = localStorage.getItem("selectedCompany");
+  const layoutProduct = localStorage.getItem("layoutProduct"); // 0 = Board | 1 = Grid | 2 = List
+  const collaspedCategory = JSON.parse(
+    localStorage.getItem("collapsedCategory")
+  );
+
+  useEffect(() => {
+    if (!collaspedCategory) {
+      localStorage.setItem("collapsedCategory", JSON.stringify([]));
+    }
+  }, [collaspedCategory]);
+
+  const { t } = useTranslation("common");
 
   const {
     loading: loadingCategories,
@@ -63,29 +56,30 @@ const Products = () => {
     variables: { ref: false },
   });
 
-  const [updateProductsPositions] = useMutation(
-    mutationUpdateProductsPosition,
-    {
-      refetchQueries: [
-        {
-          query: queryAllCompanyProductsCategories,
-          variables: { companyId: companyId },
-        },
-      ],
-    }
-  );
-
   const [productVisible, setAddProductVisible] = useState(false); // visible for products modal
   const [categoryVisible, setCategoryVisible] = useState(false); // visible for new category modal
   const [updateProduct, setUpdateProduct] = useState(null); // products to update for the modal
   const [defaultCategory, setDefaultCategory] = useState(null); // default category when you open the products modal
   const [categoryToUpdate, setCategoryToUpdate] = useState(null); // categoryId to update
   const [categoryName, setCategoryName] = useState(null); // category.name to update
+  const [productLayout, setProductLayout] = useState("grid");
 
   const categoryList = [];
   let indexNullCat = -1;
 
-  if (!loadingCategories && dataCategories) {
+  if (dataCategories) {
+    dataCategories.getAllCompanyProductsCategories.forEach((cat) => {
+      categoryList.push(
+        <Option key={cat.id} value={cat.id}>
+          {cat.id !== `nonCat${companyId}`
+            ? cat.name
+            : "Produits non catégorisés"}
+        </Option>
+      );
+    });
+  }
+
+  if (dataCategories) {
     // TODO a supprimer et a faire en back
     dataCategories.getAllCompanyProductsCategories.forEach((cat, index) => {
       dataCategories.getAllCompanyProductsCategories[index].products.sort(
@@ -99,217 +93,130 @@ const Products = () => {
           }
         }
       );
-      categoryList.push(
-        <Option key={cat.id} value={cat.id}>
-          {cat.id !== `nonCat${companyId}`
-            ? cat.name
-            : "Produits non catégorisés"}
-        </Option>
-      );
     });
     indexNullCat = dataCategories.getAllCompanyProductsCategories.findIndex(
       (cat) => cat.id === `nonCat${companyId}`
     );
   }
 
-  function updatePosition( // update position of products
-    sameCategory: boolean,
-    source: { indexCat: number; indexCard: number; categoryId?: string },
-    destination?: { indexCat: number; indexCard: number; categoryId: string }
-  ) {
-    const modifiedList = []; // List to send to back
-    for (
-      let i = source.indexCard;
-      i <
-      dataCategories.getAllCompanyProductsCategories[source.indexCat].products
-        .length;
-      i++
+  function handleChangeLayout(value) {
+    setProductLayout(value);
+    localStorage.setItem("layoutProduct", value);
+  }
+
+  useEffect(() => {
+    if (
+      layoutProduct &&
+      (layoutProduct === "0" || layoutProduct === "1" || layoutProduct === "2")
     ) {
-      dataCategories.getAllCompanyProductsCategories[source.indexCat].products[
-        i
-      ].position = i;
-
-      modifiedList.push({
-        productId:
-          dataCategories.getAllCompanyProductsCategories[source.indexCat]
-            .products[i].id,
-        position: i,
-        type: null,
-        categoryId: null,
-      });
-    }
-
-    if (!sameCategory) {
-      let type = null;
-      let categoryId = null;
-      for (
-        let i = destination.indexCard;
-        i <
-        dataCategories.getAllCompanyProductsCategories[destination.indexCat]
-          .products.length;
-        i++
-      ) {
-        dataCategories.getAllCompanyProductsCategories[
-          destination.indexCat
-        ].products[i].position = i;
-        if (source.categoryId === `nonCat${companyId}`) {
-          type = "addCategory";
-          categoryId = destination.categoryId;
-        } else if (destination.categoryId === `nonCat${companyId}`) {
-          type = "deleteCategory";
-        } else {
-          type = "moveCategory";
-          categoryId = destination.categoryId;
-        }
-        modifiedList.push({
-          productId:
-            dataCategories.getAllCompanyProductsCategories[destination.indexCat]
-              .products[i].id,
-          position: i,
-          type: type,
-          categoryId: categoryId,
-        });
-      }
-    }
-    updateProductsPositions({
-      variables: {
-        productsPositions: modifiedList,
-      },
-    }).catch((error) => {
-      console.log(error);
-    });
-  }
-
-  function onDragEnd(result) {
-    const { source, destination } = result;
-
-    // dropped outside the list
-    if (!destination) {
-      return;
-    }
-
-    if (source.droppableId === destination.droppableId) {
-      // move in same category
-      const index = dataCategories.getAllCompanyProductsCategories.findIndex(
-        (cat) => cat.id === source.droppableId
-      );
-
-      dataCategories.getAllCompanyProductsCategories[index].products = reorder(
-        dataCategories.getAllCompanyProductsCategories[index].products,
-        source.index,
-        destination.index
-      );
-      updatePosition(true, { indexCat: index, indexCard: source.index });
+      setProductLayout(layoutProduct);
     } else {
-      // move in different category
-      const indexSrc = dataCategories.getAllCompanyProductsCategories.findIndex(
-        (cat) => cat.id === source.droppableId
-      );
-      const indexDest = dataCategories.getAllCompanyProductsCategories.findIndex(
-        (cat) => cat.id === destination.droppableId
-      );
-      const result = move(
-        dataCategories.getAllCompanyProductsCategories[indexSrc].products,
-        dataCategories.getAllCompanyProductsCategories[indexDest].products,
-        source,
-        destination
-      );
-
-      dataCategories.getAllCompanyProductsCategories[indexSrc].products =
-        result[0];
-      dataCategories.getAllCompanyProductsCategories[indexDest].products =
-        result[1];
-      updatePosition(
-        false,
-        {
-          indexCat: indexSrc,
-          indexCard: source.index,
-          categoryId: source.droppableId,
-        },
-        {
-          indexCat: indexDest,
-          indexCard: destination.index,
-          categoryId: destination.droppableId,
-        }
-      );
+      localStorage.setItem("layoutProduct", "1");
     }
-  }
+  }, [layoutProduct]);
 
   return (
     <div className={"product-page"}>
       <div className={"sub-header"}>
-        <Button
-          className={"button"}
-          text={"Créer une catégorie"}
-          icon={<PlusOutlined />}
-          onClick={() => setCategoryVisible(true)}
-        />
-        <Button
-          className={"button"}
-          text={"Créer un produit"}
-          icon={<PlusOutlined />}
-          onClick={() => {
-            setDefaultCategory(undefined);
-            setAddProductVisible(true);
-          }}
-        />
+        <div className={"products-button"}>
+          <Button
+            className={"button"}
+            text={t("ProductsPage.buttons.createCategory")}
+            icon={<PlusOutlined />}
+            onClick={() => setCategoryVisible(true)}
+          />
+          <Button
+            className={"button"}
+            text={t("ProductsPage.buttons.createProduct")}
+            icon={<PlusOutlined />}
+            onClick={() => {
+              setDefaultCategory(undefined);
+              setAddProductVisible(true);
+            }}
+          />
+        </div>
+        <div className={"product-layout"}>
+          <Radio.Group
+            value={productLayout}
+            onChange={(e) => {
+              handleChangeLayout(e.target.value);
+            }}
+          >
+            <Radio.Button value="0">
+              <BoardIcon
+                style={{ height: "20px", width: "20px", marginTop: "9px" }}
+              />
+            </Radio.Button>
+            <Radio.Button value="1">
+              <GridIcon
+                style={{ height: "20px", width: "20px", marginTop: "9px" }}
+              />
+            </Radio.Button>
+            <Radio.Button value="2">
+              <ListIcon
+                style={{ height: "20px", width: "20px", marginTop: "9px" }}
+              />
+            </Radio.Button>
+          </Radio.Group>
+        </div>
       </div>
-      <div className={"categories-list"}>
-        {(!dataCategories ||
-          dataCategories.getAllCompanyProductsCategories.length === 0) && (
-          <div className={"empty-card"}>
-            <Empty
-              description={"Pour le moment, il n'y a aucun produit à lister"} // TODO : Translate this.
-              image={Empty.PRESENTED_IMAGE_SIMPLE}
-            />
-          </div>
-        )}
+      <div
+        className={`categories-list ${productLayout === "0" ? "board" : ""}`}
+      >
         {!loadingCategories &&
           dataCategories !== undefined &&
-          !errorCategories && (
-            <DragDropContext onDragEnd={onDragEnd}>
-              {indexNullCat !== -1 && (
-                <CategoryProducts
-                  cat={{
-                    id:
-                      dataCategories.getAllCompanyProductsCategories[
-                        indexNullCat
-                      ].id,
-                    name: "Produits non catégorisés",
-                    products:
-                      dataCategories.getAllCompanyProductsCategories[
-                        indexNullCat
-                      ].products,
-                  }}
-                  ProductModal={{
-                    setVisible: setAddProductVisible,
-                    setDefaultCategory,
-                    setUpdateProduct: setUpdateProduct,
-                  }}
-                />
-              )}
-              {dataCategories.getAllCompanyProductsCategories.map((cat) => {
-                if (cat.id !== `nonCat${companyId}`) {
-                  return (
-                    <CategoryProducts
-                      key={cat.id}
-                      cat={cat}
-                      ProductModal={{
-                        setVisible: setAddProductVisible,
-                        setDefaultCategory,
-                        setUpdateProduct: setUpdateProduct,
-                      }}
-                      CategoryModal={{
-                        setVisible: setCategoryVisible,
-                        setCategoryId: setCategoryToUpdate,
-                        setCategoryName: setCategoryName,
-                      }}
-                    />
-                  );
-                }
-                return null;
-              })}
-            </DragDropContext>
+          !errorCategories &&
+          dataCategories.getAllCompanyProductsCategories.length === 0 && (
+            <div className={"empty-card"}>
+              <Empty
+                description={"Pour le moment, il n'y a aucun produit à lister"} // TODO : Translate this.
+                image={Empty.PRESENTED_IMAGE_SIMPLE}
+              />
+            </div>
+          )}
+        {!loadingCategories &&
+          dataCategories !== undefined &&
+          !errorCategories &&
+          productLayout === "0" && (
+            <Board
+              data={dataCategories}
+              setAddProductVisible={setAddProductVisible}
+              setDefaultCategory={setDefaultCategory}
+              setUpdateProduct={setUpdateProduct}
+              setCategoryName={setCategoryName}
+              setCategoryToUpdate={setCategoryToUpdate}
+              setCategoryVisible={setCategoryVisible}
+              indexNullCat={indexNullCat}
+            />
+          )}
+        {!loadingCategories &&
+          dataCategories !== undefined &&
+          !errorCategories &&
+          productLayout === "1" && (
+            <Grid
+              data={dataCategories}
+              setAddProductVisible={setAddProductVisible}
+              setDefaultCategory={setDefaultCategory}
+              setUpdateProduct={setUpdateProduct}
+              setCategoryName={setCategoryName}
+              setCategoryToUpdate={setCategoryToUpdate}
+              setCategoryVisible={setCategoryVisible}
+              indexNullCat={indexNullCat}
+            />
+          )}
+        {!loadingCategories &&
+          dataCategories !== undefined &&
+          !errorCategories &&
+          productLayout === "2" && (
+            <List
+              data={dataCategories}
+              indexNullCat={indexNullCat}
+              ProductModal={{
+                setVisible: setAddProductVisible,
+                setDefaultCategory: setDefaultCategory,
+                setUpdateProduct: setUpdateProduct,
+              }}
+            />
           )}
       </div>
       {!loadingUnits && !errorUnits && (

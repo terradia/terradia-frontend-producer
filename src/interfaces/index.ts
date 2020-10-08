@@ -5,6 +5,15 @@
 // import User from 'path/to/interfaces';
 
 export type User = {
-  id: number;
-  name: string;
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  validated: boolean;
+  phone: string;
+  password: string;
+  avatar: string;
+  companies: {
+    id;
+  };
 };

@@ -1,9 +1,14 @@
-import React, { useState } from "react";
-import { Button, Modal, Popconfirm } from "antd";
+import React, { useEffect, useState } from "react";
+import { Button, Modal, Popconfirm, Tabs } from "antd";
 import ProductsForm from "./ProductsForm";
 import "../../../../assets/Style/Products/Modal/ProductsModal.less";
 import { loader as graphqlLoader } from "graphql.macro";
-import { useMutation } from "@apollo/react-hooks";
+import { useLazyQuery, useMutation } from "@apollo/react-hooks";
+import ProductsAdvice from "./ProductsAdvice";
+import ProductsReviews from "./ProductsReviews";
+import { useTranslation } from "react-i18next";
+
+const { TabPane } = Tabs;
 
 const mutationCreateProduct = graphqlLoader(
   "../../../../graphql/mutation/products/createProduct.graphql"
@@ -19,6 +24,9 @@ const mutationUpdateProductCompanyCategory = graphqlLoader(
 );
 const queryGetCategories = graphqlLoader(
   "../../../../graphql/query/getAllCompanyProductsCategories.graphql"
+);
+const queryProductReviews = graphqlLoader(
+  "../../../../graphql/query/getProductReviews.graphql"
 );
 
 interface ProductsModalProps {
@@ -93,6 +101,23 @@ function ProductsModal(props: ProductsModalProps) {
     }
   );
 
+  const [
+    loadReviews,
+    { loading: loadingReviews, data: dataReviews, fetchMore: fetchMoreReviews },
+  ] = useLazyQuery(queryProductReviews);
+
+  useEffect(() => {
+    if (props.updateProduct) {
+      loadReviews({
+        variables: {
+          id: props.updateProduct.id,
+          limit: 5,
+          offset: 0,
+        },
+      });
+    }
+  }, [props.updateProduct, loadReviews]);
+
   function handleCancel() {
     props.setDefaultCategory("");
     props.setUpdateProduct(null);
@@ -138,6 +163,7 @@ function ProductsModal(props: ProductsModalProps) {
 
   function updateProduct(values) {
     // TODO une seule mutation
+    // TODO query pour supprimer un produit d'une cat via la modal
     if (values.category !== props.updateProduct.category) {
       updateProductCompanyCategory({
         variables: {
@@ -160,8 +186,8 @@ function ProductsModal(props: ProductsModalProps) {
           ? props.updateProduct.unit.id
           : "null") ||
       values.cover !==
-        (props.updateProduct.cover !== null
-          ? props.updateProduct.cover.id
+        (props.updateProduct.cover.companyImage !== null
+          ? props.updateProduct.cover.companyImage.id
           : null)
     ) {
       updateProductMutation({
@@ -191,10 +217,14 @@ function ProductsModal(props: ProductsModalProps) {
     });
   }
 
+  const { t } = useTranslation("common");
+
   return (
     <Modal
       title={
-        props.updateProduct ? "Modifier un produit" : "Créer un nouveau produit"
+        props.updateProduct
+          ? t("ProductsPage.createProductModal.editModalName")
+          : t("ProductsPage.createProductModal.modalName")
       }
       className={"modal-product"}
       visible={props.visible}
@@ -207,31 +237,58 @@ function ProductsModal(props: ProductsModalProps) {
           {props.updateProduct && (
             <Popconfirm
               placement="bottom"
-              title={"Voulez-vous vraiment supprimer ce produit?"}
+              title={t("ProductsPage.createProductModal.popUp.title")}
               onConfirm={() => {
                 deleteProduct();
               }}
-              okText="Oui"
-              cancelText="Non"
+              okText={t("ProductsPage.createProductModal.popUp.yes")}
+              cancelText={t("ProductsPage.createProductModal.popUp.no")}
             >
-              <Button>Supprimer</Button>
+              <Button>
+                {t("ProductsPage.createProductModal.buttons.delete")}
+              </Button>
             </Popconfirm>
           )}
-          <Button onClick={handleCancel}>Annuler</Button>
+          <Button onClick={handleCancel}>
+            {t("ProductsPage.createProductModal.buttons.cancel")}
+          </Button>
           <Button onClick={handleOk} type={"primary"}>
-            {props.updateProduct ? "Modifier" : "Créer"}
+            {props.updateProduct
+              ? t("ProductsPage.createProductModal.buttons.edit")
+              : t("ProductsPage.createProductModal.buttons.create")}
           </Button>
         </div>
       }
     >
-      <ProductsForm
-        setForm={setForm}
-        confirm={handleOk}
-        category={props.category}
-        categoryList={props.categoryList}
-        updateProduct={props.updateProduct}
-        units={props.units}
-      />
+      <Tabs defaultActiveKey="1">
+        <TabPane tab="Informations du produits" key="1">
+          <ProductsForm
+            setForm={setForm}
+            confirm={handleOk}
+            category={props.category}
+            categoryList={props.categoryList}
+            updateProduct={props.updateProduct}
+            units={props.units}
+          />
+        </TabPane>
+        <TabPane tab="Conseil d'utilisation" key="2">
+          <ProductsAdvice
+            setForm={setForm}
+            confirm={handleOk}
+            updateProduct={props.updateProduct}
+          />
+        </TabPane>
+        {props.updateProduct !== null && !loadingReviews && dataReviews && (
+          <TabPane tab="Avis des clients" key="3">
+            <ProductsReviews
+              updateProduct={props.updateProduct}
+              reviews={dataReviews.getProductReviews}
+              fetchMore={fetchMoreReviews}
+              reload={loadReviews}
+            />
+          </TabPane>
+        )}
+      </Tabs>
     </Modal>
   );
 }

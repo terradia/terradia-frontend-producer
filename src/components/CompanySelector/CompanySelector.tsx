@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { DownOutlined } from "@ant-design/icons";
 import { UserOutlined } from "@ant-design/icons";
-import { Avatar, Dropdown, Menu } from "antd";
+import { Avatar, Divider, Dropdown, Menu } from "antd";
 import UserContext from "../Context/UserContext";
 import { loader as graphqlLoader } from "graphql.macro";
 import { useQuery } from "@apollo/react-hooks";
@@ -17,6 +17,10 @@ const queryGetCompaniesByUser = graphqlLoader(
 const getUserInformations = graphqlLoader(
   "../../graphql/query/getUser.graphql"
 );
+
+interface Props {
+  isMobile?: boolean;
+}
 
 declare interface ProfileData {
   getUser: {
@@ -34,7 +38,11 @@ declare interface ProfileData {
   };
 }
 
-const CompanySelector = () => {
+const CompanySelector: React.FC<Props> = ({
+  isMobile = false,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  ...props
+}: Props) => {
   const currentUrl = useLocation();
   const history = useHistory();
   const [currentCompanyId, setCurrentCompanyId] = useState(
@@ -125,35 +133,23 @@ const CompanySelector = () => {
     if (!loading && !error && data) {
       setMenu(
         <Menu selectedKeys={[currentCompanyId]}>
-          <Menu.ItemGroup key="entreprise" title="Vos entreprises">
+          <Menu.ItemGroup key="company" title="Vos entreprises">
             {data &&
               !loading &&
               !error &&
               data.getCompaniesByUser.map((company) => {
                 return (
-                  <Menu.Item
+                  <PageButton
                     key={company.company.id}
+                    link={company.company.id}
+                    label={company.company.name}
+                    icon={<ShopOutlined />}
+                    selected={currentPage === company.company.id}
                     onClick={() => {
                       setCurrentCompanyId(company.company.id);
                       handleChangeCompany(company.company.id);
                     }}
-                    style={{
-                      display: "flex",
-                      justifyContent: "flex-start",
-                      alignItems: "center",
-                      width: "100%",
-                      padding: "16",
-                    }}
-                  >
-                    <div className={"button-container"}>
-                      <span className={"icon-container"}>
-                        {<ShopOutlined />}
-                      </span>
-                      <span className={"label-container"}>
-                        {company.company.name}
-                      </span>
-                    </div>
-                  </Menu.Item>
+                  />
                 );
               })}
           </Menu.ItemGroup>
@@ -166,19 +162,7 @@ const CompanySelector = () => {
               onClick={onClickedLink}
             />
             <Menu.Item>
-              <div
-                style={{
-                  width: "100%",
-                  display: "flex",
-                  flexWrap: "wrap",
-                  flexFlow: "column",
-                  justifyContent: "flex-start",
-                  alignContent: "space-around",
-                  alignItems: "center",
-                }}
-              >
-                <Logout />
-              </div>
+              <Logout />
             </Menu.Item>
           </Menu.ItemGroup>
         </Menu>
@@ -198,46 +182,32 @@ const CompanySelector = () => {
   useEffect(() => {
     if (currentCompanyData !== null) {
       setInformation(
-        <div className={"user-information"}>
-          <div className={"informations"}>
-            <div
-              style={{
-                height: "50%",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              {userData.getUser.firstName + " " + userData.getUser.lastName}
-            </div>
-            <div
-              style={{
-                color: "#5CC04A",
-                fontSize: "20px",
-                fontStyle: "bold",
-                height: "50%",
-                width: "max-content",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <DownOutlined />
-              <span>{currentCompanyData.name}</span>
-            </div>
-          </div>
-
-          <div
-            style={{
-              width: "1vw",
-            }}
-          />
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
+        <div className={"user-information-container"}>
+          {isMobile === false && (
+            <>
+              <div className={"info-container"}>
+                <span className={"user-name"}>
+                  {userData.getUser.firstName + " " + userData.getUser.lastName}
+                </span>
+                <span className={"company-indicator"}>
+                  <DownOutlined
+                    className={"down-icon"}
+                    style={{ fontSize: 15 }}
+                  />
+                  <span className={"company-name"}>
+                    {currentCompanyData.name}
+                  </span>
+                </span>
+              </div>
+              <Divider type={"vertical"} className={"invisible-divider"} />
+            </>
+          )}
+          <div className={"avatar-container"}>
+            {isMobile === true && (
+              <DownOutlined className={"down-icon"} style={{ fontSize: 15 }} />
+            )}
             <Avatar
+              className={"avatar"}
               size={"large"}
               shape={"circle"}
               alt={"profile"}
@@ -260,6 +230,7 @@ const CompanySelector = () => {
     userContext.firstName,
     userData,
     avatarLoading,
+    isMobile,
   ]);
 
   if (data && !loading && !error && menu !== null && information !== null) {

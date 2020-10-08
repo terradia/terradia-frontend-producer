@@ -14,18 +14,20 @@ interface Props {
   onClickClose: () => void;
   onUpload?: (
     imageFile: UploadChangeParam,
-    uploadedImage?: AddCompanyImageData
+    uploadedImage?: CompanyImageData
   ) => void; // function called for each upload (on multiple call this function for each element).
   closeAfterUpload?: boolean; // if you want the modal to close when the upload is done.
   oneImageByOne?: boolean; // if you want the user to upload only one image at the time.
 }
 
-export declare interface AddCompanyImageData {
-  addCompanyImage: {
-    id: string;
-    name: string;
-    filename: string;
-  };
+declare interface AddCompanyImageData {
+  addCompanyImage: CompanyImageData;
+}
+
+export declare interface CompanyImageData {
+  id: string;
+  name: string;
+  filename: string;
 }
 
 const validImageTypes = ["image/jpeg", "image/png"];
@@ -47,7 +49,7 @@ const ImageUploadModal: React.FC<Props> = ({ visible, ...props }: Props) => {
     console.log(data);
   };
 
-  const handleErrorUpload = (data) => {
+  const handleErrorUpload = () => {
     // TODO : put a notification showing the error of the server.
     setImageList(
       imageList.map((image) => {
@@ -55,7 +57,6 @@ const ImageUploadModal: React.FC<Props> = ({ visible, ...props }: Props) => {
         return image;
       })
     );
-    console.log("error uploading the image(s) : ", data);
   };
 
   const [mutation] = useMutation<AddCompanyImageData>(addCompanyImage, {
@@ -75,7 +76,6 @@ const ImageUploadModal: React.FC<Props> = ({ visible, ...props }: Props) => {
   };
 
   const handleCustomRequest = (files: UploadChangeParam): void => {
-    console.log(files);
     if (files.file.status !== "uploading") {
       props.onUpload(files);
       return;
@@ -89,7 +89,7 @@ const ImageUploadModal: React.FC<Props> = ({ visible, ...props }: Props) => {
         },
       }).then((data) => {
         if (props.onUpload && data && data.data && data.data) {
-          props.onUpload(files, data.data);
+          props.onUpload(files, data.data.addCompanyImage);
         }
       });
     } else {

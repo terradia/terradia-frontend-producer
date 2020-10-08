@@ -1,0 +1,6 @@
+mutation inviteNewMember($companyId: String! $invitationEmail: String!) {
+    inviteNewMember(companyId: $companyId, invitationEmail: $invitationEmail) {
+        id
+        status
+    }
+}

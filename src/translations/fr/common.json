@@ -1,0 +1,235 @@
+{
+  "monday": {
+    "label": "Lundi:"
+  },
+  "tuesday": {
+    "label": "Mardi:"
+  },
+  "wednesday": {
+    "label": "Mercredi:"
+  },
+  "thursday": {
+    "label": "Jeudi:"
+  },
+  "friday": {
+    "label": "Vendredi:"
+  },
+  "saturday": {
+    "label": "Samedi:"
+  },
+  "sunday": {
+    "label": "Dimanche:"
+  },
+  "Menu": {
+    "home": "Accueil",
+    "products": "Produits",
+    "stats": "Statistiques",
+    "employees": "Employés",
+    "gallery": "Gallerie d'images",
+    "company": "Entreprise",
+    "disconnect": "Se déconnecter"
+  },
+  "ProfilMenu": {
+    "Labels": {
+      "yourCompanies": "Vos entreprises",
+      "parameters": "Paramètres"
+    },
+    "buttons": {
+      "profile": "Profil",
+      "disconnect": "Se déconnecter"
+    }
+  },
+  "CompanyPage": {
+    "genInformations": {
+      "categoryName": "Information Générales",
+      "name": "Nom",
+      "address": "Adresse",
+      "phone": "Numéro de tel.",
+      "email": "Adresse Email",
+      "description": "Description",
+      "productType": "Type de Produit",
+      "logo": "Logo Entreprise",
+      "banner": "Bannière Entreprise"
+    },
+    "adminInformations": {
+      "categoryName": "Information Administratives",
+      "siret": "Siret",
+      "rib": "IBAN / RIB",
+      "email": "Adresse Email",
+      "desc": "Description",
+      "marketPres": "Présence Marché",
+      "frequency": "Fréquence",
+      "selfDelivery": "Livraison vous-même"
+    },
+    "schedule": {
+      "categoryName": "Horaire d'ouverture",
+      "days": {
+        "monday": "Lundi",
+        "tuesday": "Mardi",
+        "wednesday": "Mercredi",
+        "thursday": "Jeudi",
+        "friday": "Vendredi",
+        "saturday": "Samedi",
+        "sunday": "Dimanche"
+      }
+    },
+    "buttons": {
+      "deleteCompany": "Supprimer l'entreprise"
+    }
+  },
+  "ProductsPage": {
+    "noProductInCategory": "Aucun produit n'est disponible pour cette catégorie",
+    "uncategorizedProducts": "Produits non catégorisés",
+    "deleteCategory": {
+      "title": "Voulez-vous vraiment supprimer cette catégorie?",
+      "yes": "Oui",
+      "no": "Non"
+    },
+    "buttons": {
+      "createCategory": "Créer une catégorie",
+      "createProduct": "Créer un produit"
+    },
+    "createCategoryModal": {
+      "editModalName": "Modifier une catégorie",
+      "modalName": "Créer une nouvelle catégorie",
+      "name": "Nom",
+      "buttons": {
+        "cancel": "Annuler",
+        "validate": "Ok"
+      },
+      "errors": {
+        "name": "Le nom de la catégorie est requis",
+        "min": "Le nom de la catégorie nom est trop court",
+        "whitespace": "Le nom de la catégorie ne peut être vide"
+      }
+    },
+    "createProductModal": {
+      "editModalName": "Modifier un produit",
+      "modalName": "Créer un nouveau produit",
+      "productName": "Nom du produit",
+      "productCategory": "Catégorie du produit",
+      "selectCategory": "Selectionner une catégorie",
+      "portion": "Portion",
+      "price": "Prix",
+      "desc": "Description",
+      "image": "Image du produit",
+      "buttons": {
+        "selectImage": "Sélectionner une image",
+        "cancel": "Annuler",
+        "create": "Créer",
+        "edit": "Modifier",
+        "delete": "Supprimer"
+      },
+      "popUp": {
+        "title": "Vouslez-vous vraiment supprimer ce produit?",
+        "yes": "Oui",
+        "no": "Non"
+      },
+      "portionValidation": {
+        "unity": {
+          "name": "Unité",
+          "errors": "L'unité du produit est requise"
+        },
+        "portion": {
+          "name": "Quantité de portion",
+          "errors": "La quantité de portion est requise"
+        }
+      }
+    }
+  },
+  "StaffPage": {
+    "buttons": {
+      "addEmployee": "Ajouter un employé",
+      "editRole": "Modifier le rôle",
+      "delete": "Retirer"
+    },
+    "columns": {
+      "email": "Adresse email",
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "tags": "Tags",
+      "operation": "Opérations"
+    },
+    "roles": {
+      "owner": "Propriétaire",
+      "admin": "Administrateur",
+      "member": "Membre"
+    }
+  },
+  "FilesPage": {
+    "Images": {
+      "noImage": "Aucune image pour le moment",
+      "buttons": {
+        "loadImages": "Télécharger des images"
+      },
+      "addImageModal": {
+        "modalName": "Télécharger des images",
+        "explanation": "Cliquez ici pour choisir les images ou glissez - déposez les directement dans la zone",
+        "littleExplanation": "Fonctionne avec un ou plusieurs fichiers.",
+        "buttons": {
+          "close": "Fermer"
+        }
+      },
+      "editImageModal": {
+        "name": "Nom",
+        "uses": "Produits qui utilisent cette image",
+        "noUses": "Aucun produit à lister",
+        "buttons": {
+          "close": "Fermer"
+        }
+      }
+    },
+    "Files": {
+      "list": "Liste des fichiers"
+    }
+  },
+  "ProfilePage": {
+    "buttons": {
+      "edit": "Modifier mon compte",
+      "editPassword":"Modifier mon mot de passe",
+      "delete": "Supprimer mon compte"
+    },
+    "labels": {
+      "lastName": "Nom",
+      "firstName": "Prénom",
+      "email": "Email",
+      "phone": "Numéro de téléphone",
+      "image": "Cliquer sur l'image pour la modifier",
+      "chooseLanguage": "Choisissez le language de l'application",
+      "tooltip": {
+        "addImage": "Cliquer ici pour ajouter une image",
+        "editImage": "Cliquer ici pour modifier l'image"
+      }
+    },
+    "editProfileModal": {
+      "name": "Modifier mon profil",
+      "validate": "Valider",
+      "close": "Fermer",
+      "lastName": "NOM",
+      "firstName": "PRENOM",
+      "email": "COURRIEL",
+      "phone": "NUMERO DE TELEPHONE"
+    },
+    "deleteAccountModal":{
+      "delete": "Supprimer le compte",
+      "close": "Fermer",
+      "name": "Etes-vous certain de vouloir supprimer le compte?",
+      "password": "MOT DE PASSE",
+      "phone": "NUMERO DE TELEPHONE",
+      "actualPassword": "MOT DE PASSE ACTUEL",
+      "newPassword": "NOUVEAU MOT DE PASSE",
+      "confirmNewPassword": "CONFIRMER LE NOUVEAU MOT DE PASSE",
+      "messageActualPassword": "Veuillez saisir le mot de passe actuel",
+      "errorMessageNewPassword": "Votre mot de passe doit contenir entre 2 et 20 caractères",
+      "messageNewPassword": "Veuillez saisir le nouveau mot de passe",
+      "messageConfirmPassword": "Veuillez confirmer le nouveau mot de passe",
+      "missmatchPassword": "Les deux mots de passe ne correspondent pas"
+    }
+  },
+  "ImageSelectorButton": {
+    "labels": {
+      "singular": "Sélectionner une image",
+      "plural": "Sélectionner des images"
+    }
+  }
+}
