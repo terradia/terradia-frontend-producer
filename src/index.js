@@ -14,9 +14,9 @@ import { ApolloLink } from "apollo-link";
 import { notification } from "antd";
 
 const httpLink = createUploadLink({
-  // uri: "https://api.terradia.eu/graphql",
+  uri: "https://api.terradia.eu/graphql",
   // uri: "http://368c4db688e3.ngrok.io/graphql",
-  uri: "http://localhost:8000/graphql",
+  // uri: "http://localhost:8000/graphql",
   fetch: fetch,
 });
 
