@@ -71,17 +71,39 @@ const CompanyCard = ({
         margin: "24px",
         border: "solid ",
         borderColor: selected ? "#00c537" : "#FFFFFF",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
       }}
       onClick={onClickHandler}
       loading={loading}
+      cover={
+        create
+          ? null
+          : logo && (
+              <img
+                style={{
+                  width: "200px",
+                  height: "200px",
+                  objectFit: "contain",
+                }}
+                alt={"profile"}
+                src={logo}
+              />
+            )
+      }
+      bodyStyle={{
+        display: create || !logo ? "flex" : "none",
+      }}
     >
-      <Avatar
-        size={200}
-        shape={"square"}
-        alt={"profile"}
-        src={logo}
-        icon={create ? <PlusOutlined /> : <UserOutlined />}
-      />
+      {(create || !logo) && (
+        <Avatar
+          size={200}
+          shape={"square"}
+          alt={"profile"}
+          icon={create ? <PlusOutlined /> : <UserOutlined />}
+        />
+      )}
     </Card>
   );
 

@@ -12,7 +12,12 @@ import * as Yup from "yup";
 import Button from "../../Ui/Button";
 import "../../../assets/Style/Login-Register/loginForm.less";
 import UserContext from "../../Context/UserContext";
-import { AppleFilled, FacebookFilled } from "@ant-design/icons/lib";
+import {
+  AppleFilled,
+  CloseCircleOutlined,
+  FacebookFilled,
+} from "@ant-design/icons/lib";
+import { addNotification } from "../../../utils/notifications";
 
 const mutationLogin = graphqlLoader("../../../graphql/mutation/login.graphql");
 const getUser = graphqlLoader("../../../graphql/query/getUser.graphql");
@@ -122,7 +127,11 @@ const LoginForm = (props: LoginFormProps) => {
         }
       })
       .catch((error) => {
-        console.log(error);
+        addNotification({
+          message: "Erreur lors de la connexion",
+          description: error.message.substr(14),
+          icon: <CloseCircleOutlined style={{ color: "#f5222d" }} />,
+        });
       });
   };
 

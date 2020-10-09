@@ -1,0 +1,49 @@
+@import "../../../index";
+
+.resetPage {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  height: 100vh;
+  div.reset_box {
+    width: 70%;
+    display: flex;
+    justify-content: center;
+    .code-input {
+      p {
+        margin-bottom: @padding-md;
+      }
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      width: 100%;
+      input {
+        font-family: @font-family;
+      }
+      input:focus {
+        border: 1px solid @primary-color;
+        caret-color: @primary-color;
+      }
+    }
+    form.reset-form {
+      .instruction {
+        width: 100%;
+        text-align: center;
+      }
+    }
+    button.btn-validate {
+      margin-top: @padding-sm !important;
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .resetPage {
+    flex-direction: column;
+    .reset_box {
+      margin-top: @padding-lg;
+    }
+  }
+}

@@ -11,7 +11,7 @@ import { useMutation, useQuery } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
 import { User } from "../../interfaces";
 import { RcFile } from "antd/lib/upload/interface";
-import "../../assets/Style/Profil/profileView.less";
+import "../../assets/Style/Profile/profileView.less";
 import Button from "../../components/Ui/Button";
 import UserProfileModal from "./Modal/UserProfileModal";
 import UserDeleteModal from "./Modal/UserDeleteModal";

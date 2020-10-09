@@ -1,66 +1,51 @@
 @import "../../../index";
 
-.register_box {
+.register_form {
   display: flex;
   flex-direction: column;
-  margin: @padding-lg 0 @padding-md 0;
+  padding: @padding-md 0 @padding-md 0;
   width: 70%;
+  max-width: 70%;
 
-  .register_form_div {
-    .auth_form {
+  .auth_form {
+    display: flex;
+    flex-direction: column;
+
+    .form_item {
+      margin-bottom: @padding-md;
+    }
+
+    .form_item_wrapper {
       display: flex;
-      flex-direction: column;
+    }
 
-      .form_item {
-        margin-bottom: @padding-md;
-      }
+    .form_item_wrapper.required::before {
+      display: inline-block;
+      justify-self: center;
+      margin-right: 4px;
+      color: #ff4d4f;
+      font-size: 15px;
+      font-family: SimSun, sans-serif;
+      line-height: 1;
+      content: "*";
+    }
 
-      .form_item_wrapper {
-        display: flex;
-      }
+    .prev_step {
+      color: #52c41a;
+      text-decoration: none;
+      background-color: transparent;
+      outline: none;
+      cursor: pointer;
+      transition: color 0.3s;
+      -webkit-text-decoration-skip: objects;
+    }
 
-      .form_item_wrapper.required::before {
-        display: inline-block;
-        justify-self: center;
-        margin-right: 4px;
-        color: #ff4d4f;
-        font-size: 15px;
-        font-family: SimSun, sans-serif;
-        line-height: 1;
-        content: "*";
-      }
-
-      .prev_step {
-        color: #52c41a;
-        text-decoration: none;
-        background-color: transparent;
-        outline: none;
-        cursor: pointer;
-        transition: color 0.3s;
-        -webkit-text-decoration-skip: objects;
-      }
-
-      /*.ant-form-item-control-input-content {
-        display: flex;
-        ::before {
-          display: inline-block;
-          justify-self: center;
-          margin-right: 4px;
-          color: #ff4d4f;
-          font-size: 15px;
-          font-family: SimSun, sans-serif;
-          line-height: 1;
-          content: '*';
-        }
-    }*/
-
-      .error-description {
-        color: @error-color;
-        padding-bottom: @padding-xxs;
-      }
-      .error-description.error-email {
-        margin-top: -@padding-md;
-      }
+    .error-description {
+      color: @error-color;
+      padding-bottom: @padding-xxs;
+    }
+    .error-description.error-email {
+      margin-top: -@padding-md;
     }
   }
 
@@ -77,11 +62,22 @@
       width: 45%;
     }
   }
+  @media (max-width: 1024px) {
+    .external_connexion {
+      flex-direction: column;
+      .ant-divider.ant-divider-vertical {
+        display: none;
+      }
+      .button_register {
+        margin-bottom: @padding-sm;
+        width: 100%;
+      }
+    }
+  }
 }
 
 @media (max-width: 1024px) {
-  .login_box {
-    margin: 0 0 @padding-md 0;
-    height: 80%;
+  .register_form {
+    padding-top: @padding-lg;
   }
 }

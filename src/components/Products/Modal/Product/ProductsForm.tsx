@@ -31,27 +31,7 @@ const { Option } = Select;
 function ProductsForm(props: AddProductsFormProps) {
   const [form] = Form.useForm();
   const [unitList, setUnitList] = useState([]);
-  const [coverImage, setCoverImage] = useState(
-    props.updateProduct && props.updateProduct.cover.companyImage !== null
-      ? props.updateProduct.cover.companyImage
-      : null
-  );
-  const [fileList, setFileList] = useState(null);
-
-  useEffect(() => {
-    if (coverImage !== null) {
-      setFileList([
-        {
-          key: coverImage.id,
-          uid: coverImage.id,
-          name: coverImage.name,
-          url: `https://media.terradia.eu/${coverImage.filename}`,
-        },
-      ]);
-    }
-  }, [coverImage]);
-
-  const initialValues = {
+  const [initialValues] = useState({
     name: props.updateProduct ? props.updateProduct.name : undefined,
     description: props.updateProduct
       ? props.updateProduct.description
@@ -66,12 +46,35 @@ function ProductsForm(props: AddProductsFormProps) {
         ? props.updateProduct.unit.id
         : "null"
       : undefined,
-    cover: props.updateProduct
-      ? props.updateProduct.cover.companyImage !== null
-        ? props.updateProduct.cover.companyImage.id
-        : null
-      : undefined,
-  };
+    cover:
+      props.updateProduct && props.updateProduct.cover
+        ? props.updateProduct.cover.companyImage !== null
+          ? props.updateProduct.cover.companyImage.id
+          : null
+        : undefined,
+  });
+  const [coverImage, setCoverImage] = useState(
+    props.updateProduct &&
+      props.updateProduct.cover !== null &&
+      props.updateProduct.cover.companyImage.filename !== null
+      ? props.updateProduct.cover.companyImage
+      : null
+  );
+
+  const [fileList, setFileList] = useState(null);
+
+  useEffect(() => {
+    if (coverImage !== null) {
+      setFileList([
+        {
+          key: coverImage.id,
+          uid: coverImage.id,
+          name: coverImage.name,
+          url: `https://media.terradia.eu/${coverImage.filename}`,
+        },
+      ]);
+    }
+  }, [coverImage]);
 
   useEffect(() => {
     // TODO : translate the "Pièce"

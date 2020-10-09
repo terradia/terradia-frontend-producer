@@ -7,6 +7,7 @@ import "../../assets/Style/CompanyPage/CompanyHoursCard.less";
 import { loader } from "graphql.macro";
 import { useMutation } from "@apollo/react-hooks";
 import { EditOutlined } from "@ant-design/icons/lib";
+import { useTranslation } from "react-i18next";
 
 export declare interface Hours {
   startTime: any;
@@ -56,6 +57,8 @@ const CompanyOpenHoursCard = (props: Props) => {
   const [addOpeningDayMutation] = useMutation(addOpeningDay);
   const [addDeliveryDayMutation] = useMutation(addDeliveryDay);
   const [updateCompanyMutation] = useMutation(updateCompany);
+
+  const { t } = useTranslation("common");
 
   const updateOpenHours = async (values) => {
     for (const key in values) {
@@ -167,7 +170,7 @@ const CompanyOpenHoursCard = (props: Props) => {
                 marginRight: "16px",
               }}
             >
-              {info.label}
+              {t(info.label)}
             </span>
             {info.text && (
               <span key={info.text} style={textStyle}>

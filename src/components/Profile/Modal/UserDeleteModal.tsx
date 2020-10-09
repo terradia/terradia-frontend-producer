@@ -1,6 +1,6 @@
 import React from "react";
 import { Form, Input, Modal } from "antd";
-import "../../../assets/Style/Profil/userProfile.less";
+import "../../../assets/Style/Profile/userProfile.less";
 import { useMutation } from "@apollo/react-hooks";
 import Button from "../../Ui/Button";
 import { User } from "../../../interfaces";

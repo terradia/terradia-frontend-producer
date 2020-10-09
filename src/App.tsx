@@ -123,11 +123,9 @@ const App = () => {
                 <Route exact path={"/company"}>
                   <CompanyPage />
                 </Route>
+                <Profile />
                 <Route exact path={"/orders"}>
                   <Orders />
-                </Route>
-                <Route exact path={"/profile/:id"}>
-                  <Profile />
                 </Route>
               </Layout>
             </BreakpointCatcher>
