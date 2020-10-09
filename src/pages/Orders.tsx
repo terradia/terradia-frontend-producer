@@ -1,13 +1,10 @@
 import React from "react";
-import "../assets/Style/Products/ProductsPage.less";
-import { Table, Radio } from "antd";
+import "../assets/Style/Orders/Orders.less";
+import { Table, Radio, Drawer, notification } from "antd";
 import Title from "../components/Ui/Title";
 import { MoreOutlined } from "@ant-design/icons";
-import Modal from "antd/lib/modal/Modal";
-
-// const queryCompanyUsers = graphqlLoader(
-//   "../graphql/query/getCompanyUsers.graphql"
-// );
+import { date } from "yup";
+import { useTranslation } from "react-i18next";
 
 const myArray = [
   {
@@ -69,101 +66,168 @@ const myArray = [
 ];
 
 const Orders = () => {
-  // const companyId = localStorage.getItem("selectedCompany");
-
-  // const tagRenderer = (roles: { slugName: string }[]) => {
-  //   return (
-  //     <span>
-  //       {roles.map((tag: { slugName: string }, index: string | number) => {
-  //         let color = "green";
-  //         if (tag.slugName === "admin") {
-  //           color = "volcano";
-  //         }
-  //         return (
-  //           <Tag color={color} key={index}>
-  //             {tag.slugName.toUpperCase()}
-  //           </Tag>
-  //         );
-  //       })}
-  //     </span>
-  //   );
-  // };
-
-  /*
-   id: "0102030405",
-    date: "2019-05-13 08:49:44.713+00",
-    status: "payed",
-    nbItems: 5,
-    deliveryMode: "Stuart vélo",
-    totalPrice: 46,
-  */
-
-  //  const [openDetails, setOpenDetails] = React.useState(false);
-
-  // const [orderStatus, setOrderStatus] = React.useState("");
-  const [openMoreDetails, setOpenMoreDetails] = React.useState(false);
   const [statusOrder, setStatusOrder] = React.useState("");
   const [statusOrderId, setStatusOrderId] = React.useState("");
+  const [visibleDrawer, setVisibleDrawer] = React.useState(false);
+  const [orderDetail, setOrderDetail] = React.useState({
+    id: "",
+    date: date,
+    status: "",
+    nbItems: 0,
+  });
   let tmpRecord = [];
 
-  const handleModalDetails = () => {
-    myArray.forEach((order) => {
-      if (order.id === statusOrderId) {
-        order.status = statusOrder;
-      }
-    });
-    if (statusOrder) {
-      openMoreDetails === true
-        ? setOpenMoreDetails(false)
-        : setOpenMoreDetails(true);
-    }
-  };
-
-  const handleMoreDetails = (order) => {
-    // console.log("Order:", order);
-    setStatusOrderId(order.id);
-    return openMoreDetails === true
-      ? setOpenMoreDetails(false)
-      : setOpenMoreDetails(true);
-  };
+  const { t } = useTranslation("common");
 
   const onChange = (e) => {
     setStatusOrder(e.target.value);
   };
 
-  const handleChangeOrder = () => {
-    const radioStyle = {
-      display: "block",
-      height: "30px",
-      lineHeight: "30px",
-    };
+  const myItems = [
+    {
+      id: "01",
+      name: "Tomates grappes",
+      quantity: 3,
+      price: 3.5,
+    },
+    {
+      id: "02",
+      name: "haricot",
+      quantity: 4,
+      price: 2.5,
+    },
+    {
+      id: "03",
+      name: "champignon",
+      quantity: 4,
+      price: 2.5,
+    },
+    {
+      id: "04",
+      name: "courgette",
+      quantity: 4,
+      price: 2.5,
+    },
+    {
+      id: "05",
+      name: "tomate-cerise",
+      quantity: 14,
+      price: 1.75,
+    },
+  ];
+
+  const totalPrice = () => {
+    let tmpTotalPrice = 0;
     return (
       <div>
-        {tmpRecord && (
-          <Radio.Group onChange={onChange} value={statusOrder}>
-            <Radio style={radioStyle} value={"approuved"}>
-              Approuved
-            </Radio>
-            <Radio style={radioStyle} value={"payed"}>
-              Payed
-            </Radio>
-            <Radio style={radioStyle} value={"delivered"}>
-              Delivered
-            </Radio>
-            <Radio style={radioStyle} value={"cancel"}>
-              Cancel
-            </Radio>
-          </Radio.Group>
-        )}
+        {myItems
+          ? myItems.map((element) => {
+              tmpTotalPrice = tmpTotalPrice + element.quantity * element.price;
+              return (
+                Math.round(
+                  (element.quantity * element.price + Number.EPSILON) * 100
+                ) / 100
+              );
+            })
+          : null}
       </div>
     );
+  };
+
+  const columnsOrder = [
+    {
+      title: t("OrderPage.drawer.table.item"),
+      dataIndex: "name",
+      key: "name",
+    },
+    {
+      title: t("OrderPage.drawer.table.quantity"),
+      dataIndex: "quantity",
+      key: "quantity",
+    },
+    {
+      title: t("OrderPage.drawer.table.price"),
+      dataIndex: "price",
+      key: "price",
+    },
+    {
+      title: t("OrderPage.drawer.table.total"),
+      dataIndex: "total",
+      key: "total",
+      render: totalPrice,
+    },
+  ];
+
+  const orderDetailDrawer = () => {
+    return (
+      <div className={"order-page"}>
+        <div>
+          {tmpRecord && (
+            <Radio.Group
+              onChange={onChange}
+              value={statusOrder}
+              className={"order-detail-card"}
+            >
+              <Radio.Button className={"order-detail-card"} value={"approuved"}>
+                {t("OrderPage.approuved")}
+              </Radio.Button>
+              <Radio.Button className={"order-detail-card"} value={"payed"}>
+                {t("OrderPage.payed")}
+              </Radio.Button>
+              <Radio.Button className={"order-detail-card"} value={"delivered"}>
+                {t("OrderPage.delivered")}
+              </Radio.Button>
+              <Radio.Button className={"order-detail-card"} value={"cancel"}>
+                {t("OrderPage.cancel")}
+              </Radio.Button>
+            </Radio.Group>
+          )}
+        </div>
+        <Table
+          dataSource={myItems}
+          columns={columnsOrder}
+          pagination={false}
+          rowKey={"id"}
+        />
+        <div className={"order-detail-total"}>
+          <div className={"order-detail-total-left"}>
+            <h2>Total</h2>
+            <h2>{t("OrderPage.drawer.balanceDue")}</h2>
+          </div>
+          <div className={"order-detail-total-right"}>
+            <p>65.5 €</p>
+            <p>65.5 €</p>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const onCloseDrawer = (order) => {
+    setStatusOrderId(order.id);
+    myArray.forEach((order) => {
+      if (order.id === statusOrderId) {
+        if (order.status !== statusOrder && statusOrder !== "") {
+          order.status = statusOrder;
+          notification.open({
+            message: t("OrderPage.notification.title"),
+            description: `${t("OrderPage.notification.title")} ${statusOrder}.`,
+            duration: 3,
+          });
+        }
+      }
+    });
+    setOrderDetail(order);
+    return visibleDrawer === true
+      ? setVisibleDrawer(false)
+      : setVisibleDrawer(true);
   };
 
   const moreDetails = (text, record) => {
     tmpRecord = record;
     return (
       <div>
-        <MoreOutlined rotate={90} onClick={() => handleMoreDetails(record)} />
+        <MoreOutlined rotate={90} onClick={() => onCloseDrawer(record)} />
       </div>
     );
   };
@@ -181,7 +245,7 @@ const Orders = () => {
       render: (date) => date.toDateString(),
     },
     {
-      title: "Statut",
+      title: t("OrderPage.table.statut"),
       dataIndex: "status",
       key: "status",
       filters: [
@@ -206,49 +270,44 @@ const Orders = () => {
       onFilter: (value, record) => record.status.indexOf(value) === 0,
     },
     {
-      title: "Nb d'articles",
+      title: t("OrderPage.table.itemNb"),
       dataIndex: "nbItems",
       key: "nbItems",
       sorter: (a, b) => a.nbItems - b.nbItems,
     },
     {
-      title: "Mode de livraison",
+      title: t("OrderPage.table.deliveryMode"),
       dataIndex: "deliveryMode",
       key: "deliveryMode",
     },
     {
-      title: "Prix",
+      title: t("OrderPage.table.price"),
       key: "price",
       dataIndex: "totalPrice",
       sorter: (a, b) => a.totalPrice - b.totalPrice,
     },
-    // {
-    //   title: "Details",
-    //   dataIndex: "operation",
-    //   render: (order) => `${order.status}`,
-    // },
     {
-      title: "Actions",
+      title: t("OrderPage.table.details"),
       dataIndex: "operation",
       render: moreDetails,
     },
   ];
 
-  // if (loading) return <div>loading</div>;
-
   return (
     <div className={"order-page"}>
-      <Modal
-        title="Order Status"
-        centered
-        visible={openMoreDetails}
-        onOk={() => handleModalDetails()}
-        onCancel={() => setOpenMoreDetails(false)}
-      >
-        <div>{handleChangeOrder()}</div>
-      </Modal>
-      <Title title={"Suivi des commandes"} />
+      <Title title={t("OrderPage.title")} />
       <Table columns={columns} rowKey={"id"} dataSource={myArray} />
+      <Drawer
+        title={`${t("OrderPage.drawer.title")} ${
+          orderDetail ? (orderDetail.id ? orderDetail.id : null) : null
+        }`}
+        placement="right"
+        onClose={onCloseDrawer}
+        visible={visibleDrawer}
+        width={1080}
+      >
+        <div>{orderDetailDrawer()}</div>
+      </Drawer>
     </div>
   );
 };

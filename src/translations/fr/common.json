@@ -116,6 +116,34 @@
       }
     }
   },
+  "OrderPage": {
+    "title": "Suivi des commandes",
+    "notification": {
+      "title": "Changement de statut de la commande: ",
+      "description": "La commande est "
+    },
+    "approuved": "Approuvée",
+    "payed": "Payée",
+    "delivered": "Déliverée",
+    "cancel": "Annuler",
+    "drawer": {
+      "title": "Numéro de commande:",
+      "balanceDue": "Solde dû",
+      "table": {
+        "item": "Article",
+        "quantity": "Quantité",
+        "price": "Prix",
+        "total": "Total"
+      }
+    },
+    "table": {
+      "itemNb": "Nb d'articles",
+      "statut": "Statut",
+      "deliveryMode": "Mode de livraison",
+      "price": "Prix",
+      "details": "Détail"
+    }
+  },
   "StaffPage": {
     "buttons": {
       "addEmployee": "Ajouter un employé",
@@ -165,7 +193,7 @@
   "ProfilePage": {
     "buttons": {
       "edit": "Modifier mon compte",
-      "editPassword":"Modifier mon mot de passe",
+      "editPassword": "Modifier mon mot de passe",
       "delete": "Supprimer mon compte"
     },
     "labels": {
@@ -189,7 +217,7 @@
       "email": "COURRIEL",
       "phone": "NUMERO DE TELEPHONE"
     },
-    "deleteAccountModal":{
+    "deleteAccountModal": {
       "delete": "Supprimer le compte",
       "close": "Fermer",
       "name": "Etes-vous certain de vouloir supprimer le compte?",

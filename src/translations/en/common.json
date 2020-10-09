@@ -116,6 +116,34 @@
       }
     }
   },
+  "OrderPage": {
+    "title": "Tracking of orders",
+    "notification": {
+      "title": "Change of order status: ",
+      "description": "The order is now "
+    },
+    "approuved": "Approuved",
+    "payed": "Payed",
+    "delivered": "Delivered",
+    "cancel": "Cancel",
+    "drawer": {
+      "title": "Order number:",
+      "balanceDue": "Balance due",
+      "table": {
+        "item": "Item",
+        "quantity": "Quantity",
+        "price": "Price",
+        "total": "Total"
+      }
+    },
+    "table": {
+      "itemNb": "Nb items",
+      "statut": "Status",
+      "deliveryMode": "Delivery Mode",
+      "price": "Price",
+      "details": "Details"
+    }
+  },
   "StaffPage": {
     "buttons": {
       "addEmployee": "Add an employee",
@@ -165,7 +193,7 @@
   "ProfilePage": {
     "buttons": {
       "edit": "Edit my account",
-      "editPassword":"Edit my password",
+      "editPassword": "Edit my password",
       "delete": "Delete my account"
     },
     "labels": {
@@ -189,7 +217,7 @@
       "email": "EMAIL",
       "phone": "PHONE NUMBER"
     },
-    "deleteAccountModal":{
+    "deleteAccountModal": {
       "delete": "Delete account",
       "close": "Cancel",
       "name": "Are you sure?",
