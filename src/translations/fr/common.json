@@ -24,6 +24,7 @@
     "home": "Accueil",
     "products": "Produits",
     "stats": "Statistiques",
+    "orders": "Commandes",
     "employees": "Employés",
     "gallery": "Gallerie d'images",
     "company": "Entreprise",
@@ -138,7 +139,7 @@
     }
   },
   "OrderPage": {
-    "title": "Suivi des commandes",
+    "historyTitle": "Historique des commandes",
     "notification": {
       "title": "Changement de statut de la commande: ",
       "description": "La commande est "

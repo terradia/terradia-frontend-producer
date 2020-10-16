@@ -3,6 +3,7 @@
     "home": "Home",
     "products": "Products",
     "stats": "Statistics",
+    "orders": "Orders",
     "employees": "Employees",
     "gallery": "Image Gallery",
     "company": "Company",
@@ -117,7 +118,7 @@
     }
   },
   "OrderPage": {
-    "title": "Tracking of orders",
+    "historyTitle": "Orders history",
     "notification": {
       "title": "Change of order status: ",
       "description": "The order is now "

@@ -67,8 +67,9 @@ const SidebarCompany = (props: SidebarCompanyProps) => {
         <PageButton
           key={"/orders"}
           link={"/orders"}
-          label={"Commandes"}
+          label={t("Menu.orders")}
           onClick={props.onClickedLink}
+          collapsed={props.collapsed}
           selected={props.currentPage === "/orders"}
           icon={<ShoppingOutlined />}
         />

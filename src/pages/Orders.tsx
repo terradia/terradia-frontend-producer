@@ -1,10 +1,10 @@
 import React from "react";
 import "../assets/Style/Orders/Orders.less";
-import { Table, Radio, Drawer, notification } from "antd";
-import Title from "../components/Ui/Title";
+import { Table, Radio, Drawer, notification, Card } from "antd";
 import { MoreOutlined } from "@ant-design/icons";
 import { date } from "yup";
 import { useTranslation } from "react-i18next";
+import Tag from "antd/es/tag";
 
 const myArray = [
   {
@@ -88,48 +88,63 @@ const Orders = () => {
       id: "01",
       name: "Tomates grappes",
       quantity: 3,
-      price: 3.5,
+      price: 2,
     },
     {
       id: "02",
       name: "haricot",
       quantity: 4,
-      price: 2.5,
+      price: 1.03,
     },
     {
       id: "03",
       name: "champignon",
-      quantity: 4,
-      price: 2.5,
+      quantity: 5,
+      price: 2,
     },
     {
       id: "04",
       name: "courgette",
-      quantity: 4,
-      price: 2.5,
+      quantity: 6,
+      price: 3,
     },
     {
       id: "05",
       name: "tomate-cerise",
-      quantity: 14,
-      price: 1.75,
+      quantity: 7,
+      price: 1,
     },
   ];
 
-  const totalPrice = () => {
-    let tmpTotalPrice = 0;
+  const statusRenderer = (status) => {
+    let color = "green";
+    switch (status) {
+      case "payed":
+        color = "blue";
+        break;
+      case "delivered":
+        color = "green";
+        break;
+      case "approuved":
+        color = "lime";
+        break;
+      case "canceled":
+        color = "red";
+        break;
+      default:
+        color = "green";
+        break;
+    }
+    return <Tag color={color}>{status}</Tag>;
+  };
+
+  const totalPrice = (weird, item) => {
     return (
       <div>
-        {myItems
-          ? myItems.map((element) => {
-              tmpTotalPrice = tmpTotalPrice + element.quantity * element.price;
-              return (
-                Math.round(
-                  (element.quantity * element.price + Number.EPSILON) * 100
-                ) / 100
-              );
-            })
-          : null}
+        <p>
+          {Math.round((item.quantity * item.price + Number.EPSILON) * 100) /
+            100}
+        </p>
       </div>
     );
   };
@@ -157,6 +172,17 @@ const Orders = () => {
       render: totalPrice,
     },
   ];
+
+  //should give orderId to sum up the total
+  const totalPriceOrder = () => {
+    let totalPrice = 0;
+    myItems.forEach((item) => {
+      totalPrice = totalPrice + item.price * item.quantity;
+    });
+
+    totalPrice = Math.round((totalPrice + Number.EPSILON) * 100) / 100;
+    return totalPrice;
+  };
 
   const orderDetailDrawer = () => {
     return (
@@ -195,8 +221,8 @@ const Orders = () => {
             <h2>{t("OrderPage.drawer.balanceDue")}</h2>
           </div>
           <div className={"order-detail-total-right"}>
-            <p>65.5 €</p>
-            <p>65.5 €</p>
+            <p>{totalPriceOrder()}</p>
+            <p>{totalPriceOrder()}</p>
           </div>
         </div>
       </div>
@@ -268,6 +294,8 @@ const Orders = () => {
       ],
       filterMultiple: true,
       onFilter: (value, record) => record.status.indexOf(value) === 0,
+      sorter: (a, b) => a.status.localeCompare(b.status),
+      render: statusRenderer,
     },
     {
       title: t("OrderPage.table.itemNb"),
@@ -279,6 +307,7 @@ const Orders = () => {
       title: t("OrderPage.table.deliveryMode"),
       dataIndex: "deliveryMode",
       key: "deliveryMode",
+      sorter: (a, b) => a.deliveryMode - b.deliveryMode,
     },
     {
       title: t("OrderPage.table.price"),
@@ -294,21 +323,25 @@ const Orders = () => {
   ];
 
   return (
-    <div className={"order-page"}>
-      <Title title={t("OrderPage.title")} />
-      <Table columns={columns} rowKey={"id"} dataSource={myArray} />
-      <Drawer
-        title={`${t("OrderPage.drawer.title")} ${
-          orderDetail ? (orderDetail.id ? orderDetail.id : null) : null
-        }`}
-        placement="right"
-        onClose={onCloseDrawer}
-        visible={visibleDrawer}
-        width={1080}
+    <>
+      <Card
+        className={"card"}
+        title={<h2 className={"card-title"}>{t("OrderPage.historyTitle")}</h2>}
       >
-        <div>{orderDetailDrawer()}</div>
-      </Drawer>
-    </div>
+        <Table columns={columns} rowKey={"id"} dataSource={myArray} />
+        <Drawer
+          title={`${t("OrderPage.drawer.title")} ${
+            orderDetail ? (orderDetail.id ? orderDetail.id : null) : null
+          }`}
+          placement="right"
+          onClose={onCloseDrawer}
+          visible={visibleDrawer}
+          width={1080}
+        >
+          <div>{orderDetailDrawer()}</div>
+        </Drawer>
+      </Card>
+    </>
   );
 };
 
