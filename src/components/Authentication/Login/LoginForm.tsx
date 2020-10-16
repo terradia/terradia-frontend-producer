@@ -89,7 +89,7 @@ const LoginForm = (props: LoginFormProps) => {
           !!localStorage.getItem("rememberCompany") &&
           localStorage.getItem("rememberCompany") === "true"
         ) {
-          setRedirect("/home");
+          setRedirect("/products");
         }
       }
     }
