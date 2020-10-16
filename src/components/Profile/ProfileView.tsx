@@ -122,7 +122,16 @@ const ProfileView: React.FC = () => {
     </Menu>
   );
 
-  const currentLanguage = i18n.language === "fr" ? "Français" : "English";
+  const currentLanguage =
+    i18n.language === "fr" ? (
+      <>
+        <FlagIcon code={"fr"} /> <span>Français</span>
+      </>
+    ) : (
+      <>
+        <FlagIcon code={"gb"} /> <span>English</span>
+      </>
+    );
 
   return (
     <div>
