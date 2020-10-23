@@ -5,6 +5,8 @@ query getCompaniesByUser($userId: ID!) {
             id
             name
             description
+            address
+            phone
             logo {
                 id
                 filename
