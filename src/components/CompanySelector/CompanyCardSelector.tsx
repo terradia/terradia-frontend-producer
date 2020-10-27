@@ -40,7 +40,7 @@ const CompanyCardSelector: React.FC<Props> = ({ queryCompaniesObject }) => {
     } else {
       localStorage.setItem("rememberCompany", remember.toString());
       localStorage.setItem("selectedCompany", selected);
-      history.push("/home");
+      history.push("/products");
     }
   };
 

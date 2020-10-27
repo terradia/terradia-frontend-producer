@@ -4,7 +4,6 @@ import { Divider, Menu } from "antd";
 import {
   EyeOutlined,
   FileImageOutlined,
-  HomeOutlined,
   PieChartOutlined,
   ShoppingCartOutlined,
   TeamOutlined,
@@ -37,15 +36,6 @@ const SidebarCompany = (props: SidebarCompanyProps) => {
           alignContent: "space-around",
         }}
       >
-        <PageButton
-          key={"/home"}
-          link={"/home"}
-          label={t("Menu.home")}
-          onClick={props.onClickedLink}
-          collapsed={props.collapsed}
-          selected={props.currentPage === "/home"}
-          icon={<HomeOutlined />}
-        />
         <PageButton
           key={"/products"}
           link={"/products"}
