@@ -9,6 +9,7 @@
     "company": "Company",
     "disconnect": "Logout"
   },
+  "Loading": "Loading",
   "ProfilMenu": {
     "Labels": {
       "yourCompanies": "Your companies",
@@ -119,6 +120,7 @@
   },
   "OrderPage": {
     "historyTitle": "Orders history",
+    "newOrderTitle": "New orders",
     "notification": {
       "title": "Change of order status: ",
       "description": "The order is now "
@@ -142,7 +144,13 @@
       "statut": "Status",
       "deliveryMode": "Delivery Mode",
       "price": "Price",
-      "details": "Details"
+      "details": "Details",
+      "operations": "Operations"
+    },
+    "newOrder": {
+      "acceptOrder": "Accept the order",
+      "declineOrder": "Decline the command",
+      "areYouSure": "Are you sure?"
     }
   },
   "StaffPage": {

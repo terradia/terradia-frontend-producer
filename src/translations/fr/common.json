@@ -30,6 +30,7 @@
     "company": "Entreprise",
     "disconnect": "Se déconnecter"
   },
+  "Loading": "Chargement",
   "ProfilMenu": {
     "Labels": {
       "yourCompanies": "Vos entreprises",
@@ -140,6 +141,7 @@
   },
   "OrderPage": {
     "historyTitle": "Historique des commandes",
+    "newOrderTitle": "Nouvelles commandes",
     "notification": {
       "title": "Changement de statut de la commande: ",
       "description": "La commande est "
@@ -163,7 +165,13 @@
       "statut": "Statut",
       "deliveryMode": "Mode de livraison",
       "price": "Prix",
-      "details": "Détail"
+      "details": "Détail",
+      "operations": "Opérations"
+    },
+    "newOrder": {
+      "acceptOrder": "Accepter la commande",
+      "declineOrder": "Décliner la commande",
+      "areYouSure": "Êtes vous sûr(e)?"
     }
   },
   "StaffPage": {
