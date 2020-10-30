@@ -8,7 +8,7 @@ import { useQuery } from "@apollo/react-hooks";
 import { useHistory, useLocation } from "react-router";
 import Logout from "../Authentication/Logout/Logout";
 import PageButton from "../Ui/PageButton";
-import { LoadingOutlined, ShopOutlined } from "@ant-design/icons/lib";
+import {HomeOutlined, LoadingOutlined, ShopOutlined} from "@ant-design/icons/lib";
 
 const queryGetCompaniesByUser = graphqlLoader(
   "../../graphql/query/getCompaniesByUser.graphql"
@@ -38,7 +38,7 @@ declare interface ProfileData {
   };
 }
 
-const CompanySelector: React.FC<Props> = ({
+const HeaderMenu: React.FC<Props> = ({
   isMobile = false,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ...props
@@ -161,6 +161,12 @@ const CompanySelector: React.FC<Props> = ({
               icon={<UserOutlined />}
               onClick={onClickedLink}
             />
+            <PageButton
+              link={"/companySelection"}
+              label={"Choix des entreprises"}
+              icon={<HomeOutlined />}
+              onClick={onClickedLink}
+            />
             <Menu.Item>
               <Logout />
             </Menu.Item>
@@ -249,4 +255,4 @@ const CompanySelector: React.FC<Props> = ({
   }
 };
 
-export default CompanySelector;
+export default HeaderMenu;
