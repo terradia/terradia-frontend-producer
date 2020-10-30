@@ -25,12 +25,8 @@ query getAllCompanyProductsCategories($companyId: String!) {
             }
             quantityForUnit
             price
-            reviews {
-                id
-                title
-                description
-                customerMark
-            }
+            averageMark
+            numberOfMarks
             updatedAt
         }
     }

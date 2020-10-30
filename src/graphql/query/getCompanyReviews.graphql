@@ -1,8 +1,18 @@
 query getCompanyReviews ($id: ID!, $limit: Int!, $offset: Int!) {
     getCompanyReviews(id: $id, limit: $limit, offset: $offset) {
-        customerMark
         id
         title
         description
+        customerMark
+        createdAt
+        customer {
+            id
+            user {
+                id
+                firstName
+                lastName
+                avatar
+            }
+        }
     }
 }

@@ -6,6 +6,14 @@ schema {
     subscription: Subscription
 }
 
+type Card {
+    brand: String!
+    exp_month: Int!
+    exp_year: Int!
+    id: String!
+    last4: String!
+}
+
 type Cart {
     company: Company!
     createdAt: Date
@@ -60,6 +68,41 @@ type Company {
     users: [CompanyUser]
 }
 
+type CompanyAddress {
+    codeCedexEtablissement: String
+    codeCommuneEtablissement: String
+    codePaysEtrangerEtablissement: String
+    codePostalEtablissement: String
+    complementAdresseEtablissement: String
+    distributionSpecialeEtablissement: String
+    indiceRepetitionEtablissement: String
+    libelleCedexEtablissement: String
+    libelleCommuneEtablissement: String
+    libelleCommuneEtrangerEtablissement: String
+    libellePaysEtrangerEtablissement: String
+    libelleVoieEtablissement: String
+    numeroVoieEtablissement: String
+    typeVoieEtablissement: String
+}
+
+type CompanyDates {
+    activitePrincipaleEtablissement: String
+    caractereEmployeurEtablissement: String
+    changementActivitePrincipaleEtablissement: Boolean
+    changementCaractereEmployeurEtablissement: Boolean
+    changementDenominationUsuelleEtablissement: Boolean
+    changementEnseigneEtablissement: Boolean
+    changementEtatAdministratifEtablissement: Boolean
+    dateDebut: String
+    dateFin: String
+    denominationUsuelleEtablissement: String
+    enseigne1Etablissement: String
+    enseigne2Etablissement: String
+    enseigne3Etablissement: String
+    etatAdministratifEtablissement: String
+    nomenclatureActivitePrincipaleEtablissement: String
+}
+
 type CompanyDeliveryDay {
     company: Company!
     daySlugName: String!
@@ -84,6 +127,25 @@ type CompanyImage {
     updatedAt: Date
 }
 
+type CompanyInfo {
+    activitePrincipaleRegistreMetiersEtablissement: String
+    adresse2Etablissement: CompanyAddress
+    adresseEtablissement: CompanyAddress
+    anneeEffectifsEtablissement: String
+    dateCreationEtablissement: String
+    dateDernierTraitementEtablissement: String
+    etablissementSiege: Boolean
+    nic: String
+    nombrePeriodesEtablissement: Int
+    periodesEtablissement: CompanyDates
+    score: Int
+    siren: String
+    siret: String
+    statutDiffusionEtablissement: String
+    trancheEffectifsEtablissement: String
+    uniteLegale: LegalUnits
+}
+
 type CompanyOpeningDay {
     company: Company!
     daySlugName: String!
@@ -99,6 +161,10 @@ type CompanyOpeningDayHours {
     startTime: Date!
 }
 
+type CompanyProductImage {
+    companyImage: CompanyImage!
+}
+
 type CompanyProductsCategory {
     company: Company!
     id: ID!
@@ -108,11 +174,13 @@ type CompanyProductsCategory {
 
 type CompanyReview {
     company: Company
+    createdAt: Date
     customer: Customer
     customerMark: Int!
     description: String
     id: String!
     title: String!
+    updatedAt: Date
 }
 
 type CompanyTag {
@@ -159,6 +227,40 @@ type GeographicPoint {
     coordinates: [Float]
 }
 
+type LegalUnits {
+    activitePrincipaleUniteLegale: String
+    anneeCategorieEntreprise: String
+    anneeEffectifsUniteLegale: String
+    caractereEmployeurUniteLegale: String
+    categorieEntreprise: String
+    categorieJuridiqueUniteLegale: String
+    dateCreationUniteLegale: String
+    dateDernierTraitementUniteLegale: String
+    denominationUniteLegale: String
+    denominationUsuelle1UniteLegale: String
+    denominationUsuelle2UniteLegale: String
+    denominationUsuelle3UniteLegale: String
+    economieSocialeSolidaireUniteLegale: String
+    etatAdministratifUniteLegale: String
+    identifiantAssociationUniteLegale: String
+    nicSiegeUniteLegale: String
+    nomUniteLegale: String
+    nomUsageUniteLegale: String
+    nombrePeriodesUniteLegale: Int
+    nomenclatureActivitePrincipaleUniteLegale: String
+    prenom1UniteLegale: String
+    prenom2UniteLegale: String
+    prenom3UniteLegale: String
+    prenom4UniteLegale: String
+    prenomUsuelUniteLegale: String
+    pseudonymeUniteLegale: String
+    sexeUniteLegale: String
+    sigleUniteLegale: String
+    statutDiffusionUniteLegale: String
+    trancheEffectifsUniteLegale: String
+    unitePurgeeUniteLegale: Boolean
+}
+
 type Mutation {
     _: Boolean
     acceptInvitation(invitationId: String!): CompanyUserInvitation
@@ -182,8 +284,10 @@ type Mutation {
     createOrUpdateCustomerAddress(address: String!, apartment: String, id: String, information: String): CustomerAddress
     createProduct(companyId: String!, companyProductsCategoryId: String, coverId: String, description: String!, name: String!, price: Float!, quantityForUnit: Int, unitId: String): Product!
     createProductReview(customerMark: Int!, description: String, productId: String!, title: String): ProductReview
+    createStripeCustomer: Boolean!
     declineInvitation(invitationId: String!): CompanyUserInvitation
     defineUserAsCustomer(userId: String!): Customer
+    deleteCard(cardId: String!): Boolean
     deleteCategory(id: String!): Category!
     deleteCompany(companyId: String!): Company!
     deleteCompanyTag(companyTagId: String!): CompanyTag!
@@ -195,6 +299,7 @@ type Mutation {
     joinCompany(companyId: String!, userId: String!): Company!
     leaveCompany(companyId: String!, userId: String!): Company!
     login(email: String!, password: String!): SigninAnswer!
+    passwordValidation(password: String!): Boolean
     register(defineUserAsCustomer: Boolean, email: String!, firstName: String!, lastName: String!, password: String!, phone: String): SignupAnswer!
     removeCompanyImage(imageId: ID!): CompanyImage
     removeCompanyImages(imagesId: [ID]!): [CompanyImage]
@@ -207,6 +312,8 @@ type Mutation {
     removeProductFromCart(cartProductId: ID, productId: ID, quantity: Int!): Int
     removeProductFromCompanyCategory(productId: String!): Product
     removeUserCompanyRole(companyUserId: String!, roleId: String!): CompanyUser!
+    restoreCompany(companyId: String!): Company!
+    saveCard(cardId: String!): Card!
     setActiveCustomerAddress(id: String!): CustomerAddress
     signInWithFacebook(exponentPushToken: String, facebookToken: String!): SigninAnswer!
     signInWithgeneratedCode(code: String!, email: String!, exponentPushToken: String): SigninAnswer!
@@ -214,6 +321,7 @@ type Mutation {
     updateCompany(companyId: ID!, newValues: CompanyUpdateInput): Company!
     updateCompanyImageName(imageId: ID!, name: String!): CompanyImage
     updateCompanyProductsCategory(categoryId: String!, name: String): CompanyProductsCategory
+    updateCustomerDefaultSource(cardId: String!): Boolean
     updateDeliveryDay(DeliveryDayId: String!, hours: [ScheduleInput]): CompanyDeliveryDay!
     updateDeliveryHours(hourId: String!, hours: ScheduleInput!): CompanyDeliveryDayHours!
     updateOpeningDay(hours: [ScheduleInput], openingDayId: String!): CompanyOpeningDay!
@@ -231,7 +339,7 @@ type Product {
     categories: [Category]
     company: Company
     companyProductsCategory: CompanyProductsCategory
-    cover: CompanyImage
+    cover: CompanyProductImage
     createdAt: Date
     customerBasketProducts: [CartProduct]
     description: String!
@@ -248,16 +356,19 @@ type Product {
 }
 
 type ProductReview {
+    createdAt: Date
     customer: Customer
     customerMark: Int!
     description: String
     id: String!
     product: Product
     title: String!
+    updatedAt: Date
 }
 
 type Query {
     _: Boolean
+    checkSiren(siren: String!): CompanyInfo
     doesFacebookAccountExistWithEmail(facebookToken: String!): Boolean!
     getActiveCustomerAddress: CustomerAddress
     getAllCategories: [Category]!
@@ -291,10 +402,14 @@ type Query {
     getProductReviews(id: ID!, limit: Int!, offset: Int!): [ProductReview]
     getProductsByCompany(companyId: String): [Product]!
     getProductsByCompanyByCategory(companyId: String): [Category]!
+    getStripeCustomer: StripeCustomer
+    getStripeCustomerDefaultSource: Card
     getUnit(id: ID, name: String, notation: String): Unit!
     getUser: User
     isUserInvited(email: String!): Boolean
+    listCustomerCards: [Card]
     searchCompanies(query: String!): [Company]
+    totalCartPrice: Float
 }
 
 type Role {
@@ -313,6 +428,11 @@ type SignupAnswer {
     message: String!
     token: String!
     userId: String!
+}
+
+type StripeCustomer {
+    default_source: String!
+    id: String!
 }
 
 type Subscription {
@@ -371,10 +491,15 @@ input CompanyUpdateInput {
     coverId: String
     description: String
     email: String
+    firstname: String
+    lastname: String
     logoId: String
+    month: String
     name: String
+    officialName: String
     phone: String
     siren: String
+    year: String
 }
 
 input ProductPosition {

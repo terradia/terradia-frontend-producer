@@ -1,4 +1,5 @@
 import { CompanyImage } from "./CompanyImage";
+import { Review } from "./Review";
 
 export interface CompanyOpeningDayHours {
   startTime: Date;
@@ -22,6 +23,9 @@ export interface Company {
   logo: CompanyImage;
   cover: CompanyImage;
   address: string;
+  averageMark: number;
+  numberOfMarks: number;
+  reviews: [Review];
   openingDays: [CompanyOpeningDay];
   deliveryDays: [CompanyOpeningDay];
 }

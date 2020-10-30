@@ -111,7 +111,7 @@ function ProductsModal(props: ProductsModalProps) {
       loadReviews({
         variables: {
           id: props.updateProduct.id,
-          limit: 5,
+          limit: 10,
           offset: 0,
         },
       });
@@ -229,7 +229,6 @@ function ProductsModal(props: ProductsModalProps) {
       className={"modal-product"}
       visible={props.visible}
       closable={true}
-      width={"45%"}
       destroyOnClose={true}
       onCancel={handleCancel}
       footer={
@@ -260,8 +259,12 @@ function ProductsModal(props: ProductsModalProps) {
         </div>
       }
     >
-      <Tabs defaultActiveKey="1">
-        <TabPane tab="Informations du produits" key="1">
+      <Tabs defaultActiveKey="1" className={"product-modal-tabs"}>
+        <TabPane
+          tab="Informations du produits"
+          key="1"
+          className={"product-modal-tab"}
+        >
           <ProductsForm
             setForm={setForm}
             confirm={handleOk}
@@ -271,7 +274,11 @@ function ProductsModal(props: ProductsModalProps) {
             units={props.units}
           />
         </TabPane>
-        <TabPane tab="Conseil d'utilisation" key="2">
+        <TabPane
+          tab="Conseil d'utilisation"
+          key="2"
+          className={"product-modal-tab"}
+        >
           <ProductsAdvice
             setForm={setForm}
             confirm={handleOk}
@@ -279,12 +286,15 @@ function ProductsModal(props: ProductsModalProps) {
           />
         </TabPane>
         {props.updateProduct !== null && !loadingReviews && dataReviews && (
-          <TabPane tab="Avis des clients" key="3">
+          <TabPane
+            tab="Avis des clients"
+            key="3"
+            className={"product-modal-tab review-tab"}
+          >
             <ProductsReviews
               updateProduct={props.updateProduct}
               reviews={dataReviews.getProductReviews}
-              fetchMore={fetchMoreReviews}
-              reload={loadReviews}
+              fetchMoreReviews={fetchMoreReviews}
             />
           </TabPane>
         )}

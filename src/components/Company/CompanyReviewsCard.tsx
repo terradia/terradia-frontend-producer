@@ -1,28 +1,31 @@
 import React, { useState } from "react";
-import "antd/dist/antd.css";
-import { Review } from "../../../../interfaces/Review";
-import ListReview from "../../../Review/ListReview";
+import { Review } from "../../interfaces/Review";
+import { Card } from "antd";
+import "../../assets/Style/CompanyPage/CompanyReviewsCard.less";
+import ListReview from "../Review/ListReview";
 
-declare interface ProductsReviewsProps {
-  updateProduct: any; // if you want to update a products or create one
+declare interface CompanyReviewsCardProps {
+  averageMark: number;
+  numberOfMarks: number;
   reviews: [Review];
   fetchMoreReviews: any;
+  companyId: string;
 }
 
-function ProductsReviews(props: ProductsReviewsProps) {
+function CompanyReviewsCard(props: CompanyReviewsCardProps) {
   const limitReviews = 10;
   const [loading, setLoading] = useState(false);
 
   function handleFetchMore(pageIndex) {
     if (
-      props.reviews.length === props.updateProduct.numberOfMarks ||
+      props.reviews.length === props.numberOfMarks ||
       limitReviews * pageIndex <= props.reviews.length
     )
       return;
     setLoading(true);
     props.fetchMoreReviews({
       variables: {
-        id: props.updateProduct.id,
+        id: props.companyId,
         limit: limitReviews * pageIndex,
         offset: 0,
       },
@@ -30,13 +33,13 @@ function ProductsReviews(props: ProductsReviewsProps) {
         if (!fetchMoreResult) {
           return prev;
         }
-        fetchMoreResult.getProductReviews.map((newReview) => {
+        fetchMoreResult.getCompanyReviews.map((newReview) => {
           if (
-            prev.getProductReviews.findIndex(
+            prev.getCompanyReviews.findIndex(
               (oldReview) => oldReview.id === newReview.id
             ) === -1
           )
-            prev.getProductReviews.push(newReview);
+            prev.getCompanyReviews.push(newReview);
           return true;
         });
         setLoading(false);
@@ -48,23 +51,26 @@ function ProductsReviews(props: ProductsReviewsProps) {
   }
 
   return (
-    props.reviews !== null &&
-    props.updateProduct !== null && (
+    <Card
+      title={"Avis des clients"}
+      bordered={false}
+      className={"company-reviews-card"}
+    >
       <ListReview
         reviewsList={props.reviews}
-        averageMark={props.updateProduct.averageMark}
-        numberOfMarks={props.updateProduct.numberOfMarks}
+        averageMark={props.averageMark}
+        numberOfMarks={props.numberOfMarks}
         pagination={{
           onChange: handleFetchMore,
           pageSize: 10,
-          total: props.updateProduct.numberOfMarks,
+          total: props.numberOfMarks,
           hideOnSinglePage: true,
           showSizeChanger: false,
         }}
         loadingList={loading}
       />
-    )
+    </Card>
   );
 }
 
-export default ProductsReviews;
+export default CompanyReviewsCard;
