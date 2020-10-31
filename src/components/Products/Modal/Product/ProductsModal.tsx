@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button, Modal, Popconfirm, Tabs } from "antd";
 import ProductsForm from "./ProductsForm";
 import "../../../../assets/Style/Products/Modal/ProductsModal.less";
@@ -61,6 +61,7 @@ function ProductsModal(props: ProductsModalProps) {
   const companyId = localStorage.getItem("selectedCompany");
 
   const [form, setForm] = useState(null);
+  const [firstLoad, setFirstLoad] = useState(true);
 
   const [createProductMutation] = useMutation(mutationCreateProduct, {
     refetchQueries: [
@@ -105,18 +106,6 @@ function ProductsModal(props: ProductsModalProps) {
     loadReviews,
     { loading: loadingReviews, data: dataReviews, fetchMore: fetchMoreReviews },
   ] = useLazyQuery(queryProductReviews);
-
-  useEffect(() => {
-    if (props.updateProduct) {
-      loadReviews({
-        variables: {
-          id: props.updateProduct.id,
-          limit: 10,
-          offset: 0,
-        },
-      });
-    }
-  }, [props.updateProduct, loadReviews]);
 
   function handleCancel() {
     props.setDefaultCategory("");
@@ -217,6 +206,19 @@ function ProductsModal(props: ProductsModalProps) {
     });
   }
 
+  function handleChangeTab(activeKey) {
+    if (activeKey === "3" && firstLoad) {
+      setFirstLoad(false);
+      loadReviews({
+        variables: {
+          id: props.updateProduct.id,
+          limit: 10,
+          offset: 0,
+        },
+      });
+    }
+  }
+
   const { t } = useTranslation("common");
 
   return (
@@ -259,7 +261,11 @@ function ProductsModal(props: ProductsModalProps) {
         </div>
       }
     >
-      <Tabs defaultActiveKey="1" className={"product-modal-tabs"}>
+      <Tabs
+        defaultActiveKey="1"
+        className={"product-modal-tabs"}
+        onChange={handleChangeTab}
+      >
         <TabPane
           tab="Informations du produits"
           key="1"
@@ -285,7 +291,7 @@ function ProductsModal(props: ProductsModalProps) {
             updateProduct={props.updateProduct}
           />
         </TabPane>
-        {props.updateProduct !== null && !loadingReviews && dataReviews && (
+        {props.updateProduct !== null && (
           <TabPane
             tab="Avis des clients"
             key="3"
@@ -293,8 +299,11 @@ function ProductsModal(props: ProductsModalProps) {
           >
             <ProductsReviews
               updateProduct={props.updateProduct}
-              reviews={dataReviews.getProductReviews}
+              reviews={
+                dataReviews !== undefined ? dataReviews.getProductReviews : []
+              }
               fetchMoreReviews={fetchMoreReviews}
+              loading={loadingReviews}
             />
           </TabPane>
         )}

@@ -139,15 +139,16 @@ const CompanyPage = () => {
           <CompanyTagsCard company={data.getCompany} />
         </TabPane>
         <TabPane tab="Avis des clients" key="3">
-          {dataReviews && !loadingReviews && (
-            <CompanyReviewsCard
-              averageMark={data.getCompany.averageMark}
-              numberOfMarks={data.getCompany.numberOfMarks}
-              reviews={dataReviews.getCompanyReviews}
-              fetchMoreReviews={fetchMoreReviews}
-              companyId={companyId}
-            />
-          )}
+          <CompanyReviewsCard
+            averageMark={data.getCompany.averageMark}
+            numberOfMarks={data.getCompany.numberOfMarks}
+            reviews={
+              dataReviews !== undefined ? dataReviews.getCompanyReviews : []
+            }
+            loading={loadingReviews}
+            fetchMoreReviews={fetchMoreReviews}
+            companyId={companyId}
+          />
         </TabPane>
       </Tabs>
     </>

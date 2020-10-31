@@ -1,17 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "antd/dist/antd.css";
 import { Review } from "../../../../interfaces/Review";
 import ListReview from "../../../Review/ListReview";
 
-declare interface ProductsReviewsProps {
+interface ProductsReviewsProps {
   updateProduct: any; // if you want to update a products or create one
-  reviews: [Review];
+  reviews: [Review] | [];
   fetchMoreReviews: any;
+  loading: boolean;
 }
 
 function ProductsReviews(props: ProductsReviewsProps) {
   const limitReviews = 10;
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (props.loading) {
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
+  }, [props.loading]);
 
   function handleFetchMore(pageIndex) {
     if (
@@ -48,8 +57,9 @@ function ProductsReviews(props: ProductsReviewsProps) {
   }
 
   return (
-    props.reviews !== null &&
-    props.updateProduct !== null && (
+    props.updateProduct !== null &&
+    props.updateProduct.averageMark &&
+    props.updateProduct.numberOfMarks && (
       <ListReview
         reviewsList={props.reviews}
         averageMark={props.updateProduct.averageMark}

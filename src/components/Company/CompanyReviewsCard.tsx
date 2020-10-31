@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Review } from "../../interfaces/Review";
 import { Card } from "antd";
 import "../../assets/Style/CompanyPage/CompanyReviewsCard.less";
@@ -7,14 +7,23 @@ import ListReview from "../Review/ListReview";
 declare interface CompanyReviewsCardProps {
   averageMark: number;
   numberOfMarks: number;
-  reviews: [Review];
+  reviews: [Review] | [];
   fetchMoreReviews: any;
   companyId: string;
+  loading: boolean;
 }
 
 function CompanyReviewsCard(props: CompanyReviewsCardProps) {
   const limitReviews = 10;
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (props.loading) {
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
+  }, [props.loading]);
 
   function handleFetchMore(pageIndex) {
     if (
@@ -56,19 +65,21 @@ function CompanyReviewsCard(props: CompanyReviewsCardProps) {
       bordered={false}
       className={"company-reviews-card"}
     >
-      <ListReview
-        reviewsList={props.reviews}
-        averageMark={props.averageMark}
-        numberOfMarks={props.numberOfMarks}
-        pagination={{
-          onChange: handleFetchMore,
-          pageSize: 10,
-          total: props.numberOfMarks,
-          hideOnSinglePage: true,
-          showSizeChanger: false,
-        }}
-        loadingList={loading}
-      />
+      {props.averageMark && props.numberOfMarks && (
+        <ListReview
+          reviewsList={props.reviews}
+          averageMark={props.averageMark}
+          numberOfMarks={props.numberOfMarks}
+          pagination={{
+            onChange: handleFetchMore,
+            pageSize: 10,
+            total: props.numberOfMarks,
+            hideOnSinglePage: true,
+            showSizeChanger: false,
+          }}
+          loadingList={loading}
+        />
+      )}
     </Card>
   );
 }

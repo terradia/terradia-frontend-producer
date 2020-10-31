@@ -7,7 +7,7 @@ import "../../assets/Style/Review/ListReview.less";
 
 declare interface ListReviewProps {
   loadingList: boolean;
-  reviewsList: [Review];
+  reviewsList: [Review] | [];
   averageMark: number;
   numberOfMarks: number;
   isfetchMore?: boolean;
