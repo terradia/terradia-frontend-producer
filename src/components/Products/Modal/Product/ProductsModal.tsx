@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button, Modal, Popconfirm, Tabs } from "antd";
 import ProductsForm from "./ProductsForm";
 import "../../../../assets/Style/Products/Modal/ProductsModal.less";
@@ -61,6 +61,7 @@ function ProductsModal(props: ProductsModalProps) {
   const companyId = localStorage.getItem("selectedCompany");
 
   const [form, setForm] = useState(null);
+  const [firstLoad, setFirstLoad] = useState(true);
 
   const [createProductMutation] = useMutation(mutationCreateProduct, {
     refetchQueries: [
@@ -105,18 +106,6 @@ function ProductsModal(props: ProductsModalProps) {
     loadReviews,
     { loading: loadingReviews, data: dataReviews, fetchMore: fetchMoreReviews },
   ] = useLazyQuery(queryProductReviews);
-
-  useEffect(() => {
-    if (props.updateProduct) {
-      loadReviews({
-        variables: {
-          id: props.updateProduct.id,
-          limit: 5,
-          offset: 0,
-        },
-      });
-    }
-  }, [props.updateProduct, loadReviews]);
 
   function handleCancel() {
     props.setDefaultCategory("");
@@ -217,6 +206,19 @@ function ProductsModal(props: ProductsModalProps) {
     });
   }
 
+  function handleChangeTab(activeKey) {
+    if (activeKey === "3" && firstLoad) {
+      setFirstLoad(false);
+      loadReviews({
+        variables: {
+          id: props.updateProduct.id,
+          limit: 10,
+          offset: 0,
+        },
+      });
+    }
+  }
+
   const { t } = useTranslation("common");
 
   return (
@@ -229,7 +231,6 @@ function ProductsModal(props: ProductsModalProps) {
       className={"modal-product"}
       visible={props.visible}
       closable={true}
-      width={"45%"}
       destroyOnClose={true}
       onCancel={handleCancel}
       footer={
@@ -260,8 +261,16 @@ function ProductsModal(props: ProductsModalProps) {
         </div>
       }
     >
-      <Tabs defaultActiveKey="1">
-        <TabPane tab="Informations du produits" key="1">
+      <Tabs
+        defaultActiveKey="1"
+        className={"product-modal-tabs"}
+        onChange={handleChangeTab}
+      >
+        <TabPane
+          tab="Informations du produits"
+          key="1"
+          className={"product-modal-tab"}
+        >
           <ProductsForm
             setForm={setForm}
             confirm={handleOk}
@@ -271,20 +280,30 @@ function ProductsModal(props: ProductsModalProps) {
             units={props.units}
           />
         </TabPane>
-        <TabPane tab="Conseil d'utilisation" key="2">
+        <TabPane
+          tab="Conseil d'utilisation"
+          key="2"
+          className={"product-modal-tab"}
+        >
           <ProductsAdvice
             setForm={setForm}
             confirm={handleOk}
             updateProduct={props.updateProduct}
           />
         </TabPane>
-        {props.updateProduct !== null && !loadingReviews && dataReviews && (
-          <TabPane tab="Avis des clients" key="3">
+        {props.updateProduct !== null && (
+          <TabPane
+            tab="Avis des clients"
+            key="3"
+            className={"product-modal-tab review-tab"}
+          >
             <ProductsReviews
               updateProduct={props.updateProduct}
-              reviews={dataReviews.getProductReviews}
-              fetchMore={fetchMoreReviews}
-              reload={loadReviews}
+              reviews={
+                dataReviews !== undefined ? dataReviews.getProductReviews : []
+              }
+              fetchMoreReviews={fetchMoreReviews}
+              loading={loadingReviews}
             />
           </TabPane>
         )}
