@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Layout from "./components/Layout/Layout";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
-import Home from "./pages/Home";
 import Products from "./pages/Products";
 import Categories from "./pages/Categories";
 import Statistics from "./pages/Statistics";
@@ -73,7 +72,7 @@ const App = () => {
 
   if (loading || (!!localStorage.getItem("token") && data === undefined))
     return <LoadingFullPage />;
-  // TODO add a loader in order to not display /Home (for 1 sec) when user isn't log
+  // TODO add a loader in order to not display /Hom (for 1 sec) when user isn't log
   return (
     <UserContext.Provider value={data ? data.getUser : null}>
       <BrowserRouter>
@@ -102,9 +101,6 @@ const App = () => {
             <BreakpointCatcher>
               {redirect ? RedirectTo() : null}
               <Layout>
-                <Route exact path={"/home"}>
-                  <Home />
-                </Route>
                 <Route exact path={"/products"}>
                   <Products />
                 </Route>

@@ -75,7 +75,7 @@ const ResetForm: React.FC = () => {
     });
   };
 
-  const redirectToHome = (data) => {
+  const redirectToProducts = (data) => {
     if (
       data &&
       data.getCompanies &&
@@ -90,14 +90,14 @@ const ResetForm: React.FC = () => {
         !!localStorage.getItem("rememberCompany") &&
         localStorage.getItem("rememberCompany") === "true"
       ) {
-        setRedirect("/home");
+        setRedirect("/products");
         finaliseRedirect();
       }
     }
   };
 
   const [getCompaniesQuery] = useLazyQuery(getCompanies, {
-    onCompleted: redirectToHome,
+    onCompleted: redirectToProducts,
   });
   const [getUserQuery] = useLazyQuery(getUser, {
     onCompleted: () => getCompaniesQuery(),

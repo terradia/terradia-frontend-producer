@@ -8,8 +8,6 @@ declare interface ProductsAdviceProps {
 }
 
 function ProductsAdvice(props: ProductsAdviceProps) {
-  console.log("props", props);
-
   return (
     <TextArea
       rows={4}

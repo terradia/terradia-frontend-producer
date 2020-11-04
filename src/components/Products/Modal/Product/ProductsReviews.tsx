@@ -1,95 +1,77 @@
 import React, { useEffect, useState } from "react";
-import { List, Rate, Comment, Button } from "antd";
+import "antd/dist/antd.css";
+import { Review } from "../../../../interfaces/Review";
+import ListReview from "../../../Review/ListReview";
 
-declare interface Test {
-  id: string;
-  title: string;
-  description: string;
-  customerMark: number;
-}
-
-declare interface ProductsReviewsProps {
+interface ProductsReviewsProps {
   updateProduct: any; // if you want to update a products or create one
-  reviews: [
-    {
-      id: string;
-      title: string;
-      description: string;
-      customerMark: number;
-    }
-  ];
-  fetchMore: any;
-  reload: any;
+  reviews: [Review] | [];
+  fetchMoreReviews: any;
+  loading: boolean;
 }
-
-const limitReviews = 5;
 
 function ProductsReviews(props: ProductsReviewsProps) {
-  const [offsetReviews, setOffsetReviews] = useState(limitReviews);
-  const [noMoreReviews, setNoMoreReviews] = useState(false);
-  const [copyReviews, setCopyReviews] = useState(null);
+  const limitReviews = 10;
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setCopyReviews(props.reviews);
-  }, [props.reviews]);
+    if (props.loading) {
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
+  }, [props.loading]);
 
-  function handleFetchMore() {
+  function handleFetchMore(pageIndex) {
+    if (
+      props.reviews.length === props.updateProduct.numberOfMarks ||
+      limitReviews * pageIndex <= props.reviews.length
+    )
+      return;
     setLoading(true);
-    props.fetchMore({
+    props.fetchMoreReviews({
       variables: {
         id: props.updateProduct.id,
-        limit: limitReviews,
-        offset: offsetReviews,
+        limit: limitReviews * pageIndex,
+        offset: 0,
       },
       updateQuery: (prev, { fetchMoreResult }) => {
         if (!fetchMoreResult) {
           return prev;
         }
-        if (
-          fetchMoreResult.getProductReviews &&
-          fetchMoreResult.getProductReviews.length === 0
-        ) {
-          setNoMoreReviews(true);
-        }
-        fetchMoreResult.getProductReviews.map((review) => {
-          prev.getProductReviews.push(review);
+        fetchMoreResult.getProductReviews.map((newReview) => {
+          if (
+            prev.getProductReviews.findIndex(
+              (oldReview) => oldReview.id === newReview.id
+            ) === -1
+          )
+            prev.getProductReviews.push(newReview);
           return true;
         });
-        setCopyReviews(prev.getProductReviews);
         setLoading(false);
         return {
           ...prev,
         };
       },
     });
-    setOffsetReviews(offsetReviews + limitReviews);
   }
 
   return (
-    copyReviews !== null && (
-      <List
-        className="comment-list"
-        itemLayout="horizontal"
-        dataSource={copyReviews}
-        loadMore={
-          !noMoreReviews ? (
-            <Button onClick={handleFetchMore}>Charger plus</Button>
-          ) : null
-        }
-        loading={loading}
-        renderItem={(item: Test) => {
-          return (
-            <List.Item>
-              <Comment
-                author={item.title}
-                content={item.description}
-                style={{ width: "80%" }}
-              />
-              <Rate disabled defaultValue={item.customerMark} />
-            </List.Item>
-          );
+    props.updateProduct !== null &&
+    props.updateProduct.averageMark &&
+    props.updateProduct.numberOfMarks && (
+      <ListReview
+        reviewsList={props.reviews}
+        averageMark={props.updateProduct.averageMark}
+        numberOfMarks={props.updateProduct.numberOfMarks}
+        pagination={{
+          onChange: handleFetchMore,
+          pageSize: 10,
+          total: props.updateProduct.numberOfMarks,
+          hideOnSinglePage: true,
+          showSizeChanger: false,
         }}
+        loadingList={loading}
       />
     )
   );

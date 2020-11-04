@@ -6,6 +6,8 @@ query getCompanyById($companyId: ID!) {
     email
     phone
     siren
+    averageMark
+    numberOfMarks
     logo {
       id
       filename

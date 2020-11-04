@@ -27,9 +27,9 @@ const SidebarProfile = (props: SidebarProfileProps) => {
       }}
     >
       <PageButton
-        key={"/home"}
-        link={"/home"}
-        label={"Accueil"} // TODO : Translate this.
+        key={"/products"}
+        link={"/products"}
+        label={"Entreprise"} // TODO : Translate this.
         onClick={props.onClickedLink}
         collapsed={props.collapsed}
         selected={false}

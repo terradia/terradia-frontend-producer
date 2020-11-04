@@ -4,5 +4,15 @@ query getProductsReview($id: ID!, $limit: Int!, $offset: Int!){
         title
         description
         customerMark
+        createdAt
+        customer {
+            id
+            user {
+                id
+                firstName
+                lastName
+                avatar
+            }
+        }
     }
 }
