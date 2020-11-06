@@ -1,0 +1,5 @@
+mutation declineOrder($id: ID!, $reason: String) {
+  declineOrder(id: $id, reason: $reason) {
+    code
+  }
+}

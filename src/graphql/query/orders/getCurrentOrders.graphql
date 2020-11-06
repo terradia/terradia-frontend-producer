@@ -1,0 +1,25 @@
+query getCurrentOrders(
+  $companyId: ID!
+) {
+  getCurrentOrders(
+    companyId: $companyId
+  ) {
+    id
+    code
+    status
+    products {
+      id
+      product {
+        id
+        name
+        price
+      }
+      quantity
+      price
+    }
+    price
+    numberProducts
+    createdAt
+    updatedAt
+  }
+}

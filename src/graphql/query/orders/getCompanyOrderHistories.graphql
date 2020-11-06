@@ -1,0 +1,26 @@
+query getCompanyOrderHistories($companyId: ID!) {
+  getCompanyOrderHistories(companyId: $companyId) {
+    id
+    code
+    customerId
+    companyId
+    companyName
+    companyLogo
+    companyAddress
+    createdAt
+    updatedAt
+    price
+    numberProducts
+    decliningReason
+    status
+    orderCreationDate
+    products {
+      id
+      productId
+      name
+      quantity
+      price
+      quantityForUnit
+    }
+  }
+}

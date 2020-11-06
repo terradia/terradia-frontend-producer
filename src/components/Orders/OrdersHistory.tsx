@@ -1,121 +1,42 @@
 import React from "react";
-import { Card, Drawer, Table, Tag } from "antd";
+import { loader as graphqlLoader } from "graphql.macro";
+import { Card, Table, Tag } from "antd";
 import "../../assets/Style/Orders/Orders.less";
 import { useTranslation } from "react-i18next";
-import { MoreOutlined } from "@ant-design/icons";
-import { date } from "yup";
+import { useQuery } from "@apollo/react-hooks";
+import TerradiaLoader from "../TerradiaLoader";
+import moment from "moment";
 
-const myItems = [
-  {
-    id: "01",
-    name: "Tomates grappes",
-    quantity: 3,
-    price: 2,
-  },
-  {
-    id: "02",
-    name: "haricot",
-    quantity: 4,
-    price: 1.03,
-  },
-  {
-    id: "03",
-    name: "champignon",
-    quantity: 5,
-    price: 2,
-  },
-  {
-    id: "04",
-    name: "courgette",
-    quantity: 6,
-    price: 3,
-  },
-  {
-    id: "05",
-    name: "tomate-cerise",
-    quantity: 7,
-    price: 1,
-  },
-];
+const getCompanyOrderHistories = graphqlLoader(
+  "../../graphql/query/orders/getCompanyOrderHistories.graphql"
+);
 
-interface ItemData {
-  id: string;
-  date: Date;
-  status: string;
-  nbItems: number;
-  totalPrice: number;
-}
-
-interface Props {
-  dataTable: ItemData[];
-}
-
-const OrdersHistory = (props: Props) => {
+const OrdersHistory = () => {
+  const companyId = localStorage.getItem("selectedCompany");
   const { t } = useTranslation("common");
 
-  // const [statusOrder, setStatusOrder] = React.useState("");
-  const [statusOrderId, setStatusOrderId] = React.useState("");
-  const [visibleDrawer, setVisibleDrawer] = React.useState(false);
-  const [orderDetail, setOrderDetail] = React.useState({
-    id: "",
-    date: date,
-    status: "",
-    nbItems: 0,
+  const {
+    loading: loadingOrders,
+    error: errorOrders,
+    data: ordersData,
+  } = useQuery(getCompanyOrderHistories, {
+    variables: { companyId },
   });
 
-  const onCloseDrawer = (order) => {
-    setStatusOrderId(order.id);
-    // props.dataTable
-    //   .filter((order) => order.status !== "approuved")
-    //   .forEach((order) => {
-    //     if (order.id === statusOrderId) {
-    //       if (order.status !== statusOrder && statusOrder !== "") {
-    //         order.status = statusOrder;
-    //         notification.open({
-    //           message: t("OrderPage.notification.title"),
-    //           description: `${t(
-    //             "OrderPage.notification.title"
-    //           )} ${statusOrder}.`,
-    //           duration: 3,
-    //         });
-    //       }
-    //     }
-    //   });
-    console.log(statusOrderId);
-    setOrderDetail(order);
-    return visibleDrawer === true
-      ? setVisibleDrawer(false)
-      : setVisibleDrawer(true);
-  };
-
-  const moreDetails = (text, record) => {
-    return (
-      <div>
-        <MoreOutlined rotate={90} onClick={() => onCloseDrawer(record)} />
-      </div>
-    );
-  };
-
   const statusRenderer = (status) => {
-    let color = "green";
+    let color = "blue";
     switch (status) {
-      case "payed":
+      case "FINISHED":
         color = "blue";
         break;
-      case "delivered":
-        color = "green";
-        break;
-      case "approuved":
-        color = "lime";
-        break;
-      case "canceled":
-        color = "red";
-        break;
-      case "refused":
+      case "DECLINED":
         color = "volcano";
         break;
+      case "CANCELED":
+        color = "red";
+        break;
       default:
-        color = "green";
+        color = "blue";
         break;
     }
     return <Tag color={color}>{status}</Tag>;
@@ -124,14 +45,15 @@ const OrdersHistory = (props: Props) => {
   const columns = [
     {
       title: "#",
-      dataIndex: "id",
+      dataIndex: "code",
       key: "#",
     },
     {
       title: "Date",
-      dataIndex: "date",
-      key: "date",
-      render: (date) => date.toDateString(),
+      dataIndex: "createdAt",
+      key: "createdAt",
+      render: (createdAt) =>
+        createdAt ? moment(createdAt).format("DD/MM/YYYY") : null,
     },
     {
       title: t("OrderPage.table.statut"),
@@ -162,45 +84,18 @@ const OrdersHistory = (props: Props) => {
     },
     {
       title: t("OrderPage.table.itemNb"),
-      dataIndex: "nbItems",
-      key: "nbItems",
-      sorter: (a, b) => a.nbItems - b.nbItems,
+      dataIndex: "numberProducts",
+      key: "numberProducts",
+      sorter: (a, b) => a.numberProducts - b.numberProducts,
     },
     {
       title: t("OrderPage.table.price"),
       key: "price",
-      dataIndex: "totalPrice",
-      sorter: (a, b) => a.totalPrice - b.totalPrice,
-    },
-    {
-      title: t("OrderPage.table.details"),
-      dataIndex: "operation",
-      render: moreDetails,
+      dataIndex: "price",
+      sorter: (a, b) => a.pPrice - b.price,
+      render: (price) => Math.round((price + Number.EPSILON) * 100) / 100,
     },
   ];
-
-  //Return price for one order
-  const totalPrice = (weird, item) => {
-    return (
-      <div>
-        <p>
-          {Math.round((item.quantity * item.price + Number.EPSILON) * 100) /
-            100}
-        </p>
-      </div>
-    );
-  };
-
-  //should give orderId to sum up the total
-  const totalPriceOrder = () => {
-    let totalPrice = 0;
-
-    myItems.forEach((item) => {
-      totalPrice = totalPrice + item.price * item.quantity;
-    });
-    totalPrice = Math.round((totalPrice + Number.EPSILON) * 100) / 100;
-    return totalPrice;
-  };
 
   const columnsOrder = [
     {
@@ -218,37 +113,23 @@ const OrdersHistory = (props: Props) => {
       dataIndex: "price",
       key: "price",
     },
-    {
-      title: t("OrderPage.drawer.table.total"),
-      dataIndex: "total",
-      key: "total",
-      render: totalPrice,
-    },
   ];
 
-  const orderDetailDrawer = () => {
+  const expandedDetails = (record) => {
     return (
-      <div className={"order-page"}>
+      <>
+        {console.log("record.products:", record.products)}
         <Table
-          dataSource={myItems}
+          dataSource={record ? record.products : console.log(errorOrders)}
           columns={columnsOrder}
           pagination={false}
           rowKey={"id"}
         />
-        <div className={"order-detail-total"}>
-          <div className={"order-detail-total-left"}>
-            <h2>Total</h2>
-            <h2>{t("OrderPage.drawer.balanceDue")}</h2>
-          </div>
-          <div className={"order-detail-total-right"}>
-            <p>{totalPriceOrder()}</p>
-            <p>{totalPriceOrder()}</p>
-          </div>
-        </div>
-      </div>
+      </>
     );
   };
 
+  if (loadingOrders) return <TerradiaLoader />;
   return (
     <Card
       className={"card"}
@@ -257,21 +138,16 @@ const OrdersHistory = (props: Props) => {
       <Table
         columns={columns}
         rowKey={"id"}
-        dataSource={props.dataTable.filter(
-          (order) => order.status !== "approuved"
-        )}
+        dataSource={
+          ordersData
+            ? ordersData.getCompanyOrderHistories
+            : console.log(errorOrders)
+        }
+        expandable={{
+          defaultExpandAllRows: false,
+          expandedRowRender: (record) => expandedDetails(record),
+        }}
       />
-      <Drawer
-        title={`${t("OrderPage.drawer.title")} ${
-          orderDetail ? (orderDetail.id ? orderDetail.id : null) : null
-        }`}
-        placement="right"
-        onClose={onCloseDrawer}
-        visible={visibleDrawer}
-        width={1080}
-      >
-        <div>{orderDetailDrawer()}</div>
-      </Drawer>
     </Card>
   );
 };

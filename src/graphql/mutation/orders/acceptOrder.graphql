@@ -1,0 +1,5 @@
+mutation acceptOrder($id: ID!) {
+  acceptOrder(id: $id) {
+    code
+  }
+}
