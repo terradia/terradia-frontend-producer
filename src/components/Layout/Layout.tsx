@@ -42,7 +42,7 @@ const Layout = (props: LayoutProps) => {
       />
       <AntLayout hasSider>
         <Sider
-          width={isMobile ? "100%" : "250px"}
+          width={"250px"}
           trigger={isMobile === true ? null : undefined}
           collapsible={true}
           collapsed={collapsed}
@@ -50,6 +50,7 @@ const Layout = (props: LayoutProps) => {
           theme={"light"}
           breakpoint={"md"}
           collapsedWidth={breakpoint < sm ? 0 : 80}
+          className={"layout-main-sider"}
           style={{
             minHeight: "calc(100vh - 80px)",
             maxHeight: "100vh",

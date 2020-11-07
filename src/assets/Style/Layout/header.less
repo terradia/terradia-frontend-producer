@@ -1,5 +1,26 @@
 @import "../../../../src/index.less";
 
+.layout-main-sider {
+  width: 250px;
+}
+@media (max-width: 800px) {
+  .layout-main-sider {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 100% !important;
+  }
+  .ant-layout-sider-collapsed.layout-main-sider {
+    width: 0 !important;
+    max-width: 0 !important;
+    min-width: 0 !important;
+  }
+}
+@media (max-width: 1024px) {
+  .layout-main-sider {
+    width: 33%;
+  }
+}
+
 .main-header {
   height: 80px !important;
   background: white !important;
@@ -15,7 +36,7 @@
     width: 250px; // set to the width of the sidebar
     height: 100%;
   }
-  @media (max-width: 1024px) {
+  @media (max-width: 1000px) {
     .mobile-header-element {
       width: 33%;
       display: flex;

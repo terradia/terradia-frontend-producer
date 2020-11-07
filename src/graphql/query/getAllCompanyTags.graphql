@@ -1,0 +1,7 @@
+query getAllCompanyTags {
+  getAllCompanyTags {
+    id
+    translationKey
+    color
+  }
+}

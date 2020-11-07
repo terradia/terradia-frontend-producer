@@ -312,10 +312,7 @@ const Staff = () => {
 
   return (
     <>
-      <Card
-        className={"card"}
-        title={<h2 className={"card-title"}>Employés</h2>}
-      >
+      <Card className={"card"} title={<h2>Employés</h2>}>
         <Table
           columns={columns}
           rowKey={"id"}

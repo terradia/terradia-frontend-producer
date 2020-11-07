@@ -1,0 +1,10 @@
+mutation deleteTagFromCompany($companyId: String!, $companyTagId: String!) {
+    deleteTagFromCompany(companyId: $companyId, companyTagId: $companyTagId) {
+        id
+        tags {
+            id
+            translationKey
+            color
+        }
+    }
+}

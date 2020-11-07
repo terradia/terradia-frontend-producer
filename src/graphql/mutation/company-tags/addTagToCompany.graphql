@@ -1,0 +1,10 @@
+mutation addTagToCompany($companyId: String!, $companyTagId: String!) {
+    addTagToCompany(companyId: $companyId, companyTagId: $companyTagId) {
+        id
+        tags {
+            id
+            translationKey
+            color
+        }
+    }
+}
