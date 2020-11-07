@@ -29,7 +29,7 @@ const OrdersValidation = () => {
   const { loading: loadingOrders, error: errorOrders, data: orders } = useQuery(
     getCurrentOrders,
     {
-      variables: { companyId, status: "PENDING" },
+      variables: { companyId },
     }
   );
 
@@ -39,7 +39,7 @@ const OrdersValidation = () => {
       refetchQueries: [
         {
           query: getCurrentOrders,
-          variables: { companyId, status: "PENDING" },
+          variables: { companyId }, 
         },
       ],
     }
@@ -51,7 +51,7 @@ const OrdersValidation = () => {
       refetchQueries: [
         {
           query: getCurrentOrders,
-          variables: { companyId, status: "PENDING" },
+          variables: { companyId }, 
         },
       ],
     }
@@ -132,7 +132,11 @@ const OrdersValidation = () => {
             okText="Oui"
             cancelText="Non"
           >
-            <Button type={"link"} danger icon={<CloseCircleOutlined />} />
+            <Button
+              type={"link"}
+              danger
+              icon={<CloseCircleOutlined style={{ color: "#FF0000" }} />}
+            />
           </Popconfirm>
         </Tooltip>
       </Row>
@@ -164,17 +168,6 @@ const OrdersValidation = () => {
     return <Tag color={color}>{status}</Tag>;
   };
 
-  const totalPrice = (weird, item) => {
-    return (
-      <div>
-        <p>
-          {Math.round((item.quantity * item.price + Number.EPSILON) * 100) /
-            100}
-        </p>
-      </div>
-    );
-  };
-
   const columns = [
     {
       title: "#",
@@ -185,7 +178,7 @@ const OrdersValidation = () => {
       title: "Date",
       dataIndex: "createdAt ",
       key: "createdAt",
-      render: (createdAt) => moment(createdAt).format("DD/MM/YYYY"),
+      render: (createdAt) => moment(createdAt).format("DD/MM/YYYY h:mm"),
     },
     {
       title: t("OrderPage.table.statut"),
@@ -254,12 +247,6 @@ const OrdersValidation = () => {
       title: t("OrderPage.drawer.table.price"),
       dataIndex: "price",
       key: "price",
-    },
-    {
-      title: t("OrderPage.drawer.table.total"),
-      dataIndex: "total",
-      key: "total",
-      render: totalPrice,
     },
   ];
 

@@ -53,7 +53,7 @@ const OrdersHistory = () => {
       dataIndex: "createdAt",
       key: "createdAt",
       render: (createdAt) =>
-        createdAt ? moment(createdAt).format("DD/MM/YYYY") : null,
+        createdAt ? moment(createdAt).format("DD/MM/YYYY h:mm") : null,
     },
     {
       title: t("OrderPage.table.statut"),
