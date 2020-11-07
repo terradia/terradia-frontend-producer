@@ -1,13 +1,14 @@
 import React from "react";
 import "../../assets/Style/CompanyPage/CompanyTagsCard.less";
 import { Company } from "../../interfaces/Company";
-import { Card, Empty, Modal, Tag } from "antd";
+import { Card, Empty, Modal, Tag, Input } from "antd";
 import { EditOutlined, PlusOutlined } from "@ant-design/icons/lib";
 import CheckableTag from "antd/es/tag/CheckableTag";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
 import TerradiaLoader from "../TerradiaLoader";
 import Button from "../Ui/Button";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   company: Company;
@@ -28,6 +29,7 @@ const deleteTagFromCompany = graphqlLoader(
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const CompanyTagsCard: React.FC<Props> = ({ company, ...props }: Props) => {
   const [showModal, setShowModal] = React.useState(false);
+  const [searchInput, setSearchInput] = React.useState("");
 
   const { loading, data } = useQuery(getCompanyTags);
 
@@ -65,6 +67,14 @@ const CompanyTagsCard: React.FC<Props> = ({ company, ...props }: Props) => {
       });
     }
   };
+
+  const { t } = useTranslation("common");
+
+  let allTags = [];
+  if (data)
+    allTags = data.getAllCompanyTags.map((elem) => {
+      return { ...elem, translatedString: t(elem.translationKey) };
+    });
 
   return (
     <Card
@@ -155,17 +165,31 @@ const CompanyTagsCard: React.FC<Props> = ({ company, ...props }: Props) => {
             "Cliquez sur le nom d'une catégorie pour l'ajouter à votre entreprise" // TODO : translate this.
           }
         </div>
+        <Input.Search
+          allowClear
+          style={{ width: "100%", marginBottom: "1em" }}
+          value={searchInput}
+          onChange={(event) => setSearchInput(event.target.value)}
+          placeholder={"Recherche de catégories"}
+        />
         {loading && <TerradiaLoader />}
         {!loading &&
-          data.getAllCompanyTags.map((tag) => (
-            <CheckableTag
-              key={tag.id}
-              checked={selectedTags.findIndex((elem) => elem === tag.id) !== -1}
-              onChange={(checked) => handleSelectTag(tag, checked)}
-            >
-              {tag.translationKey}
-            </CheckableTag>
-          ))}
+          allTags
+            .filter((elem) => {
+              const regExp = new RegExp(searchInput, "i");
+              return elem.translatedString.match(regExp);
+            })
+            .map((tag) => (
+              <CheckableTag
+                key={tag.id}
+                checked={
+                  selectedTags.findIndex((elem) => elem === tag.id) !== -1
+                }
+                onChange={(checked) => handleSelectTag(tag, checked)}
+              >
+                {tag.translationKey}
+              </CheckableTag>
+            ))}
       </Modal>
     </Card>
   );
