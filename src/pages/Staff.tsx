@@ -257,8 +257,7 @@ const Staff = () => {
             cancelText="Non"
           >
             <DeleteOutlined
-              className={"category-icon"}
-              style={{ color: "red" }}
+              className={"category-icon red"}
               onClick={(event) => {
                 event.stopPropagation();
               }}

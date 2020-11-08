@@ -99,7 +99,6 @@ const CompanyTagsCard: React.FC<Props> = ({ company, ...props }: Props) => {
       bodyStyle={{
         display: "flex",
         flexFlow: "column",
-        boxShadow: "0 4px 5px rgba(0, 0, 0, 0.15)",
       }}
       extra={
         <Button
@@ -187,7 +186,7 @@ const CompanyTagsCard: React.FC<Props> = ({ company, ...props }: Props) => {
                 }
                 onChange={(checked) => handleSelectTag(tag, checked)}
               >
-                {tag.translationKey}
+                {tag.translatedString}
               </CheckableTag>
             ))}
       </Modal>

@@ -152,7 +152,7 @@
 // Shadow
 @shadow-color: rgba(0, 0, 0, 0.15);
 @shadow-color-inverse: @component-background;
-@box-shadow-base: @shadow-2;
+@box-shadow-base: @shadow-base;
 @shadow-1-up: 0 -6px 16px -8px rgba(0, 0, 0, 0.08),
   0 -9px 28px 0 rgba(0, 0, 0, 0.05), 0 -12px 48px 16px rgba(0, 0, 0, 0.03);
 @shadow-1-down: 0 6px 16px -8px rgba(0, 0, 0, 0.08),
@@ -163,6 +163,7 @@
   9px 0 28px 0 rgba(0, 0, 0, 0.05), 12px 0 48px 16px rgba(0, 0, 0, 0.03);
 @shadow-2: 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 6px 16px 0 rgba(0, 0, 0, 0.08),
   0 9px 28px 8px rgba(0, 0, 0, 0.05);
+@shadow-base: 0 4px 5px rgba(0, 0, 0, 0.15);
 
 // Buttons
 @btn-font-weight: 400;
@@ -830,25 +831,3 @@
 // Notification
 // ---
 @notification-bg: @component-background;
-
-h2 {
-  font-family: @font-family;
-  color: @black;
-  font-size: @font-size-lg;
-  font-weight: 600;
-  margin: 0;
-}
-
-.ant-avatar {
-  border: @primary-color solid 2px;
-  background: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.ant-modal-footer {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-}

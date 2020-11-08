@@ -21,6 +21,7 @@ import UserContext from "./components/Context/UserContext";
 import LoadingFullPage from "./components/LoadingFullPage";
 
 import "./assets/body.less";
+import "./assets/Style/antd-custom.less";
 
 const queryGetUser = graphqlLoader("./graphql/query/getUser.graphql");
 

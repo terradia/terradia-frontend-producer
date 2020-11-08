@@ -134,7 +134,6 @@ const CompanyOpenHoursCard = (props: Props) => {
       bodyStyle={{
         display: "flex",
         flexFlow: "column",
-        boxShadow: "0 4px 5px rgba(0, 0, 0, 0.15)",
       }}
     >
       {(isEditing || isSubmitting) && (

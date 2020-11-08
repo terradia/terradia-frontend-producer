@@ -15,17 +15,27 @@ type LayoutProps = {
   title?: string;
 };
 
+export const MobileContext = React.createContext(false);
+
 const Layout = (props: LayoutProps) => {
   const breakpoint = useContext(Breakpoint);
 
   const [collapsed, setCollapsed] = useState(false);
   const toggle = () => setCollapsed(!collapsed);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
 
-  const isMobile = window.innerWidth < 1024;
-  // this hook is only run one time (at construction) because of the second parameter
+  const handleResize = () => {
+    const tmp = window.innerWidth < 1024;
+    setIsMobile(tmp);
+    setCollapsed(tmp);
+  };
+
   useEffect(() => {
-    setCollapsed(isMobile);
-  }, [isMobile]);
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   if (
     localStorage.getItem("selectedCompany") === null ||
@@ -34,48 +44,50 @@ const Layout = (props: LayoutProps) => {
     return <Redirect to={"/companySelection"} />;
   }
   return (
-    <AntLayout style={{ background: "white" }}>
-      <Header
-        isMobile={isMobile}
-        onClickOnBurger={toggle}
-        collapsed={collapsed}
-      />
-      <AntLayout hasSider>
-        <Sider
-          width={"250px"}
-          trigger={isMobile === true ? null : undefined}
-          collapsible={true}
+    <MobileContext.Provider value={isMobile}>
+      <AntLayout style={{ background: "white" }}>
+        <Header
+          isMobile={isMobile}
+          onClickOnBurger={toggle}
           collapsed={collapsed}
-          onCollapse={toggle}
-          theme={"light"}
-          breakpoint={"md"}
-          collapsedWidth={breakpoint < sm ? 0 : 80}
-          className={"layout-main-sider"}
-          style={{
-            minHeight: "calc(100vh - 80px)",
-            maxHeight: "100vh",
-            position: "sticky",
-            top: 0,
-            left: 0,
-          }}
-        >
-          <Sidebar
-            isMobile={isMobile}
-            onClickOnElement={toggle}
+        />
+        <AntLayout hasSider>
+          <Sider
+            width={"250px"}
+            trigger={isMobile === true ? null : undefined}
+            collapsible={true}
             collapsed={collapsed}
-          />
-        </Sider>
-        <Content
-          style={{
-            background: "F6F8FA",
-            padding: 24,
-            height: "calc(100vh - 80px)",
-          }}
-        >
-          {props.children}
-        </Content>
+            onCollapse={toggle}
+            theme={"light"}
+            breakpoint={"md"}
+            collapsedWidth={breakpoint < sm ? 0 : 80}
+            className={"layout-main-sider"}
+            style={{
+              minHeight: "calc(100vh - 80px)",
+              maxHeight: "100vh",
+              position: "sticky",
+              top: 0,
+              left: 0,
+            }}
+          >
+            <Sidebar
+              isMobile={isMobile}
+              onClickOnElement={toggle}
+              collapsed={collapsed}
+            />
+          </Sider>
+          <Content
+            style={{
+              background: "F6F8FA",
+              padding: 24,
+              height: "calc(100vh - 80px)",
+            }}
+          >
+            {props.children}
+          </Content>
+        </AntLayout>
       </AntLayout>
-    </AntLayout>
+    </MobileContext.Provider>
   );
 };
 
