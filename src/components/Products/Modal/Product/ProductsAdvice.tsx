@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import TextArea from "antd/es/input/TextArea";
 import { Advice } from "../../../../interfaces/Advice";
-import { Comment, Divider, Form, Input, List, Row } from "antd";
-import moment from "moment";
+import { Divider, Form, Input, List, Row } from "antd";
 import Button from "../../../Ui/Button";
-import { DeleteOutlined, PlusOutlined } from "@ant-design/icons/lib";
+import { PlusOutlined } from "@ant-design/icons/lib";
 import { useTranslation } from "react-i18next";
 import { loader as graphqlLoader } from "graphql.macro";
 import { useMutation } from "@apollo/react-hooks";
@@ -15,6 +14,9 @@ const mutationCreateProductAdvice = graphqlLoader(
 );
 const mutationDeleteProductAdvice = graphqlLoader(
   "../../../../graphql/mutation/products/deleteProductAdvice.graphql"
+);
+const mutationUpdateProductAdvice = graphqlLoader(
+  "../../../../graphql/mutation/products/updateProductAdvice.graphql"
 );
 const queryProductAdvices = graphqlLoader(
   "../../../../graphql/query/product/getCompanyProductAdvices.graphql"
@@ -33,6 +35,7 @@ function ProductsAdvice(props: ProductsAdviceProps) {
 
   const [loading, setLoading] = useState(false);
   const [creatingAdvice, setCreatingAdvice] = useState(false);
+  const [editingAdvice, setEditingAdvice] = useState(null);
   const [offsetAdvice, setoffsetAdvice] = useState(1);
   const [noMoreReviews, setNoMoreReviews] = useState(false);
 
@@ -76,6 +79,23 @@ function ProductsAdvice(props: ProductsAdviceProps) {
     }
   );
 
+  const [updateProductAdviceMutation] = useMutation(
+    mutationUpdateProductAdvice,
+    {
+      refetchQueries: [
+        {
+          query: queryProductAdvices,
+          variables: {
+            productId: props.productId,
+            companyId: props.companyId,
+            limit: 5 * offsetAdvice,
+            offset: 0,
+          },
+        },
+      ],
+    }
+  );
+
   useEffect(() => {
     if (props.loading) {
       setLoading(true);
@@ -95,6 +115,27 @@ function ProductsAdvice(props: ProductsAdviceProps) {
     }).then(() => {
       setCreatingAdvice(false);
       form.resetFields();
+    });
+  }
+
+  function handleEditAdvice(values) {
+    updateProductAdviceMutation({
+      variables: {
+        adviceId: editingAdvice,
+        title: values.title,
+        content: values.content,
+      },
+    }).then(() => {
+      setEditingAdvice(null);
+      form.resetFields();
+    });
+  }
+
+  function setEditAdvice(advice) {
+    setEditingAdvice(advice.id);
+    form.setFieldsValue({
+      title: advice.title,
+      content: advice.content,
     });
   }
 
@@ -140,7 +181,7 @@ function ProductsAdvice(props: ProductsAdviceProps) {
 
   return (
     <>
-      {!creatingAdvice && (
+      {!creatingAdvice && !editingAdvice && (
         <Button
           className={"button"}
           text={t("ProductsPage.ProductAdvices.createAdvice")}
@@ -148,13 +189,15 @@ function ProductsAdvice(props: ProductsAdviceProps) {
           onClick={() => setCreatingAdvice(true)}
         />
       )}
-      {creatingAdvice === true && (
+      {(creatingAdvice === true || editingAdvice !== null) && (
         <>
           <Form
             layout={"vertical"}
             form={form}
             name="advice-form"
-            onFinish={handleCreateAdvice}
+            onFinish={
+              editingAdvice !== null ? handleEditAdvice : handleCreateAdvice
+            }
             initialValues={initialValues}
           >
             <Row className={"row-product-form"}>
@@ -218,6 +261,7 @@ function ProductsAdvice(props: ProductsAdviceProps) {
               onClick={() => {
                 form.resetFields();
                 setCreatingAdvice(false);
+                setEditingAdvice(null);
               }}
             />
             <Button
@@ -243,7 +287,13 @@ function ProductsAdvice(props: ProductsAdviceProps) {
           ) : null
         }
         renderItem={(item: Advice) => {
-          return <ProductAdviceItem item={item} deleteAdviceMutation={deleteProductAdviceMutation} />;
+          return (
+            <ProductAdviceItem
+              item={item}
+              deleteAdviceMutation={deleteProductAdviceMutation}
+              setEditingAdvice={setEditAdvice}
+            />
+          );
         }}
       />
     </>

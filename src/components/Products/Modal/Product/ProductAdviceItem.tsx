@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Comment, List, Popconfirm } from "antd";
-import { DeleteOutlined } from "@ant-design/icons/lib";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons/lib";
 import moment from "moment";
 import { Advice } from "../../../../interfaces/Advice";
 import { useTranslation } from "react-i18next";
@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 interface ProductAdviceItemProps {
   item: Advice;
   deleteAdviceMutation: any;
+  setEditingAdvice: (e) => void;
 }
 
 function ProductAdviceItem(props: ProductAdviceItemProps) {
@@ -27,6 +28,10 @@ function ProductAdviceItem(props: ProductAdviceItemProps) {
       key={props.item.id}
       className={`advice-item ${isHover ? "advice-item-isHover" : ""}`}
       actions={[
+        <EditOutlined
+          key={props.item.id}
+          onClick={() => props.setEditingAdvice(props.item)}
+        />,
         <Popconfirm
           key={props.item.id}
           placement="top"
