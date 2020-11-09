@@ -28,6 +28,9 @@ const queryGetCategories = graphqlLoader(
 const queryProductReviews = graphqlLoader(
   "../../../../graphql/query/getProductReviews.graphql"
 );
+const queryProductAdvices = graphqlLoader(
+  "../../../../graphql/query/product/getCompanyProductAdvices.graphql"
+);
 
 interface ProductsModalProps {
   visible: boolean; // if the modal is visible
@@ -61,7 +64,8 @@ function ProductsModal(props: ProductsModalProps) {
   const companyId = localStorage.getItem("selectedCompany");
 
   const [form, setForm] = useState(null);
-  const [firstLoad, setFirstLoad] = useState(true);
+  const [firstLoadReviews, setFirstLoadReviews] = useState(true);
+  const [firstLoadAdvices, setFirstLoadAdvices] = useState(true);
 
   const [createProductMutation] = useMutation(mutationCreateProduct, {
     refetchQueries: [
@@ -107,6 +111,11 @@ function ProductsModal(props: ProductsModalProps) {
     { loading: loadingReviews, data: dataReviews, fetchMore: fetchMoreReviews },
   ] = useLazyQuery(queryProductReviews);
 
+  const [
+    loadAdvices,
+    { loading: loadingAdvices, data: dataAdvices, fetchMore: fetchMoreAdvices },
+  ] = useLazyQuery(queryProductAdvices);
+
   function handleCancel() {
     props.setDefaultCategory("");
     props.setUpdateProduct(null);
@@ -132,7 +141,7 @@ function ProductsModal(props: ProductsModalProps) {
         handleCancel();
       })
       .catch((error) => {
-        console.log(error);
+        console.log("create product error", error);
       });
   }
 
@@ -146,7 +155,7 @@ function ProductsModal(props: ProductsModalProps) {
         handleCancel();
       })
       .catch((error) => {
-        console.log(error);
+        console.log("delete product error", error);
       });
   }
 
@@ -161,7 +170,7 @@ function ProductsModal(props: ProductsModalProps) {
           productId: props.updateProduct.id,
         },
       }).catch((error) => {
-        console.log(error);
+        console.log("update product error", error);
       });
     }
 
@@ -190,7 +199,7 @@ function ProductsModal(props: ProductsModalProps) {
           coverId: values.cover === undefined ? null : values.cover,
         },
       }).catch((error) => {
-        console.log(error);
+        console.log("update product error", error);
       });
     }
     handleCancel();
@@ -207,8 +216,18 @@ function ProductsModal(props: ProductsModalProps) {
   }
 
   function handleChangeTab(activeKey) {
-    if (activeKey === "3" && firstLoad) {
-      setFirstLoad(false);
+    if (activeKey === "2" && firstLoadAdvices) {
+      setFirstLoadAdvices(false);
+      loadAdvices({
+        variables: {
+          productId: props.updateProduct.id,
+          companyId: companyId,
+          limit: 5,
+          offset: 0,
+        },
+      });
+    } else if (activeKey === "3" && firstLoadReviews) {
+      setFirstLoadReviews(false);
       loadReviews({
         variables: {
           id: props.updateProduct.id,
@@ -280,32 +299,40 @@ function ProductsModal(props: ProductsModalProps) {
             units={props.units}
           />
         </TabPane>
-        <TabPane
-          tab="Conseil d'utilisation"
-          key="2"
-          className={"product-modal-tab"}
-        >
-          <ProductsAdvice
-            setForm={setForm}
-            confirm={handleOk}
-            updateProduct={props.updateProduct}
-          />
-        </TabPane>
         {props.updateProduct !== null && (
-          <TabPane
-            tab="Avis des clients"
-            key="3"
-            className={"product-modal-tab review-tab"}
-          >
-            <ProductsReviews
-              updateProduct={props.updateProduct}
-              reviews={
-                dataReviews !== undefined ? dataReviews.getProductReviews : []
-              }
-              fetchMoreReviews={fetchMoreReviews}
-              loading={loadingReviews}
-            />
-          </TabPane>
+          <>
+            <TabPane
+              tab="Conseil d'utilisation"
+              key="2"
+              className={"product-modal-tab"}
+            >
+              <ProductsAdvice
+                advices={
+                  dataAdvices !== undefined
+                    ? dataAdvices.getCompanyProductAdvises
+                    : []
+                }
+                fetchMoreAdvices={fetchMoreAdvices}
+                loading={loadingAdvices}
+                productId={props.updateProduct.id}
+                companyId={companyId}
+              />
+            </TabPane>
+            <TabPane
+              tab="Avis des clients"
+              key="3"
+              className={"product-modal-tab review-tab"}
+            >
+              <ProductsReviews
+                updateProduct={props.updateProduct}
+                reviews={
+                  dataReviews !== undefined ? dataReviews.getProductReviews : []
+                }
+                fetchMoreReviews={fetchMoreReviews}
+                loading={loadingReviews}
+              />
+            </TabPane>
+          </>
         )}
       </Tabs>
     </Modal>

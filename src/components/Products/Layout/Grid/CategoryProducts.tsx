@@ -45,6 +45,8 @@ const getListStyle = (isDraggingOver) => ({
 });
 
 function CategoryProducts(props: CategoryProductsProps) {
+  const { t } = useTranslation("common");
+
   const companyId = localStorage.getItem("selectedCompany");
   const collapsedCategory = JSON.parse(
     localStorage.getItem("collapsedCategory")
@@ -110,8 +112,6 @@ function CategoryProducts(props: CategoryProductsProps) {
       );
     }
   }
-
-  const { t } = useTranslation("common");
 
   return (
     <>
