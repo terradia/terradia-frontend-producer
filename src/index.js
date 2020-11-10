@@ -12,6 +12,7 @@ import { InMemoryCache } from "apollo-cache-inmemory";
 import { onError } from "apollo-link-error";
 import { ApolloLink } from "apollo-link";
 import { notification } from "antd";
+import i18n from "./i18n";
 
 const httpLink = createUploadLink({
   //uri: "https://api.terradia.eu/graphql",
@@ -24,7 +25,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
     graphQLErrors.map(({ message, locations, path }) =>
       notification.error({
-        message: message
+        message: i18n.t(message)
       })
     );
   }

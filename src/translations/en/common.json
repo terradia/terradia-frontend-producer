@@ -210,5 +210,462 @@
       "singular": "Select image",
       "plural": "Select images"
     }
+  },
+  "ApolloError": {
+    "query": {
+      "checkSiren": {
+        "CompanyNotFound": "Can't find a company associated with this siren",
+        "InseeApiError": "Error while getting information from the INSEE API"
+      },
+      "doesFacebookAccountExistWithEmail": {
+        "AccountNotFound": "Facebook account not found"
+      },
+      "geocode": {},
+      "getActiveCustomerAddress": {
+        "CustomerNotFound": "Customer doesn't exist"
+      },
+      "getAllCategories": {
+        "":  ""
+      },
+      "getAllCompanies": {
+        "":  ""
+      },
+      "getAllCompanyProductsCategories": {
+        "":  ""
+      },
+      "getAllCompanyTags": {
+        "":  ""
+      },
+      "getAllCustomerAddressesByUser": {
+        "": ""
+      },
+      "getAllCustomers": {
+        "": ""
+      },
+      "getAllProducts": {
+        "": ""
+      },
+      "getAllRoles": {
+        "": ""
+      },
+      "getAllUnits": {
+        "": ""
+      },
+      "getAllUsers": {
+        "": ""
+      },
+      "getCart": {
+        "NotACustomer": "this user is not a customer",
+        "NoCart": "this customer does not have a cart"
+      },
+      "getCartsByCompany": {
+        "": ""
+      },
+      "getCategoryByName": {
+        "": ""
+      },
+      "getCompanies": {
+        "UserNotFound": "User not found"
+      },
+      "getCompaniesByDistance": {
+        "UserNotFound": "User not found"
+      },
+      "getCompaniesByDistanceByCustomer": {
+        "CustomerNotFound": "Customer doesn't exist"
+      },
+      "getCompaniesByUser": {
+        "": ""
+      },
+      "getCompaniesInvitations": {
+        "CompanyNotFound": "Company not found"
+      },
+      "getCompany": {
+        "CompanyNotFound": "Company not found"
+      },
+      "getCompanyByName": {
+        "": ""
+      },
+      "getCompanyImages": {
+        "": ""
+      },
+      "getCompanyOrderHistories": {
+        "": ""
+      },
+      "getCompanyProductAdvises": {
+        "NoFilter": "You should provide at least a product or a company"
+      },
+      "getCompanyProductsCategory": {
+        "NoFilter": "precise at least one filter"
+      },
+      "getCompanyReviews": {
+        "": ""
+      },
+      "getCompanyTag": {
+        "NoFilter": "You should at least give a name or the id of the tag you wanN"
+      },
+      "getCurrentOrders": {
+        "": ""
+      },
+      "getCustomer": {
+        "": ""
+      },
+      "getCustomerFavoriteCompanies": {
+        "": ""
+      },
+      "getMyCompaniesInvitations": {
+        "": ""
+      },
+      "getMyOrders": {
+        "": ""
+      },
+      "getMyOrderHistories": {
+        "": ""
+      },
+      "getOrder": {
+        "OrderNotFound": "Order not found",
+        "WrongUser": "This is not one of your orders"
+      },
+      "getOrderHistory": {
+        "HistoryNotFound": "History not found",
+        "WrongUser": "This is not one of your histories"
+      },
+      "getProduct": {
+        "ProductNotFound": "This product does not exist"
+      },
+      "getProductAdvise": {
+        "": ""
+      },
+      "getProductReviews": {
+        "": ""
+      },
+      "getProductsByCompany": {
+        "CompanyNotFound": "Company not found"
+      },
+      "getProductsByCompanyByCategory": {
+        "CompanyNotFound": "Company not found"
+      },
+      "getStripeCustomer": {
+        "": ""
+      },
+      "getStripeCustomerDefaultSource": {
+        "SourceNotFound": "This customer does not have any default source"
+      },
+      "getUnit": {
+        "NoFilter": "You should at least give one of the three filter",
+        "UnitNotFound": "Cannot find this unit."
+      },
+      "getUser": {
+        "": ""
+      },
+      "isUserInvited": {
+        "": ""
+      },
+      "listCustomerCards": {
+        "": ""
+      },
+      "searchCompanies": {
+        "": ""
+      },
+      "totalCartPrice": {
+        "NotACustomer": "this user is not a customer",
+        "NoCart": "this customer does not have a cart"
+      }
+    },
+    "mutation": {
+      "acceptInvitation": {
+        "NotFoundOrCanceled": "The invitation does not exist or was canceled",
+        "AlreadyAcceptedOrCanceled": "You cannot accept an invitation that was answered or canceled",
+        "UserNotFound": "The user does not exist",
+        "RoleNotFound": "Cannot find the role 'Member'"
+      },
+      "acceptOrder": {
+        "OrderNotFound": "This order doesn't exist",
+        "NotPending": "The order isn't pending, you cannot accept it",
+        "PayementRefused": "The payment has been refused"
+      },
+      "addCategoryToProduct": {
+        "CategoryNotFound": "This category doesn't exists"
+      },
+      "addCompanyImage": {
+        "": ""
+      },
+      "addCompanyImages": {
+        "": ""
+      },
+      "addDeliveryDay": {
+        "CompanyNotFound": "The company does not exists",
+        "InvalidDay": "The day is invalid. It should be : 'monday', 'tuesday', 'wednesday', 'thursday', 'saturday', 'sunday'"
+      },
+      "addFavoriteCompany": {
+        "CompanyNotFound": "The company does not exists"
+      },
+      "addImageToProduct": {
+        "ProductNotFound": "Product not found",
+        "ImageNotFound": "Image not found"
+      },
+      "addOpeningDay": {
+        "CompanyNotFound": "The company does not exists",
+        "InvalidDay": "The day is invalid. It should be : 'monday', 'tuesday', 'wednesday', 'thursday', 'saturday', 'sunday'"
+      },
+      "addProductToCart": {
+        "ProductNotFound": "Product not found",
+        "NotACustomer": "this user is not a customer",
+        "NegativeQuantity": "You should add products, not remove them ;)"
+      },
+      "addProductToCompanyCategory": {
+        "WrongOwner": "This product is not owned by this company.",
+        "CategoryNotFound": "Category not found",
+        "ProductNotFound": "Product not found"
+      },
+      "addTagToCompany": {
+        "TagNotFound": "The tag does not exists",
+        "CompanyNotFound": "The company does not exists"
+      },
+      "addUserCompanyRole": {
+        "UserNotFound": "Can't find the user",
+        "RoleNotFound": "Can't find the role"
+      },
+      "cancelInvitation": {
+        "NotFoundOrCanceled": "The invitation does not exist or was canceled",
+        "AlreadyAcceptedOrCanceled": "You cannot cancel an invitation that was answered or canceled"
+      },
+      "cancelOrder": {
+        "OrderNotFound": "This order doesn't exist",
+        "NotPending": "The order isn't pending, you cannot cancel it",
+        "NotCancelable": "Cannot cancel the payment"
+      },
+      "createACharge": {
+        "NotACustomer": "this user is not a customer",
+        "NoCart": "this customer does not have a cart",
+        "SourceNotFound": "This customer does not have any default source"
+      },
+      "createCategory": {
+        "": ""
+      },
+      "createCompany": {
+        "OSMError": "Error while get geo data from address",
+        "AddressNotFound": "This address does not exist",
+        "NoOwnerRole": "There is no owner Role in the DB, cannot create Company. Try to seed the DB.",
+        "WrongSiren": "Can not find company using provided siren"
+      },
+      "createCompanyProductAdvise": {
+        "CompanyNotFound": "The company does not exists",
+        "ProductNotFound": "Product not found"
+      },
+      "createCompanyProductsCategory": {
+        "NoCategoryCreated": "Error while creating the Category"
+      },
+      "createCompanyReview": {
+        "NotACustomer": "this user is not a customer",
+        "NoReviewCreated": "can't create the review",
+        "CompanyNotFound": "The company does not exists"
+      },
+      "createCompanyTag": {
+        "": ""
+      },
+      "createOrUpdateCustomerAddress": {
+        "OSMError": "Error while get geo data from address",
+        "AddressNotFound": "This address does not exist"
+      },
+      "createProduct": {
+        "CompanyNotFound": "The company does not exists"
+      },
+      "createProductReview": {
+        "NotACustomer": "this user is not a customer",
+        "NoReviewCreated": "can't create the review",
+        "ProductNotFound": "This product does not exist"
+      },
+      "createStripeCustomer": {
+        "": ""
+      },
+      "declineInvitation": {
+        "NotFoundOrCanceled": "The invitation does not exist or was canceled",
+        "AlreadyAcceptedOrCanceled": "You cannot decline an invitation that was answered or canceled"
+      },
+      "declineOrder": {
+        "OrderNotFound": "This order doesn't exist",
+        "NotDeclinable": "Cannot decline order that is not pending",
+        "NotCancelable": "Cannot cancel the payment"
+
+      },
+      "defineUserAsCustomer": {
+        "": ""
+      },
+      "deleteCard": {
+        "": ""
+      },
+      "deleteCategory": {
+        "CategoryNotFound": "The category was already deleted or, does not exist"
+      },
+      "deleteCompany": {
+        "CompanyNotFound": "The company does not exists"
+      },
+      "deleteCompanyProductAdvise": {
+        "AdviseNotFound": "Advise not found.",
+        "AccessDenied": "You are not in this company.",
+        "ProductNotFound": "Product not found."
+      },
+      "deleteCompanyTag": {
+        "TagNotFound": "The tag does not exists"
+      },
+      "deleteImageFromProduct": {
+        "ProductNotFound": "This product does not exist",
+        "ImageNotFound": "Image not found"
+      },
+      "deleteProduct": {
+        "ProductNotFound": "This product does not exist"
+      },
+      "deleteTagFromCompany": {
+        "TagNotFound": "The tag does not exists",
+        "CompanyNotFound": "The company does not exists",
+        "TagNotLinked": "This tag is not attributed to this company"
+      },
+      "deleteUser": {
+        "UserNotDeleted": "Can't archive this user account."
+      },
+      "generateCodePasswordForgot": {
+        "UserNotFound": "User not found"
+      },
+      "inviteNewMember": {
+        "NotPartOfCompany": "You don't have the right to invite a user in a company you are not inside",
+        "NotSelfInvite": "You cannot invite yourself",
+        "CompanyNotFound": "The company does not exists",
+        "InvitationExist": "You can only invite one time the same member.",
+        "AlreadyPartOfCompany": "User already in the company",
+        "NoInvitationCreated": "The invitation creation failed"
+      },
+      "joinCompany": {
+        "CompanyNotFound": "The company does not exists",
+        "AlreadyPartOfCompany": "User already in the company",
+        "RoleNotFound": "Cannot find the role 'Member'"
+      },
+      "leaveCompany": {
+        "CompanyNotFound": "The company does not exists",
+        "NotPartOfCompany": "This user is not in the company"
+      },
+      "login": {
+        "UserNotFound": "No user found with this login credentials.",
+        "InvalidPassword": "Invalid password.",
+        "UserDeleted": "This account is already delete."
+      },
+      "passwordValidation": {
+        "InvalidPassword": "Invalid password."
+      },
+      "receiveOrder": {
+        "OrderNotFound": "This order doesn't exist",
+        "NotValidated": "Order wasn't validated"
+      },
+      "register": {
+        "UserAlreadyExist": "A user with the same email already exist",
+        "ConfirmationEmail": "An email has been sent to your email address, click on the link in the mail to validate your account"
+      },
+      "removeCompanyImage": {
+        "": ""
+      },
+      "removeCompanyImages": {
+        "": ""
+      },
+      "removeCompanyProductsCategory": {
+        "CategoryNotFound": "The category was already deleted or, does not exist"
+      },
+      "removeDeliveryDay": {
+        "DeliveryDayNotFound": "Day information already deleted or does not exist"
+      },
+      "removeDeliveryHours": {
+        "DeliveryHourNotFound": "Hour information already deleted or does not exist"
+      },
+      "removeFavoriteCompany": {
+        "NotACustomer": "this user is not a customer"
+      },
+      "removeOpeningDay": {
+        "DayNotFound": "Cannot find day information"
+      },
+      "removeOpeningHours": {
+        "HourNotFound": "Cannot find hour information"
+      },
+      "removeProductFromCart": {
+        "NotACustomer": "this user is not a customer",
+        "NoFilter": "precise at least one filter",
+        "NegativeQuantity": "You should add products, not remove them ;)"
+      },
+      "removeProductFromCompanyCategory": {
+        "NonCatProduct": "This product is not in any category of products"
+      },
+      "removeUserCompanyRole": {
+        "UserNotFound": "No user found with this login credentials.",
+        "RoleNotFound": "Cannot find the role"
+      },
+      "restoreCompany": {
+        "CompanyNotFound": "The company does not exists"
+      },
+      "saveCard": {
+        "": ""
+      },
+      "setActiveCustomerAddress": {
+        "": ""
+      },
+      "signInWithFacebook": {
+        "UserNotFound": "No user found with this login credentials.",
+        "NotMatch": "Account doesnt match"
+      },
+      "signInWithgeneratedCode": {
+        "UserNotFound": "No user found with this login credentials.",
+        "InvalidCode": "Invalid code."
+      },
+      "signUpWithFacebook": {
+        "AccountNotFound": "Facebook account not found"
+      },
+      "updateCompany": {
+        "CompanyNotFound": "The company does not exists"
+      },
+      "updateCompanyImageName": {
+        "ImageNotFound": "Image not found"
+      },
+      "updateCompanyProductAdvise": {
+        "AdviseNotFound": "Advise not found.",
+        "AccessDenied": "You are not in this company."
+      },
+      "updateCompanyProductsCategory": {
+        "NoCategorySelected": "You should select a category"
+      },
+      "updateCustomerDefaultSource": {
+        "": ""
+      },
+      "updateDeliveryDay": {
+        "": ""
+      },
+      "updateDeliveryHours": {
+        "UpdateError": "Could not update hour",
+        "HourNotFound": "This hours does not exist"
+      },
+      "updateOpeningDay": {
+        "": ""
+      },
+      "updateOpeningHours": {
+        "UpdateError": "Could not update hour",
+        "HourNotFound": "This hours does not exist"
+      },
+      "updateProduct": {
+        "ProductNotFound": "The product does not exist",
+        "UpdateError": "Could not update product"
+      },
+      "updateProductCover": {
+        "ProductNotFound": "The product does not exist",
+        "ImageNotFound": "Image not found"
+      },
+      "updateProductsPosition": {
+        "": ""
+      },
+      "updateUser": {
+        "UserNotFound": "No user found with this login credentials.",
+        "UpdateError": "Could not update user"
+      },
+      "updateUserAvatar": {
+        "": ""
+      },
+      "uploadImageOfProduct": {
+        "ProductNotFound": "The product does not exist"
+      }
+    }
   }
 }
