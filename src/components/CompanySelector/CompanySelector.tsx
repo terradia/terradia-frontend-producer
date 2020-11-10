@@ -143,7 +143,15 @@ const CompanySelector: React.FC<Props> = ({
                     key={company.company.id}
                     link={company.company.id}
                     label={company.company.name}
-                    icon={<ShopOutlined />}
+                    icon={
+                      company.company.logo ? (
+                        <Avatar
+                          src={`https://media.terradia.eu/${company.company.logo.filename}`}
+                        />
+                      ) : (
+                        <ShopOutlined />
+                      )
+                    }
                     selected={currentPage === company.company.id}
                     onClick={() => {
                       setCurrentCompanyId(company.company.id);
