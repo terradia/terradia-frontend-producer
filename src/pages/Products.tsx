@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { loader as graphqlLoader } from "graphql.macro";
 import { useQuery } from "@apollo/react-hooks";
 
-import { Empty, Select, Radio } from "antd";
+import { Empty, Select, Radio, Card, Row, Col, Divider } from "antd";
 import Button from "../components/Ui/Button";
 import ProductsModal from "../components/Products/Modal/Product/ProductsModal";
 import CategoryModal from "../components/Products/Modal/Category/CategoryModal";
@@ -17,6 +17,7 @@ import { useTranslation } from "react-i18next";
 import Grid from "../components/Products/Layout/Grid/Grid";
 import Board from "../components/Products/Layout/Board/Board";
 import List from "../components/Products/Layout/List/List";
+import { MobileContext } from "../components/Layout/Layout";
 
 const { Option } = Select;
 
@@ -116,128 +117,160 @@ const Products = () => {
   }, [layoutProduct]);
 
   return (
-    <div className={"product-page"}>
-      <div className={"sub-header"}>
-        <div className={"products-button"}>
-          <Button
-            className={"button"}
-            text={t("ProductsPage.buttons.createCategory")}
-            icon={<PlusOutlined />}
-            onClick={() => setCategoryVisible(true)}
-          />
-          <Button
-            className={"button"}
-            text={t("ProductsPage.buttons.createProduct")}
-            icon={<PlusOutlined />}
-            onClick={() => {
-              setDefaultCategory(undefined);
-              setAddProductVisible(true);
-            }}
-          />
-        </div>
-        <div className={"product-layout"}>
-          <Radio.Group
-            value={productLayout}
-            onChange={(e) => {
-              handleChangeLayout(e.target.value);
-            }}
-          >
-            <Radio.Button value="0">
-              <BoardIcon
-                style={{ height: "20px", width: "20px", marginTop: "9px" }}
-              />
-            </Radio.Button>
-            <Radio.Button value="1">
-              <GridIcon
-                style={{ height: "20px", width: "20px", marginTop: "9px" }}
-              />
-            </Radio.Button>
-            <Radio.Button value="2">
-              <ListIcon
-                style={{ height: "20px", width: "20px", marginTop: "9px" }}
-              />
-            </Radio.Button>
-          </Radio.Group>
-        </div>
-      </div>
-      <div
-        className={`categories-list ${productLayout === "0" ? "board" : ""}`}
-      >
-        {!loadingCategories &&
-          dataCategories !== undefined &&
-          !errorCategories &&
-          dataCategories.getAllCompanyProductsCategories.length === 0 && (
-            <div className={"empty-card"}>
-              <Empty
-                description={"Pour le moment, il n'y a aucun produit à lister"} // TODO : Translate this.
-                image={Empty.PRESENTED_IMAGE_SIMPLE}
-              />
+    <MobileContext.Consumer>
+      {(isMobile) => {
+        return (
+          <div className={"product-page"}>
+            <div className={"sub-header"}>
+              <Row>
+                <Col xs={24} md={12} className={"products-button"}>
+                  <Button
+                    className={"button"}
+                    text={t("ProductsPage.buttons.createCategory")}
+                    icon={<PlusOutlined />}
+                    onClick={() => setCategoryVisible(true)}
+                  />
+                  <Button
+                    className={"button"}
+                    text={t("ProductsPage.buttons.createProduct")}
+                    icon={<PlusOutlined />}
+                    onClick={() => {
+                      setDefaultCategory(undefined);
+                      setAddProductVisible(true);
+                    }}
+                  />
+                </Col>
+                {!isMobile && (
+                  <Col xs={24} md={12} className={"product-layout"}>
+                    <Radio.Group
+                      value={productLayout}
+                      onChange={(e) => {
+                        handleChangeLayout(e.target.value);
+                      }}
+                      buttonStyle={"solid"}
+                      style={{
+                        background: "transparent",
+                      }}
+                    >
+                      <Radio.Button value="0">
+                        <BoardIcon
+                          style={{
+                            height: "20px",
+                            width: "20px",
+                            marginTop: "9px",
+                          }}
+                        />
+                      </Radio.Button>
+                      <Radio.Button value="1">
+                        <GridIcon
+                          style={{
+                            height: "20px",
+                            width: "20px",
+                            marginTop: "9px",
+                          }}
+                        />
+                      </Radio.Button>
+                      <Radio.Button value="2">
+                        <ListIcon
+                          style={{
+                            height: "20px",
+                            width: "20px",
+                            marginTop: "9px",
+                          }}
+                        />
+                      </Radio.Button>
+                    </Radio.Group>
+                  </Col>
+                )}
+              </Row>
             </div>
-          )}
-        {!loadingCategories &&
-          dataCategories !== undefined &&
-          !errorCategories &&
-          productLayout === "0" && (
-            <Board
-              data={dataCategories}
-              setAddProductVisible={setAddProductVisible}
-              setDefaultCategory={setDefaultCategory}
-              setUpdateProduct={setUpdateProduct}
-              setCategoryName={setCategoryName}
-              setCategoryToUpdate={setCategoryToUpdate}
-              setCategoryVisible={setCategoryVisible}
-              indexNullCat={indexNullCat}
+            <div
+              className={`categories-list ${
+                productLayout === "0" ? "board" : ""
+              }`}
+            >
+              {!isMobile &&
+                !loadingCategories &&
+                dataCategories !== undefined &&
+                !errorCategories &&
+                dataCategories.getAllCompanyProductsCategories.length === 0 && (
+                  <div className={"empty-card"}>
+                    <Empty
+                      description={t("ProductsPage.noProducts")}
+                      image={Empty.PRESENTED_IMAGE_SIMPLE}
+                    />
+                  </div>
+                )}
+              {dataCategories !== undefined &&
+                !errorCategories &&
+                (isMobile || (!loadingCategories && productLayout === "0")) && (
+                  <Board
+                    data={dataCategories}
+                    setAddProductVisible={setAddProductVisible}
+                    setDefaultCategory={setDefaultCategory}
+                    setUpdateProduct={setUpdateProduct}
+                    setCategoryName={setCategoryName}
+                    setCategoryToUpdate={setCategoryToUpdate}
+                    setCategoryVisible={setCategoryVisible}
+                    indexNullCat={indexNullCat}
+                  />
+                )}
+              {!isMobile &&
+                !loadingCategories &&
+                dataCategories !== undefined &&
+                !errorCategories &&
+                productLayout === "1" && (
+                  <Card>
+                    <Grid
+                      data={dataCategories}
+                      setAddProductVisible={setAddProductVisible}
+                      setDefaultCategory={setDefaultCategory}
+                      setUpdateProduct={setUpdateProduct}
+                      setCategoryName={setCategoryName}
+                      setCategoryToUpdate={setCategoryToUpdate}
+                      setCategoryVisible={setCategoryVisible}
+                      indexNullCat={indexNullCat}
+                    />
+                  </Card>
+                )}
+              {!loadingCategories &&
+                dataCategories !== undefined &&
+                !errorCategories &&
+                productLayout === "2" && (
+                  <List
+                    data={dataCategories}
+                    indexNullCat={indexNullCat}
+                    ProductModal={{
+                      setVisible: setAddProductVisible,
+                      setDefaultCategory: setDefaultCategory,
+                      setUpdateProduct: setUpdateProduct,
+                    }}
+                  />
+                )}
+            </div>
+            {!loadingUnits && !errorUnits && (
+              <ProductsModal
+                visible={productVisible}
+                category={defaultCategory}
+                setVisible={setAddProductVisible}
+                setDefaultCategory={setDefaultCategory}
+                categoryList={categoryList}
+                updateProduct={updateProduct}
+                setUpdateProduct={setUpdateProduct}
+                units={dataUnits.getAllUnits}
+              />
+            )}
+            <CategoryModal
+              visible={categoryVisible}
+              setVisible={setCategoryVisible}
+              categoryId={categoryToUpdate}
+              categoryName={categoryName}
             />
-          )}
-        {!loadingCategories &&
-          dataCategories !== undefined &&
-          !errorCategories &&
-          productLayout === "1" && (
-            <Grid
-              data={dataCategories}
-              setAddProductVisible={setAddProductVisible}
-              setDefaultCategory={setDefaultCategory}
-              setUpdateProduct={setUpdateProduct}
-              setCategoryName={setCategoryName}
-              setCategoryToUpdate={setCategoryToUpdate}
-              setCategoryVisible={setCategoryVisible}
-              indexNullCat={indexNullCat}
-            />
-          )}
-        {!loadingCategories &&
-          dataCategories !== undefined &&
-          !errorCategories &&
-          productLayout === "2" && (
-            <List
-              data={dataCategories}
-              indexNullCat={indexNullCat}
-              ProductModal={{
-                setVisible: setAddProductVisible,
-                setDefaultCategory: setDefaultCategory,
-                setUpdateProduct: setUpdateProduct,
-              }}
-            />
-          )}
-      </div>
-      {!loadingUnits && !errorUnits && (
-        <ProductsModal
-          visible={productVisible}
-          category={defaultCategory}
-          setVisible={setAddProductVisible}
-          setDefaultCategory={setDefaultCategory}
-          categoryList={categoryList}
-          updateProduct={updateProduct}
-          setUpdateProduct={setUpdateProduct}
-          units={dataUnits.getAllUnits}
-        />
-      )}
-      <CategoryModal
-        visible={categoryVisible}
-        setVisible={setCategoryVisible}
-        categoryId={categoryToUpdate}
-        categoryName={categoryName}
-      />
-    </div>
+            <Divider className={"invisible-divider padding-size"} />
+          </div>
+        );
+      }}
+    </MobileContext.Consumer>
   );
 };
 

@@ -248,11 +248,7 @@ const InvitationsListCard: React.FC<Props> = ({
 
   return (
     <>
-      <Card
-        className={"card"}
-        title={<h2 className={"card-title"}>Invitations</h2>}
-        style={style}
-      >
+      <Card className={"card"} title={<h2>Invitations</h2>} style={style}>
         {canFilter === true && (
           <>
             <div className={"card-header"}>

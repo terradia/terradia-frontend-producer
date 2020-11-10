@@ -108,7 +108,14 @@ const CompanyInfoCard: React.FC<Props> = ({ company, refetch }: Props) => {
           onValidate={handleFieldValidation}
         />
         <Divider />
-        <h2>Informations générales</h2> {/* TODO : translate this. */}
+        <h2
+          style={{
+            width: "100%",
+          }}
+        >
+          Informations générales
+        </h2>{" "}
+        {/* TODO : translate this. */}
         <Field
           value={company.siren}
           name={"siren"}

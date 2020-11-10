@@ -2,7 +2,6 @@
 
 .product-page {
   height: 100%;
-
   .empty-card {
     background: white;
     border-radius: 4px;
@@ -10,19 +9,48 @@
 
   .sub-header {
     width: 100%;
-    height: 40px;
-    margin-bottom: @padding-md;
+    min-height: 40px;
     display: flex;
-    justify-content: space-between;
+    .ant-row {
+      width: 100%;
+      margin-bottom: @padding-md;
+      .ant-col {
+        flex-wrap: wrap;
+      }
+    }
+    .button {
+      margin-right: @padding-md;
+      background: transparent;
+    }
+    @media (max-width: 1024px) {
+      .ant-row {
+        width: 100%;
+        margin-bottom: 0;
+        justify-content: center;
+        .ant-col {
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+      }
+      .button {
+        margin-right: 0;
+        margin-bottom: @padding-sm;
+        width: 100%;
+      }
+    }
+    .ant-radio-group {
+      background: transparent;
+    }
 
     .products-button {
       width: 35%;
       display: flex;
-      justify-content: space-between;
+      flex-direction: row;
     }
 
     .product-layout {
       display: flex;
+      justify-content: flex-end;
     }
   }
 

@@ -80,26 +80,6 @@ const ImageCard: React.FC<Props> = ({
 
   return (
     <>
-      <Card
-        key={companyImage.filename}
-        className={"company-image-card"}
-        cover={
-          <img
-            onClick={handleOpenViewModal}
-            alt={companyImage.filename}
-            src={`https://media.terradia.eu/${companyImage.filename}`}
-          />
-        }
-        bodyStyle={{ height: 0, padding: 0 }}
-        actions={[
-          <EyeOutlined key={"eye"} onClick={handleOpenViewModal} />,
-          <DeleteOutlined
-            key={"delete"}
-            style={{ color: "#f5222d" }}
-            onClick={handleOpenRemoveModal}
-          />,
-        ]}
-      />
       <ImageViewModal
         visible={isViewModalVisible}
         companyImage={companyImage}
@@ -111,6 +91,27 @@ const ImageCard: React.FC<Props> = ({
         companyImage={companyImage}
         onClickClose={handleCloseRemoveModal}
         onClickConfirm={handleConfirmRemove}
+      />
+      <Card
+        key={companyImage.filename}
+        className={"company-image-card"}
+        cover={
+          <img
+            onClick={handleOpenViewModal}
+            alt={companyImage.filename}
+            src={`https://media.terradia.eu/${companyImage.filename}`}
+          />
+        }
+        bodyStyle={{ height: 0, padding: 0 }}
+        style={{ boxShadow: "none" }}
+        actions={[
+          <EyeOutlined key={"eye"} onClick={handleOpenViewModal} />,
+          <DeleteOutlined
+            key={"delete"}
+            style={{ color: "#f5222d" }}
+            onClick={handleOpenRemoveModal}
+          />,
+        ]}
       />
     </>
   );

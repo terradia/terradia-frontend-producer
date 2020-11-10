@@ -135,8 +135,6 @@ const CompanyPage = () => {
             refetch={refetch}
             isDelivery
           />
-          <Divider className={"invisible-divider padding-size"} />
-          <CompanyTagsCard company={data.getCompany} />
         </TabPane>
         <TabPane tab="Avis des clients" key="3">
           <CompanyReviewsCard
