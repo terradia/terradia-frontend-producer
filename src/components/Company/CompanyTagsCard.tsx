@@ -4,7 +4,7 @@ import { Company } from "../../interfaces/Company";
 import { Card, Empty, Modal, Tag, Input } from "antd";
 import { EditOutlined, PlusOutlined } from "@ant-design/icons/lib";
 import CheckableTag from "antd/es/tag/CheckableTag";
-import { useMutation, useQuery } from "@apollo/react-hooks";
+import { useMutation, useQuery } from "@apollo/client";
 import { loader as graphqlLoader } from "graphql.macro";
 import TerradiaLoader from "../TerradiaLoader";
 import Button from "../Ui/Button";
@@ -49,7 +49,6 @@ const CompanyTagsCard: React.FC<Props> = ({ company, ...props }: Props) => {
 
   const isMutationLoading =
     loadingAddTagToCompanyMutation || loadingDeleteTagFromCompany;
-
   const [selectedTags, setSelectedTags] = React.useState(
     company.tags.map((tag) => tag.id)
   );

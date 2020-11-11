@@ -7,8 +7,7 @@ import {
 } from "@ant-design/icons/lib";
 import "../../assets/Style/Staff/invitationListCard.less";
 import TerradiaLoader from "../TerradiaLoader";
-import { useLazyQuery, useMutation } from "@apollo/client";
-
+import { useQuery, useMutation } from "@apollo/client";
 import { addNotification } from "../../utils/notifications";
 import CompanyInvitationCard from "../../components/Profile/CompanyInvitationCard";
 import { loader as graphqlLoader } from "graphql.macro";
