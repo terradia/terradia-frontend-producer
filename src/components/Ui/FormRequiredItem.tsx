@@ -1,11 +1,18 @@
 import React from "react";
 import { Form } from "antd";
-import { FormItemProps } from "antd/es/form";
+import { FormItemProps, Rule } from "antd/es/form";
 import "../../assets/Style/CompanyRegister/CompanyRegisterForm.less";
+import { InputProps } from "antd/lib/input";
 
-const FormRequiredItem = (props: FormItemProps) => {
+declare type FormRequiredItemProps = FormItemProps & InputProps;
+
+const FormRequiredItem = (props: FormRequiredItemProps) => {
+  const childProps = { ...props };
+  const rules: Rule[] = childProps.rules;
+  rules.push({ required: true });
+  delete childProps.rules;
   return (
-    <Form.Item noStyle>
+    <Form.Item noStyle {...childProps}>
       <div
         style={{
           display: "flex",
@@ -18,7 +25,8 @@ const FormRequiredItem = (props: FormItemProps) => {
           style={{
             width: "100%",
           }}
-          {...props}
+          rules={rules}
+          {...childProps}
         >
           {props.children}
         </Form.Item>

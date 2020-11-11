@@ -1,23 +1,19 @@
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { ReactNode, useCallback, useEffect, useState } from "react";
 import { Form, Steps } from "antd";
 import Button from "../Ui/Button";
 import GeneralInfoForm from "./GeneralInfoForm";
-import AdministrativeInfoForm from "./AdministrativeInfoForm";
+import AdministrativeInfoForm, { InputStatus } from "./AdministrativeInfoForm";
 import "../../assets/Style/CompanyRegister/CompanyRegisterForm.less";
 import RegisterForm from "../Authentication/Register/RegisterForm";
 import LoginForm from "../Authentication/Login/LoginForm";
-import {
-  useApolloClient,
-  useLazyQuery,
-  useMutation,
-} from "@apollo/react-hooks";
+import { useApolloClient, useLazyQuery, useMutation } from "@apollo/client";
 import { loader as graphqlLoader } from "graphql.macro";
-import { AddCompanyImageData } from "../Files/ImageUploadModal";
+import { CompanyImageData } from "../Files/ImageUploadModal";
 import { UploadChangeParam } from "antd/lib/upload";
 import { Redirect } from "react-router";
 import { SirenData } from "../../interfaces/Company/CompanyRegister/CompanyRegisterForm";
 import FormStepButton from "./FormStepButton";
-import PersonalInfoForm from "./PersonalInfoForm";
+import Logout from "../Authentication/Logout/Logout";
 
 const createCompanyMutation = graphqlLoader(
   "../../graphql/mutation/createCompany.graphql"
@@ -29,6 +25,8 @@ const getUser = graphqlLoader("../../graphql/query/getUser.graphql");
 
 const checkSirenQuery = graphqlLoader("../../graphql/query/checkSiren.graphql");
 
+const getGeocodeQuery = graphqlLoader("../../graphql/query/getGeoCode.graphql");
+
 declare interface RegisterStep {
   title: string;
   content: ReactNode;
@@ -39,13 +37,22 @@ export declare type RegisterStepsState = RegisterStep[];
 const CompanyRegisterForm = () => {
   const [form] = Form.useForm();
   const [isCreated, setIsCreated] = useState(false);
+  const [initLazy, setInitLazy] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [hasAccount, setHasAccount] = useState(false);
+  const [isLocked, setIsLock] = useState(false);
+  const [validationStatus, setValidationStatus] = useState<InputStatus>({
+    siren: "",
+    officialName: "",
+    name: "",
+    address: "",
+  });
   const [redirect, setRedirect] = useState(false);
   const [logoId, setLogoId] = useState(null);
   const [coverId, setCoverId] = useState(null);
   const client = useApolloClient();
   const [user, setUser] = useState(null);
+
   try {
     if (user === null) {
       const cachedUser = client.readQuery({ query: getUser });
@@ -62,47 +69,57 @@ const CompanyRegisterForm = () => {
   );
   const [checkSiren, { called, data, error, loading, refetch }] = useLazyQuery<
     SirenData
-  >(checkSirenQuery, { onError: (error) => console.log(error) });
-
-  useEffect(() => {
-    checkSiren({ variables: { siren: "123456789" } });
-  }, []);
-
-  useEffect(() => {
-    if (called && !loading)
-      if (data) {
-        form.setFields([
-          {
-            name: "officialName",
-            value: data.checkSiren.uniteLegale.denominationUniteLegale,
-          },
-          {
-            name: "name",
-            value: data.checkSiren.uniteLegale.denominationUsuelle1UniteLegale,
-          },
-          {
-            name: "address",
-            value: (
-              data.checkSiren.adresseEtablissement.numeroVoieEtablissement +
-              " " +
-              data.checkSiren.adresseEtablissement.typeVoieEtablissement +
-              " " +
-              data.checkSiren.adresseEtablissement.libelleVoieEtablissement +
-              ", " +
-              data.checkSiren.adresseEtablissement.codePostalEtablissement +
-              " " +
-              data.checkSiren.adresseEtablissement.libelleCommuneEtablissement
-            )
-              .replace(/null/g, "")
-              .trim(),
-          },
-        ]);
-      } else if (error) {
+  >(checkSirenQuery, {
+    onCompleted: (sirenData) => {
+      setValidationStatus((prevState) => {
+        return {
+          ...prevState,
+          siren: sirenData ? "success" : "error",
+        };
+      });
+    },
+    onError: (error) => {
+      console.log(error);
+      setValidationStatus((prevState) => {
+        return {
+          ...prevState,
+          siren: "error",
+        };
+      });
+    },
+  });
+  const [getGeocode, { called: geoCalled, refetch: geoRefetch }] = useLazyQuery(
+    getGeocodeQuery,
+    {
+      onCompleted: (geoData) => {
+        if (geoData) {
+          setValidationStatus((prevState) => {
+            return {
+              ...prevState,
+              address: "success",
+            };
+          });
+        }
+      },
+      onError: (error) => {
         console.log(error);
-      }
-  }, [data, error, called, loading, form]);
+        setValidationStatus((prevState) => {
+          return {
+            ...prevState,
+            address: "error",
+          };
+        });
+      },
+    }
+  );
 
-  console.log(form.getFieldsValue());
+  useEffect(() => {
+    if (!initLazy) {
+      checkSiren();
+      getGeocode();
+      setInitLazy(true);
+    }
+  }, [checkSiren, getGeocode, initLazy]);
 
   const onUpload = (
     file: UploadChangeParam,
@@ -120,8 +137,8 @@ const CompanyRegisterForm = () => {
     setCurrentStep((step) => step + 1);
   };
 
-  const [steps, setSteps] = useState<RegisterStepsState>([
-    user
+  const steps = [
+    user && hasAccount
       ? {
           /* TODO : translate this. */
           title: "Se connecter",
@@ -135,18 +152,83 @@ const CompanyRegisterForm = () => {
     {
       /* TODO : translate this. */
       title: "Création de l'entreprise",
-      content: <AdministrativeInfoForm />,
-    },
-    {
-      /* TODO : translate this. */
-      title: "Informations personnelles",
-      content: <PersonalInfoForm />,
+      content: (
+        <AdministrativeInfoForm
+          isLocked={isLocked}
+          validationStatus={validationStatus}
+        />
+      ),
     },
     {
       title: "Information complémentaires",
       content: <GeneralInfoForm onUpload={onUpload} />,
     },
-  ]);
+  ];
+
+  const getCompanyInfo = useCallback(() => {
+    const units = data.checkSiren.uniteLegale;
+    const addr = data.checkSiren.adresseEtablissement;
+    const officialName = {
+      name: "officialName",
+      value:
+        units.denominationUniteLegale || units.denominationUsuelle1UniteLegale,
+    };
+    const name = {
+      name: "name",
+      value:
+        units.denominationUsuelle1UniteLegale || units.denominationUniteLegale,
+    };
+    const address = {
+      name: "address",
+      value: `${addr.numeroVoieEtablissement || ""} ${
+        addr.typeVoieEtablissement || ""
+      } ${addr.libelleVoieEtablissement || ""}, ${
+        addr.codePostalEtablissement || ""
+      } ${addr.libelleCommuneEtablissement || ""}`.trim(),
+    };
+    return [officialName, name, address];
+  }, [data]);
+
+  useEffect(() => {
+    if (validationStatus.address === "validating") {
+      if (!geoCalled) {
+        getGeocode({
+          variables: {
+            address: form.getFieldValue("address"),
+          },
+        });
+      } else {
+        geoRefetch({
+          address: form.getFieldValue("address"),
+        });
+      }
+    }
+  }, [validationStatus, form, geoCalled, geoRefetch, getGeocode]);
+
+  useEffect(() => {
+    if (called && !loading)
+      if (data) {
+        const companyInfo = getCompanyInfo();
+        form.setFields(companyInfo);
+        setIsLock(!!companyInfo[0].value);
+        setValidationStatus({
+          siren: "success",
+          officialName: companyInfo[0].value ? "success" : undefined,
+          name: companyInfo[1].value ? "success" : undefined,
+          address: "validating",
+        });
+      } else if (error) {
+        console.log(error);
+        setIsLock(false);
+        setValidationStatus({
+          siren: "error",
+          officialName: undefined,
+          name: undefined,
+          address: undefined,
+        });
+        form.resetFields(["officialName", "name", "address"]);
+      }
+  }, [data, error, called, loading, form, getCompanyInfo]);
 
   useEffect(() => {
     if (client) {
@@ -161,41 +243,39 @@ const CompanyRegisterForm = () => {
   }, [client, user]);
 
   const onSubmit = (values) => {
-    console.log(values);
-    createCompany({ variables: values }).then((data) => {
-      localStorage.setItem("selectedCompany", data.data.createCompany.id);
-      localStorage.setItem("rememberCompany", "false");
-      setCurrentStep((step) => step + 1);
-    });
-    values["logoId"] = logoId;
-    values["coverId"] = coverId;
-    updateCompany({
-      variables: {
-        companyId: localStorage.getItem("selectedCompany"),
-        newValues: values,
-      },
-    }).then(() => {
-      dispatchEvent(
-        new StorageEvent("storage", {
-          key: "token",
-          oldValue: "",
-          newValue: localStorage.getItem("token"),
+    if (!isCreated) {
+      createCompany({ variables: values })
+        .then((data) => {
+          localStorage.setItem("selectedCompany", data.data.createCompany.id);
+          localStorage.setItem("rememberCompany", "false");
+          setCurrentStep((step) => step + 1);
+          setIsCreated(true);
         })
-      );
-      setRedirect(true);
-    });
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      values["logoId"] = logoId;
+      values["coverId"] = coverId;
+      updateCompany({
+        variables: {
+          companyId: localStorage.getItem("selectedCompany"),
+          newValues: values,
+        },
+      }).then(() => {
+        dispatchEvent(
+          new StorageEvent("storage", {
+            key: "token",
+            oldValue: "",
+            newValue: localStorage.getItem("token"),
+          })
+        );
+        setRedirect(true);
+      });
+    }
   };
 
   const switchLoginRegister = () => {
-    const prevSteps = [...steps];
-    if (hasAccount) {
-      prevSteps[0].title = "S'enregistrer";
-      prevSteps[0].content = <RegisterForm onRegister={onAuth} />;
-    } else {
-      prevSteps[0].title = "Se connecter";
-      prevSteps[0].content = <LoginForm onLogin={onAuth} />;
-    }
-    setSteps(prevSteps);
     setHasAccount(!hasAccount);
   };
 
@@ -243,11 +323,12 @@ const CompanyRegisterForm = () => {
           form={form}
           preserve
           onValuesChange={(value) => {
-            console.log(form.getFieldsValue());
+            console.log(value);
             if ("siren" in value && value.siren.length === 9) {
-              console.log(called);
               if (called === false) checkSiren({ variables: value });
               else refetch(value);
+            } else if ("address" in value) {
+              getGeocode({ variables: value });
             }
           }}
           scrollToFirstError

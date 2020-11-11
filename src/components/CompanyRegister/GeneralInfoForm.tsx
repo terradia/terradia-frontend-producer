@@ -17,10 +17,9 @@ const GeneralInfoForm = (props: GeneralInfoFormProps) => {
   const [currentLogo, setCurrentLogo] = useState<UploadFile[]>();
   const [currentCover, setCurrentCover] = useState<UploadFile[]>();
 
-  const onUploaded = (
+  const onLogoUploaded = (
     imageFile: UploadChangeParam,
-    uploadedImage: CompanyImageData,
-    isLogo: boolean
+    uploadedImage: CompanyImageData
   ) => {
     if (imageFile.fileList.length === 0) {
       setCurrentLogo(undefined);
@@ -31,13 +30,25 @@ const GeneralInfoForm = (props: GeneralInfoFormProps) => {
     imageFile.fileList[0].url =
       "https://terradia-bucket-assets.s3.eu-west-3.amazonaws.com/" +
       uploadedImage.filename;
-    if (isLogo) {
-      setCurrentLogo(imageFile.fileList);
-      props.onUpload(imageFile, uploadedImage, "logo");
-    } else {
-      setCurrentCover(imageFile.fileList);
-      props.onUpload(imageFile, uploadedImage, "cover");
+    setCurrentLogo(imageFile.fileList);
+    props.onUpload(imageFile, uploadedImage, "logo");
+  };
+
+  const onCoverUpload = (
+    imageFile: UploadChangeParam,
+    uploadedImage: CompanyImageData
+  ) => {
+    if (imageFile.fileList.length === 0) {
+      setCurrentCover(undefined);
+      return;
     }
+    imageFile.fileList[0].percent = 100;
+    imageFile.fileList[0].status = "done";
+    imageFile.fileList[0].url =
+      "https://terradia-bucket-assets.s3.eu-west-3.amazonaws.com/" +
+      uploadedImage.filename;
+    setCurrentCover(imageFile.fileList);
+    props.onUpload(imageFile, uploadedImage, "cover");
   };
 
   const onLogoRemove = () => {
@@ -59,7 +70,7 @@ const GeneralInfoForm = (props: GeneralInfoFormProps) => {
           }}
         />
       </Form.Item>
-      <Form.Item preserve>
+      <Form.Item preserve label={"Logo"}>
         <ImagesUploadButton onUpload={onLogoUploaded} />
         {currentLogo && (
           <Upload
@@ -69,7 +80,7 @@ const GeneralInfoForm = (props: GeneralInfoFormProps) => {
           />
         )}
       </Form.Item>
-      <Form.Item preserve>
+      <Form.Item preserve label={"Photo de couverture"}>
         <ImagesUploadButton onUpload={onCoverUpload} />
         {currentCover && (
           <Upload

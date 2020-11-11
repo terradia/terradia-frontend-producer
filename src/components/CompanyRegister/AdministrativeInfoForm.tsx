@@ -3,19 +3,48 @@ import { Input } from "antd";
 import "../../assets/Style/Login-Register/registerForm.less";
 import CountryCode from "../Ui/CountryCode";
 import FormRequiredItem from "../Ui/FormRequiredItem";
+import { ValidateStatus } from "antd/es/form/FormItem";
 
-const AdministrativeInfoForm = () => {
+export declare interface InputStatus {
+  siren?: ValidateStatus;
+  officialName?: ValidateStatus;
+  name?: ValidateStatus;
+  address?: ValidateStatus;
+}
+
+declare interface AdministrativeInfoFromProps {
+  isLocked?: boolean;
+  validationStatus?: InputStatus;
+}
+
+const AdministrativeInfoForm = (props: AdministrativeInfoFromProps) => {
   return (
     <>
       <FormRequiredItem
+        hasFeedback
+        validateStatus={
+          props.validationStatus ? props.validationStatus.siren : undefined
+        }
         name={"siren"}
         rules={[
-          { message: "Veuillez renseigner le SIREN de votre entreprise" },
+          {
+            required: true,
+            message: "Veuillez renseigner le SIREN de votre entreprise",
+          },
+          {
+            len: 9,
+          },
         ]}
       >
         <Input className={"input_item"} placeholder={"SIREN"} />
       </FormRequiredItem>
       <FormRequiredItem
+        hasFeedback
+        validateStatus={
+          props.validationStatus
+            ? props.validationStatus.officialName
+            : undefined
+        }
         name={"officialName"}
         style={{
           width: "100%",
@@ -28,10 +57,15 @@ const AdministrativeInfoForm = () => {
       >
         <Input
           className={"input_item"}
-          placeholder={"Nom officel de l'entreprise"}
+          placeholder={"Nom officiel de l'entreprise"}
+          disabled={props.isLocked}
         />
       </FormRequiredItem>
       <FormRequiredItem
+        hasFeedback
+        validateStatus={
+          props.validationStatus ? props.validationStatus.name : undefined
+        }
         name={"name"}
         rules={[
           {
@@ -42,6 +76,10 @@ const AdministrativeInfoForm = () => {
         <Input className={"input_item"} placeholder={"Nom de l'entreprise"} />
       </FormRequiredItem>
       <FormRequiredItem
+        hasFeedback
+        validateStatus={
+          props.validationStatus ? props.validationStatus.address : undefined
+        }
         name={"address"}
         rules={[
           {
@@ -49,11 +87,15 @@ const AdministrativeInfoForm = () => {
           },
         ]}
       >
-        <Input className={"form_item input_item"} placeholder={"Address"} />
+        <Input className={"input_item"} placeholder={"Address"} />
       </FormRequiredItem>
       <FormRequiredItem
+        hasFeedback
         name={"email"}
         rules={[
+          {
+            type: "email",
+          },
           {
             message: "Veuillez renseigner un email",
           },
