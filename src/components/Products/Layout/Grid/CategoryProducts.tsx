@@ -9,7 +9,7 @@ import { useTranslation } from "react-i18next";
 
 import { loader as graphqlLoader } from "graphql.macro";
 import "../../../../assets/Style/Products/ProductsPage.less";
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/client";
 import ProductCard from "./ProductCard";
 import Button from "../../../Ui/Button";
 

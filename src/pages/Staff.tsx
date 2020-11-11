@@ -1,6 +1,6 @@
 import React from "react";
 import { loader as graphqlLoader } from "graphql.macro";
-import { useQuery, useMutation } from "@apollo/react-hooks";
+import { useQuery, useMutation } from "@apollo/client";
 import { Table, Tag, Modal, Row, Col, Divider, Card } from "antd";
 import Popconfirm from "antd/es/popconfirm";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons/lib";

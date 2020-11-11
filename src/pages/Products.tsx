@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { loader as graphqlLoader } from "graphql.macro";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/client";
 
 import { Empty, Select, Radio, Card, Row, Col, Divider } from "antd";
 import Button from "../components/Ui/Button";

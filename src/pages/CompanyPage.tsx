@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLazyQuery, useQuery } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/client";
 import { loader as graphqlLoader } from "graphql.macro";
 import { Info } from "../components/CompanyInfo/InfoCard";
 import moment from "moment";

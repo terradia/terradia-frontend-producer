@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Input, Modal } from "antd";
 import "../../../assets/Style/Profile/userProfile.less";
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/client";
 import Button from "../../Ui/Button";
 import { User } from "../../../interfaces";
 import { useTranslation } from "react-i18next";

@@ -3,7 +3,7 @@ import { Avatar, Card, Popover } from "antd";
 import { UserOutlined, PlusOutlined } from "@ant-design/icons";
 import "../../assets/Style/CompanySelector/CompanyCard.less";
 import moment from "moment";
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/client";
 import { loader as graphqlLoader } from "graphql.macro";
 
 const restoreCompanyMutation = graphqlLoader(

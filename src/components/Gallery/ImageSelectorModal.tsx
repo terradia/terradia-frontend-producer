@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Divider, Empty, Modal } from "antd";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/client";
 import { loader as graphqlLoader } from "graphql.macro";
 import { CompanyImage } from "../../interfaces/CompanyImage";
 import ImageCard from "./ImageCard";

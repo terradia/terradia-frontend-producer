@@ -7,13 +7,13 @@ import {
 } from "@ant-design/icons/lib";
 import "../../assets/Style/Staff/invitationListCard.less";
 import TerradiaLoader from "../TerradiaLoader";
-import { useMutation, useQuery } from "@apollo/react-hooks";
+import { useLazyQuery, useMutation } from "@apollo/client";
 
 import { addNotification } from "../../utils/notifications";
 import CompanyInvitationCard from "../../components/Profile/CompanyInvitationCard";
 import { loader as graphqlLoader } from "graphql.macro";
 import moment from "moment";
-import { QueryResult } from "@apollo/react-common";
+import { QueryResult } from "@apollo/client";
 
 const { Option } = Select;
 
