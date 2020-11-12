@@ -211,6 +211,26 @@
       "plural": "Select images"
     }
   },
+  "OrdersListPage" : {
+    "labels" : {
+      "pageName": "Order tracking",
+      "date": "Date",
+      "status": "Status",
+      "ProductsNumber": "Articles nb",
+      "deliveryType": "Delivery Type",
+      "price": "Price",
+      "actions": "Operations"
+    },
+    "orderValues": {
+      "approuved": "Approuved",
+      "payed" : "Payed",
+      "delivered": "Delivered",
+      "canceled": "Canceled"
+    },
+    "ordersListPageModal": {
+      "name": "Order status"
+    }
+  },
   "ApolloError": {
     "query": {
       "checkSiren": {
@@ -405,7 +425,7 @@
       },
       "addOpeningDay": {
         "CompanyNotFound": "The company does not exists",
-        "InvalidDay": "The day is invalid. It should be : 'monday', 'tuesday', 'wednesday', 'thursday', 'saturday', 'sunday'"
+        "InvalidDay": "The day is invalid. It should be : 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'"
       },
       "addProductToCart": {
         "ProductNotFound": "Product not found",

@@ -232,18 +232,38 @@
       "plural": "Sélectionner des images"
     }
   },
+  "OrdersListPage" : {
+    "labels" : {
+      "pageName": "Suivi des commandes",
+      "date": "Date",
+      "status": "Statut",
+      "ProductsNumber": "Nb d'articles",
+      "deliveryType": "Mode de livraison",
+      "price": "Prix",
+      "actions": "Actions"
+    },
+    "orderValues": {
+      "approuved": "Approuvée",
+      "payed" : "Payée",
+      "delivered": "Livrée",
+      "canceled": "Annulée"
+    },
+    "ordersListPageModal": {
+      "name": "Statut de la commande"
+    }
+  },
   "ApolloError": {
     "query": {
       "checkSiren": {
-        "CompanyNotFound": "Can't find a company associated with this siren",
-        "InseeApiError": "Error while getting information from the INSEE API"
+        "CompanyNotFound": "Nous ne trouvons aucune entrerpise liée à ce Siren",
+        "InseeApiError": "On dirait que l'INSEE à un petit problème..."
       },
       "doesFacebookAccountExistWithEmail": {
-        "AccountNotFound": "Facebook account not found"
+        "AccountNotFound": "Ce compte Facebook est introuvable"
       },
       "geocode": {},
       "getActiveCustomerAddress": {
-        "CustomerNotFound": "Customer doesn't exist"
+        "CustomerNotFound": "Ce client n'existe pas !"
       },
       "getAllCategories": {
         "":  ""
@@ -276,8 +296,8 @@
         "": ""
       },
       "getCart": {
-        "NotACustomer": "this user is not a customer",
-        "NoCart": "this customer does not have a cart"
+        "NotACustomer": "Cet utilisateur n'est pas un client",
+        "NoCart": "Ce client n'a pas de panier"
       },
       "getCartsByCompany": {
         "": ""
@@ -286,22 +306,22 @@
         "": ""
       },
       "getCompanies": {
-        "UserNotFound": "User not found"
+        "UserNotFound": "Nous ne trouvons pas cet utilisateur"
       },
       "getCompaniesByDistance": {
-        "UserNotFound": "User not found"
+        "UserNotFound": "Nous ne trouvons pas cet utilisateur"
       },
       "getCompaniesByDistanceByCustomer": {
-        "CustomerNotFound": "Customer doesn't exist"
+        "CustomerNotFound": "Ce client n'existe pas"
       },
       "getCompaniesByUser": {
         "": ""
       },
       "getCompaniesInvitations": {
-        "CompanyNotFound": "Company not found"
+        "CompanyNotFound": "Nous ne trouvons pas cette entreprise"
       },
       "getCompany": {
-        "CompanyNotFound": "Company not found"
+        "CompanyNotFound": "ous ne trouvons pas cette entreprise"
       },
       "getCompanyByName": {
         "": ""
@@ -313,16 +333,16 @@
         "": ""
       },
       "getCompanyProductAdvises": {
-        "NoFilter": "You should provide at least a product or a company"
+        "NoFilter": "Vous devez au moins choisir un produit ou une entreprise !"
       },
       "getCompanyProductsCategory": {
-        "NoFilter": "precise at least one filter"
+        "NoFilter": "Merci de selectionner au moins un filtre"
       },
       "getCompanyReviews": {
         "": ""
       },
       "getCompanyTag": {
-        "NoFilter": "You should at least give a name or the id of the tag you wanN"
+        "NoFilter": "Vous devez au moins spécifier le nom du tag !"
       },
       "getCurrentOrders": {
         "": ""
@@ -343,15 +363,15 @@
         "": ""
       },
       "getOrder": {
-        "OrderNotFound": "Order not found",
-        "WrongUser": "This is not one of your orders"
+        "OrderNotFound": "Cette commande n'existe pas chez nous...",
+        "WrongUser": "Cette commande ne vous appartient pas !"
       },
       "getOrderHistory": {
-        "HistoryNotFound": "History not found",
-        "WrongUser": "This is not one of your histories"
+        "HistoryNotFound": "Nous ne trouvons aucun historique",
+        "WrongUser": "Cet historique ne vous appartient pas !"
       },
       "getProduct": {
-        "ProductNotFound": "This product does not exist"
+        "ProductNotFound": "Cette produit n'existe plus"
       },
       "getProductAdvise": {
         "": ""
@@ -360,20 +380,20 @@
         "": ""
       },
       "getProductsByCompany": {
-        "CompanyNotFound": "Company not found"
+        "CompanyNotFound": "Nous ne trouvons pas cette entreprise"
       },
       "getProductsByCompanyByCategory": {
-        "CompanyNotFound": "Company not found"
+        "CompanyNotFound": "Nous ne trouvons pas cette entreprise"
       },
       "getStripeCustomer": {
         "": ""
       },
       "getStripeCustomerDefaultSource": {
-        "SourceNotFound": "This customer does not have any default source"
+        "SourceNotFound": "Ce client n'a pas de carte de crédit par défault"
       },
       "getUnit": {
-        "NoFilter": "You should at least give one of the three filter",
-        "UnitNotFound": "Cannot find this unit."
+        "NoFilter": "Vous devez choisir au moins un filtre sur les trois disponibles",
+        "UnitNotFound": "Cette unité n'existe pas"
       },
       "getUser": {
         "": ""
@@ -388,24 +408,24 @@
         "": ""
       },
       "totalCartPrice": {
-        "NotACustomer": "this user is not a customer",
-        "NoCart": "this customer does not have a cart"
+        "NotACustomer": "Cet utilisateur n'est pas client Terradia",
+        "NoCart": "Ce client n'a pas de panier"
       }
     },
     "mutation": {
       "acceptInvitation": {
-        "NotFoundOrCanceled": "The invitation does not exist or was canceled",
-        "AlreadyAcceptedOrCanceled": "You cannot accept an invitation that was answered or canceled",
-        "UserNotFound": "The user does not exist",
-        "RoleNotFound": "Cannot find the role 'Member'"
+        "NotFoundOrCanceled": "Cette invitation n'existe pas ou a été annulé",
+        "AlreadyAcceptedOrCanceled": "Vous ne pouvez pas accepter une invitation qui a déjà été traité ou annulé",
+        "UserNotFound": "Cet utilisateur n'existe pas dans notre base de données",
+        "RoleNotFound": "Le rôle Membre n'existe pas"
       },
       "acceptOrder": {
-        "OrderNotFound": "This order doesn't exist",
-        "NotPending": "The order isn't pending, you cannot accept it",
-        "PayementRefused": "The payment has been refused"
+        "OrderNotFound": "Cette commande est inexistante!",
+        "NotPending": "Cette commande n'est pas en attente, vous ne pouvez pas l'accepter",
+        "PayementRefused": "Paiment refusé"
       },
       "addCategoryToProduct": {
-        "CategoryNotFound": "This category doesn't exists"
+        "CategoryNotFound": "Cette catégorie n'existe pas"
       },
       "addCompanyImage": {
         "": ""
@@ -414,99 +434,99 @@
         "": ""
       },
       "addDeliveryDay": {
-        "CompanyNotFound": "The company does not exists",
-        "InvalidDay": "The day is invalid. It should be : 'monday', 'tuesday', 'wednesday', 'thursday', 'saturday', 'sunday'"
+        "CompanyNotFound": "Cette entreprise n'existe malheureusement pas !",
+        "InvalidDay": "Ce jour est invalide. Il devrait être : 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'"
       },
       "addFavoriteCompany": {
-        "CompanyNotFound": "The company does not exists"
+        "CompanyNotFound": "Cette entreprise n'existe pas !"
       },
       "addImageToProduct": {
-        "ProductNotFound": "Product not found",
-        "ImageNotFound": "Image not found"
+        "ProductNotFound": "Nous ne trouvons pas ce produit",
+        "ImageNotFound": "Nous ne trouvons pas cette image"
       },
       "addOpeningDay": {
-        "CompanyNotFound": "The company does not exists",
-        "InvalidDay": "The day is invalid. It should be : 'monday', 'tuesday', 'wednesday', 'thursday', 'saturday', 'sunday'"
+        "CompanyNotFound": "Cette entreprise n'existe malheureusement pas !",
+        "InvalidDay": "Ce jour est invalide. Il devrait être : 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'"
       },
       "addProductToCart": {
-        "ProductNotFound": "Product not found",
-        "NotACustomer": "this user is not a customer",
-        "NegativeQuantity": "You should add products, not remove them ;)"
+        "ProductNotFound": "Nous ne trouvons pas ce produit",
+        "NotACustomer": "Cet utilisateur n'est pas client sur Terradia",
+        "NegativeQuantity": "Vous devez ajouter des produits, pas en retirer ;)"
       },
       "addProductToCompanyCategory": {
-        "WrongOwner": "This product is not owned by this company.",
-        "CategoryNotFound": "Category not found",
-        "ProductNotFound": "Product not found"
+        "WrongOwner": "Ce produit n'appartient pas à cette entreprise",
+        "CategoryNotFound": "Cette catégorie est inexistante",
+        "ProductNotFound": "Nous ne trouvons pas ce produit"
       },
       "addTagToCompany": {
-        "TagNotFound": "The tag does not exists",
-        "CompanyNotFound": "The company does not exists"
+        "TagNotFound": "Nous pensons que ce tag n'existe pas",
+        "CompanyNotFound": "Cette entreprise n'existe pas !"
       },
       "addUserCompanyRole": {
-        "UserNotFound": "Can't find the user",
-        "RoleNotFound": "Can't find the role"
+        "UserNotFound": "Nous ne trouvons pas cet utilisateur",
+        "RoleNotFound": "Nous ne trouvons pas ce rôle"
       },
       "cancelInvitation": {
-        "NotFoundOrCanceled": "The invitation does not exist or was canceled",
-        "AlreadyAcceptedOrCanceled": "You cannot cancel an invitation that was answered or canceled"
+        "NotFoundOrCanceled": "Cette invitation n'existe pas ou a été annulé",
+        "AlreadyAcceptedOrCanceled": "Vous ne pouvez pas refuser une invitation qui a déjà été traité ou annulé"
       },
       "cancelOrder": {
-        "OrderNotFound": "This order doesn't exist",
-        "NotPending": "The order isn't pending, you cannot cancel it",
-        "NotCancelable": "Cannot cancel the payment"
+        "OrderNotFound": "Cette commande n'existe pas",
+        "NotPending": "Cette commande n'est plus en attente, vous ne pouvez pas l'annuler",
+        "NotCancelable": "Impossible d'annuler le paiement"
       },
       "createACharge": {
-        "NotACustomer": "this user is not a customer",
-        "NoCart": "this customer does not have a cart",
-        "SourceNotFound": "This customer does not have any default source"
+        "NotACustomer": "Cet utilisateur n'est pas client Terradia",
+        "NoCart": "Ce client n'a pas de panier",
+        "SourceNotFound": "Ce client n'a pas de carte de crédit par défault"
       },
       "createCategory": {
         "": ""
       },
       "createCompany": {
-        "OSMError": "Error while get geo data from address",
-        "AddressNotFound": "This address does not exist",
-        "NoOwnerRole": "There is no owner Role in the DB, cannot create Company. Try to seed the DB.",
-        "WrongSiren": "Can not find company using provided siren"
+        "OSMError": "Une erreur s'est produite en essayant de récupérer les informations géographiques",
+        "AddressNotFound": "Cette adresse n'existe pas",
+        "NoOwnerRole": "Le rôle Owner n'existe pas, essayez de remplir la base de données!",
+        "WrongSiren": "Nous ne trouvons aucune entrerpise liée à ce Siren"
       },
       "createCompanyProductAdvise": {
-        "CompanyNotFound": "The company does not exists",
-        "ProductNotFound": "Product not found"
+        "CompanyNotFound": "Cette entreprise n'existe pas !",
+        "ProductNotFound": "Nous ne trouvons pas ce produit"
       },
       "createCompanyProductsCategory": {
-        "NoCategoryCreated": "Error while creating the Category"
+        "NoCategoryCreated": "Une erreur est survenue lors de la création de la catégorie, veuillez réessayer"
       },
       "createCompanyReview": {
-        "NotACustomer": "this user is not a customer",
-        "NoReviewCreated": "can't create the review",
-        "CompanyNotFound": "The company does not exists"
+        "NotACustomer": "Cet utilisateur n'est pas client",
+        "NoReviewCreated": "Impossible de poster votre avis",
+        "CompanyNotFound": "Cette entreprise n'existe pas !"
       },
       "createCompanyTag": {
         "": ""
       },
       "createOrUpdateCustomerAddress": {
-        "OSMError": "Error while get geo data from address",
-        "AddressNotFound": "This address does not exist"
+        "OSMError": "Une erreur s'est produite en essayant de récupérer les informations géographiques",
+        "AddressNotFound": "Cette adresse n'existe pas"
       },
       "createProduct": {
-        "CompanyNotFound": "The company does not exists"
+        "CompanyNotFound": "Cette entreprise n'existe pas !"
       },
       "createProductReview": {
-        "NotACustomer": "this user is not a customer",
-        "NoReviewCreated": "can't create the review",
-        "ProductNotFound": "This product does not exist"
+        "NotACustomer": "Cet utilisateur n'est pas client",
+        "NoReviewCreated": "Impossible de publier cet avis, désolé",
+        "ProductNotFound": "Nous ne trouvons pas ce produit"
       },
       "createStripeCustomer": {
         "": ""
       },
       "declineInvitation": {
-        "NotFoundOrCanceled": "The invitation does not exist or was canceled",
-        "AlreadyAcceptedOrCanceled": "You cannot decline an invitation that was answered or canceled"
+        "NotFoundOrCanceled": "Cette invitation n'existe plus",
+        "AlreadyAcceptedOrCanceled": "Vous ne pouvez pas refuser une invitation qui a déjà été traité ou annulé"
       },
       "declineOrder": {
-        "OrderNotFound": "This order doesn't exist",
-        "NotDeclinable": "Cannot decline order that is not pending",
-        "NotCancelable": "Cannot cancel the payment"
+        "OrderNotFound": "Cette commande n'existe pas",
+        "NotDeclinable": "Impossible de refuser une commande qui n'est pas en attente...",
+        "NotCancelable": "Impossible d'annuler le paiement"
 
       },
       "defineUserAsCustomer": {
@@ -516,69 +536,69 @@
         "": ""
       },
       "deleteCategory": {
-        "CategoryNotFound": "The category was already deleted or, does not exist"
+        "CategoryNotFound": "Cette catégorie n'existe surement pas ou a déjà été supprimé"
       },
       "deleteCompany": {
-        "CompanyNotFound": "The company does not exists"
+        "CompanyNotFound": "Cette entreprise n'existe pas !"
       },
       "deleteCompanyProductAdvise": {
-        "AdviseNotFound": "Advise not found.",
-        "AccessDenied": "You are not in this company.",
-        "ProductNotFound": "Product not found."
+        "AdviseNotFound": "Conseil introuvable...",
+        "AccessDenied": "Vous ne faites pas parti de cette entreprise",
+        "ProductNotFound": "Nous ne trouvons pas ce produit"
       },
       "deleteCompanyTag": {
-        "TagNotFound": "The tag does not exists"
+        "TagNotFound": "Ce tag n'existe pas"
       },
       "deleteImageFromProduct": {
-        "ProductNotFound": "This product does not exist",
-        "ImageNotFound": "Image not found"
+        "ProductNotFound": "Nous ne trouvons pas ce produit",
+        "ImageNotFound": "Cette image n'existe pas"
       },
       "deleteProduct": {
-        "ProductNotFound": "This product does not exist"
+        "ProductNotFound": "Nous ne trouvons pas ce produit"
       },
       "deleteTagFromCompany": {
-        "TagNotFound": "The tag does not exists",
-        "CompanyNotFound": "The company does not exists",
-        "TagNotLinked": "This tag is not attributed to this company"
+        "TagNotFound": "Ce tag n'existe pas, désolé",
+        "CompanyNotFound": "Cette entreprise n'existe pas !",
+        "TagNotLinked": "Ce tag n'est pas attribué à cette entrerprise"
       },
       "deleteUser": {
-        "UserNotDeleted": "Can't archive this user account."
+        "UserNotDeleted": "Impossible d'archiver ce compte, il est peut-être déjà supprimé"
       },
       "generateCodePasswordForgot": {
-        "UserNotFound": "User not found"
+        "UserNotFound": "Utilisateur fantôme, introuvable !"
       },
       "inviteNewMember": {
-        "NotPartOfCompany": "You don't have the right to invite a user in a company you are not inside",
-        "NotSelfInvite": "You cannot invite yourself",
-        "CompanyNotFound": "The company does not exists",
-        "InvitationExist": "You can only invite one time the same member.",
-        "AlreadyPartOfCompany": "User already in the company",
-        "NoInvitationCreated": "The invitation creation failed"
+        "NotPartOfCompany": "Vous n'avez pas les droits nécessaires pour inviter quelqu'un dans cette entreprise",
+        "NotSelfInvite": "Vous ne pouvez pas vous inviter vous-même",
+        "CompanyNotFound": "Cette entreprise n'existe pas !",
+        "InvitationExist": "Une seule invitation pour le même utilisateur à la fois",
+        "AlreadyPartOfCompany": "Cet utilisateur fait déjà parti de l'entreprise",
+        "NoInvitationCreated": "Impossible de créer cette invitation, veuillez réessayer"
       },
       "joinCompany": {
-        "CompanyNotFound": "The company does not exists",
-        "AlreadyPartOfCompany": "User already in the company",
-        "RoleNotFound": "Cannot find the role 'Member'"
+        "CompanyNotFound": "Cette entreprise n'existe pas !",
+        "AlreadyPartOfCompany": "Cet utilisateur fait déjà parti de l'entreprise",
+        "RoleNotFound": "Impossible de trouver le rôle membre"
       },
       "leaveCompany": {
-        "CompanyNotFound": "The company does not exists",
-        "NotPartOfCompany": "This user is not in the company"
+        "CompanyNotFound": "Cette entreprise n'existe pas !",
+        "NotPartOfCompany": "Cet utilisateur ne fait pas parti de l'entreprise"
       },
       "login": {
-        "UserNotFound": "No user found with this login credentials.",
-        "InvalidPassword": "Invalid password.",
-        "UserDeleted": "This account is already delete."
+        "UserNotFound": "Cet utlisateur est inconnu pour nous :(",
+        "InvalidPassword": "Mot de passe invalide",
+        "UserDeleted": "Ce compte est déjà supprimé"
       },
       "passwordValidation": {
-        "InvalidPassword": "Invalid password."
+        "InvalidPassword": "Mot de passe invalide"
       },
       "receiveOrder": {
-        "OrderNotFound": "This order doesn't exist",
-        "NotValidated": "Order wasn't validated"
+        "OrderNotFound": "Cette commande n'existe pas",
+        "NotValidated": "Cette commande n'est pas validée"
       },
       "register": {
-        "UserAlreadyExist": "A user with the same email already exist",
-        "ConfirmationEmail": "An email has been sent to your email address, click on the link in the mail to validate your account"
+        "UserAlreadyExist": "Cette adresse email est déjà utilisée sur Terradia",
+        "ConfirmationEmail": "Vous avez reçu un email, cliquez sur le lien pour valider votre compte ;)"
       },
       "removeCompanyImage": {
         "": ""
@@ -587,37 +607,37 @@
         "": ""
       },
       "removeCompanyProductsCategory": {
-        "CategoryNotFound": "The category was already deleted or, does not exist"
+        "CategoryNotFound": "Cette catégorie est surement inexistante"
       },
       "removeDeliveryDay": {
-        "DeliveryDayNotFound": "Day information already deleted or does not exist"
+        "DeliveryDayNotFound": "Un problème est survenu..."
       },
       "removeDeliveryHours": {
-        "DeliveryHourNotFound": "Hour information already deleted or does not exist"
+        "DeliveryHourNotFound": "Un problème est survenu..."
       },
       "removeFavoriteCompany": {
-        "NotACustomer": "this user is not a customer"
+        "NotACustomer": "Cet utilisateur n'est pas client"
       },
       "removeOpeningDay": {
-        "DayNotFound": "Cannot find day information"
+        "DayNotFound": "Un problème est survenu lors de la récupération des jours, veuillez réessayer"
       },
       "removeOpeningHours": {
-        "HourNotFound": "Cannot find hour information"
+        "HourNotFound": "Un problème est survenu"
       },
       "removeProductFromCart": {
-        "NotACustomer": "this user is not a customer",
-        "NoFilter": "precise at least one filter",
-        "NegativeQuantity": "You should add products, not remove them ;)"
+        "NotACustomer": "Cet utilisateur n'est pas client",
+        "NoFilter": "Selectionnez au moins un filtre !",
+        "NegativeQuantity": "Vous devez ajouter des produits, pas en retirer ;)"
       },
       "removeProductFromCompanyCategory": {
-        "NonCatProduct": "This product is not in any category of products"
+        "NonCatProduct": "Ce produit ne fait parti d'aucune catégorie"
       },
       "removeUserCompanyRole": {
-        "UserNotFound": "No user found with this login credentials.",
-        "RoleNotFound": "Cannot find the role"
+        "UserNotFound": "Êtes-vous certain? Nous ne pensons pas connaitre cet utilisateur",
+        "RoleNotFound": "Impossible de trouver le role correspondant"
       },
       "restoreCompany": {
-        "CompanyNotFound": "The company does not exists"
+        "CompanyNotFound": "Cette entreprise n'existe pas !"
       },
       "saveCard": {
         "": ""
@@ -626,28 +646,28 @@
         "": ""
       },
       "signInWithFacebook": {
-        "UserNotFound": "No user found with this login credentials.",
-        "NotMatch": "Account doesnt match"
+        "UserNotFound": "Aucun utilisateur trouvé avec ces identifiants",
+        "NotMatch": "Les comptes ne sont pas valides"
       },
       "signInWithgeneratedCode": {
         "UserNotFound": "No user found with this login credentials.",
-        "InvalidCode": "Invalid code."
+        "InvalidCode": "Code invalide"
       },
       "signUpWithFacebook": {
-        "AccountNotFound": "Facebook account not found"
+        "AccountNotFound": "Ce compte Facebook est introuvable"
       },
       "updateCompany": {
-        "CompanyNotFound": "The company does not exists"
+        "CompanyNotFound": "Cette entreprise n'existe pas !"
       },
       "updateCompanyImageName": {
-        "ImageNotFound": "Image not found"
+        "ImageNotFound": "Cete image est introuvable"
       },
       "updateCompanyProductAdvise": {
-        "AdviseNotFound": "Advise not found.",
-        "AccessDenied": "You are not in this company."
+        "AdviseNotFound": "Conseil inexistant",
+        "AccessDenied": "Vous ne faites pas parti de cette entreprise"
       },
       "updateCompanyProductsCategory": {
-        "NoCategorySelected": "You should select a category"
+        "NoCategorySelected": "Vous devez sélectionner une catégorie !"
       },
       "updateCustomerDefaultSource": {
         "": ""
@@ -656,36 +676,36 @@
         "": ""
       },
       "updateDeliveryHours": {
-        "UpdateError": "Could not update hour",
-        "HourNotFound": "This hours does not exist"
+        "UpdateError": "Impossible de mettre à jour les horaires",
+        "HourNotFound": "Cet horaire n'existe pas"
       },
       "updateOpeningDay": {
         "": ""
       },
       "updateOpeningHours": {
-        "UpdateError": "Could not update hour",
-        "HourNotFound": "This hours does not exist"
+        "UpdateError": "Impossible de mettre à jour les horaires",
+        "HourNotFound": "Cet horaire n'existe pas"
       },
       "updateProduct": {
-        "ProductNotFound": "The product does not exist",
-        "UpdateError": "Could not update product"
+        "ProductNotFound": "Nous ne trouvons pas ce produit",
+        "UpdateError": "Nous ne pouvons pas mettre à jour ce produit"
       },
       "updateProductCover": {
-        "ProductNotFound": "The product does not exist",
-        "ImageNotFound": "Image not found"
+        "ProductNotFound": "Nous ne trouvons pas ce produit",
+        "ImageNotFound": "Cette image n'existe pas"
       },
       "updateProductsPosition": {
         "": ""
       },
       "updateUser": {
-        "UserNotFound": "No user found with this login credentials.",
-        "UpdateError": "Could not update user"
+        "UserNotFound": "Ces identifiants sont inconnus pour nous !",
+        "UpdateError": "Impossible de modifier les informations"
       },
       "updateUserAvatar": {
         "": ""
       },
       "uploadImageOfProduct": {
-        "ProductNotFound": "The product does not exist"
+        "ProductNotFound": "Nous ne trouvons pas ce produit"
       }
     }
   }
