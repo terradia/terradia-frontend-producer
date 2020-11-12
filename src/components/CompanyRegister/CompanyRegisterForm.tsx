@@ -78,8 +78,7 @@ const CompanyRegisterForm = () => {
         };
       });
     },
-    onError: (error) => {
-      console.log(error);
+    onError: () => {
       setValidationStatus((prevState) => {
         return {
           ...prevState,
@@ -218,7 +217,6 @@ const CompanyRegisterForm = () => {
           address: "validating",
         });
       } else if (error) {
-        console.log(error);
         setIsLock(false);
         setValidationStatus({
           siren: "error",
@@ -323,7 +321,6 @@ const CompanyRegisterForm = () => {
           form={form}
           preserve
           onValuesChange={(value) => {
-            console.log(value);
             if ("siren" in value && value.siren.length === 9) {
               if (called === false) checkSiren({ variables: value });
               else refetch(value);

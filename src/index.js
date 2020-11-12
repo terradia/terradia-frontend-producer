@@ -19,7 +19,6 @@ const httpLink = createUploadLink({
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
-    console.log(graphQLErrors)
     graphQLErrors.map(({ message, locations, path }) =>
       notification.error({
         message: message
@@ -27,7 +26,6 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
     );
   }
   if (networkError) {
-    console.log(networkError.message);
     if (networkError.message === "Failed to fetch") {
       notification.error({
         message: "Failed to connect to the server, check your connectivity", // TODO translate
