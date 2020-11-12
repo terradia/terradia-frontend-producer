@@ -68,6 +68,10 @@ function Grid(props: GridProps) {
     source: { indexCat: number; indexCard: number; categoryId?: string },
     destination?: { indexCat: number; indexCard: number; categoryId: string }
   ) {
+    const idCardMoved =
+      props.data.getAllCompanyProductsCategories[destination.indexCat].products[
+        destination.indexCard
+      ].id;
     const modifiedList = []; // List to send to back
     for (
       let i = source.indexCard;
@@ -101,18 +105,25 @@ function Grid(props: GridProps) {
           .products.length;
         i++
       ) {
+        type = null;
         props.data.getAllCompanyProductsCategories[
           destination.indexCat
         ].products[i].position = i;
-        if (source.categoryId === `nonCat${companyId}`) {
-          type = "addCategory";
-          categoryId = destination.categoryId;
-        } else if (destination.categoryId === `nonCat${companyId}`) {
-          type = "deleteCategory";
-        } else {
-          type = "moveCategory";
-          categoryId = destination.categoryId;
+        if (
+          props.data.getAllCompanyProductsCategories[destination.indexCat]
+            .products[i].id === idCardMoved
+        ) {
+          if (source.categoryId === `nonCat${companyId}`) {
+            type = "addCategory";
+            categoryId = destination.categoryId;
+          } else if (destination.categoryId === `nonCat${companyId}`) {
+            type = "deleteCategory";
+          } else {
+            type = "moveCategory";
+            categoryId = destination.categoryId;
+          }
         }
+
         modifiedList.push({
           productId:
             props.data.getAllCompanyProductsCategories[destination.indexCat]
