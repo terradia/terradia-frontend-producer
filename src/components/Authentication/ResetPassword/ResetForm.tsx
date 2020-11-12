@@ -9,7 +9,7 @@ import {
   useApolloClient,
   useLazyQuery,
   useMutation,
-} from "@apollo/react-hooks";
+} from "@apollo/client";
 import { addNotification } from "../../../utils/notifications";
 import {
   CheckCircleOutlined,

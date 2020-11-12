@@ -1,82 +1,122 @@
 import React from "react";
-import { Input, Form } from "antd";
+import { Input } from "antd";
 import "../../assets/Style/Login-Register/registerForm.less";
 import CountryCode from "../Ui/CountryCode";
+import FormRequiredItem from "../Ui/FormRequiredItem";
+import { ValidateStatus } from "antd/es/form/FormItem";
 
-const AdministrativeInfoForm = () => {
+export declare interface InputStatus {
+  siren?: ValidateStatus;
+  officialName?: ValidateStatus;
+  name?: ValidateStatus;
+  address?: ValidateStatus;
+}
+
+declare interface AdministrativeInfoFromProps {
+  isLocked?: boolean;
+  validationStatus?: InputStatus;
+}
+
+const AdministrativeInfoForm = (props: AdministrativeInfoFromProps) => {
   return (
     <>
-      <Form.Item
+      <FormRequiredItem
+        hasFeedback
+        validateStatus={
+          props.validationStatus ? props.validationStatus.siren : undefined
+        }
         name={"siren"}
         rules={[
           {
             required: true,
-            //TODO: Translate this
             message: "Veuillez renseigner le SIREN de votre entreprise",
+          },
+          {
+            len: 9,
           },
         ]}
       >
-        <div className={"form_item_wrapper required"}>
-          <Input className={"form_item"} placeholder={"SIREN"} />
-        </div>
-      </Form.Item>
-      <Form.Item
+        <Input className={"input_item"} placeholder={"SIREN"} />
+      </FormRequiredItem>
+      <FormRequiredItem
+        hasFeedback
+        validateStatus={
+          props.validationStatus
+            ? props.validationStatus.officialName
+            : undefined
+        }
+        name={"officialName"}
+        style={{
+          width: "100%",
+        }}
+        rules={[
+          {
+            message: "Veuillez renseigner le nom officiel de l'entreprise",
+          },
+        ]}
+      >
+        <Input
+          className={"input_item"}
+          placeholder={"Nom officiel de l'entreprise"}
+          disabled={props.isLocked}
+        />
+      </FormRequiredItem>
+      <FormRequiredItem
+        hasFeedback
+        validateStatus={
+          props.validationStatus ? props.validationStatus.name : undefined
+        }
         name={"name"}
         rules={[
           {
-            required: true,
-            //TODO: translate this
             message: "Veuillez renseigner le nom de l'entreprise",
           },
         ]}
       >
-        <div className={"form_item_wrapper required"}>
-          <Input
-            className={"form_item required"}
-            placeholder={"Nom de l'entreprise"}
-          />
-        </div>
-      </Form.Item>
-      <Form.Item name={"address"}>
-        <div className={"form_item_wrapper required"}>
-          <Input
-            className={"form_item input_item required"}
-            placeholder={"Address"}
-          />
-        </div>
-      </Form.Item>
-      <Form.Item
+        <Input className={"input_item"} placeholder={"Nom de l'entreprise"} />
+      </FormRequiredItem>
+      <FormRequiredItem
+        hasFeedback
+        validateStatus={
+          props.validationStatus ? props.validationStatus.address : undefined
+        }
+        name={"address"}
+        rules={[
+          {
+            message: "Veuillez renseigner l'adresse de l'entreprise",
+          },
+        ]}
+      >
+        <Input className={"input_item"} placeholder={"Address"} />
+      </FormRequiredItem>
+      <FormRequiredItem
+        hasFeedback
         name={"email"}
         rules={[
           {
-            required: true,
-            //TODO: Translate this
+            type: "email",
+          },
+          {
             message: "Veuillez renseigner un email",
           },
         ]}
       >
-        <div className={"form_item_wrapper required"}>
-          <Input className={"input_item required"} placeholder={"Email"} />
-        </div>
-      </Form.Item>
-      <Form.Item
+        <Input className={"input_item"} placeholder={"Email"} />
+      </FormRequiredItem>
+      <FormRequiredItem
         name={"phone"}
         rules={[
           {
-            required: true,
-            //TODO: Translate this
             message: "Veuillez renseigner un numéro de téléphone",
           },
         ]}
       >
-        <div className={"form_item_wrapper required"}>
-          <Input
-            className={"form_item"}
-            placeholder={"Phone"}
-            addonBefore={<CountryCode />}
-          />
-        </div>
-      </Form.Item>
+        <Input
+          className={"input_item"}
+          placeholder={"Phone"}
+          addonBefore={<CountryCode />}
+        />
+      </FormRequiredItem>
     </>
   );
 };

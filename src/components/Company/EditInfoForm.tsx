@@ -6,7 +6,7 @@ import ImageSelectorButton from "../Gallery/ImageSelectorButton";
 import { UploadChangeParam, UploadFile } from "antd/lib/upload/interface";
 import { CompanyImageData } from "../Files/ImageUploadModal";
 import { loader } from "graphql.macro";
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/client";
 
 declare interface EditInfoFormProps {
   infos: Info[];

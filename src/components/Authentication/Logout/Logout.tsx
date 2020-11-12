@@ -1,5 +1,5 @@
 import React from "react";
-import { useApolloClient } from "@apollo/react-hooks";
+import { useApolloClient } from "@apollo/client";
 import { LogoutOutlined } from "@ant-design/icons/lib";
 import "../../../assets/Style/Layout/logout.less";
 
@@ -13,6 +13,10 @@ const Logout: React.FC<Props> = ({ collapsed = false }: Props) => {
   const onLogoutHandler = (): void => {
     localStorage.removeItem("token");
     localStorage.removeItem("collapsedCategory");
+    if (localStorage.getItem("rememberCompany") === "false") {
+      localStorage.removeItem("rememberCompany");
+      localStorage.removeItem("selectedCompany");
+    }
     client.resetStore().then(null);
   };
 

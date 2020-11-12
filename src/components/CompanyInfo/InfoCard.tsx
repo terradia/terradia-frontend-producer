@@ -6,7 +6,7 @@ import EditInfoForm from "../Company/EditInfoForm";
 import { Moment } from "moment";
 import "../../assets/Style/CompanyPage/InfoCard.less";
 import { loader } from "graphql.macro";
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/client";
 
 export declare interface Hours {
   startTime: any;
@@ -204,7 +204,6 @@ const InfoCard = (props: InfoCardProps) => {
                         bordered={false}
                         inputReadOnly
                         disabled
-                        picker={"time"}
                         value={[hour.startTime, hour.endTime]}
                         format={"HH:mm"}
                         suffixIcon={null}

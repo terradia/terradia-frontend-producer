@@ -1,0 +1,19 @@
+query getGeoCode($address: String!) {
+    geocode(address: $address) {
+        zipcode
+        streetName
+        streetNumber
+        stateCode
+        state
+        provider
+        longitude
+        latitude
+        formattedAddress
+        district
+        county
+        countryCode
+        country
+        city
+        building
+    }
+}
