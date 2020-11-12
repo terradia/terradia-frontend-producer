@@ -4,11 +4,11 @@ import { Table, Radio } from "antd";
 import Title from "../components/Ui/Title";
 import { MoreOutlined } from "@ant-design/icons";
 import Modal from "antd/lib/modal/Modal";
+import { useTranslation } from "react-i18next";
 
 // const queryCompanyUsers = graphqlLoader(
 //   "../graphql/query/getCompanyUsers.graphql"
 // );
-
 const myArray = [
   {
     id: "0102030405",
@@ -105,6 +105,7 @@ const Orders = () => {
   const [statusOrder, setStatusOrder] = React.useState("");
   const [statusOrderId, setStatusOrderId] = React.useState("");
   let tmpRecord = [];
+  const { t } = useTranslation("common");
 
   const handleModalDetails = () => {
     myArray.forEach((order) => {
@@ -142,16 +143,16 @@ const Orders = () => {
         {tmpRecord && (
           <Radio.Group onChange={onChange} value={statusOrder}>
             <Radio style={radioStyle} value={"approuved"}>
-              Approuved
+              {t("OrdersListPage.orderValues.approuved")}
             </Radio>
             <Radio style={radioStyle} value={"payed"}>
-              Payed
+              {t("OrdersListPage.orderValues.payed")}
             </Radio>
             <Radio style={radioStyle} value={"delivered"}>
-              Delivered
+              {t("OrdersListPage.orderValues.delivered")}
             </Radio>
             <Radio style={radioStyle} value={"cancel"}>
-              Cancel
+              {t("OrdersListPage.orderValues.canceled")}
             </Radio>
           </Radio.Group>
         )}
@@ -175,30 +176,30 @@ const Orders = () => {
       key: "#",
     },
     {
-      title: "Date",
+      title: t("OrdersListPage.labels.date"),
       dataIndex: "date",
       key: "date",
       render: (date) => date.toDateString(),
     },
     {
-      title: "Statut",
+      title: t("OrdersListPage.labels.status"),
       dataIndex: "status",
       key: "status",
       filters: [
         {
-          text: "Approuved",
+          text: t("OrdersListPage.orderValues.approuved"),
           value: "approuved",
         },
         {
-          text: "Delivered",
+          text: t("OrdersListPage.orderValues.delivered"),
           value: "delivered",
         },
         {
-          text: "Payed",
+          text: t("OrdersListPage.orderValues.payed"),
           value: "payed",
         },
         {
-          text: "Canceled",
+          text: t("OrdersListPage.orderValues.canceled"),
           value: "canceled",
         },
       ],
@@ -206,18 +207,18 @@ const Orders = () => {
       onFilter: (value, record) => record.status.indexOf(value) === 0,
     },
     {
-      title: "Nb d'articles",
+      title: t("OrdersListPage.labels.ProductsNumber"),
       dataIndex: "nbItems",
       key: "nbItems",
       sorter: (a, b) => a.nbItems - b.nbItems,
     },
     {
-      title: "Mode de livraison",
+      title: t("OrdersListPage.labels.deliveryType"),
       dataIndex: "deliveryMode",
       key: "deliveryMode",
     },
     {
-      title: "Prix",
+      title: t("OrdersListPage.labels.price"),
       key: "price",
       dataIndex: "totalPrice",
       sorter: (a, b) => a.totalPrice - b.totalPrice,
@@ -228,7 +229,7 @@ const Orders = () => {
     //   render: (order) => `${order.status}`,
     // },
     {
-      title: "Actions",
+      title: t("OrdersListPage.labels.actions"),
       dataIndex: "operation",
       render: moreDetails,
     },
@@ -239,7 +240,7 @@ const Orders = () => {
   return (
     <div className={"order-page"}>
       <Modal
-        title="Order Status"
+        title={t("OrdersListPage.ordersListPageModal.name")}
         centered
         visible={openMoreDetails}
         onOk={() => handleModalDetails()}
@@ -247,7 +248,7 @@ const Orders = () => {
       >
         <div>{handleChangeOrder()}</div>
       </Modal>
-      <Title title={"Suivi des commandes"} />
+      <Title title={t("OrdersListPage.labels.pageName")} />
       <Table columns={columns} rowKey={"id"} dataSource={myArray} />
     </div>
   );
