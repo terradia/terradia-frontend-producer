@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Popconfirm, Rate, Table } from "antd";
 import {
   DeleteOutlined,

@@ -6,7 +6,6 @@ import { useMutation } from "@apollo/client";
 import { loader as graphqlLoader } from "graphql.macro";
 
 import "../../../../assets/Style/Products/Grid.less";
-import {Divider} from "antd";
 
 const mutationUpdateProductsPosition = graphqlLoader(
   "../../../../graphql/mutation/products/updateProductsPositions.graphql"

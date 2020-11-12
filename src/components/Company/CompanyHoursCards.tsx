@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Avatar, Button, Card, TimePicker } from "antd";
-import SubmitButton from "../Ui/SubmitButton";
 import EditInfoForm from "./EditInfoForm";
 import { Moment } from "moment";
 import "../../assets/Style/CompanyPage/CompanyHoursCard.less";

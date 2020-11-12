@@ -1,6 +1,6 @@
 import React from "react";
 import { Product } from "../../../../interfaces/Product";
-import { EditOutlined, FileImageOutlined } from "@ant-design/icons/lib";
+import { FileImageOutlined } from "@ant-design/icons/lib";
 import { Rate, Tooltip } from "antd";
 import { useTranslation } from "react-i18next";
 
