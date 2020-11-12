@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, Redirect, useHistory } from "react-router-dom";
 import { useApolloClient, useLazyQuery, useMutation } from "@apollo/react-hooks";
 import { Checkbox, Divider, Input } from "antd";
@@ -7,7 +7,6 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import Button from "../../Ui/Button";
 import "../../../assets/Style/Login-Register/loginForm.less";
-import UserContext from "../../Context/UserContext";
 import {
   AppleFilled,
   CloseCircleOutlined,
@@ -46,8 +45,6 @@ declare interface LoginFormProps {
 
 const LoginForm = (props: LoginFormProps) => {
   const client = useApolloClient();
-  const userContext = useContext(UserContext);
-  const [event, setEvent] = useState<StorageEvent>();
   const [redirect, setRedirect] = useState("");
   const [login, { loading: loginLoading }] = useMutation(mutationLogin);
   const [
@@ -68,12 +65,12 @@ const LoginForm = (props: LoginFormProps) => {
   });
 
   useEffect(() => {
-    if (event) dispatchEvent(event);
-  }, [event]);
-
-  useEffect(() => {
-    if (userContext) getCompaniesQuery();
-  }, [getCompaniesQuery, userContext]);
+    try {
+      client.readQuery({ query: getUser });
+      getCompaniesQuery();
+      // eslint-disable-next-line no-empty
+    } catch {}
+  }, [getCompaniesQuery, client]);
 
   useEffect(() => {
     if (called && !companiesLoading) {
