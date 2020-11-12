@@ -35,7 +35,7 @@ function ProductAdviceItem(props: ProductAdviceItemProps) {
         <Popconfirm
           key={props.item.id}
           placement="top"
-          title={t("ProductsPage.deleteCategory.title")}
+          title={t("ProductsPage.ProductAdvices.deleteAdvice")}
           onConfirm={() => {
             handleDeleteAdvice();
           }}

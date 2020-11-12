@@ -68,10 +68,6 @@ function Grid(props: GridProps) {
     source: { indexCat: number; indexCard: number; categoryId?: string },
     destination?: { indexCat: number; indexCard: number; categoryId: string }
   ) {
-    const idCardMoved =
-      props.data.getAllCompanyProductsCategories[destination.indexCat].products[
-        destination.indexCard
-      ].id;
     const modifiedList = []; // List to send to back
     for (
       let i = source.indexCard;
@@ -96,6 +92,9 @@ function Grid(props: GridProps) {
     }
 
     if (!sameCategory) {
+      const idCardMoved =
+        props.data.getAllCompanyProductsCategories[destination.indexCat]
+          .products[destination.indexCard].id;
       let type = null;
       let categoryId = null;
       for (

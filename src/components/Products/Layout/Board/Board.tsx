@@ -67,10 +67,6 @@ function Board(props: BoardProps) {
     source: { indexCat: number; indexCard: number; categoryId?: string },
     destination?: { indexCat: number; indexCard: number; categoryId: string }
   ) {
-    const idCardMoved =
-      props.data.getAllCompanyProductsCategories[destination.indexCat].products[
-        destination.indexCard
-      ].id;
     const modifiedList = []; // List to send to back
     for (
       let i = source.indexCard;
@@ -95,6 +91,9 @@ function Board(props: BoardProps) {
     }
 
     if (!sameCategory) {
+      const idCardMoved =
+        props.data.getAllCompanyProductsCategories[destination.indexCat]
+          .products[destination.indexCard].id;
       let type = null;
       let categoryId = null;
       for (
