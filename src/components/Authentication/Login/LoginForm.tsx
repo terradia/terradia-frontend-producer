@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { NavLink, Redirect, useHistory } from "react-router-dom";
-import { useApolloClient, useLazyQuery, useMutation } from "@apollo/client";
+import { useApolloClient, useLazyQuery, useMutation } from "@apollo/react-hooks";
 import { Checkbox, Divider, Input } from "antd";
 import { loader as graphqlLoader } from "graphql.macro";
 import { Formik } from "formik";

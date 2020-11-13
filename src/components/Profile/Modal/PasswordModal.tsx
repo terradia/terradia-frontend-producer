@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Input, Modal } from "antd";
 import "../../../assets/Style/Profile/userProfile.less";
-import { useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
 import Button from "../../Ui/Button";
 import { User } from "../../../interfaces";
@@ -104,7 +104,7 @@ const PasswordModal = ({
               })
                 ? Promise.resolve()
                 : Promise.reject(
-                    t("ProfilePage.editProfileModal.errorMessageNewPassword")
+                    t("ProfilePage.deleteAccountModal.errorMessageNewPassword")
                   );
             updateUser({
               variables: {
@@ -118,7 +118,7 @@ const PasswordModal = ({
           {isForgotPassword === "true" ? null : (
             <Form.Item>
               <div className={"label"}>
-                {t("ProfilePage.editProfileModal.actualPassword")}
+                {t("ProfilePage.deleteAccountModal.actualPassword")}
               </div>
               <Form.Item
                 name="actualPassword"
@@ -127,7 +127,7 @@ const PasswordModal = ({
                   {
                     required: true,
                     message: t(
-                      "ProfilePage.editProfileModal.messageActualPassword"
+                      "ProfilePage.deleteAccountModal.messageActualPassword"
                     ),
                   },
                 ]}
@@ -138,14 +138,16 @@ const PasswordModal = ({
           )}
           <Form.Item>
             <div className={"label"}>
-              {t("ProfilePage.editProfileModal.newPassword")}
+              {t("ProfilePage.deleteAccountModal.newPassword")}
             </div>
             <Form.Item
               name="newPassword"
               rules={[
                 {
                   required: true,
-                  message: t("ProfilePage.editProfileModal.messageNewPassword"),
+                  message: t(
+                    "ProfilePage.deleteAccountModal.messageNewPassword"
+                  ),
                 },
                 () => ({
                   validator(rule, value) {
@@ -153,7 +155,9 @@ const PasswordModal = ({
                       return Promise.resolve();
                     }
                     return Promise.reject(
-                      t("ProfilePage.editProfileModal.errorMessageNewPassword")
+                      t(
+                        "ProfilePage.deleteAccountModal.errorMessageNewPassword"
+                      )
                     );
                   },
                 }),
@@ -166,7 +170,7 @@ const PasswordModal = ({
 
           <Form.Item>
             <div className={"label"}>
-              {t("ProfilePage.editProfileModal.confirmNewPassword")}
+              {t("ProfilePage.deleteAccountModal.confirmNewPassword")}
             </div>
             <Form.Item
               name="confirmNewPassword"
@@ -176,7 +180,7 @@ const PasswordModal = ({
                 {
                   required: true,
                   message: t(
-                    "ProfilePage.editProfileModal.messageConfirmPassword"
+                    "ProfilePage.deleteAccountModal.messageConfirmPassword"
                   ),
                 },
                 ({ getFieldValue }) => ({
@@ -185,7 +189,7 @@ const PasswordModal = ({
                       return Promise.resolve();
                     }
                     return Promise.reject(
-                      t("ProfilePage.editProfileModal.missmatchPassword")
+                      t("ProfilePage.deleteAccountModal.missmatchPassword")
                     );
                   },
                 }),

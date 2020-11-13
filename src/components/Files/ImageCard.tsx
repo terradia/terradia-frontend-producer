@@ -4,7 +4,7 @@ import { Card } from "antd";
 import ImageViewModal from "./ImageViewModal";
 import { CompanyImage } from "../../interfaces/CompanyImage";
 import ImageRemoveConfirmModal from "./ImageRemoveConfirmModal";
-import { useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
 
 interface Props {

@@ -10,7 +10,7 @@ import Login from "./pages/Login";
 import CompanyPage from "./pages/CompanyPage";
 import Orders from "./pages/Orders";
 import Profile from "./pages/profile/Profile";
-import { useLazyQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
 import ResetPassword from "./pages/ResetPassword";
 import Register from "./pages/Register";

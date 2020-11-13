@@ -1,0 +1,8 @@
+query getCompanyProductAdvices($companyId: ID!, $productId: ID!, $limit: Int!, $offset: Int!) {
+    getCompanyProductAdvises(companyId: $companyId, productId: $productId, limit: $limit, offset: $offset) {
+        id
+        createdAt
+        title
+        content
+    }
+}

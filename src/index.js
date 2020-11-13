@@ -3,12 +3,16 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import fetch from "isomorphic-unfetch";
-import {ApolloProvider, InMemoryCache, ApolloClient, from} from "@apollo/client"
-import { onError } from "@apollo/client/link/error"
-import { setContext } from "@apollo/client/link/context";
+import { setContext } from "apollo-link-context";
+import { ApolloProvider } from "@apollo/react-common";
+import ApolloClient from "apollo-client";
+import { InMemoryCache } from "apollo-cache-inmemory";
+import { onError } from "apollo-link-error";
+import { ApolloLink } from "apollo-link";
 import "./index.less";
 import { createUploadLink } from "apollo-upload-client";
 import { notification } from "antd";
+import i18n from "./i18n";
 
 const httpLink = createUploadLink({
   //uri: "https://api.terradia.eu/graphql",
@@ -21,7 +25,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
     graphQLErrors.map(({ message, locations, path }) =>
       notification.error({
-        message: message
+        message: i18n.t(message)
       })
     );
   }
@@ -58,7 +62,7 @@ const cache = new InMemoryCache({
 });
 
 const client = new ApolloClient({
-  link: from([authLink, errorLink, httpLink]),
+  link: ApolloLink.from([authLink, errorLink, httpLink]),
   cache: cache,
   connectToDevTools: true,
 });

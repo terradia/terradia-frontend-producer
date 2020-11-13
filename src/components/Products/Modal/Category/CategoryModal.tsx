@@ -3,7 +3,7 @@ import { Modal } from "antd";
 import CategoryForm from "./CategoryForm";
 import "../../../../assets/Style/Products/Modal/ProductsModal.less";
 import { loader as graphqlLoader } from "graphql.macro";
-import { useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/react-hooks";
 import { useTranslation } from "react-i18next";
 
 const mutationCreateCategory = graphqlLoader(

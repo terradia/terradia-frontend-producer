@@ -5,7 +5,7 @@ import { EditOutlined } from "@ant-design/icons/lib";
 import ImageSelectorButton from "../Gallery/ImageSelectorButton";
 import { CompanyImage } from "../../interfaces/CompanyImage";
 import { loader } from "graphql.macro";
-import { useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/react-hooks";
 import Field from "./Field";
 import { Divider } from "antd";
 

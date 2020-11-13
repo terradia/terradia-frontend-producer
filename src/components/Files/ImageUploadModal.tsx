@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Modal, Upload } from "antd";
-import { useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
 import { InboxOutlined } from "@ant-design/icons/lib";
 import { RcFile, UploadChangeParam } from "antd/lib/upload/interface";

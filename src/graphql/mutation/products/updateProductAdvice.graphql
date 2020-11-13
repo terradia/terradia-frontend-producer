@@ -1,0 +1,9 @@
+mutation updateProductAdvice($adviceId: ID!, $title: String!, $content: String!) {
+    updateCompanyProductAdvise(
+        id: $adviceId
+        title: $title
+        content: $content
+    ) {
+        id
+    }
+}
