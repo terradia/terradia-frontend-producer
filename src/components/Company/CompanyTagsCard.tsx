@@ -4,7 +4,7 @@ import { Company } from "../../interfaces/Company";
 import { Card, Empty, Modal, Tag, Input } from "antd";
 import { EditOutlined, PlusOutlined } from "@ant-design/icons/lib";
 import CheckableTag from "antd/es/tag/CheckableTag";
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
 import TerradiaLoader from "../TerradiaLoader";
 import Button from "../Ui/Button";

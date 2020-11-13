@@ -6,7 +6,7 @@ import AdministrativeInfoForm, { InputStatus } from "./AdministrativeInfoForm";
 import "../../assets/Style/CompanyRegister/CompanyRegisterForm.less";
 import RegisterForm from "../Authentication/Register/RegisterForm";
 import LoginForm from "../Authentication/Login/LoginForm";
-import { useApolloClient, useLazyQuery, useMutation } from "@apollo/client";
+import { useApolloClient, useLazyQuery, useMutation } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
 import { CompanyImageData } from "../Files/ImageUploadModal";
 import { UploadChangeParam } from "antd/lib/upload";

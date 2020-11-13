@@ -4,7 +4,7 @@ import EditInfoForm from "./EditInfoForm";
 import { Moment } from "moment";
 import "../../assets/Style/CompanyPage/CompanyHoursCard.less";
 import { loader } from "graphql.macro";
-import { useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/react-hooks";
 import { CheckOutlined, EditOutlined } from "@ant-design/icons/lib";
 import { useTranslation } from "react-i18next";
 

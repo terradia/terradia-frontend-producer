@@ -2,7 +2,7 @@ import React from "react";
 
 import CategoryProducts from "./CategoryProducts";
 import { DragDropContext } from "react-beautiful-dnd";
-import { useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
 
 import "../../../../assets/Style/Products/Grid.less";

@@ -3,7 +3,7 @@ import { DragDropContext } from "react-beautiful-dnd";
 import CategoryColumn from "./CategoryColumn";
 
 import "../../../../assets/Style/Products/Board.less";
-import { useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
 
 declare interface BoardProps {

@@ -3,7 +3,7 @@ import { Button, Modal, Popconfirm, Tabs } from "antd";
 import ProductsForm from "./ProductsForm";
 import "../../../../assets/Style/Products/Modal/ProductsModal.less";
 import { loader as graphqlLoader } from "graphql.macro";
-import { useLazyQuery, useMutation } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 import ProductsAdvice from "./ProductsAdvice";
 import ProductsReviews from "./ProductsReviews";
 import { useTranslation } from "react-i18next";

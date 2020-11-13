@@ -3,7 +3,7 @@ import { Layout as AntLayout, Tabs, Badge } from "antd";
 import Header from "../components/Layout/Header";
 import CompanyCardSelector from "../components/CompanySelector/CompanyCardSelector";
 import InvitationsListCard from "../components/Staff/InvitationsListCard";
-import { useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
 import TerradiaLoader from "../components/TerradiaLoader";
 
