@@ -13,7 +13,9 @@ const Logout: React.FC<Props> = ({ collapsed = false }: Props) => {
   const onLogoutHandler = (): void => {
     const token = localStorage.getItem("token");
     client.stop();
-    client.resetStore().then(null);
+    client.resetStore().then(() => {
+      return;
+    });
     dispatchEvent(
       new StorageEvent("storage", {
         key: "token",
