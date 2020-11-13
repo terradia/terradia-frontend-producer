@@ -5,11 +5,11 @@ import {
   PlusCircleOutlined,
 } from "@ant-design/icons/lib";
 import { Draggable, Droppable } from "react-beautiful-dnd";
-import { Popconfirm } from "antd";
-import { ReactComponent as BookmarkIcon } from "../../../../assets/Icon/ui/bookmark.svg";
-import { useMutation } from "@apollo/react-hooks";
+import { Empty, Popconfirm } from "antd";
+import { useMutation } from "@apollo/client";
 import { loader as graphqlLoader } from "graphql.macro";
 import ProductCard from "../Grid/ProductCard";
+import { useTranslation } from "react-i18next";
 
 const mutationDeleteCategory = graphqlLoader(
   "../../../../graphql/mutation/category/deleteCompanyProductCategory.graphql"
@@ -67,6 +67,8 @@ function CategoryColumn(props: CategoryColumnProps) {
       console.log(error);
     });
   }
+
+  const { t } = useTranslation("common");
 
   return (
     <div
@@ -135,8 +137,7 @@ function CategoryColumn(props: CategoryColumnProps) {
                       cancelText="Non"
                     >
                       <DeleteOutlined
-                        className={"category-icon"}
-                        style={{ color: "red" }}
+                        className={"category-icon red"}
                         onClick={(event) => {
                           event.stopPropagation();
                         }}
@@ -189,23 +190,10 @@ function CategoryColumn(props: CategoryColumnProps) {
                 )}
                 {props.cat.products.length === 0 && (
                   <div ref={provided.innerRef} className={"empty-list-board"}>
-                    <div
-                      style={{
-                        justifyContent: "center",
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        fontSize: "larger",
-                        maxWidth: "200px",
-                      }}
-                    >
-                      <BookmarkIcon
-                        style={{ height: "100px", maxWidth: "200px" }}
-                      />
-                      <p className={"empty-list-board-text"}>
-                        {"Aucun produit n'est disponible pour cette catégorie"}
-                      </p>
-                    </div>
+                    <Empty
+                      description={t("ProductsPage.noProductInCategory")}
+                      image={Empty.PRESENTED_IMAGE_SIMPLE}
+                    />
                     {provided.placeholder}
                   </div>
                 )}

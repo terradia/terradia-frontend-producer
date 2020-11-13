@@ -1,6 +1,6 @@
 import React from "react";
 import { loader as graphqlLoader } from "graphql.macro";
-import { useQuery, useMutation } from "@apollo/react-hooks";
+import { useQuery, useMutation } from "@apollo/client";
 import { Table, Tag, Modal, Row, Col, Divider, Card } from "antd";
 import Popconfirm from "antd/es/popconfirm";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons/lib";
@@ -257,8 +257,7 @@ const Staff = () => {
             cancelText="Non"
           >
             <DeleteOutlined
-              className={"category-icon"}
-              style={{ color: "red" }}
+              className={"category-icon red"}
               onClick={(event) => {
                 event.stopPropagation();
               }}
@@ -312,10 +311,7 @@ const Staff = () => {
 
   return (
     <>
-      <Card
-        className={"card"}
-        title={<h2 className={"card-title"}>Employés</h2>}
-      >
+      <Card className={"card"} title={<h2>Employés</h2>}>
         <Table
           columns={columns}
           rowKey={"id"}

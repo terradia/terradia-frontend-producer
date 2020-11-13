@@ -10,7 +10,7 @@ import Login from "./pages/Login";
 import CompanyPage from "./pages/CompanyPage";
 import Orders from "./pages/Orders";
 import Profile from "./pages/profile/Profile";
-import { useLazyQuery } from "@apollo/react-hooks";
+import { useLazyQuery } from "@apollo/client";
 import { loader as graphqlLoader } from "graphql.macro";
 import ResetPassword from "./pages/ResetPassword";
 import Register from "./pages/Register";
@@ -21,6 +21,7 @@ import UserContext from "./components/Context/UserContext";
 import LoadingFullPage from "./components/LoadingFullPage";
 
 import "./assets/body.less";
+import "./assets/Style/antd-custom.less";
 
 const queryGetUser = graphqlLoader("./graphql/query/getUser.graphql");
 

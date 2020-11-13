@@ -1,23 +1,95 @@
-//@primary-color: #52c41a;
-//@layout-header-height: 40px;
-//@border-radius-base: 2px;
-//@font-style: normal;
-//@font-weight: 500;
-//
-//.ant-layout-sider-children {
-//  display: flex;
-//  flex-wrap: wrap;
-//  justify-content: center;
-//  align-items: center;
-//  align-content: space-between;
-//}
+@import "../../index";
 
-//.ant-input-lg.input_item_login {
-//  height: 15% !important;
-//}
-//
-//.ant-input-lg.input_item_register {
-//  height: 12% !important;
-//}
+h2 {
+  font-family: @font-family;
+  color: @black;
+  font-size: @font-size-lg;
+  font-weight: 600;
+  margin: 0;
+}
 
+.ant-avatar {
+  border: @primary-color solid 2px;
+  background: white !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
+.ant-modal-footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.ant-card {
+  box-shadow: @shadow-base;
+}
+.ant-card.no-shadow {
+  box-shadow: none;
+}
+
+.ant-rate-star-full {
+  .ant-rate-star-first {
+    .anticon-star {
+      color: #fadb14 !important;
+    }
+  }
+  .ant-rate-star-second {
+    .anticon-star {
+      color: #fadb14 !important;
+    }
+  }
+}
+
+.ant-rate-star-half {
+  .ant-rate-star-second {
+    .anticon-star {
+      color: #e8e8e8 !important;
+    }
+  }
+  .ant-rate-star-first {
+    .anticon-star {
+      color: #fadb14 !important;
+    }
+  }
+}
+.ant-rate-star-zero {
+  .ant-rate-star-first {
+    .anticon-star {
+      color: #e8e8e8 !important;
+    }
+  }
+
+  .ant-rate-star-second {
+    .anticon-star {
+      color: #e8e8e8 !important;
+    }
+  }
+}
+
+.ant-radio-button-wrapper {
+  background: transparent;
+}
+.ant-radio-group-solid {
+  .ant-radio-button-wrapper-checked {
+    background: @primary-color;
+    svg {
+      g {
+        path {
+          fill: white
+        }
+      }
+    }
+  }
+}
+
+.ant-divider.invisible-divider {
+  background-color: transparent !important;
+  border-color: transparent !important;
+  background: none !important;
+}
+.ant-divider.padding-size {
+  margin-top: calc(@padding-md / 2);
+  margin-bottom: calc(@padding-md / 2);
+}

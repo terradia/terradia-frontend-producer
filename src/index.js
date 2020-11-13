@@ -3,14 +3,11 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import fetch from "isomorphic-unfetch";
-import { setContext } from "apollo-link-context";
-import { ApolloProvider } from "@apollo/react-common";
+import {ApolloProvider, InMemoryCache, ApolloClient, from} from "@apollo/client"
+import { onError } from "@apollo/client/link/error"
+import { setContext } from "@apollo/client/link/context";
 import "./index.less";
 import { createUploadLink } from "apollo-upload-client";
-import ApolloClient from "apollo-client";
-import { InMemoryCache } from "apollo-cache-inmemory";
-import { onError } from "apollo-link-error";
-import { ApolloLink } from "apollo-link";
 import { notification } from "antd";
 import i18n from "./i18n";
 
@@ -30,7 +27,6 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
     );
   }
   if (networkError) {
-    console.log(networkError.message);
     if (networkError.message === "Failed to fetch") {
       notification.error({
         message: "Failed to connect to the server, check your connectivity", // TODO translate
@@ -52,8 +48,8 @@ const authLink = setContext((_, { headers }) => {
 const cache = new InMemoryCache({
   cacheRedirects: {
     query: {
-      meLocal: (_, { id }, { getChachedKey }) => {
-        return getChachedKey({
+      meLocal: (_, { id }, { getCachedKey }) => {
+        return getCachedKey({
           __typename: "User",
           id: id,
         });
@@ -63,7 +59,7 @@ const cache = new InMemoryCache({
 });
 
 const client = new ApolloClient({
-  link: ApolloLink.from([authLink, errorLink, httpLink]),
+  link: from([authLink, errorLink, httpLink]),
   cache: cache,
   connectToDevTools: true,
 });

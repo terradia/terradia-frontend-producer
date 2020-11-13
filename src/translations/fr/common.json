@@ -78,7 +78,11 @@
     }
   },
   "ProductsPage": {
-    "noProductInCategory": "Aucun produit n'est disponible pour cette catégorie",
+    "ProductCard": {
+      "tooltip": "Cliquer ici pour modifier le produit"
+    },
+    "noProducts": "Aucun produit à lister",
+    "noProductInCategory": "Il n'y a aucun produit dans cette catégorie",
     "uncategorizedProducts": "Produits non catégorisés",
     "deleteCategory": {
       "title": "Voulez-vous vraiment supprimer cette catégorie?",
@@ -159,6 +163,8 @@
   "FilesPage": {
     "Images": {
       "noImage": "Aucune image pour le moment",
+      "noImageSelected": "Aucune image séléctionnée(s)",
+      "numberImagesSelected": "Image(s) séléctionnée(s)",
       "buttons": {
         "loadImages": "Télécharger des images"
       },
@@ -186,7 +192,7 @@
   "ProfilePage": {
     "buttons": {
       "edit": "Modifier mon compte",
-      "editPassword":"Modifier mon mot de passe",
+      "editPassword": "Modifier mon mot de passe",
       "delete": "Supprimer mon compte"
     },
     "labels": {
@@ -210,7 +216,7 @@
       "email": "COURRIEL",
       "phone": "NUMERO DE TELEPHONE"
     },
-    "deleteAccountModal":{
+    "deleteAccountModal": {
       "delete": "Supprimer le compte",
       "close": "Fermer",
       "name": "Etes-vous certain de vouloir supprimer le compte?",

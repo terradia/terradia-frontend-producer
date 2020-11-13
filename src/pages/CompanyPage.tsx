@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLazyQuery, useQuery } from "@apollo/react-hooks";
+import { useQuery, useLazyQuery } from "@apollo/client";
 import { loader as graphqlLoader } from "graphql.macro";
 import { Info } from "../components/CompanyInfo/InfoCard";
 import moment from "moment";
@@ -135,8 +135,6 @@ const CompanyPage = () => {
             refetch={refetch}
             isDelivery
           />
-          <Divider className={"invisible-divider padding-size"} />
-          <CompanyTagsCard company={data.getCompany} />
         </TabPane>
         <TabPane tab="Avis des clients" key="3">
           <CompanyReviewsCard

@@ -1,11 +1,18 @@
+@import "../../../index";
+
 .column {
   background: white;
   border-radius: 5px;
-  margin-right: 30px;
-  margin-bottom: 20px;
-  min-width: 250px;
+  margin-right: @padding-md;
+  margin-bottom: @padding-md;
+  min-width: 280px;
   height: 97%;
   padding-bottom: 15px;
+}
+@media(max-width: 1024px) {
+  .column {
+    margin-right: 0;
+  }
 }
 
 .droppable-column {
@@ -15,7 +22,7 @@
 .column-header {
   height: 10%;
   font-size: large;
-  font-weight: bold;
+  font-weight: 500;
   font-family: Montserrat, serif;
   cursor: pointer;
   display: flex;
@@ -29,10 +36,9 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-
   }
 
-  .column-title-icon  {
+  .column-title-icon {
     height: 100%;
     width: 30%;
     display: flex;
@@ -49,21 +55,17 @@
   margin: 0 6px;
 }
 
-.column-content::-webkit-scrollbar-track
-{
+.column-content::-webkit-scrollbar-track {
   border-radius: 10px;
   background-color: rgba(0, 0, 0, 0.04);
 }
 
-.column-content::-webkit-scrollbar
-{
+.column-content::-webkit-scrollbar {
   width: 10px;
   background-color: rgba(0, 0, 0, 0.04);
-;
 }
 
-.column-content::-webkit-scrollbar-thumb
-{
+.column-content::-webkit-scrollbar-thumb {
   border-radius: 10px;
   background-color: rgba(0, 0, 0, 0.06);
 }

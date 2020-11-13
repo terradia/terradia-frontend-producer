@@ -59,6 +59,7 @@ const SidebarCompany = (props: SidebarCompanyProps) => {
           link={"/orders"}
           label={"Commandes"}
           onClick={props.onClickedLink}
+          collapsed={props.collapsed}
           selected={props.currentPage === "/orders"}
           icon={<ShoppingOutlined />}
         />

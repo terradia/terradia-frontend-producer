@@ -28,7 +28,6 @@ const EditOfficeHour = (props: EditOfficeHourProps) => {
                   <RangePicker
                     key={props.day + "-" + field.key + "-form-item-picker"}
                     className={"picker-input-color"}
-                    picker={"time"}
                     format={"HH:mm"}
                     allowClear={false}
                     suffixIcon={null}

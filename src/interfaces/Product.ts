@@ -13,4 +13,6 @@ export interface Product {
   description: string;
   unit: Unit;
   quantityForUnit: number;
+  averageMark: number;
+  numberOfMarks: number;
 }

@@ -13,6 +13,12 @@ export interface CompanyOpeningDay {
   hours: [CompanyOpeningDayHours];
 }
 
+export interface CompanyTag {
+  id: string;
+  translationKey: string;
+  color: string;
+}
+
 export interface Company {
   id: string;
   name: string;
@@ -22,6 +28,7 @@ export interface Company {
   siren: string;
   logo: CompanyImage;
   cover: CompanyImage;
+  tags: CompanyTag[]
   address: string;
   averageMark: number;
   numberOfMarks: number;

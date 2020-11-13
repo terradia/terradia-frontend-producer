@@ -20,6 +20,7 @@ type Cart {
     customer: Customer!
     expirationDate: Date
     id: ID!
+    numberProducts: Int!
     products: [CartProduct]
     totalPrice: Float
     updatedAt: Date
@@ -118,6 +119,38 @@ type CompanyDeliveryDayHours {
     startTime: Date!
 }
 
+type CompanyGeo {
+    administrativeLevels: CompanyGeoAdministrativeLevels
+    building: String
+    city: String
+    country: String
+    countryCode: String
+    county: String
+    district: String
+    extra: CompanyGeoExtra
+    formattedAddress: String
+    latitude: Float
+    longitude: Float
+    provider: String
+    state: String
+    stateCode: String
+    streetName: String
+    streetNumber: String
+    zipcode: String
+}
+
+type CompanyGeoAdministrativeLevels {
+    level1long: String
+    level1short: String
+    level2long: String
+    level2short: String
+}
+
+type CompanyGeoExtra {
+    confidence: Int
+    googlePlaceId: String
+}
+
 type CompanyImage {
     createdAt: Date
     filename: String
@@ -159,6 +192,16 @@ type CompanyOpeningDayHours {
     endTime: Date!
     id: ID!
     startTime: Date!
+}
+
+type CompanyProductAdvise {
+    company: Company
+    content: String
+    createdAt: Date
+    id: ID!
+    product: Product
+    title: String
+    updatedAt: Date
 }
 
 type CompanyProductImage {
@@ -211,7 +254,9 @@ type Customer {
     companyReviews: [CompanyReview]
     favoriteCompanies: [Company]
     id: String!
-    user: User!
+    orders: [Order]
+    ordersHistory: [OrderHistory]
+    user: User
 }
 
 type CustomerAddress {
@@ -264,6 +309,7 @@ type LegalUnits {
 type Mutation {
     _: Boolean
     acceptInvitation(invitationId: String!): CompanyUserInvitation
+    acceptOrder(id: ID!): Order
     addCategoryToProduct(categoryName: String!, productId: String!): Product!
     addCompanyImage(companyId: ID!, image: Upload!, name: String): CompanyImage
     addCompanyImages(companyId: ID!, images: [Upload]!, names: [String]): [CompanyImage]
@@ -276,8 +322,11 @@ type Mutation {
     addTagToCompany(companyId: String!, companyTagId: String!): Company!
     addUserCompanyRole(companyUserId: String!, roleId: String!): CompanyUser!
     cancelInvitation(id: String!): Boolean
+    cancelOrder(id: ID!): OrderHistory
+    createACharge: Boolean
     createCategory(name: String!, parentCategoryId: String): Category!
     createCompany(address: String!, description: String, email: String!, name: String!, phone: String!, siren: String!): Company!
+    createCompanyProductAdvise(companyId: ID!, content: String!, productId: ID!, title: String!): CompanyProductAdvise
     createCompanyProductsCategory(companyId: String!, name: String!): CompanyProductsCategory
     createCompanyReview(companyId: String!, customerMark: Int!, description: String, title: String): CompanyReview
     createCompanyTag(color: String!, name: String!): CompanyTag!
@@ -286,20 +335,24 @@ type Mutation {
     createProductReview(customerMark: Int!, description: String, productId: String!, title: String): ProductReview
     createStripeCustomer: Boolean!
     declineInvitation(invitationId: String!): CompanyUserInvitation
+    declineOrder(id: ID!, reason: String): OrderHistory
     defineUserAsCustomer(userId: String!): Customer
     deleteCard(cardId: String!): Boolean
     deleteCategory(id: String!): Category!
     deleteCompany(companyId: String!): Company!
+    deleteCompanyProductAdvise(id: ID!): CompanyProductAdvise
     deleteCompanyTag(companyTagId: String!): CompanyTag!
     deleteImageFromProduct(companyImageId: String!, productId: String!): CompanyImage
     deleteProduct(productId: String!): Int
     deleteTagFromCompany(companyId: String!, companyTagId: String!): Company!
+    deleteUser(password: String): User!
     generateCodePasswordForgot(email: String!): Boolean
     inviteNewMember(companyId: String!, invitationEmail: String!): CompanyUserInvitation
     joinCompany(companyId: String!, userId: String!): Company!
     leaveCompany(companyId: String!, userId: String!): Company!
     login(email: String!, password: String!): SigninAnswer!
     passwordValidation(password: String!): Boolean
+    receiveOrder(id: ID!): OrderHistory
     register(defineUserAsCustomer: Boolean, email: String!, firstName: String!, lastName: String!, password: String!, phone: String): SignupAnswer!
     removeCompanyImage(imageId: ID!): CompanyImage
     removeCompanyImages(imagesId: [ID]!): [CompanyImage]
@@ -320,6 +373,7 @@ type Mutation {
     signUpWithFacebook(defineUserAsCostumer: Boolean, exponentPushToken: String, facebookToken: String!): SignupAnswer!
     updateCompany(companyId: ID!, newValues: CompanyUpdateInput): Company!
     updateCompanyImageName(imageId: ID!, name: String!): CompanyImage
+    updateCompanyProductAdvise(content: String, id: ID!, title: String): CompanyProductAdvise
     updateCompanyProductsCategory(categoryId: String!, name: String): CompanyProductsCategory
     updateCustomerDefaultSource(cardId: String!): Boolean
     updateDeliveryDay(DeliveryDayId: String!, hours: [ScheduleInput]): CompanyDeliveryDay!
@@ -332,9 +386,69 @@ type Mutation {
     updateUser(email: String, firstName: String, lastName: String, password: String, phone: String): User!
     updateUserAvatar(avatar: Upload!): User
     uploadImageOfProduct(image: Upload!, isCover: Boolean, productId: String!): CompanyImage
+    validateCart: Order
+}
+
+type Order {
+    code: String!
+    company: Company!
+    createdAt: Date!
+    customer: Customer!
+    decliningReason: String
+    id: String!
+    numberProducts: Int!
+    price: Float!
+    products: [OrderProduct]
+    status: OrderStatus!
+    stripePaymentIntent: String
+    updatedAt: Date!
+}
+
+type OrderHistory {
+    code: String!
+    companyAddress: String
+    companyId: String
+    companyLogo: String
+    companyName: String
+    createdAt: Date!
+    customerId: String
+    decliningReason: String
+    id: ID!
+    numberProducts: Int!
+    orderCreationDate: Date!
+    price: Float!
+    products: [OrderProductHistory]
+    status: OrderHistoryStatus
+    stripePaymentIntent: String
+    updatedAt: Date!
+}
+
+type OrderProduct {
+    id: String!
+    order: Order!
+    price: Float!
+    product: Product!
+    quantity: Int!
+}
+
+type OrderProductHistory {
+    id: ID!
+    name: String
+    orderHistory: OrderHistory
+    price: Float!
+    productId: String
+    quantity: Int
+    quantityForUnit: Int
+    unit: Unit!
+}
+
+type PaymentIntent {
+    id: String!
+    payment_method: Card
 }
 
 type Product {
+    advises: [CompanyProductAdvise]
     averageMark: Float
     categories: [Category]
     company: Company
@@ -346,6 +460,7 @@ type Product {
     id: ID!
     images: [CompanyImage]
     name: String!
+    numberAdvises: Int
     numberOfMarks: Int
     position: Int
     price: Float!
@@ -370,6 +485,7 @@ type Query {
     _: Boolean
     checkSiren(siren: String!): CompanyInfo
     doesFacebookAccountExistWithEmail(facebookToken: String!): Boolean!
+    geocode(address: String!): [CompanyGeo]
     getActiveCustomerAddress: CustomerAddress
     getAllCategories: [Category]!
     getAllCompanies(page: Int, pageSize: Int): [Company]
@@ -392,13 +508,23 @@ type Query {
     getCompany(companyId: ID!): Company
     getCompanyByName(name: String!): Company
     getCompanyImages(companyId: ID, page: Int, pageSize: Int): [CompanyImage]
+    getCompanyOrderHistories(companyId: ID!, fromDate: Date, limit: Int = 10, offset: Int = 0, status: String, toDate: Date): [OrderHistory]
+    getCompanyProductAdvises(companyId: ID, limit: Int, offset: Int, productId: ID): [CompanyProductAdvise]
     getCompanyProductsCategory(categoryId: String, companyId: String!, name: String): CompanyProductsCategory
     getCompanyReviews(id: ID!, limit: Int!, offset: Int!): [CompanyReview]
     getCompanyTag(companyTagId: String, slugName: String): CompanyTag
+    getCurrentOrders(companyId: ID!, limit: Int = 10, offset: Int = 0, status: String): [Order]
     getCustomer(userId: String!): Customer
     getCustomerFavoriteCompanies(userId: String): [Company]
     getMyCompaniesInvitations(status: CompanyUserInvitationStatusRequest): [CompanyUserInvitation!]
+    getMyOrderHistories(status: String): [OrderHistory]
+    getMyOrders(status: String): [Order]
+    getOrder(id: ID!): Order
+    getOrderHistory(id: ID!): OrderHistory
+    getPaymentIntents(paymentId: String!): PaymentIntent
+    getPaymentIntentsCard(paymentId: String!): Card
     getProduct(id: ID!): Product!
+    getProductAdvise(id: ID!): CompanyProductAdvise
     getProductReviews(id: ID!, limit: Int!, offset: Int!): [ProductReview]
     getProductsByCompany(companyId: String): [Product]!
     getProductsByCompanyByCategory(companyId: String): [Category]!
@@ -448,6 +574,7 @@ type Unit {
 }
 
 type User {
+    archivedAt: Date
     avatar: String
     companies: [CompanyUser]
     createdAt: Date
@@ -481,6 +608,20 @@ enum CompanyUserInvitationStatus {
 enum CompanyUserInvitationStatusRequest {
     ACCEPTED
     ALL
+    CANCELED
+    DECLINED
+    PENDING
+}
+
+enum OrderHistoryStatus {
+    CANCELED
+    DECLINED
+    FINISHED
+}
+
+enum OrderStatus {
+    ACCEPTED
+    AVAILABLE
     CANCELED
     DECLINED
     PENDING
