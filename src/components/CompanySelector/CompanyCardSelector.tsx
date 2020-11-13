@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import CompanyCard from "./CompanyCard";
-import { useLazyQuery } from "@apollo/react-hooks";
+import { useLazyQuery } from "@apollo/client";
 import { loader as graphqlLoader } from "graphql.macro";
 import Button from "../Ui/Button";
 import { useHistory } from "react-router";
 import { notification, Checkbox } from "antd";
-import { QueryResult } from "@apollo/react-common";
+import { QueryResult } from "@apollo/client";
 
 const getCompanies = graphqlLoader("../../graphql/query/getCompanies.graphql");
 

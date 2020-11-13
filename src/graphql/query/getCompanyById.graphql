@@ -8,6 +8,11 @@ query getCompanyById($companyId: ID!) {
     siren
     averageMark
     numberOfMarks
+    tags {
+      id
+      translationKey
+      color
+    }
     logo {
       id
       filename

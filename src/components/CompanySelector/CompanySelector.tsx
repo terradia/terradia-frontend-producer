@@ -4,7 +4,7 @@ import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Divider, Dropdown, Menu } from "antd";
 import UserContext from "../Context/UserContext";
 import { loader as graphqlLoader } from "graphql.macro";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/client";
 import { useHistory, useLocation } from "react-router";
 import Logout from "../Authentication/Logout/Logout";
 import PageButton from "../Ui/PageButton";
@@ -143,7 +143,15 @@ const CompanySelector: React.FC<Props> = ({
                     key={company.company.id}
                     link={company.company.id}
                     label={company.company.name}
-                    icon={<ShopOutlined />}
+                    icon={
+                      company.company.logo ? (
+                        <Avatar
+                          src={`https://media.terradia.eu/${company.company.logo.filename}`}
+                        />
+                      ) : (
+                        <ShopOutlined />
+                      )
+                    }
                     selected={currentPage === company.company.id}
                     onClick={() => {
                       setCurrentCompanyId(company.company.id);
@@ -215,7 +223,7 @@ const CompanySelector: React.FC<Props> = ({
               src={
                 avatarLoading
                   ? null
-                  : userData.getUser.avatar
+                  : userData && userData.getUser && userData.getUser.avatar
                   ? `https://media.terradia.eu/${userData.getUser.avatar}`
                   : null
               }

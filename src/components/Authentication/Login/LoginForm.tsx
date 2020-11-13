@@ -1,10 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { NavLink, Redirect, useHistory } from "react-router-dom";
-import {
-  useApolloClient,
-  useLazyQuery,
-  useMutation,
-} from "@apollo/react-hooks";
+import { useApolloClient, useLazyQuery, useMutation } from "@apollo/client";
 import { Checkbox, Divider, Input } from "antd";
 import { loader as graphqlLoader } from "graphql.macro";
 import { Formik } from "formik";
@@ -51,6 +47,7 @@ declare interface LoginFormProps {
 const LoginForm = (props: LoginFormProps) => {
   const client = useApolloClient();
   const userContext = useContext(UserContext);
+  const [event, setEvent] = useState<StorageEvent>();
   const [redirect, setRedirect] = useState("");
   const [login, { loading: loginLoading }] = useMutation(mutationLogin);
   const [
@@ -69,6 +66,10 @@ const LoginForm = (props: LoginFormProps) => {
     onCompleted: onGetUser,
     onError: (e) => console.log(e),
   });
+
+  useEffect(() => {
+    if (event) dispatchEvent(event);
+  }, [event]);
 
   useEffect(() => {
     if (userContext) getCompaniesQuery();
@@ -95,7 +96,12 @@ const LoginForm = (props: LoginFormProps) => {
     }
   }, [called, companiesData, companiesLoading, history]);
 
-  if (redirect !== "" && localStorage.getItem("token")) {
+  if (
+    redirect !== "" &&
+    localStorage.getItem("token") &&
+    !companiesLoading &&
+    !loginLoading
+  ) {
     return <Redirect to={redirect} />;
   }
 
@@ -113,7 +119,7 @@ const LoginForm = (props: LoginFormProps) => {
             getCompaniesQuery();
             getUserQuery();
             if (!props.onLogin) {
-              dispatchEvent(
+              setEvent(
                 new StorageEvent("storage", {
                   key: "token",
                   oldValue: prevToken,

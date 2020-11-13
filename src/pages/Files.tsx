@@ -1,10 +1,10 @@
 import React from "react";
-import { Divider, Empty } from "antd";
+import { Card, Divider, Empty } from "antd";
 import "../assets/Style/Files/index.less";
 import ImagesUploadButton from "../components/Files/ImagesUploadButton";
 import { CompanyImage } from "../interfaces/CompanyImage";
 import ImageCard from "../components/Files/ImageCard";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/client";
 import { loader as graphqlLoader } from "graphql.macro";
 import TerradiaLoader from "../components/TerradiaLoader";
 
@@ -34,7 +34,7 @@ const Files = () => {
   const handleRefetch = () => refetch();
 
   return (
-    <div className="card-container">
+    <Card>
       <nav className={"images-tab-header"}>
         <ImagesUploadButton onUpload={handleRefetch} />
       </nav>
@@ -59,7 +59,7 @@ const Files = () => {
           }
         )}
       </div>
-    </div>
+    </Card>
   );
 };
 

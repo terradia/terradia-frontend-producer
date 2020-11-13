@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Divider, Empty, Modal } from "antd";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/client";
 import { loader as graphqlLoader } from "graphql.macro";
 import { CompanyImage } from "../../interfaces/CompanyImage";
 import ImageCard from "./ImageCard";
@@ -12,6 +12,7 @@ import { CompanyImageData } from "../Files/ImageUploadModal";
 import { UploadFile } from "antd/lib/upload/interface";
 import { fileToObject } from "antd/lib/upload/utils";
 import Button from "../Ui/Button";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   visible?: boolean;
@@ -124,6 +125,8 @@ const ImageSelectorModal: React.FC<Props> = ({
     );
   }
 
+  const { t } = useTranslation("common");
+
   return (
     <Modal
       className={"modal"}
@@ -150,8 +153,10 @@ const ImageSelectorModal: React.FC<Props> = ({
         />
         <div>
           {numberOfImagesSelected === 0
-            ? "Aucune image séléctionné"
-            : numberOfImagesSelected + " Image(s) séléctionné(s)"}
+            ? t("FilesPage.Images.noImageSelected")
+            : numberOfImagesSelected +
+              " " +
+              t("FilesPage.Image.numberImagesSelected")}
         </div>
       </nav>
       <Divider />

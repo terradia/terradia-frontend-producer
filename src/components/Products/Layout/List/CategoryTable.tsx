@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { Popconfirm, Table } from "antd";
+import { Popconfirm, Rate, Table } from "antd";
 import {
   DeleteOutlined,
   EditOutlined,
   PlusCircleOutlined,
 } from "@ant-design/icons/lib";
+import { useTranslation } from "react-i18next";
+import { Product } from "../../../../interfaces/Product";
 
 declare interface CategoryTableProps {
   cat: { id: string; name: string; products: any };
@@ -25,7 +27,7 @@ const columns = [
   {
     title: "Nom",
     dataIndex: "name",
-    width: "20%",
+    width: "15%",
     filterMultiple: false,
     sorter: (a, b) => {
       const atest = a.name.toLowerCase();
@@ -34,34 +36,42 @@ const columns = [
     },
   },
   {
-    title: "Prix (en €)",
-    dataIndex: "price",
-    width: "20%",
-    filterMultiple: false,
-    sorter: (a, b) => a.price - b.price,
-  },
-  {
     title: "Description",
     dataIndex: "description",
     width: "20%",
     // eslint-disable-next-line react/display-name
     render: (text) => (
       <div style={{ wordWrap: "break-word", wordBreak: "break-word" }}>
-        {text}
+        {text.length > 50 ? text.substr(0, 50) + "..." : text}
       </div>
     ),
   },
   {
+    title: "Prix",
+    dataIndex: "price",
+    filterMultiple: false,
+    sorter: (a, b) => a.price - b.price,
+    render: (price) => {
+      return `${Math.round(price * 100) / 100}€`;
+    },
+  },
+  {
     title: "Portion",
-    width: "20%",
     // eslint-disable-next-line react/display-name
-    render: (product: any) => {
+    render: (product: Product) => {
       return (
         <div>
-          {product.quantityForUnit}{" "}
+          {product.quantityForUnit}
           {product.unit !== null ? product.unit.notation : "Pièce(s)"}
         </div>
       );
+    },
+  },
+  {
+    title: "Note moyenne",
+    // eslint-disable-next-line react/display-name
+    render: (product: Product) => {
+      return <Rate disabled allowHalf value={product.averageMark} />;
     },
   },
   {
@@ -80,7 +90,7 @@ const columns = [
               "https://terradia-bucket-assets.s3.eu-west-3.amazonaws.com/" +
               cover.companyImage.filename
             }
-            style={{ height: "50px", width: "50px" }}
+            style={{ height: "100px", width: "100px", objectFit: "contain" }}
           />
         );
       }
@@ -95,6 +105,8 @@ function CategoryTable(props: CategoryTableProps) {
   const [isHover, setIsHover] = useState(false);
 
   const displayScroll = props.cat.products.length > 5 ? 240 : undefined;
+
+  const { t } = useTranslation("common");
 
   return (
     <div
@@ -113,6 +125,10 @@ function CategoryTable(props: CategoryTableProps) {
         columns={columns}
         dataSource={props.cat.products}
         scroll={{ y: displayScroll, scrollToFirstRowOnChange: true }}
+        className={"product-table"}
+        locale={{
+          emptyText: t("ProductsPage.noProductInCategory"),
+        }}
         title={() => (
           <div className={"category-title"}>
             {props.cat.name}
@@ -157,8 +173,7 @@ function CategoryTable(props: CategoryTableProps) {
                   cancelText="Non"
                 >
                   <DeleteOutlined
-                    className={"category-icon"}
-                    style={{ color: "red" }}
+                    className={"category-icon red"}
                     onClick={(event) => {
                       event.stopPropagation();
                     }}

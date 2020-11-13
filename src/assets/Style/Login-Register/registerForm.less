@@ -40,6 +40,27 @@
       -webkit-text-decoration-skip: objects;
     }
 
+      /*.ant-form-item-control-input {
+        display: flex;
+        ::before {
+          display: inline-block;
+          justify-self: center;
+          margin-right: 4px;
+          color: #ff4d4f;
+          font-size: 15px;
+          font-family: SimSun, sans-serif;
+          line-height: 1;
+          content: '*';
+        }
+    }*/
+
+      .error-description {
+        color: @error-color;
+        padding-bottom: @padding-xxs;
+      }
+      .error-description.error-email {
+        margin-top: -@padding-md;
+      }
     .error-description {
       color: @error-color;
       padding-bottom: @padding-xxs;

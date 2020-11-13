@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import { Avatar, Card, TimePicker } from "antd";
-import SubmitButton from "../Ui/SubmitButton";
+import { Avatar, Button, Card, TimePicker } from "antd";
 import EditInfoForm from "./EditInfoForm";
 import { Moment } from "moment";
 import "../../assets/Style/CompanyPage/CompanyHoursCard.less";
 import { loader } from "graphql.macro";
-import { useMutation } from "@apollo/react-hooks";
-import { EditOutlined } from "@ant-design/icons/lib";
+import { useMutation } from "@apollo/client";
+import { CheckOutlined, EditOutlined } from "@ant-design/icons/lib";
 import { useTranslation } from "react-i18next";
 
 export declare interface Hours {
@@ -37,13 +36,6 @@ const textStyle = {
   fontSize: "normal",
   color: "#575757",
   flexShrink: 0,
-};
-
-const boldTextStyle = {
-  fontFamily: "Montserrat",
-  fontWeight: 700,
-  fontSize: "normal",
-  color: "#828282",
 };
 
 const { RangePicker } = TimePicker;
@@ -109,11 +101,9 @@ const CompanyOpenHoursCard = (props: Props) => {
   };
 
   const headerButton = isEditing ? (
-    <SubmitButton callback={() => setIsSubmitting(true)} />
+    <Button icon={<CheckOutlined />} onClick={() => setIsSubmitting(true)} />
   ) : (
-    <div className={"icon-container"} onClick={() => setIsEditing(true)}>
-      <EditOutlined />
-    </div>
+    <Button icon={<EditOutlined />} onClick={() => setIsEditing(true)} />
   );
 
   return (
@@ -121,7 +111,6 @@ const CompanyOpenHoursCard = (props: Props) => {
       title={
         <span
           style={{
-            ...boldTextStyle,
             display: "flex",
             flexWrap: "wrap",
             justifySelf: "flex-start",
@@ -132,7 +121,7 @@ const CompanyOpenHoursCard = (props: Props) => {
             {props.isDelivery
               ? "Horaires de livraison"
               : "Horaires d'ouverture"}
-          </h2>{" "}
+          </h2>
           {/* TODO : translate this. */}
         </span>
       }
@@ -144,7 +133,6 @@ const CompanyOpenHoursCard = (props: Props) => {
       bodyStyle={{
         display: "flex",
         flexFlow: "column",
-        boxShadow: "0 4px 5px rgba(0, 0, 0, 0.15)",
       }}
     >
       {(isEditing || isSubmitting) && (
@@ -166,7 +154,6 @@ const CompanyOpenHoursCard = (props: Props) => {
             <span
               key={info.label}
               style={{
-                ...boldTextStyle,
                 marginRight: "16px",
               }}
             >
@@ -200,7 +187,6 @@ const CompanyOpenHoursCard = (props: Props) => {
                       bordered={false}
                       inputReadOnly
                       disabled
-                      picker={"time"}
                       value={[hour.startTime, hour.endTime]}
                       format={"HH:mm"}
                       suffixIcon={null}

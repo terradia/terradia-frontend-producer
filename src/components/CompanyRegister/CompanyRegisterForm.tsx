@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { ReactNode, useCallback, useEffect, useState } from "react";
 import { Form, Steps } from "antd";
 import Button from "../Ui/Button";
 import GeneralInfoForm from "./GeneralInfoForm";
-import AdministrativeInfoForm from "./AdministrativeInfoForm";
+import AdministrativeInfoForm, { InputStatus } from "./AdministrativeInfoForm";
 import "../../assets/Style/CompanyRegister/CompanyRegisterForm.less";
 import RegisterForm from "../Authentication/Register/RegisterForm";
 import LoginForm from "../Authentication/Login/LoginForm";
-import { useApolloClient, useMutation } from "@apollo/react-hooks";
+import { useApolloClient, useLazyQuery, useMutation } from "@apollo/client";
 import { loader as graphqlLoader } from "graphql.macro";
-import { LeftOutlined } from "@ant-design/icons";
 import { CompanyImageData } from "../Files/ImageUploadModal";
 import { UploadChangeParam } from "antd/lib/upload";
 import { Redirect } from "react-router";
+import { SirenData } from "../../interfaces/Company/CompanyRegister/CompanyRegisterForm";
+import FormStepButton from "./FormStepButton";
 import Logout from "../Authentication/Logout/Logout";
 
 const createCompanyMutation = graphqlLoader(
@@ -22,16 +23,36 @@ const updateCompanyMutation = graphqlLoader(
 );
 const getUser = graphqlLoader("../../graphql/query/getUser.graphql");
 
+const checkSirenQuery = graphqlLoader("../../graphql/query/checkSiren.graphql");
+
+const getGeocodeQuery = graphqlLoader("../../graphql/query/getGeoCode.graphql");
+
+declare interface RegisterStep {
+  title: string;
+  content: ReactNode;
+}
+
+export declare type RegisterStepsState = RegisterStep[];
+
 const CompanyRegisterForm = () => {
   const [form] = Form.useForm();
   const [isCreated, setIsCreated] = useState(false);
+  const [initLazy, setInitLazy] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [hasAccount, setHasAccount] = useState(false);
+  const [isLocked, setIsLock] = useState(false);
+  const [validationStatus, setValidationStatus] = useState<InputStatus>({
+    siren: "",
+    officialName: "",
+    name: "",
+    address: "",
+  });
   const [redirect, setRedirect] = useState(false);
   const [logoId, setLogoId] = useState(null);
   const [coverId, setCoverId] = useState(null);
   const client = useApolloClient();
   const [user, setUser] = useState(null);
+
   try {
     if (user === null) {
       const cachedUser = client.readQuery({ query: getUser });
@@ -46,6 +67,58 @@ const CompanyRegisterForm = () => {
   const [updateCompany, { loading: updateLoading }] = useMutation(
     updateCompanyMutation
   );
+  const [checkSiren, { called, data, error, loading, refetch }] = useLazyQuery<
+    SirenData
+  >(checkSirenQuery, {
+    onCompleted: (sirenData) => {
+      setValidationStatus((prevState) => {
+        return {
+          ...prevState,
+          siren: sirenData ? "success" : "error",
+        };
+      });
+    },
+    onError: () => {
+      setValidationStatus((prevState) => {
+        return {
+          ...prevState,
+          siren: "error",
+        };
+      });
+    },
+  });
+  const [getGeocode, { called: geoCalled, refetch: geoRefetch }] = useLazyQuery(
+    getGeocodeQuery,
+    {
+      onCompleted: (geoData) => {
+        if (geoData) {
+          setValidationStatus((prevState) => {
+            return {
+              ...prevState,
+              address: "success",
+            };
+          });
+        }
+      },
+      onError: (error) => {
+        console.log(error);
+        setValidationStatus((prevState) => {
+          return {
+            ...prevState,
+            address: "error",
+          };
+        });
+      },
+    }
+  );
+
+  useEffect(() => {
+    if (!initLazy) {
+      checkSiren();
+      getGeocode();
+      setInitLazy(true);
+    }
+  }, [checkSiren, getGeocode, initLazy]);
 
   const onUpload = (
     file: UploadChangeParam,
@@ -63,8 +136,8 @@ const CompanyRegisterForm = () => {
     setCurrentStep((step) => step + 1);
   };
 
-  const [steps, setSteps] = useState([
-    user
+  const steps = [
+    user && hasAccount
       ? {
           /* TODO : translate this. */
           title: "Se connecter",
@@ -78,14 +151,82 @@ const CompanyRegisterForm = () => {
     {
       /* TODO : translate this. */
       title: "Création de l'entreprise",
-      content: <AdministrativeInfoForm />,
+      content: (
+        <AdministrativeInfoForm
+          isLocked={isLocked}
+          validationStatus={validationStatus}
+        />
+      ),
     },
     {
-      /* TODO : translate this. */
       title: "Information complémentaires",
       content: <GeneralInfoForm onUpload={onUpload} />,
     },
-  ]);
+  ];
+
+  const getCompanyInfo = useCallback(() => {
+    const units = data.checkSiren.uniteLegale;
+    const addr = data.checkSiren.adresseEtablissement;
+    const officialName = {
+      name: "officialName",
+      value:
+        units.denominationUniteLegale || units.denominationUsuelle1UniteLegale,
+    };
+    const name = {
+      name: "name",
+      value:
+        units.denominationUsuelle1UniteLegale || units.denominationUniteLegale,
+    };
+    const address = {
+      name: "address",
+      value: `${addr.numeroVoieEtablissement || ""} ${
+        addr.typeVoieEtablissement || ""
+      } ${addr.libelleVoieEtablissement || ""}, ${
+        addr.codePostalEtablissement || ""
+      } ${addr.libelleCommuneEtablissement || ""}`.trim(),
+    };
+    return [officialName, name, address];
+  }, [data]);
+
+  useEffect(() => {
+    if (validationStatus.address === "validating") {
+      if (!geoCalled) {
+        getGeocode({
+          variables: {
+            address: form.getFieldValue("address"),
+          },
+        });
+      } else {
+        geoRefetch({
+          address: form.getFieldValue("address"),
+        });
+      }
+    }
+  }, [validationStatus, form, geoCalled, geoRefetch, getGeocode]);
+
+  useEffect(() => {
+    if (called && !loading)
+      if (data) {
+        const companyInfo = getCompanyInfo();
+        form.setFields(companyInfo);
+        setIsLock(!!companyInfo[0].value);
+        setValidationStatus({
+          siren: "success",
+          officialName: companyInfo[0].value ? "success" : undefined,
+          name: companyInfo[1].value ? "success" : undefined,
+          address: "validating",
+        });
+      } else if (error) {
+        setIsLock(false);
+        setValidationStatus({
+          siren: "error",
+          officialName: undefined,
+          name: undefined,
+          address: undefined,
+        });
+        form.resetFields(["officialName", "name", "address"]);
+      }
+  }, [data, error, called, loading, form, getCompanyInfo]);
 
   useEffect(() => {
     if (client) {
@@ -101,12 +242,16 @@ const CompanyRegisterForm = () => {
 
   const onSubmit = (values) => {
     if (!isCreated) {
-      createCompany({ variables: values }).then((data) => {
-        localStorage.setItem("selectedCompany", data.data.createCompany.id);
-        localStorage.setItem("rememberCompany", "false");
-        setCurrentStep((step) => step + 1);
-        setIsCreated(true);
-      });
+      createCompany({ variables: values })
+        .then((data) => {
+          localStorage.setItem("selectedCompany", data.data.createCompany.id);
+          localStorage.setItem("rememberCompany", "false");
+          setCurrentStep((step) => step + 1);
+          setIsCreated(true);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } else {
       values["logoId"] = logoId;
       values["coverId"] = coverId;
@@ -129,15 +274,6 @@ const CompanyRegisterForm = () => {
   };
 
   const switchLoginRegister = () => {
-    const prevSteps = [...steps];
-    if (hasAccount) {
-      prevSteps[0].title = "S'enregistrer";
-      prevSteps[0].content = <RegisterForm onRegister={onAuth} />;
-    } else {
-      prevSteps[0].title = "Se connecter";
-      prevSteps[0].content = <LoginForm onLogin={onAuth} />;
-    }
-    setSteps(prevSteps);
     setHasAccount(!hasAccount);
   };
 
@@ -183,6 +319,15 @@ const CompanyRegisterForm = () => {
         <Form
           className={"auth_form"}
           form={form}
+          preserve
+          onValuesChange={(value) => {
+            if ("siren" in value && value.siren.length === 9) {
+              if (called === false) checkSiren({ variables: value });
+              else refetch(value);
+            } else if ("address" in value) {
+              getGeocode({ variables: value });
+            }
+          }}
           scrollToFirstError
           onFinish={onSubmit}
           layout={"vertical"}
@@ -209,62 +354,36 @@ const CompanyRegisterForm = () => {
               />
             ))}
           </Steps>
-          {currentStep > 0 && (
-            <div
-              onClick={() => setCurrentStep((step) => step - 1)}
-              className={"prev_step"}
-            >
-              {currentStep === 1}
-              {currentStep > 1 && (
-                <>
-                  <LeftOutlined />
-                  <span>{"Retour à l’étape précédente"}</span>
-                </>
-              )}
-            </div>
-          )}
-          <span
-            className={"form_item_wrapper required"}
-            style={{ display: "flex", alignSelf: "flex-end" }}
+          <FormStepButton
+            currentStep={currentStep}
+            steps={steps}
+            createLoading={createLoading}
+            updateLoading={updateLoading}
+            prevStep={() => setCurrentStep((step) => step - 1)}
+            nextStep={() => setCurrentStep((step) => step + 1)}
+            form={form}
           >
-            champs obligatoires
-          </span>
-          <div>
-            {steps.map((step, index) => {
-              if (index === currentStep) {
-                return <div key={step.title}>{step.content}</div>;
-              } else if (index === 0) {
-                return null;
-              }
-              return (
-                <div key={step.title} style={{ display: "none" }}>
-                  {step.content}
-                </div>
-              );
-            })}
-          </div>
-          <div className="external_connexion">
-            {currentStep < steps.length - 1 && (
-              <Button
-                isLoading={createLoading || updateLoading}
-                text={"Créer l'entreprise"}
-                className={"form_item"}
-                id={"next_step"}
-                size={"large"}
-                htmlType={"submit"}
-              />
-            )}
-            {currentStep === steps.length - 1 && (
-              <Button
-                isLoading={updateLoading}
-                text={"Mettre à jours l'entreprise"}
-                className={"form_item"}
-                id={"login_button"}
-                size={"large"}
-                htmlType={"submit"}
-              />
-            )}
-          </div>
+            <span
+              className={"form_item_wrapper required"}
+              style={{ display: "flex", alignSelf: "flex-end" }}
+            >
+              champs obligatoires
+            </span>
+            <div>
+              {steps.map((step, index) => {
+                if (index === currentStep) {
+                  return <div key={step.title}>{step.content}</div>;
+                } else if (index === 0) {
+                  return null;
+                }
+                return (
+                  <div key={step.title} style={{ display: "none" }}>
+                    {step.content}
+                  </div>
+                );
+              })}
+            </div>
+          </FormStepButton>
         </Form>
       </div>
     </div>

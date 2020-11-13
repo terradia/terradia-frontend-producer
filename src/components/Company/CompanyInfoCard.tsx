@@ -5,7 +5,7 @@ import { EditOutlined } from "@ant-design/icons/lib";
 import ImageSelectorButton from "../Gallery/ImageSelectorButton";
 import { CompanyImage } from "../../interfaces/CompanyImage";
 import { loader } from "graphql.macro";
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/client";
 import Field from "./Field";
 import { Divider } from "antd";
 
@@ -108,7 +108,14 @@ const CompanyInfoCard: React.FC<Props> = ({ company, refetch }: Props) => {
           onValidate={handleFieldValidation}
         />
         <Divider />
-        <h2>Informations générales</h2> {/* TODO : translate this. */}
+        <h2
+          style={{
+            width: "100%",
+          }}
+        >
+          Informations générales
+        </h2>{" "}
+        {/* TODO : translate this. */}
         <Field
           value={company.siren}
           name={"siren"}
