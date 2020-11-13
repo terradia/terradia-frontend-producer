@@ -39,7 +39,7 @@ const OrdersValidation = () => {
       refetchQueries: [
         {
           query: getCurrentOrders,
-          variables: { companyId }, 
+          variables: { companyId },
         },
       ],
     }
@@ -51,7 +51,7 @@ const OrdersValidation = () => {
       refetchQueries: [
         {
           query: getCurrentOrders,
-          variables: { companyId }, 
+          variables: { companyId },
         },
       ],
     }
