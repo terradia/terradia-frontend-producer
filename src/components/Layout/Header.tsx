@@ -2,7 +2,7 @@ import React from "react";
 import { ReactComponent as TerradiaLogo } from "../../assets/Logo/Terradia.svg";
 import Logout from "../Authentication/Logout/Logout";
 import { Layout as AntLayout } from "antd";
-import CompanySelector from "../CompanySelector/CompanySelector";
+import HeaderMenu from "./HeaderMenu";
 import "../../assets/Style/Layout/header.less";
 import { CloseOutlined, MenuOutlined } from "@ant-design/icons/lib";
 
@@ -42,7 +42,7 @@ const Header = ({
     );
   } else {
     // if not in CompanySelection
-    displayedInfo = <CompanySelector />;
+    displayedInfo = <HeaderMenu />;
   }
 
   return (
@@ -75,7 +75,7 @@ const Header = ({
               <TerradiaLogo height={"50px"} width={"100px"} />
             </div>
             <div className={"mobile-header-element third"}>
-              <CompanySelector isMobile={true} />
+              <HeaderMenu isMobile={true} />
             </div>
           </>
         )}
