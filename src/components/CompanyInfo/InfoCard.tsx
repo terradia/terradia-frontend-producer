@@ -6,7 +6,7 @@ import EditInfoForm from "../Company/EditInfoForm";
 import { Moment } from "moment";
 import "../../assets/Style/CompanyPage/InfoCard.less";
 import { loader } from "graphql.macro";
-import { useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/react-hooks";
 
 export declare interface Hours {
   startTime: any;

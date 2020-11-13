@@ -6,7 +6,7 @@ import {
 } from "@ant-design/icons/lib";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import { Empty, Popconfirm } from "antd";
-import { useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
 import ProductCard from "../Grid/ProductCard";
 import { useTranslation } from "react-i18next";

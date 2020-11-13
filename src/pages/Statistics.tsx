@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Card, Progress, Rate, Statistic, Radio } from "antd";
 import { LikeOutlined } from "@ant-design/icons";
 import { loader as graphqlLoader } from "graphql.macro";
-import { useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/react-hooks";
 import "../assets/Style/Statistics/Statistics.less";
 import {
   BarChart,

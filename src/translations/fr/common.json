@@ -122,7 +122,8 @@
         "cancel": "Annuler",
         "create": "Créer",
         "edit": "Modifier",
-        "delete": "Supprimer"
+        "delete": "Supprimer",
+        "save": "Enregistrer"
       },
       "popUp": {
         "title": "Vouslez-vous vraiment supprimer ce produit?",
@@ -139,6 +140,18 @@
           "errors": "La quantité de portion est requise"
         }
       }
+    },
+    "ProductAdvices": {
+      "createAdvice": "Ajouter un conseil",
+      "titleAdvice": "Titre du conseil",
+      "titlePlaceholder": "Le titre de votre conseil...",
+      "contentAdvice": "Contenu du conseil",
+      "contentPlaceholder": "Votre conseil...",
+      "errorTitle": "Veuillez entrer le titre de votre conseil",
+      "errorTitleLen": "Le titre du conseil ne peut dépasser 150 caractères",
+      "errorContent": "Le contenu de votre conseil ne peut être vide",
+      "errorContentLen": "Le contenu de votre conseil ne peut dépasser 500 caractères",
+      "deleteAdvice": "Voulez-vous vraiment supprimer ce conseil?"
     }
   },
   "StaffPage": {

@@ -2,7 +2,7 @@ import React from "react";
 
 import CategoryProducts from "./CategoryProducts";
 import { DragDropContext } from "react-beautiful-dnd";
-import { useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
 
 import "../../../../assets/Style/Products/Grid.less";
@@ -92,6 +92,9 @@ function Grid(props: GridProps) {
     }
 
     if (!sameCategory) {
+      const idCardMoved =
+        props.data.getAllCompanyProductsCategories[destination.indexCat]
+          .products[destination.indexCard].id;
       let type = null;
       let categoryId = null;
       for (
@@ -101,18 +104,25 @@ function Grid(props: GridProps) {
           .products.length;
         i++
       ) {
+        type = null;
         props.data.getAllCompanyProductsCategories[
           destination.indexCat
         ].products[i].position = i;
-        if (source.categoryId === `nonCat${companyId}`) {
-          type = "addCategory";
-          categoryId = destination.categoryId;
-        } else if (destination.categoryId === `nonCat${companyId}`) {
-          type = "deleteCategory";
-        } else {
-          type = "moveCategory";
-          categoryId = destination.categoryId;
+        if (
+          props.data.getAllCompanyProductsCategories[destination.indexCat]
+            .products[i].id === idCardMoved
+        ) {
+          if (source.categoryId === `nonCat${companyId}`) {
+            type = "addCategory";
+            categoryId = destination.categoryId;
+          } else if (destination.categoryId === `nonCat${companyId}`) {
+            type = "deleteCategory";
+          } else {
+            type = "moveCategory";
+            categoryId = destination.categoryId;
+          }
         }
+
         modifiedList.push({
           productId:
             props.data.getAllCompanyProductsCategories[destination.indexCat]

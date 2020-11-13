@@ -4,7 +4,7 @@ import Button from "../../Ui/Button";
 import { Checkbox, Divider, Input } from "antd";
 import * as Yup from "yup";
 import { loader as graphqlLoader } from "graphql.macro";
-import { useApolloClient, useMutation } from "@apollo/client";
+import { useApolloClient, useMutation } from "@apollo/react-hooks";
 import "../../../assets/Style/Login-Register/registerForm.less";
 import { AppleFilled, FacebookFilled } from "@ant-design/icons/lib";
 import { Redirect } from "react-router-dom";

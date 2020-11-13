@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "./Button";
 import { DeleteOutlined } from "@ant-design/icons";
-import { useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
 
 const deleteCompanyMutation = graphqlLoader(

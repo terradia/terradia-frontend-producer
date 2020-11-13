@@ -58,9 +58,12 @@ function ListReview(props: ListReviewProps) {
             return (
               <List.Item>
                 <Comment
-                  author={`${item.customer.user.firstName} ${
-                    item.customer.user.lastName
-                  } - ${moment(item.updatedAt).format("DD MMM YYYY - HH:mm")}`}
+                  author={`${item.customer.user.firstName} ${item.customer.user.lastName}`}
+                  datetime={
+                    <span>
+                      {moment(item.createdAt).format("DD MMM YYYY - HH:mm")}
+                    </span>
+                  }
                   avatar={
                     item.customer !== null && item.customer.user.avatar ? (
                       <Avatar

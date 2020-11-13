@@ -24,7 +24,6 @@ const ProductCard: React.FC<Props> = ({
 }: Props) => {
   const productName = product.name;
   const { t } = useTranslation("common");
-  if (!product.unit) console.log(product);
   return (
     <Tooltip title={t("ProductsPage.ProductCard.tooltip")} placement={"top"}>
       <div
@@ -63,7 +62,9 @@ const ProductCard: React.FC<Props> = ({
             <div className={"price-info"}>
               <span>
                 {product.price.toFixed(2) + "€"}
-                {` / ${product.quantityForUnit}${product.unit.notation}`}
+                {` / ${product.quantityForUnit}${
+                  product.unit ? product.unit.notation : " Pièce(s)"
+                }`}
               </span>
             </div>
             <div className={"mark-info"}>
