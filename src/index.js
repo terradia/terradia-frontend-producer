@@ -12,6 +12,7 @@ import { ApolloLink } from "apollo-link";
 import "./index.less";
 import { createUploadLink } from "apollo-upload-client";
 import { notification } from "antd";
+import i18n from "./i18n";
 
 const httpLink = createUploadLink({
   //uri: "https://api.terradia.eu/graphql",
@@ -24,7 +25,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
     graphQLErrors.map(({ message, locations, path }) =>
       notification.error({
-        message: message
+        message: i18n.t(message)
       })
     );
   }
