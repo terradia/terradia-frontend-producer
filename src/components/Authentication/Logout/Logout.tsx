@@ -14,15 +14,14 @@ const Logout: React.FC<Props> = ({ collapsed = false }: Props) => {
     const token = localStorage.getItem("token");
     client.stop();
     client.resetStore().then(() => {
-      return;
+      dispatchEvent(
+        new StorageEvent("storage", {
+          key: "token",
+          oldValue: token,
+          newValue: null,
+        })
+      );
     });
-    dispatchEvent(
-      new StorageEvent("storage", {
-        key: "token",
-        oldValue: token,
-        newValue: null,
-      })
-    );
   };
 
   return (
