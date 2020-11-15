@@ -178,8 +178,17 @@
       }
     },
     "table": {
+      "date": "Date",
       "itemNb": "Nb d'articles",
       "statut": "Statut",
+      "status": {
+        "finished": "TERMINÉ",
+        "declined": "DÉCLINÉ",
+        "canceled": "ANNULÉE",
+        "pending": "EN ATTENTE",
+        "accepted": "ACCEPTÉE",
+        "available": "DISPONIBLE"
+      },
       "deliveryMode": "Mode de livraison",
       "price": "Prix",
       "details": "Détail",
@@ -188,8 +197,10 @@
     "newOrder": {
       "acceptOrder": "Accepter la commande",
       "declineOrder": "Décliner la commande",
-      "areYouSure": "Êtes vous sûr(e)?"
-    }
+      "areYouSure": "Êtes vous sûr(e)?",
+      "alreadyValidate": "L'opération a déjà été vérifiée"
+    },
+    "declineReason": "Decline order reason"
   },
   "StaffPage": {
     "buttons": {
@@ -288,8 +299,8 @@
       "plural": "Sélectionner des images"
     }
   },
-  "OrdersListPage" : {
-    "labels" : {
+  "OrdersListPage": {
+    "labels": {
       "pageName": "Suivi des commandes",
       "date": "Date",
       "status": "Statut",
@@ -300,7 +311,7 @@
     },
     "orderValues": {
       "approuved": "Approuvée",
-      "payed" : "Payée",
+      "payed": "Payée",
       "delivered": "Livrée",
       "canceled": "Annulée"
     },
@@ -322,16 +333,16 @@
         "CustomerNotFound": "Ce client n'existe pas !"
       },
       "getAllCategories": {
-        "":  ""
+        "": ""
       },
       "getAllCompanies": {
-        "":  ""
+        "": ""
       },
       "getAllCompanyProductsCategories": {
-        "":  ""
+        "": ""
       },
       "getAllCompanyTags": {
-        "":  ""
+        "": ""
       },
       "getAllCustomerAddressesByUser": {
         "": ""
@@ -583,7 +594,6 @@
         "OrderNotFound": "Cette commande n'existe pas",
         "NotDeclinable": "Impossible de refuser une commande qui n'est pas en attente...",
         "NotCancelable": "Impossible d'annuler le paiement"
-
       },
       "defineUserAsCustomer": {
         "": ""

@@ -152,8 +152,17 @@
       }
     },
     "table": {
+      "date": "Date",
       "itemNb": "Nb items",
       "statut": "Status",
+      "status": {
+        "finished": "FINISHED",
+        "declined": "DECLINED",
+        "canceled": "CANCELED",
+        "pending": "PENDING",
+        "accepted": "ACCEPTED",
+        "available": "AVAILABLE"
+      },
       "deliveryMode": "Delivery Mode",
       "price": "Price",
       "details": "Details",
@@ -162,8 +171,10 @@
     "newOrder": {
       "acceptOrder": "Accept the order",
       "declineOrder": "Decline the command",
-      "areYouSure": "Are you sure?"
-    }
+      "areYouSure": "Are you sure?",
+      "alreadyValidate": "The operation has already been checked"
+    },
+    "declineReason": "Decline order reason"
   },
   "StaffPage": {
     "buttons": {
@@ -260,8 +271,8 @@
       "plural": "Select images"
     }
   },
-  "OrdersListPage" : {
-    "labels" : {
+  "OrdersListPage": {
+    "labels": {
       "pageName": "Order tracking",
       "date": "Date",
       "status": "Status",
@@ -272,7 +283,7 @@
     },
     "orderValues": {
       "approuved": "Approuved",
-      "payed" : "Payed",
+      "payed": "Payed",
       "delivered": "Delivered",
       "canceled": "Canceled"
     },
@@ -294,16 +305,16 @@
         "CustomerNotFound": "Customer doesn't exist"
       },
       "getAllCategories": {
-        "":  ""
+        "": ""
       },
       "getAllCompanies": {
-        "":  ""
+        "": ""
       },
       "getAllCompanyProductsCategories": {
-        "":  ""
+        "": ""
       },
       "getAllCompanyTags": {
-        "":  ""
+        "": ""
       },
       "getAllCustomerAddressesByUser": {
         "": ""
@@ -555,7 +566,6 @@
         "OrderNotFound": "This order doesn't exist",
         "NotDeclinable": "Cannot decline order that is not pending",
         "NotCancelable": "Cannot cancel the payment"
-
       },
       "defineUserAsCustomer": {
         "": ""

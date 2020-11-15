@@ -1,5 +1,19 @@
-query getCompanyOrderHistories($companyId: ID!) {
-  getCompanyOrderHistories(companyId: $companyId) {
+query getCompanyOrderHistories(
+  $companyId: ID!
+  $status: String
+  $limit: Int
+  $offset: Int
+  $fromDate: Date
+  $toDate: Date
+) {
+  getCompanyOrderHistories(
+    companyId: $companyId
+    status: $status
+    limit: $limit
+    offset: $offset
+    fromDate: $fromDate
+    toDate: $toDate
+  ) {
     id
     code
     customerId

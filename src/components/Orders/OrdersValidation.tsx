@@ -22,6 +22,10 @@ const mutationDeclineOrder = graphqlLoader(
   "../../graphql/mutation/orders/declineOrder.graphql"
 );
 
+const getCompanyOrderHistories = graphqlLoader(
+  "../../graphql/query/orders/getCompanyOrderHistories.graphql"
+);
+
 const OrdersValidation = () => {
   const companyId = localStorage.getItem("selectedCompany");
   const { t } = useTranslation("common");
@@ -53,9 +57,16 @@ const OrdersValidation = () => {
           query: getCurrentOrders,
           variables: { companyId },
         },
+        {
+          query: getCompanyOrderHistories,
+          variables: { companyId },
+        },
       ],
     }
   );
+  const [openDeclineReason, setOpenDeclineReason] = React.useState(false);
+  const [declineOrderId, setDeclineOrderId] = React.useState("");
+  const [declineReason, setDeclineReason] = React.useState("");
 
   const onAccept = (record) => {
     if (record)
@@ -67,10 +78,6 @@ const OrdersValidation = () => {
         console.log(error);
       });
   };
-
-  const [openDeclineReason, setOpenDeclineReason] = React.useState(false);
-  const [declineOrderId, setDeclineOrderId] = React.useState("");
-  const [declineReason, setDeclineReason] = React.useState("");
 
   const handleDeclineOrder = () => {
     if (declineOrderId)
@@ -96,76 +103,92 @@ const OrdersValidation = () => {
 
   const handleTextDecline = () => {
     return (
-      <div>
+      <>
         <TextArea
           rows={4}
           value={declineReason}
           onChange={handleChange}
           onPressEnter={handleChange}
         />
-      </div>
+      </>
     );
   };
 
   const actions = (read, record) => {
     return (
-      <Row>
-        <Tooltip placement="top" title={t("OrderPage.newOrder.acceptOrder")}>
-          <Button
-            type={"link"}
-            onClick={() => onAccept(record)}
-            icon={<CheckCircleOutlined />}
-          />
-        </Tooltip>
-        <Tooltip placement="top" title={t("OrderPage.newOrder.declineOrder")}>
-          <Popconfirm
-            placement="bottom"
-            title={t("OrderPage.newOrder.areYouSure")}
-            onConfirm={(event) => {
-              setDeclineOrderId(record ? record.id : null);
-              setOpenDeclineReason(true);
-              event.stopPropagation();
-            }}
-            onCancel={(event) => {
-              event.stopPropagation();
-            }}
-            okText="Oui"
-            cancelText="Non"
-          >
-            <Button
-              type={"link"}
-              danger
-              icon={<CloseCircleOutlined style={{ color: "#FF0000" }} />}
-            />
-          </Popconfirm>
-        </Tooltip>
-      </Row>
+      <>
+        {record.status === "AVAILABLE" ? null : (
+          <Row>
+            <Tooltip
+              placement="top"
+              title={t("OrderPage.newOrder.acceptOrder")}
+            >
+              <Button
+                type={"link"}
+                onClick={() => onAccept(record)}
+                icon={<CheckCircleOutlined />}
+              />
+            </Tooltip>
+            <Tooltip
+              placement="top"
+              title={t("OrderPage.newOrder.declineOrder")}
+            >
+              <Popconfirm
+                placement="bottom"
+                title={t("OrderPage.newOrder.areYouSure")}
+                onConfirm={(event) => {
+                  setDeclineOrderId(record ? record.id : null);
+                  setOpenDeclineReason(true);
+                  event.stopPropagation();
+                }}
+                onCancel={(event) => {
+                  event.stopPropagation();
+                }}
+                okText="Oui"
+                cancelText="Non"
+              >
+                <Button
+                  type={"link"}
+                  danger
+                  icon={<CloseCircleOutlined className={"cancel-icon red"} />}
+                />
+              </Popconfirm>
+            </Tooltip>
+          </Row>
+        )}
+      </>
     );
   };
 
   const statusRenderer = (status) => {
     let color = "green";
+    let translateStatus = status;
     switch (status) {
       case "PENDING":
+        translateStatus = t("OrderPage.table.status.pending");
         color = "blue";
         break;
       case "ACCEPTED":
+        translateStatus = t("OrderPage.table.status.accepted");
         color = "green";
         break;
       case "AVAILABLE":
+        translateStatus = t("OrderPage.table.status.available");
         color = "lime";
         break;
       case "CANCELED":
+        translateStatus = t("OrderPage.table.status.canceled");
         color = "red";
         break;
       case "DECLINED":
+        translateStatus = t("OrderPage.table.status.declined");
         color = "volcano";
         break;
       default:
         color = "green";
         break;
     }
-    return <Tag color={color}>{status}</Tag>;
+    return <Tag color={color}>{translateStatus}</Tag>;
   };
 
   const columns = [
@@ -175,10 +198,11 @@ const OrdersValidation = () => {
       key: "#",
     },
     {
-      title: "Date",
+      title: t("OrderPage.table.date"),
       dataIndex: "createdAt ",
       key: "createdAt",
-      render: (createdAt) => moment(createdAt).format("DD/MM/YYYY h:mm"),
+      render: (createdAt) => moment(createdAt).format("DD MMM YYYY - HH:mm"),
+      sorter: (a, b) => moment(a.createdAt).unix() - moment(b.createdAt).unix(),
     },
     {
       title: t("OrderPage.table.statut"),
@@ -186,23 +210,23 @@ const OrdersValidation = () => {
       key: "status",
       filters: [
         {
-          text: "PENDING",
+          text: t("OrderPage.table.status.pending"),
           value: "PENDING",
         },
         {
-          text: "ACCEPTED",
+          text: t("OrderPage.table.status.accepted"),
           value: "ACCEPTED",
         },
         {
-          text: "AVAILABLE",
+          text: t("OrderPage.table.status.available"),
           value: "AVAILABLE",
         },
         {
-          text: "DECLINED",
+          text: t("OrderPage.table.status.declined"),
           value: "DECLINED",
         },
         {
-          text: "CANCELED",
+          text: t("OrderPage.table.status.canceled"),
           value: "CANCELED",
         },
       ],
@@ -285,7 +309,7 @@ const OrdersValidation = () => {
         />
       </Card>
       <Modal
-        title="Decline order reason"
+        title={t("OrderPage.declineReason")}
         centered
         visible={openDeclineReason}
         onOk={() => handleDeclineOrder()}

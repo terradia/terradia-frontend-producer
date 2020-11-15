@@ -24,22 +24,26 @@ const OrdersHistory = () => {
   });
 
   const statusRenderer = (status) => {
+    let translateStatus = status;
     let color = "blue";
     switch (status) {
       case "FINISHED":
+        translateStatus = t("OrderPage.table.status.finished");
         color = "blue";
         break;
       case "DECLINED":
+        translateStatus = t("OrderPage.table.status.declined");
         color = "volcano";
         break;
       case "CANCELED":
+        translateStatus = t("OrderPage.table.status.canceled");
         color = "red";
         break;
       default:
         color = "blue";
         break;
     }
-    return <Tag color={color}>{status}</Tag>;
+    return <Tag color={color}>{translateStatus}</Tag>;
   };
 
   const columns = [
@@ -49,11 +53,12 @@ const OrdersHistory = () => {
       key: "#",
     },
     {
-      title: "Date",
+      title: t("OrderPage.table.date"),
       dataIndex: "createdAt",
       key: "createdAt",
       render: (createdAt) =>
-        createdAt ? moment(createdAt).format("DD/MM/YYYY h:mm") : null,
+        createdAt ? moment(createdAt).format("DD MMM YYYY - HH:mm") : null,
+      sorter: (a, b) => moment(a.createdAt).unix() - moment(b.createdAt).unix(),
     },
     {
       title: t("OrderPage.table.statut"),
@@ -61,20 +66,16 @@ const OrdersHistory = () => {
       key: "status",
       filters: [
         {
-          text: "Approuved",
-          value: "approuved",
+          text: t("OrderPage.table.status.finished"),
+          value: "FINISHED",
         },
         {
-          text: "Delivered",
-          value: "delivered",
+          text: t("OrderPage.table.status.declined"),
+          value: "DECLINED",
         },
         {
-          text: "Payed",
-          value: "payed",
-        },
-        {
-          text: "Canceled",
-          value: "canceled",
+          text: t("OrderPage.table.status.canceled"),
+          value: "CANCELED",
         },
       ],
       filterMultiple: true,
@@ -118,7 +119,6 @@ const OrdersHistory = () => {
   const expandedDetails = (record) => {
     return (
       <>
-        {console.log("record.products:", record.products)}
         <Table
           dataSource={record ? record.products : console.log(errorOrders)}
           columns={columnsOrder}
