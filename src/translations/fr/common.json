@@ -78,6 +78,17 @@
     }
   },
   "ProductsPage": {
+    "View": {
+      "board": "Vue en tableau",
+      "grid": "Vue en grille",
+      "list": "Vue en liste"
+    },
+    "nonCat": "Produits non catégorisés",
+    "tooltip": {
+      "addProductToCategory": "Ajouter un produit a cette catégorie",
+      "deleteCategory": "Supprime cette catégorie et déplace les produit de celle-ci vers la partie non catégorisé",
+      "editCategoryName": "Modifier le nom de la catégorie"
+    },
     "ProductCard": {
       "tooltip": "Cliquer ici pour modifier le produit"
     },
