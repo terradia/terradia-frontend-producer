@@ -243,6 +243,9 @@
       "name": "Order status"
     }
   },
+  "ApolloSuccess": {
+    "login": "Login successful"
+  },
   "ApolloError": {
     "query": {
       "checkSiren": {
