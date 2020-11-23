@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Popconfirm, Rate, Table } from "antd";
+import { Popconfirm, Rate, Table, Tooltip } from "antd";
 import {
   DeleteOutlined,
   EditOutlined,
@@ -137,25 +137,29 @@ function CategoryTable(props: CategoryTableProps) {
                 isHover === true ? "category-title-icon-isHover" : ""
               }`}
             >
-              <PlusCircleOutlined
-                className={"category-icon"}
-                onClick={(event) => {
-                  props.ProductModal.setDefaultCategory(props.cat.id);
-                  props.ProductModal.setVisible(true);
-                  event.stopPropagation();
-                }}
-              />
-              {props.cat.id !== `nonCat${companyId}` && (
-                <EditOutlined
+              <Tooltip title={t("ProductsPage.tooltip.addProductToCategory")}>
+                <PlusCircleOutlined
                   className={"category-icon"}
                   onClick={(event) => {
-                    alert("modify");
-                    // props.CategoryModal.setCategoryId(props.props.cat.id);
-                    // props.CategoryModal.setCategoryName(props.props.cat.name);
-                    // props.CategoryModal.setVisible(true);
+                    props.ProductModal.setDefaultCategory(props.cat.id);
+                    props.ProductModal.setVisible(true);
                     event.stopPropagation();
                   }}
                 />
+              </Tooltip>
+              {props.cat.id !== `nonCat${companyId}` && (
+                <Tooltip title={t("ProductsPage.tooltip.editCategoryName")}>
+                  <EditOutlined
+                    className={"category-icon"}
+                    onClick={(event) => {
+                      alert("modify");
+                      // props.CategoryModal.setCategoryId(props.props.cat.id);
+                      // props.CategoryModal.setCategoryName(props.props.cat.name);
+                      // props.CategoryModal.setVisible(true);
+                      event.stopPropagation();
+                    }}
+                  />
+                </Tooltip>
               )}
               {props.cat.id !== `nonCat${companyId}` && (
                 <Popconfirm
@@ -172,12 +176,14 @@ function CategoryTable(props: CategoryTableProps) {
                   okText="Oui"
                   cancelText="Non"
                 >
-                  <DeleteOutlined
-                    className={"category-icon red"}
-                    onClick={(event) => {
-                      event.stopPropagation();
-                    }}
-                  />
+                  <Tooltip title={t("ProductsPage.tooltip.deleteCategory")}>
+                    <DeleteOutlined
+                      className={"category-icon red"}
+                      onClick={(event) => {
+                        event.stopPropagation();
+                      }}
+                    />
+                  </Tooltip>
                 </Popconfirm>
               )}
             </div>
