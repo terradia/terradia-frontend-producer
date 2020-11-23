@@ -13,6 +13,7 @@ import "./index.less";
 import { createUploadLink } from "apollo-upload-client";
 import { notification } from "antd";
 import i18n from "./i18n";
+import { onSuccess } from "./utils/ApolloSuccessLink";
 
 const httpLink = createUploadLink({
   //uri: "https://api.terradia.eu/graphql",
@@ -38,6 +39,16 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   }
 });
 
+const successLink = onSuccess((result) => {
+  for (const key in result.data) {
+    if (i18n.exists(`ApolloSuccess.${key}`)) {
+      notification.success({
+        message: i18n.t(`ApolloSuccess.${key}`)
+      })
+    }
+  }
+})
+
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem("token");
   return {
@@ -62,7 +73,7 @@ const cache = new InMemoryCache({
 });
 
 const client = new ApolloClient({
-  link: ApolloLink.from([authLink, errorLink, httpLink]),
+  link: ApolloLink.from([authLink, errorLink, successLink, httpLink]),
   cache: cache,
   connectToDevTools: true,
 });
