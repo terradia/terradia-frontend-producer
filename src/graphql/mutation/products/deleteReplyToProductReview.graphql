@@ -1,0 +1,6 @@
+mutation deleteReplyToProductReview($reviewId: String!) {
+    deleteProductReply(reviewId: $reviewId) {
+        id
+        reply
+    }
+}

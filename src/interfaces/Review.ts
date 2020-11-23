@@ -4,6 +4,7 @@ export interface Review {
   description: string;
   customerMark: number;
   createdAt: string;
+  reply: string;
   customer: {
     id: string;
     user: {

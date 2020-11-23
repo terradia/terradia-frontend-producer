@@ -1,4 +1,11 @@
 {
+  "common": {
+    "cancel": "Cancel",
+    "noData": "No Data",
+    "edit": "Edit",
+    "yes": "Yes",
+    "no": "No"
+  },
   "Menu": {
     "home": "Home",
     "products": "Products",
@@ -127,6 +134,14 @@
       "errorContentLen": "Advice's content cannot exceed 500 characters",
       "deleteAdvice": "Do you want to delete this advice ?"
     }
+  },
+  "Reviews": {
+    "comments": "comment(s)",
+    "averageMark": "Average Mark",
+    "reply": "Reply",
+    "showMore": "show more",
+    "replyDeleted": "Your reply has been deleted",
+    "deleteReply": "Do you want to delete this reply ?"
   },
   "StaffPage": {
     "buttons": {
