@@ -156,6 +156,19 @@
       "deleteAdvice": "Voulez-vous vraiment supprimer ce conseil?"
     }
   },
+  "StatisticsPage": {
+    "currentOrders": "Commandes en cours",
+    "currentOrdersDefinition": "Les commandes sont en attentes de prépatation ou de livraison",
+    "uniqueClients": "Clients uniques",
+    "uniqueClientsDescription": "Clients differents qui ont commandé chez vous",
+    "averagePrice": "Prix moyen d'un panier",
+    "averagePriceDefinition": "Moyenne des prix des paniers finis",
+    "averageProductsInOrder": "Nombre moyen de produits",
+    "averageProductsInOrderDescription": "Produits par commande",
+    "completedOrders": "Commandes complétées",
+    "week": "Semaine",
+    "month": "Mois"
+  },
   "OrderPage": {
     "historyTitle": "Historique des commandes",
     "newOrderTitle": "Nouvelles commandes",

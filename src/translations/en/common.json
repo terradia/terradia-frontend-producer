@@ -130,6 +130,19 @@
       "deleteAdvice": "Do you want to delete this advice ?"
     }
   },
+  "StatisticsPage": {
+    "currentOrders": "Current orders",
+    "currentOrdersDefinition": "Orders are awaiting prepatation or delivery",
+    "uniqueClients": "Unique clients",
+    "uniqueClientsDescription": "Different customers who have ordered from you",
+    "averagePrice": "Average price",
+    "averagePriceDefinition": "Price of a finished order",
+    "averageProductsInOrder": "Average of product",
+    "averageProductsInOrderDescription": "Products per order",
+    "completedOrders": "Completed orders",
+    "week": "Week",
+    "month": "Month"
+  },
   "OrderPage": {
     "historyTitle": "Orders history",
     "newOrderTitle": "New orders",
