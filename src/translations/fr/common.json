@@ -284,6 +284,9 @@
       "name": "Statut de la commande"
     }
   },
+  "ApolloSuccess": {
+    "login": "Authentification réussite"
+  },
   "ApolloError": {
     "query": {
       "checkSiren": {
