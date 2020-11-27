@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { DeleteOutlined, EyeOutlined } from "@ant-design/icons/lib";
-import { Card } from "antd";
+import { Card, Image } from "antd";
 import ImageViewModal from "./ImageViewModal";
 import { CompanyImage } from "../../interfaces/CompanyImage";
 import ImageRemoveConfirmModal from "./ImageRemoveConfirmModal";
 import { useMutation } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
+import TerradiaLoader from "../TerradiaLoader";
+import "../../assets/Style/Files/index.less";
 
 interface Props {
   companyImage: CompanyImage;
@@ -96,10 +98,10 @@ const ImageCard: React.FC<Props> = ({
         key={companyImage.filename}
         className={"company-image-card"}
         cover={
-          <img
-            onClick={handleOpenViewModal}
+          <Image
             alt={companyImage.filename}
             src={`https://media.terradia.eu/${companyImage.filename}`}
+            placeholder={<TerradiaLoader />}
           />
         }
         bodyStyle={{ height: 0, padding: 0 }}
