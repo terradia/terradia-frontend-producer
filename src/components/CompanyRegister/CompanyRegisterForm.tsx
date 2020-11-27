@@ -252,7 +252,9 @@ const CompanyRegisterForm = () => {
         business_type: "company",
         company: {
           name: values.name,
+          tax_id: values.siren,
         },
+        tos_shown_and_accepted: true,
       });
       console.log("tokenStripe", tokenStripe.token.id);
       values.tokenAccount = tokenStripe.token.id;
