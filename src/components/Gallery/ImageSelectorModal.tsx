@@ -92,7 +92,7 @@ const ImageSelectorModal: React.FC<Props> = ({
     uploadedImage?: CompanyImageData
   ) => {
     refetch();
-    onUpload(imageFile, uploadedImage);
+    onUpload && onUpload(imageFile, uploadedImage);
   };
 
   const handleNewSelection = (companyImage: CompanyImage) => {
