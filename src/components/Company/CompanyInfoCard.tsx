@@ -8,6 +8,7 @@ import { loader } from "graphql.macro";
 import { useMutation } from "@apollo/client";
 import Field from "./Field";
 import { Divider } from "antd";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   company: Company;
@@ -19,6 +20,8 @@ const updateCompany = loader("../../graphql/mutation/updateCompany.graphql");
 
 const CompanyInfoCard: React.FC<Props> = ({ company, refetch }: Props) => {
   const [updateCompanyMutation] = useMutation(updateCompany);
+
+  const { t } = useTranslation("common");
 
   const handleChangeImage = async (
     image: CompanyImage,
@@ -70,7 +73,7 @@ const CompanyInfoCard: React.FC<Props> = ({ company, refetch }: Props) => {
               <ImageSelectorButton
                 customText={null}
                 customIcon={<EditOutlined />}
-                title={"Modifier le logo"} // TODO : translate this.
+                title={t("CompanyPage.companyInformations.labels.editLogo")} // TODO : translate this.
                 onlyOneImageByOne={true}
                 accentColor={"white"}
                 type={"link"}
@@ -86,7 +89,7 @@ const CompanyInfoCard: React.FC<Props> = ({ company, refetch }: Props) => {
           <ImageSelectorButton
             customText={null}
             customIcon={<EditOutlined />}
-            title={"Modifier la couverture"} // TODO : translate this.
+            title={t("CompanyPage.companyInformations.labels.editCover")} // TODO : translate this.
             onlyOneImageByOne={true}
             accentColor={"white"}
             onValidate={(selectedImages) =>
@@ -103,7 +106,7 @@ const CompanyInfoCard: React.FC<Props> = ({ company, refetch }: Props) => {
           }}
           name={"description"}
           value={company.description}
-          label={"Description"}
+          label={t("CompanyPage.companyInformations.labels.description")}
           type={"description"}
           onValidate={handleFieldValidation}
         />
@@ -113,31 +116,30 @@ const CompanyInfoCard: React.FC<Props> = ({ company, refetch }: Props) => {
             width: "100%",
           }}
         >
-          Informations générales
+          {t("CompanyPage.companyInformations.labels.globalInformations")}
         </h2>{" "}
-        {/* TODO : translate this. */}
         <Field
           value={company.siren}
           name={"siren"}
-          label={"SIREN"}
+          label={t("CompanyPage.companyInformations.labels.companyID")}
           editable={false}
         />
         <Field
           value={company.address}
           name={"address"}
-          label={"Adresse postale"}
+          label={t("CompanyPage.companyInformations.labels.address")}
           onValidate={handleFieldValidation}
         />
         <Field
           value={company.email}
           name={"email"}
-          label={"Adresse e-mail"}
+          label={t("CompanyPage.companyInformations.labels.email")}
           onValidate={handleFieldValidation}
         />
         <Field
           value={company.phone}
           name={"phone"}
-          label={"Numéro de téléphone"}
+          label={t("CompanyPage.companyInformations.labels.phone")}
           onValidate={handleFieldValidation}
         />
       </div>

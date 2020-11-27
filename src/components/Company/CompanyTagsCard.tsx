@@ -89,8 +89,7 @@ const CompanyTagsCard: React.FC<Props> = ({ company, ...props }: Props) => {
             textOverflow: "ellipsis",
           }}
         >
-          <h2>{"Catégories de l'entreprise"}</h2>
-          {/* TODO : translate this. */}
+          <h2>{t("CompanyPage.companyInformations.labels.companyTags")}</h2>
         </span>
       }
       bordered={false}
@@ -107,11 +106,7 @@ const CompanyTagsCard: React.FC<Props> = ({ company, ...props }: Props) => {
         />
       }
     >
-      <div>
-        {
-          "Voici la liste des catégories dans lesquelles s'inscrivent votre entreprise :" // TODO : Translate this.
-        }
-      </div>
+      <div>{t("CompanyPage.companyInformations.labels.companyTags")}</div>
       <div className={"company-tags-container"}>
         {company.tags.map((tag, index) => {
           return (
@@ -130,19 +125,21 @@ const CompanyTagsCard: React.FC<Props> = ({ company, ...props }: Props) => {
             }}
           >
             <Empty
-              description={"Aucune catégorie n'est attribué à votre entreprise"} // TODO : Translate this.
+              description={t(
+                "CompanyPage.companyInformations.labels.noCompanyTags"
+              )}
               image={Empty.PRESENTED_IMAGE_SIMPLE}
             />
           </div>
         )}
       </div>
       <Modal
-        title="Ajouter des catégorie à l'entreprise"
+        title={t("CompanyPage.companyInformations.labels.addTagName")}
         visible={showModal}
         onCancel={() => setShowModal(false)}
         footer={[
           <Button key={"cancel"} onClick={() => setShowModal(false)}>
-            Annuler
+            {t("CompanyPage.companyInformations.buttons.cancel")}
           </Button>,
           <Button
             key={"ok"}
@@ -150,7 +147,7 @@ const CompanyTagsCard: React.FC<Props> = ({ company, ...props }: Props) => {
             onClick={() => setShowModal(false)}
             isLoading={isMutationLoading}
           >
-            {"Valider & Fermer"}
+            {t("CompanyPage.companyInformations.buttons.saveAndClose")}
           </Button>,
         ]}
       >
@@ -159,16 +156,14 @@ const CompanyTagsCard: React.FC<Props> = ({ company, ...props }: Props) => {
             paddingBottom: "1em",
           }}
         >
-          {
-            "Cliquez sur le nom d'une catégorie pour l'ajouter à votre entreprise" // TODO : translate this.
-          }
+          {t("CompanyPage.companyInformations.labels.addTag")}
         </div>
         <Input.Search
           allowClear
           style={{ width: "100%", marginBottom: "1em" }}
           value={searchInput}
           onChange={(event) => setSearchInput(event.target.value)}
-          placeholder={"Recherche de catégories"}
+          placeholder={t("CompanyPage.companyInformations.labels.searchTags")}
         />
         {loading && <TerradiaLoader />}
         {!loading &&

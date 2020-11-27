@@ -119,10 +119,9 @@ const CompanyOpenHoursCard = (props: Props) => {
         >
           <h2>
             {props.isDelivery
-              ? "Horaires de livraison"
-              : "Horaires d'ouverture"}
+              ? t("CompanyPage.openingTime.labels.delivery")
+              : t("CompanyPage.openingTime.labels.opening")}
           </h2>
-          {/* TODO : translate this. */}
         </span>
       }
       bordered={false}

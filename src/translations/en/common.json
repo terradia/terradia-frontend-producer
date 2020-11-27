@@ -19,41 +19,39 @@
     }
   },
   "CompanyPage": {
-    "genInformations": {
-      "categoryName": "Global informations",
-      "name": "Name",
-      "address": "Address",
-      "phone": "Phone num.",
-      "email": "Email",
-      "description": "Description",
-      "productType": "Product type",
-      "logo": "Company Logo",
-      "banner": "Company banner"
-    },
-    "adminInformations": {
-      "categoryName": "Administrative informations",
-      "siret": "Siret",
-      "rib": "IBAN / RIB",
-      "email": "Email",
-      "desc": "Description",
-      "marketPres": "Markets",
-      "frequency": "Frequency",
-      "selfDelivery": "Self delivery"
-    },
-    "schedule": {
-      "categoryName": "Opening time",
-      "days": {
-        "monday": "Monday",
-        "tuesday": "Tuesday",
-        "wednesday": "Wednesday",
-        "thursday": "Thursday",
-        "friday": "Friday",
-        "saturday": "Saturday",
-        "sunday": "Sunday"
+    "companyInformations": {
+      "name": "Company Informations",
+      "labels" : {
+        "description": "Description",
+        "globalInformations": "Global Informations",
+        "companyID": "Company ID (SIRET)",
+        "email": "Email address",
+        "address": "Postal Address",
+        "phone": "Phone number",
+        "companyTags": "Company tags",
+        "companyTagsInformations": "There is a list of tags for your company",
+        "noCompanyTags": "There is no tags for your company at the moment",
+        "addTagName": "Add categories to your company",
+        "searchTags": "Search categories",
+        "addTag": "Click on a category's name to add it to your company",
+        "editLogo": "Edit logo",
+        "editCover": "Edit Cover"
+      },
+      "buttons": {
+        "deleteCompany": "Delete Company",
+        "cancel": "Cancel",
+        "saveAndClose": "Save & Close"
       }
     },
-    "buttons": {
-      "deleteCompany": "Delete Company"
+    "openingTime": {
+      "name": "Opening Time",
+      "labels": {
+        "delivery" : "Delivery time",
+        "opening" : "Opening time"
+      }
+    },
+    "customersReviews": {
+      "name": "Customers Reviews"
     }
   },
   "ProductsPage": {
