@@ -20,6 +20,7 @@ interface Props {
 
 const StatisticGraph = (props: Props) => {
   const [init, setinit] = useState(true);
+  const [initMonth, setinitMonth] = useState(true);
   const [weekOrder, setWeekOrders] = useState([]);
   const [monthsOrder, setMonthsOrder] = useState([]);
   // const [yearOrder, setYearOrder] = useState([]);
@@ -64,7 +65,7 @@ const StatisticGraph = (props: Props) => {
   };
 
   const getOrdersInMonth = (data) => {
-    setinit(false);
+    setinitMonth(false);
     let tmpListOrder = [];
 
     let isCreated = false;
@@ -140,7 +141,7 @@ const StatisticGraph = (props: Props) => {
   //   setYearOrder(tmpListOrder);
   // };
 
-  if (init === true) {
+  if (init === true || initMonth === true) {
     getOrdersInWeek(props.data);
     getOrdersInMonth(props.data);
     // getOrdersInYear(props.data);
