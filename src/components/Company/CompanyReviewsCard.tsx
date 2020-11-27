@@ -3,6 +3,7 @@ import { Review } from "../../interfaces/Review";
 import { Card } from "antd";
 import "../../assets/Style/CompanyPage/CompanyReviewsCard.less";
 import ListReview from "../Review/ListReview";
+import { useTranslation } from "react-i18next";
 
 declare interface CompanyReviewsCardProps {
   averageMark: number;
@@ -59,9 +60,11 @@ function CompanyReviewsCard(props: CompanyReviewsCardProps) {
     });
   }
 
+  const { t } = useTranslation("common");
+
   return (
     <Card
-      title={"Avis des clients"}
+      title={t("CompanyPage.customersReviews.name")}
       bordered={false}
       className={"company-reviews-card"}
     >

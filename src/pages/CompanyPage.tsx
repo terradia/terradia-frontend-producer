@@ -11,6 +11,7 @@ import CompanyTagsCard from "../components/Company/CompanyTagsCard";
 import CompanyHoursCard from "../components/Company/CompanyHoursCards";
 import DeleteCompanyButton from "../components/Ui/DeleteCompanyButton";
 import CompanyReviewsCard from "../components/Company/CompanyReviewsCard";
+import { useTranslation } from "react-i18next";
 
 const { TabPane } = Tabs;
 
@@ -50,6 +51,8 @@ const CompanyPage = () => {
     loadReviews,
     { loading: loadingReviews, data: dataReviews, fetchMore: fetchMoreReviews },
   ] = useLazyQuery(getCompanyReviews);
+
+  const { t } = useTranslation("common");
 
   function handleChangePannel(key) {
     if (key === "3" && firstLoad) {
@@ -110,7 +113,7 @@ const CompanyPage = () => {
         className={"product-modal-tabs"}
         onChange={handleChangePannel}
       >
-        <TabPane tab="Informations de l'entreprise" key="1">
+        <TabPane tab={t("CompanyPage.companyInformations.name")} key="1">
           <CompanyInfoCard
             company={data.getCompany}
             refetch={refetch}
@@ -121,7 +124,7 @@ const CompanyPage = () => {
           <Divider className={"invisible-divider padding-size"} />
           <DeleteCompanyButton />
         </TabPane>
-        <TabPane tab="Horaires de l'entreprise" key="2">
+        <TabPane tab={t("CompanyPage.openingTime.name")} key="2">
           <CompanyHoursCard
             infos={deliveryHours}
             loading={loading}
@@ -136,7 +139,7 @@ const CompanyPage = () => {
             isDelivery
           />
         </TabPane>
-        <TabPane tab="Avis des clients" key="3">
+        <TabPane tab={t("CompanyPage.customersReviews.name")} key="3">
           <CompanyReviewsCard
             averageMark={data.getCompany.averageMark}
             numberOfMarks={data.getCompany.numberOfMarks}
