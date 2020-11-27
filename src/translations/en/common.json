@@ -24,7 +24,7 @@
       "labels" : {
         "description": "Description",
         "globalInformations": "Global Informations",
-        "companyID": "Company ID (SIRET)",
+        "companyID": "Company ID (SIREN)",
         "email": "Email address",
         "address": "Postal Address",
         "phone": "Phone number",
