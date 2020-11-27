@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, Redirect, useHistory } from "react-router-dom";
 import { useApolloClient, useLazyQuery, useMutation } from "@apollo/react-hooks";
 import { Checkbox, Divider, Input } from "antd";
@@ -7,7 +7,6 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import Button from "../../Ui/Button";
 import "../../../assets/Style/Login-Register/loginForm.less";
-import UserContext from "../../Context/UserContext";
 import {
   AppleFilled,
   CloseCircleOutlined,
@@ -46,8 +45,7 @@ declare interface LoginFormProps {
 
 const LoginForm = (props: LoginFormProps) => {
   const client = useApolloClient();
-  const userContext = useContext(UserContext);
-  const [event, setEvent] = useState<StorageEvent>();
+  const [token, setToken] = useState<string>();
   const [redirect, setRedirect] = useState("");
   const [login, { loading: loginLoading }] = useMutation(mutationLogin);
   const [
@@ -62,18 +60,31 @@ const LoginForm = (props: LoginFormProps) => {
     }
   };
 
-  const [getUserQuery] = useLazyQuery(getUser, {
+  const [getUserQuery, { called: userCalled }] = useLazyQuery(getUser, {
     onCompleted: onGetUser,
     onError: (e) => console.log(e),
   });
 
   useEffect(() => {
-    if (event) dispatchEvent(event);
-  }, [event]);
+    if (userCalled && called && token) {
+      const prevToken = localStorage.getItem("token");
+      dispatchEvent(
+        new StorageEvent("storage", {
+          key: "token",
+          oldValue: prevToken,
+          newValue: token,
+        })
+      );
+    }
+  }, [userCalled, called, token]);
 
   useEffect(() => {
-    if (userContext) getCompaniesQuery();
-  }, [getCompaniesQuery, userContext]);
+    try {
+      const user = client.readQuery({ query: getUser });
+      if (user) getCompaniesQuery();
+      // eslint-disable-next-line no-empty
+    } catch {}
+  }, [getCompaniesQuery, client]);
 
   useEffect(() => {
     if (called && !companiesLoading) {
@@ -113,20 +124,11 @@ const LoginForm = (props: LoginFormProps) => {
     login({ variables: { email: values.email, password: values.password } })
       .then((loginData: LoginData) => {
         if (loginData) {
-          const prevToken = localStorage.getItem("token");
           localStorage.setItem("token", loginData.data.login.token);
+          setToken(loginData.data.login.token);
           client.clearStore().then(() => {
             getCompaniesQuery();
             getUserQuery();
-            if (!props.onLogin) {
-              setEvent(
-                new StorageEvent("storage", {
-                  key: "token",
-                  oldValue: prevToken,
-                  newValue: loginData.data.login.token,
-                })
-              );
-            }
           });
         } else {
           OnErrorHandler(loginData);

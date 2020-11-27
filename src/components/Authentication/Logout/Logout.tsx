@@ -11,13 +11,17 @@ const Logout: React.FC<Props> = ({ collapsed = false }: Props) => {
   const client = useApolloClient();
 
   const onLogoutHandler = (): void => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("collapsedCategory");
-    if (localStorage.getItem("rememberCompany") === "false") {
-      localStorage.removeItem("rememberCompany");
-      localStorage.removeItem("selectedCompany");
-    }
-    client.resetStore().then(null);
+    const token = localStorage.getItem("token");
+    client.stop();
+    client.resetStore().then(() => {
+      dispatchEvent(
+        new StorageEvent("storage", {
+          key: "token",
+          oldValue: token,
+          newValue: null,
+        })
+      );
+    });
   };
 
   return (
