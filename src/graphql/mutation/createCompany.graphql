@@ -1,4 +1,4 @@
-mutation createCompany($name: String!, $siren: String!, $description: String, $email: String!, $phone: String!, $address: String!) {
+mutation createCompany($name: String!, $siren: String!, $description: String, $email: String!, $phone: String!, $address: String!, $tokenAccount: String!) {
     createCompany (
         name: $name
         description: $description
@@ -6,6 +6,7 @@ mutation createCompany($name: String!, $siren: String!, $description: String, $e
         siren: $siren
         phone: $phone
         address: $address
+        tokenAccount: $tokenAccount
     )
     {
         id

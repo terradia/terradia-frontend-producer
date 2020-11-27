@@ -6,7 +6,11 @@ import AdministrativeInfoForm, { InputStatus } from "./AdministrativeInfoForm";
 import "../../assets/Style/CompanyRegister/CompanyRegisterForm.less";
 import RegisterForm from "../Authentication/Register/RegisterForm";
 import LoginForm from "../Authentication/Login/LoginForm";
-import { useApolloClient, useLazyQuery, useMutation } from "@apollo/react-hooks";
+import {
+  useApolloClient,
+  useLazyQuery,
+  useMutation,
+} from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
 import { CompanyImageData } from "../Files/ImageUploadModal";
 import { UploadChangeParam } from "antd/lib/upload";
@@ -14,6 +18,7 @@ import { Redirect } from "react-router";
 import { SirenData } from "../../interfaces/Company/CompanyRegister/CompanyRegisterForm";
 import FormStepButton from "./FormStepButton";
 import Logout from "../Authentication/Logout/Logout";
+import { useStripe } from "@stripe/react-stripe-js";
 
 const createCompanyMutation = graphqlLoader(
   "../../graphql/mutation/createCompany.graphql"
@@ -52,6 +57,7 @@ const CompanyRegisterForm = () => {
   const [coverId, setCoverId] = useState(null);
   const client = useApolloClient();
   const [user, setUser] = useState(null);
+  const stripe = useStripe();
 
   try {
     if (user === null) {
@@ -240,8 +246,16 @@ const CompanyRegisterForm = () => {
     }
   }, [client, user]);
 
-  const onSubmit = (values) => {
+  const onSubmit = async (values) => {
     if (!isCreated) {
+      const tokenStripe = await stripe.createToken("account", {
+        business_type: "company",
+        company: {
+          name: values.name,
+        },
+      });
+      console.log("tokenStripe", tokenStripe.token.id);
+      values.tokenAccount = tokenStripe.token.id;
       createCompany({ variables: values })
         .then((data) => {
           localStorage.setItem("selectedCompany", data.data.createCompany.id);
