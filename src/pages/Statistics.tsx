@@ -37,7 +37,7 @@ const Statistics = () => {
   const { loading: loadingOrders, error: errorOrders, data: orders } = useQuery(
     getCurrentOrders,
     {
-      variables: { companyId },
+      variables: { companyId, limit: 100 },
     }
   );
 
@@ -125,6 +125,7 @@ const Statistics = () => {
               companyId,
               fromDate: moment().subtract(31, "days").toDate(),
               toDate: today,
+              limit: 100,
             },
           })}
       <div className={"statistic-page"}>

@@ -20,7 +20,7 @@ const OrdersHistory = () => {
     error: errorOrders,
     data: ordersData,
   } = useQuery(getCompanyOrderHistories, {
-    variables: { companyId },
+    variables: { companyId, limit: 100 },
   });
 
   const statusRenderer = (status) => {

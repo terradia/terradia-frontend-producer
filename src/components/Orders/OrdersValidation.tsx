@@ -33,7 +33,7 @@ const OrdersValidation = () => {
   const { loading: loadingOrders, error: errorOrders, data: orders } = useQuery(
     getCurrentOrders,
     {
-      variables: { companyId },
+      variables: { companyId, limit: 100 },
     }
   );
 
@@ -43,7 +43,7 @@ const OrdersValidation = () => {
       refetchQueries: [
         {
           query: getCurrentOrders,
-          variables: { companyId },
+          variables: { companyId, limit: 100 },
         },
       ],
     }
@@ -55,7 +55,7 @@ const OrdersValidation = () => {
       refetchQueries: [
         {
           query: getCurrentOrders,
-          variables: { companyId },
+          variables: { companyId, limit: 100 },
         },
         {
           query: getCompanyOrderHistories,

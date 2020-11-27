@@ -23,8 +23,6 @@ const StatisticGraph = (props: Props) => {
   const [weekOrder, setWeekOrders] = useState([]);
   const [monthsOrder, setMonthsOrder] = useState([]);
   // const [yearOrder, setYearOrder] = useState([]);
-  let weekDay = moment().subtract(7, "days").format("DD MMM");
-  let monthDay = moment().subtract(31, "days").format("DD MMM");
   // let yearMonth = moment().subtract(12, "months");
   const today = moment().format("DD MMM");
 
@@ -34,7 +32,11 @@ const StatisticGraph = (props: Props) => {
 
     let isCreated = false;
     if (isCreated === false) {
-      while (weekDay !== today) {
+      for (
+        let weekDay = moment().subtract(7, "days").format("DD MMM");
+        weekDay !== today;
+        weekDay = moment(new Date(weekDay)).add(1, "days").format("DD MMM")
+      ) {
         tmpListOrder = [
           ...tmpListOrder,
           {
@@ -42,21 +44,17 @@ const StatisticGraph = (props: Props) => {
             date: moment(new Date(weekDay)).format("DD MMM"),
           },
         ];
-        weekDay = moment(new Date(weekDay)).add(1, "days").format("DD MMM");
       }
       isCreated = true;
     }
 
     data.forEach((order) => {
       tmpListOrder.forEach((tmpOrder) => {
-        let tmpNb = 0;
         if (
           moment(new Date(tmpOrder.date)).format("DD MMM") ===
           moment(new Date(order.createdAt)).format("DD MMM")
         ) {
-          tmpNb = tmpOrder.nb + 1;
-
-          tmpOrder.nb = tmpNb;
+          tmpOrder.nb = tmpOrder.nb + 1;
           tmpOrder.date = moment(new Date(order.createdAt)).format("DD MMM");
         }
       });
@@ -71,7 +69,11 @@ const StatisticGraph = (props: Props) => {
 
     let isCreated = false;
     if (isCreated === false) {
-      while (monthDay !== today) {
+      for (
+        let monthDay = moment().subtract(31, "days").format("DD MMM");
+        monthDay !== today;
+        monthDay = moment(new Date(monthDay)).add(1, "days").format("DD MMM")
+      ) {
         tmpListOrder = [
           ...tmpListOrder,
           {
@@ -79,21 +81,17 @@ const StatisticGraph = (props: Props) => {
             date: moment(new Date(monthDay)).format("DD MMM"),
           },
         ];
-        monthDay = moment(new Date(monthDay)).add(1, "days").format("DD MMM");
       }
       isCreated = true;
     }
 
     data.forEach((order) => {
       tmpListOrder.forEach((tmpOrder) => {
-        let tmpNb = 0;
         if (
           moment(new Date(tmpOrder.date)).format("DD MMM") ===
           moment(new Date(order.createdAt)).format("DD MMM")
         ) {
-          tmpNb = tmpOrder.nb + 1;
-
-          tmpOrder.nb = tmpNb;
+          tmpOrder.nb = tmpOrder.nb + 1;
           tmpOrder.date = moment(new Date(order.createdAt)).format("DD MMM");
         }
       });
