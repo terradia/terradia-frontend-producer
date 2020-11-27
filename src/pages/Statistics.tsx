@@ -7,7 +7,7 @@ import StatisticCard from "../components/Statistics/StatisticCard";
 import { useTranslation } from "react-i18next";
 import TerradiaLoader from "../components/TerradiaLoader";
 import moment from "moment";
-import { useLazyQuery, useQuery } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/react-hooks";
 import StarReview from "../components/Review/StarReview";
 import StatisticGraph from "../components/Statistics/StatisticGraph";
 
@@ -41,29 +41,20 @@ const Statistics = () => {
     }
   );
 
-  const [
-    loadOrderHistories,
-    {
-      loading: loadingOrderHistories,
-      data: orderHistoriesData,
-      // fetchMore: fetchMoreOrderHistories,
+  const {
+    loading: loadingOrderHistories,
+    error: errorOrderHistories,
+    data: orderHistoriesData,
+  } = useQuery(getCompanyOrderHistories, {
+    variables: {
+      companyId,
+      limit: 100,
     },
-  ] = useLazyQuery(getCompanyOrderHistories);
+  });
 
   const [graphScope, setGraphScope] = useState("week");
 
-  const today = moment();
-
   const onChange = (event) => {
-    // if (event === "year") {
-    //   loadOrderHistories({
-    //     variables: {
-    //       companyId,
-    //       fromDate: moment().subtract(1, "year").toDate(),
-    //       toDate: today,
-    //     },
-    //   });
-    // }
     setGraphScope(event.target.value);
   };
 
@@ -71,8 +62,8 @@ const Statistics = () => {
     return orders
       ? orders.getCurrentOrders
         ? orders.getCurrentOrders.length
-        : console.log(errorOrders)
-      : console.log(errorOrders);
+        : 0
+      : 0;
   };
 
   const getUniqueCustomer = () => {
@@ -114,20 +105,11 @@ const Statistics = () => {
     return Math.round((averagePrice + Number.EPSILON) * 100) / 100;
   };
 
-  if (loadingOrders || loadingGetCompanyById || loadingOrderHistories)
+  if (loadingOrders || loadingGetCompanyById || loadingOrderHistories) {
     return <TerradiaLoader />;
+  }
   return (
     <>
-      {orderHistoriesData
-        ? null
-        : loadOrderHistories({
-            variables: {
-              companyId,
-              fromDate: moment().subtract(31, "days").toDate(),
-              toDate: today,
-              limit: 100,
-            },
-          })}
       <div className={"statistic-page"}>
         <div className={"head-statistics"}>
           <StatisticCard
@@ -140,14 +122,12 @@ const Statistics = () => {
             number={getUniqueCustomer()}
             description={t("StatisticsPage.uniqueClientsDescription")}
           />
-          <StarReview
-            averageMark={
-              dataCompany
-                ? dataCompany.getCompany.averageMark
-                : console.log(errorGetCompanyById)
-            }
-            numberOfMarks={dataCompany.getCompany.numberOfMarks}
-          />
+          {dataCompany && (
+            <StarReview
+              averageMark={dataCompany.getCompany.averageMark}
+              numberOfMarks={dataCompany.getCompany.numberOfMarks}
+            />
+          )}
         </div>
         <Card
           title={t("StatisticsPage.completedOrders")}
@@ -157,7 +137,6 @@ const Statistics = () => {
               onChange={onChange}
               buttonStyle="solid"
             >
-              {/* <Radio.Button value="year">Année</Radio.Button> */}
               <Radio.Button value="months">
                 {t("StatisticsPage.month")}
               </Radio.Button>

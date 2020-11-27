@@ -23,8 +23,6 @@ const StatisticGraph = (props: Props) => {
   const [initMonth, setinitMonth] = useState(true);
   const [weekOrder, setWeekOrders] = useState([]);
   const [monthsOrder, setMonthsOrder] = useState([]);
-  // const [yearOrder, setYearOrder] = useState([]);
-  // let yearMonth = moment().subtract(12, "months");
   const today = moment().format("DD MMM");
 
   const getOrdersInWeek = (data) => {
@@ -100,51 +98,9 @@ const StatisticGraph = (props: Props) => {
     setMonthsOrder(tmpListOrder);
   };
 
-  // const getOrdersInYear = (data) => {
-  //   setinit(false);
-  //   let tmpListOrder = [];
-
-  //   let isCreated = false;
-  //   if (isCreated === false) {
-  //     console.log("yearMonth", yearMonth, today);
-  //   }
-  //   while (yearMonth !== todayMonth) {
-  //     tmpListOrder = [
-  //       ...tmpListOrder,
-  //       {
-  //         nb: 0,
-  //         date: moment(new Date(yearMonth)).format("DD MMM"),
-  //       },
-  //     ];
-  //     yearMonth = moment(new Date(yearMonth))
-  //       .add(1, "months")
-  //       .format("DD MMM");
-  //     console.log("yearMonth YEAR:", yearMonth);
-  //   }
-  //   isCreated = true;
-  // }
-  // data.forEach((order) => {
-  //   tmpListOrder.forEach((tmpOrder) => {
-  //     let tmpNb = 0;
-  //     if (
-  //       moment(new Date(tmpOrder.date)).format("DD MMM") ===
-  //       moment(new Date(order.createdAt)).format("DD MMM")
-  //     ) {
-  //       tmpNb = tmpOrder.nb + 1;
-
-  //       tmpOrder.nb = tmpNb;
-  //       tmpOrder.date = moment(new Date(order.createdAt)).format("DD MMM");
-  //     }
-  //   });
-  // });
-  // console.log("tmpListOrder:", tmpListOrder);
-  //   setYearOrder(tmpListOrder);
-  // };
-
   if (init === true || initMonth === true) {
     getOrdersInWeek(props.data);
     getOrdersInMonth(props.data);
-    // getOrdersInYear(props.data);
     return <TerradiaLoader />;
   }
 
@@ -171,16 +127,6 @@ const StatisticGraph = (props: Props) => {
           </Bar>
         </BarChart>
       )}
-      {/* {props.graphScope === "year" && (
-        <BarChart width={600} height={400} data={yearOrder}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="date" />
-          <YAxis />
-          <Bar dataKey="nb" fill="#52c41a">
-            <LabelList dataKey="nb" position="center" />
-          </Bar>
-        </BarChart>
-      )} */}
     </>
   );
 };
