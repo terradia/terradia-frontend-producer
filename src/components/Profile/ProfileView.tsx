@@ -7,7 +7,7 @@ import {
   UserOutlined,
 } from "@ant-design/icons/lib";
 import { Avatar, Divider, Tooltip, Upload } from "antd";
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
 import { User } from "../../interfaces";
 import { RcFile } from "antd/lib/upload/interface";

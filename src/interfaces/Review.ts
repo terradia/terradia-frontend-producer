@@ -3,7 +3,7 @@ export interface Review {
   title: string;
   description: string;
   customerMark: number;
-  updatedAt: string;
+  createdAt: string;
   customer: {
     id: string;
     user: {

@@ -1,0 +1,5 @@
+mutation deleteProductAdvice($adviceId: ID!) {
+    deleteCompanyProductAdvise(id: $adviceId) {
+        id
+    }
+}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { loader as graphqlLoader } from "graphql.macro";
-import { useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/react-hooks";
 
 import { Empty, Select, Radio, Card, Row, Col, Divider } from "antd";
 import Button from "../components/Ui/Button";
@@ -81,20 +81,21 @@ const Products = () => {
   }
 
   if (dataCategories) {
+    console.log("dataCat", dataCategories);
     // TODO a supprimer et a faire en back
-    dataCategories.getAllCompanyProductsCategories.forEach((cat, index) => {
-      dataCategories.getAllCompanyProductsCategories[index].products.sort(
-        (a: any, b: any) => {
-          if (a.position > b.position) {
-            return 1;
-          } else if (a.position === b.position) {
-            return 0;
-          } else {
-            return -1;
-          }
-        }
-      );
-    });
+    // dataCategories.getAllCompanyProductsCategories.forEach((cat, index) => {
+    //   dataCategories.getAllCompanyProductsCategories[index].products.sort(
+    //     (a: any, b: any) => {
+    //       if (a.position > b.position) {
+    //         return 1;
+    //       } else if (a.position === b.position) {
+    //         return 0;
+    //       } else {
+    //         return -1;
+    //       }
+    //     }
+    //   );
+    // });
     indexNullCat = dataCategories.getAllCompanyProductsCategories.findIndex(
       (cat) => cat.id === `nonCat${companyId}`
     );

@@ -1,0 +1,8 @@
+mutation createProductAdvice($productId: ID!, $companyId: ID!, $title: String!, $content: String!) {
+    createCompanyProductAdvise(productId: $productId, companyId: $companyId, title: $title, content: $content) {
+        id
+        title
+        createdAt
+        content
+    }
+}

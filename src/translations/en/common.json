@@ -112,6 +112,18 @@
           "errors": "Portion quantity is required"
         }
       }
+    },
+    "ProductAdvices": {
+      "createAdvice": "Add a new advice",
+      "titleAdvice": "Advice's Title",
+      "titlePlaceholder": "Write your advice's title...",
+      "contentAdvice": "Adivce's content",
+      "contentPlaceholder": "Write your advice...",
+      "errorTitle": "Title is required",
+      "errorTitleLe,": "The size of the title canot exceed 150 characters",
+      "errorContent": "Advice's content cannot be empty",
+      "errorContentLen": "Advice's content cannot exceed 500 characters",
+      "deleteAdvice": "Do you want to delete this advice ?"
     }
   },
   "StaffPage": {

@@ -1,5 +1,6 @@
 query getCompanyUsers($companyId: ID!) {
   getCompany(companyId: $companyId) {
+    id
     users {
       id
       user {
