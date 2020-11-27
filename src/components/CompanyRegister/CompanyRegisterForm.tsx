@@ -249,11 +249,14 @@ const CompanyRegisterForm = () => {
   const onSubmit = async (values) => {
     if (!isCreated) {
       const tokenStripe = await stripe.createToken("account", {
+        // eslint-disable-next-line @typescript-eslint/camelcase
         business_type: "company",
         company: {
           name: values.name,
+          // eslint-disable-next-line @typescript-eslint/camelcase
           tax_id: values.siren,
         },
+        // eslint-disable-next-line @typescript-eslint/camelcase
         tos_shown_and_accepted: true,
       });
       values.tokenAccount = tokenStripe.token.id;
