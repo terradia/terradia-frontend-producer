@@ -40,41 +40,39 @@
     }
   },
   "CompanyPage": {
-    "genInformations": {
-      "categoryName": "Information Générales",
-      "name": "Nom",
-      "address": "Adresse",
-      "phone": "Numéro de tel.",
-      "email": "Adresse Email",
-      "description": "Description",
-      "productType": "Type de Produit",
-      "logo": "Logo Entreprise",
-      "banner": "Bannière Entreprise"
-    },
-    "adminInformations": {
-      "categoryName": "Information Administratives",
-      "siret": "Siret",
-      "rib": "IBAN / RIB",
-      "email": "Adresse Email",
-      "desc": "Description",
-      "marketPres": "Présence Marché",
-      "frequency": "Fréquence",
-      "selfDelivery": "Livraison vous-même"
-    },
-    "schedule": {
-      "categoryName": "Horaire d'ouverture",
-      "days": {
-        "monday": "Lundi",
-        "tuesday": "Mardi",
-        "wednesday": "Mercredi",
-        "thursday": "Jeudi",
-        "friday": "Vendredi",
-        "saturday": "Samedi",
-        "sunday": "Dimanche"
+    "companyInformations": {
+      "name": "Informations de l'entreprise",
+      "labels" : {
+        "description": "Description",
+        "globalInformations": "Informations générales",
+        "companyID": "SIRET",
+        "email": "Adresse email",
+        "address": "Adresse postale",
+        "phone": "Numéro de téléphone",
+        "companyTags": "Catégories de l'entreprise",
+        "companyTagsInformations": "Liste des catégories rattachées à votre entreprise",
+        "noCompanyTags": "Aucune catégorie sélectionnée pour le moment",
+        "addTagName": "Ajouter des catégories à votre entreprise",
+        "searchTags": "Chercher des catégories",
+        "addTag": "Cliquer sur le nom d'une catégorie pour l'ajouter à votre entreprise",
+        "editLogo": "Editer le logo",
+        "editCover": "Editer la photo de couverture"
+      },
+      "buttons": {
+        "deleteCompany": "Supprimer l'entreprise",
+        "cancel": "Annuler",
+        "saveAndClose": "Enregistrer & Fermer"
       }
     },
-    "buttons": {
-      "deleteCompany": "Supprimer l'entreprise"
+    "openingTime": {
+      "name": "Horaires",
+      "labels": {
+        "delivery" : "Horaires de livraison",
+        "opening" : "Horaires d'ouverture"
+      }
+    },
+    "customersReviews": {
+      "name": "Avis des clients"
     }
   },
   "ProductsPage": {
