@@ -1,0 +1,6 @@
+mutation addReplyToCompanyReview($reviewId: String!, $reply: String!) {
+    addReplyToCompanyReview(reply: $reply, reviewId: $reviewId) {
+        id
+        reply
+    }
+}

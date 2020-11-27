@@ -81,6 +81,7 @@ function CompanyReviewsCard(props: CompanyReviewsCardProps) {
             showSizeChanger: false,
           }}
           loadingList={loading}
+          isCompany={true}
         />
       )}
     </Card>

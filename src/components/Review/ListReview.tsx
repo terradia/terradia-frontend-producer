@@ -1,9 +1,10 @@
 import React from "react";
 import { Review } from "../../interfaces/Review";
-import { Avatar, Button, Comment, Divider, List, Rate } from "antd";
-import moment from "moment";
-import { UserOutlined } from "@ant-design/icons/lib";
+import { Divider, List, Rate } from "antd";
 import "../../assets/Style/Review/ListReview.less";
+import { useTranslation } from "react-i18next";
+import ReviewItem from "./ReviewItem";
+import Button from "../Ui/Button";
 
 declare interface ListReviewProps {
   loadingList: boolean;
@@ -13,15 +14,19 @@ declare interface ListReviewProps {
   isfetchMore?: boolean;
   handleFetchMore?: () => void;
   pagination?: any;
+  isCompany: boolean;
 }
 
 function ListReview(props: ListReviewProps) {
-  // TODO : translate
+  const { t } = useTranslation("common");
+
   return (
     <div className={"list-review"}>
       <div className={"mark-informations"}>
         <span className={"average-mark"}>
-          <span className={"average-mark-text"}>Note moyenne</span>
+          <span className={"average-mark-text"}>
+            {t("Reviews.averageMark")}
+          </span>
           <span className={"average-mark-stars"}>
             {`${Math.round(props.averageMark * 2) / 2} / 5`}
             <Rate
@@ -32,14 +37,13 @@ function ListReview(props: ListReviewProps) {
           </span>
         </span>
         <span className={"number-of-reviews"}>
-          {`${props.numberOfMarks} ${
-            props.numberOfMarks > 1 ? "commentaires" : "commentaire"
-          }`}
+          {`${props.numberOfMarks} ${t("Reviews.comments")}`}
         </span>
       </div>
       <Divider />
       <div className={"review-tab"}>
         <List
+          locale={{ emptyText: t("common.noData") }}
           className="comment-list"
           itemLayout="horizontal"
           dataSource={props.reviewsList}
@@ -49,44 +53,13 @@ function ListReview(props: ListReviewProps) {
             props.isfetchMore ? (
               <div className={"button-show-more"}>
                 <Button onClick={props.handleFetchMore} type={"link"}>
-                  voir plus
+                  {t("Reviews.showMore")}
                 </Button>
               </div>
             ) : null
           }
           renderItem={(item: Review) => {
-            return (
-              <List.Item>
-                <Comment
-                  author={`${item.customer.user.firstName} ${item.customer.user.lastName}`}
-                  datetime={
-                    <span>
-                      {moment(item.createdAt).format("DD MMM YYYY - HH:mm")}
-                    </span>
-                  }
-                  avatar={
-                    item.customer !== null && item.customer.user.avatar ? (
-                      <Avatar
-                        size={50}
-                        src={`https://media.terradia.eu/${item.customer.user.avatar}`}
-                        alt={item.customer.user.firstName}
-                        className={"user-image"}
-                      />
-                    ) : (
-                      <Avatar size={50} icon={<UserOutlined />} />
-                    )
-                  }
-                  content={
-                    <>
-                      <div className={"comment-title"}>{item.title}</div>
-                      <div>{item.description}</div>
-                    </>
-                  }
-                  style={{ width: "80%" }}
-                />
-                <Rate disabled allowHalf value={item.customerMark} />
-              </List.Item>
-            );
+            return <ReviewItem item={item} isCompany={props.isCompany} />;
           }}
         />
       </div>

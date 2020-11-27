@@ -1,4 +1,11 @@
 {
+  "common": {
+    "cancel": "Annuler",
+    "noData": "Pas de données",
+    "edit": "Modifier",
+    "yes": "Oui",
+    "no": "Non"
+  },
   "monday": {
     "label": "Lundi:"
   },
@@ -151,6 +158,14 @@
       "errorContentLen": "Le contenu de votre conseil ne peut dépasser 500 caractères",
       "deleteAdvice": "Voulez-vous vraiment supprimer ce conseil?"
     }
+  },
+  "Reviews": {
+    "comments": "commentaire(s)",
+    "averageMark": "Note moyenne",
+    "reply": "Répondre",
+    "showMore":  "voir plus",
+    "replyDeleted": "Votre réponse a bien été supprimée",
+    "deleteReply": "Voulez-vous vraiment supprimer cette réponse ?"
   },
   "StaffPage": {
     "buttons": {

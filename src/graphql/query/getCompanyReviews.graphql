@@ -5,6 +5,7 @@ query getCompanyReviews ($id: ID!, $limit: Int!, $offset: Int!) {
         description
         customerMark
         createdAt
+        reply
         customer {
             id
             user {
