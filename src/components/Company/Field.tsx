@@ -11,7 +11,7 @@ interface Props {
   style?: CSSProperties;
   editable?: boolean;
   defaultEditMode?: boolean;
-  type?: "phone" | "address" | "text" | "description" | "iban";
+  type?: "phone" | "address" | "text" | "description";
   onStartEdit?: (key: string, value: any) => void;
   onValidate?: (key: string, value: any) => void;
 }

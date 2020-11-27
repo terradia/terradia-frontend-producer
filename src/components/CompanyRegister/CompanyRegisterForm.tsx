@@ -256,7 +256,6 @@ const CompanyRegisterForm = () => {
         },
         tos_shown_and_accepted: true,
       });
-      console.log("tokenStripe", tokenStripe.token.id);
       values.tokenAccount = tokenStripe.token.id;
       createCompany({ variables: values })
         .then((data) => {
