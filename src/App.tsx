@@ -25,9 +25,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import "./assets/body.less";
 import "./assets/Style/antd-custom.less";
 
-const stripePromise = loadStripe(
-  "pk_test_51H6a9LHJwleKpfuCDWJkWOs8YiRE5Qcn0lCLcWUsvomazFg3G5fyxKguE1C1DXC0aimZLq3yVv12s6FTez0tIny700u3s3nIMI"
-);
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_KEY);
 
 const queryGetUser = graphqlLoader("./graphql/query/getUser.graphql");
 
