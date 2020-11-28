@@ -16,9 +16,7 @@ import i18n from "./i18n";
 import { onSuccess } from "./utils/ApolloSuccessLink";
 
 const httpLink = createUploadLink({
-  //uri: "https://api.terradia.eu/graphql",
-  // uri: "http://368c4db688e3.ngrok.io/graphql",
-  uri: "http://localhost:8000/graphql",
+  uri: process.env.REACT_APP_API_URI,
   fetch: fetch,
 });
 
