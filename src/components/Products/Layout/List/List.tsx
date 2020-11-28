@@ -12,6 +12,11 @@ declare interface ListProps {
     setDefaultCategory: (e) => void;
     setUpdateProduct: (e) => void;
   };
+  CategoryModal?: {
+    setVisible?: (e) => void;
+    setCategoryId?: (e) => void;
+    setCategoryName?: (e) => void;
+  };
 }
 
 // TODO: mettre les Table dans un composant enfant!
@@ -54,6 +59,7 @@ function List(props: ListProps) {
               key={cat.id}
               cat={cat}
               ProductModal={props.ProductModal}
+              CategoryModal={props.CategoryModal}
             />
           );
         }
