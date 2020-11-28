@@ -62,6 +62,17 @@
     }
   },
   "ProductsPage": {
+    "View": {
+      "board": "Board view",
+      "grid": "Grid view",
+      "list": "List view"
+    },
+    "nonCat": "Uncategorized products",
+    "tooltip": {
+      "addProductToCategory": "Add a product to this category",
+      "deleteCategory": "Delete this category and move all it's products to the no category",
+      "editCategoryName": "Edit the name of this category"
+    },
     "noProductInCategory": "No product available in this category",
     "uncategorizedProducts": "Uncategorized Products",
     "deleteCategory": {

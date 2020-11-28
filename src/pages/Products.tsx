@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { loader as graphqlLoader } from "graphql.macro";
 import { useQuery } from "@apollo/react-hooks";
 
-import { Empty, Select, Radio, Card, Row, Col, Divider } from "antd";
+import { Empty, Select, Radio, Card, Row, Col, Divider, Tooltip } from "antd";
 import Button from "../components/Ui/Button";
 import ProductsModal from "../components/Products/Modal/Product/ProductsModal";
 import CategoryModal from "../components/Products/Modal/Category/CategoryModal";
@@ -154,31 +154,37 @@ const Products = () => {
                       }}
                     >
                       <Radio.Button value="0">
-                        <BoardIcon
-                          style={{
-                            height: "20px",
-                            width: "20px",
-                            marginTop: "9px",
-                          }}
-                        />
+                        <Tooltip title={t("ProductsPage.View.board")}>
+                          <BoardIcon
+                            style={{
+                              height: "20px",
+                              width: "20px",
+                              marginTop: "9px",
+                            }}
+                          />
+                        </Tooltip>
                       </Radio.Button>
                       <Radio.Button value="1">
-                        <GridIcon
-                          style={{
-                            height: "20px",
-                            width: "20px",
-                            marginTop: "9px",
-                          }}
-                        />
+                        <Tooltip title={t("ProductsPage.View.grid")}>
+                          <GridIcon
+                            style={{
+                              height: "20px",
+                              width: "20px",
+                              marginTop: "9px",
+                            }}
+                          />
+                        </Tooltip>
                       </Radio.Button>
                       <Radio.Button value="2">
-                        <ListIcon
-                          style={{
-                            height: "20px",
-                            width: "20px",
-                            marginTop: "9px",
-                          }}
-                        />
+                        <Tooltip title={t("ProductsPage.View.list")}>
+                          <ListIcon
+                            style={{
+                              height: "20px",
+                              width: "20px",
+                              marginTop: "9px",
+                            }}
+                          />
+                        </Tooltip>
                       </Radio.Button>
                     </Radio.Group>
                   </Col>
