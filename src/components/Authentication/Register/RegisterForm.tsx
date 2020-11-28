@@ -6,7 +6,6 @@ import * as Yup from "yup";
 import { loader as graphqlLoader } from "graphql.macro";
 import { useApolloClient, useMutation } from "@apollo/react-hooks";
 import "../../../assets/Style/Login-Register/registerForm.less";
-import { AppleFilled, FacebookFilled } from "@ant-design/icons/lib";
 import { Redirect } from "react-router-dom";
 
 const mutationRegister = graphqlLoader(
@@ -225,25 +224,6 @@ const RegisterForm = (props: RegisterFormProps) => {
                 htmlType={"submit"}
               />
             </form>
-            <Divider className={"auth_divider"}>OU</Divider>
-            <div className={"external_connexion"}>
-              <Button
-                className={"button_register"}
-                text={"Facebook"}
-                size={"large"}
-                id={"facebook_button"}
-                accentColor={"#2174EE"}
-                icon={<FacebookFilled />}
-              />
-              <Button
-                className={"button_register"}
-                text={"Apple"}
-                size={"large"}
-                id={"apple_button"}
-                accentColor={"#202020"}
-                icon={<AppleFilled />}
-              />
-            </div>
           </div>
         );
       }}
