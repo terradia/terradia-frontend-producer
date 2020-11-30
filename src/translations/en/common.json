@@ -1,4 +1,17 @@
 {
+  "Components": {
+    "CompanyInvitationCard": {
+      "name": "INVITATIONS",
+      "from": "INVITATION FROM",
+      "for": "FOR COMPANY",
+      "email": "EMAIL ADDRESS",
+      "date": "DATE OF INVITATION",
+      "status": "STATUS",
+      "accept": "Accept invitation",
+      "decline": "Decline invitation",
+      "cancel": "Cancel invitation"
+    }
+  },
   "common": {
     "cancel": "Cancel",
     "noData": "No Data",

@@ -1,4 +1,49 @@
 {
+  "Components": {
+    "CompanyInvitationCard": {
+      "name": "INVITATIONS",
+      "from": "INVITATION DE",
+      "for": "POUR L'ENTREPRISE",
+      "email": "EMAIL",
+      "date": "DATE DE L'INVITATION",
+      "status": "STATUT",
+      "accept": "Accepter l'invitation",
+      "decline": "Refuser l'invitation",
+      "cancel": "Annuler l'invitation"
+    },
+    "InvitationListCard": {
+      "messages": {
+        "invitationCanceled": "Invitation annulée",
+        "notCanceled": "L'invitation n'a pas été annulée",
+        "invitationAccepted": "Invitation acceptée",
+        "notAccepted": "L'acceptation de l'invitation n'a pas pu aboutir",
+        "invitationDeclined": "Invitation refusée",
+        "notDeclined": "L'invitation  n'a pas été refusée",
+        "userInvitated": "Utilisateur invité",
+        "notInvitated": "L'utilisateur n'a pas été invité"
+      },
+      "description": {
+        "invitationCanceled": "L'invitation a bien été annulée",
+        "invitationAccepted": "L'invitation a bien été acceptée",
+        "invitationDeclined": "L'invitation a bien été refusée",
+        "userInvitated": "Une invitation a été envoyé à l'adresse email : "
+      },
+      "status": {
+        "name": "STATUT DES INVITATIONS",
+        "all": "Toutes",
+        "pending": "En attentes",
+        "accepted": "Acceptées",
+        "declined": "Refusées",
+        "canceled": "Annulées",
+        "button": "Inviter un nouvel employé"
+      },
+      "modal": {
+        "noInvitations": "Aucune invitation pour le moment",
+        "title": "Inviter un employé",
+        "emailToInvite": "Email à inviter"
+      }
+    }
+},
   "common": {
     "cancel": "Annuler",
     "noData": "Pas de données",
