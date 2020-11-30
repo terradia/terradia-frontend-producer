@@ -190,7 +190,12 @@ function CategoryProducts(props: CategoryProductsProps) {
                     {props.cat.id !== `nonCat${companyId}` && (
                       <Popconfirm
                         placement="top"
-                        title={t("ProductsPage.deleteCategory.title")}
+                        title={
+                          <>
+                            <p>{t("ProductsPage.deleteCategory.title")}</p>
+                            <p>{t("ProductsPage.deleteCategory.message")}</p>
+                          </>
+                        }
                         onConfirm={(event) => {
                           deleteCategory();
                           event.stopPropagation();

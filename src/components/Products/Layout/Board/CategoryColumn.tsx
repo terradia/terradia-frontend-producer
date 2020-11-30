@@ -131,7 +131,12 @@ function CategoryColumn(props: CategoryColumnProps) {
                   {props.cat.id !== `nonCat${companyId}` && (
                     <Popconfirm
                       placement="top"
-                      title={"Voulez-vous vraiment supprimer cette catégorie?"}
+                      title={
+                        <>
+                          <p>{t("ProductsPage.deleteCategory.title")}</p>
+                          <p>{t("ProductsPage.deleteCategory.message")}</p>
+                        </>
+                      }
                       onConfirm={(event) => {
                         deleteCategory();
                         event.stopPropagation();
@@ -139,8 +144,8 @@ function CategoryColumn(props: CategoryColumnProps) {
                       onCancel={(event) => {
                         event.stopPropagation();
                       }}
-                      okText="Oui"
-                      cancelText="Non"
+                      okText={t("ProductsPage.deleteCategory.yes")}
+                      cancelText={t("ProductsPage.deleteCategory.no")}
                     >
                       <Tooltip title={t("ProductsPage.tooltip.deleteCategory")}>
                         <DeleteOutlined

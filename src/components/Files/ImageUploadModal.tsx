@@ -124,6 +124,7 @@ const ImageUploadModal: React.FC<Props> = ({ visible, ...props }: Props) => {
         <p className="ant-upload-drag-icon">
           <InboxOutlined />
         </p>
+        {/*TODO translate*/}
         <p className="ant-upload-text">
           Cliquez ici pour choisir les images ou glissez - déposez les
           directement dans la zone
