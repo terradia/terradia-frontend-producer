@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { Card, Radio } from "antd";
 import { loader as graphqlLoader } from "graphql.macro";
-
 import "../assets/Style/Statistics/Statistics.less";
 import StatisticCard from "../components/Statistics/StatisticCard";
 import { useTranslation } from "react-i18next";
 import TerradiaLoader from "../components/TerradiaLoader";
 import moment from "moment";
-import { useLazyQuery, useQuery } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/react-hooks";
 import StarReview from "../components/Review/StarReview";
 import StatisticGraph from "../components/Statistics/StatisticGraph";
 
@@ -24,7 +23,6 @@ const getCompanyOrderHistories = graphqlLoader(
 const Statistics = () => {
   const { t } = useTranslation("common");
   const companyId = localStorage.getItem("selectedCompany");
-
   const {
     loading: loadingGetCompanyById,
     error: errorGetCompanyById,
@@ -41,29 +39,15 @@ const Statistics = () => {
     }
   );
 
-  const [
-    loadOrderHistories,
+  const { loading: loadingOrderHistories, data: orderHistoriesData } = useQuery(
+    getCompanyOrderHistories,
     {
-      loading: loadingOrderHistories,
-      data: orderHistoriesData,
-      // fetchMore: fetchMoreOrderHistories,
-    },
-  ] = useLazyQuery(getCompanyOrderHistories);
-
-  const [graphScope, setGraphScope] = useState("week");
-
-  const today = moment();
+      variables: { companyId },
+    }
+  );
+  const [graphScope, setGraphScope] = useState("D");
 
   const onChange = (event) => {
-    // if (event === "year") {
-    //   loadOrderHistories({
-    //     variables: {
-    //       companyId,
-    //       fromDate: moment().subtract(1, "year").toDate(),
-    //       toDate: today,
-    //     },
-    //   });
-    // }
     setGraphScope(event.target.value);
   };
 
@@ -118,16 +102,6 @@ const Statistics = () => {
     return <TerradiaLoader />;
   return (
     <>
-      {orderHistoriesData
-        ? null
-        : loadOrderHistories({
-            variables: {
-              companyId,
-              fromDate: moment().subtract(31, "days").toDate(),
-              toDate: today,
-              limit: 100,
-            },
-          })}
       <div className={"statistic-page"}>
         <div className={"head-statistics"}>
           <StatisticCard
@@ -153,17 +127,17 @@ const Statistics = () => {
           title={t("StatisticsPage.completedOrders")}
           extra={
             <Radio.Group
-              defaultValue="week"
+              defaultValue="D"
               onChange={onChange}
               buttonStyle="solid"
             >
-              {/* <Radio.Button value="year">Année</Radio.Button> */}
-              <Radio.Button value="months">
+              <Radio.Button value="D">{t("StatisticsPage.week")}</Radio.Button>
+              <Radio.Button value="MMM">
                 {t("StatisticsPage.month")}
               </Radio.Button>
-              <Radio.Button value="week">
-                {t("StatisticsPage.week")}
-              </Radio.Button>
+              {/*<Radio.Button value="YYYY">
+                {t("StatisticsPage.year")}
+              </Radio.Button>*/}
             </Radio.Group>
           }
           className={"statistic-card"}
