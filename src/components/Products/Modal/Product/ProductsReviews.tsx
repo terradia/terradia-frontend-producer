@@ -48,6 +48,8 @@ function ProductsReviews(props: ProductsReviewsProps) {
             prev.getProductReviews.push(newReview);
           return true;
         });
+        const list = document.querySelector(".review-tab");
+        list.scrollTo(0, 0);
         setLoading(false);
         return {
           ...prev,

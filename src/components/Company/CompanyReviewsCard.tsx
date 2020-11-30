@@ -52,6 +52,8 @@ function CompanyReviewsCard(props: CompanyReviewsCardProps) {
             prev.getCompanyReviews.push(newReview);
           return true;
         });
+        const list = document.querySelector(".ant-layout-content");
+        list.scrollTo(0, 0);
         setLoading(false);
         return {
           ...prev,
