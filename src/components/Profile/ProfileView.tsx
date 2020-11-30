@@ -6,7 +6,8 @@ import {
   LoadingOutlined,
   UserOutlined,
 } from "@ant-design/icons/lib";
-import { Avatar, Divider, Tooltip, Upload } from "antd";
+import { Avatar, Divider, Tooltip, Upload, Dropdown, Menu } from "antd";
+import { DownOutlined } from "@ant-design/icons";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
 import { User } from "../../interfaces";
@@ -104,6 +105,34 @@ const ProfileView: React.FC = () => {
 
   const { t } = useTranslation("common");
 
+  const dropdownMenu = (
+    <Menu>
+      <Menu.Item>
+        <div onClick={() => i18n.changeLanguage("en")}>
+          <FlagIcon code={"gb"} />
+          <span> English</span>
+        </div>
+      </Menu.Item>
+      <Menu.Item>
+        <div onClick={() => i18n.changeLanguage("fr")}>
+          <FlagIcon code={"fr"} />
+          <span> Français</span>
+        </div>
+      </Menu.Item>
+    </Menu>
+  );
+
+  const currentLanguage =
+    i18n.language === "fr" ? (
+      <>
+        <FlagIcon code={"fr"} /> <span>Français</span>
+      </>
+    ) : (
+      <>
+        <FlagIcon code={"gb"} /> <span>English</span>
+      </>
+    );
+
   return (
     <div>
       <div className={"card user-profile-data-card"}>
@@ -192,13 +221,17 @@ const ProfileView: React.FC = () => {
         <Divider />
         <div className={"languages"}>
           {t("ProfilePage.labels.chooseLanguage")}
+
           <div className={"flags"}>
-            <div onClick={() => i18n.changeLanguage("en")}>
-              <FlagIcon code={"gb"} />
-            </div>
-            <div onClick={() => i18n.changeLanguage("fr")}>
-              <FlagIcon code={"fr"} />
-            </div>
+            <Dropdown
+              overlay={dropdownMenu}
+              placement={"bottomCenter"}
+              trigger={["click"]}
+            >
+              <span>
+                {currentLanguage} <DownOutlined />
+              </span>
+            </Dropdown>
           </div>
         </div>
         <Divider />

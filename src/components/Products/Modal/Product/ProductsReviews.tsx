@@ -48,6 +48,8 @@ function ProductsReviews(props: ProductsReviewsProps) {
             prev.getProductReviews.push(newReview);
           return true;
         });
+        const list = document.querySelector(".review-tab");
+        list.scrollTo(0, 0);
         setLoading(false);
         return {
           ...prev,
@@ -58,8 +60,8 @@ function ProductsReviews(props: ProductsReviewsProps) {
 
   return (
     props.updateProduct !== null &&
-    props.updateProduct.averageMark &&
-    props.updateProduct.numberOfMarks && (
+    props.updateProduct.averageMark !== null &&
+    props.updateProduct.numberOfMarks !== null && (
       <ListReview
         reviewsList={props.reviews}
         averageMark={props.updateProduct.averageMark}
@@ -72,6 +74,7 @@ function ProductsReviews(props: ProductsReviewsProps) {
           showSizeChanger: false,
         }}
         loadingList={loading}
+        isCompany={false}
       />
     )
   );

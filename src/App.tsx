@@ -19,9 +19,13 @@ import BreakpointCatcher from "./components/Layout/BreakpointCatcher";
 import CompanyRegister from "./pages/CompanyRegister";
 import UserContext from "./components/Context/UserContext";
 import LoadingFullPage from "./components/LoadingFullPage";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
 
 import "./assets/body.less";
 import "./assets/Style/antd-custom.less";
+
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_KEY);
 
 const queryGetUser = graphqlLoader("./graphql/query/getUser.graphql");
 
@@ -75,61 +79,63 @@ const App = () => {
     return <LoadingFullPage />;
   // TODO add a loader in order to not display /Hom (for 1 sec) when user isn't log
   return (
-    <UserContext.Provider value={data ? data.getUser : null}>
-      <BrowserRouter>
-        <Switch>
-          <Route exact path={"/companyRegister"}>
-            <CompanyRegister />
-          </Route>
-          <Route exact path={"/register"}>
-            <Register />
-          </Route>
-          <Route exact path={"/login"}>
-            <Login />
-          </Route>
-          <Route exact path={"/resetPassword"}>
-            <ResetPassword />
-          </Route>
-          <Route exact path={"/companySelection"}>
-            <CompanySelection />
-          </Route>
-          {!!localStorage.getItem("token") === false ||
-          (loading === false &&
-            called === true &&
-            (data === null || data.getUser === null)) ? (
-            <Redirect to="/login" />
-          ) : (
-            <BreakpointCatcher>
-              {redirect ? RedirectTo() : null}
-              <Layout>
-                <Route exact path={"/products"}>
-                  <Products />
-                </Route>
-                <Route exact path={"/categories"}>
-                  <Categories />
-                </Route>
-                <Route exact path={"/statistics"}>
-                  <Statistics />
-                </Route>
-                <Route exact path={"/staff"}>
-                  <Staff />
-                </Route>
-                <Route exact path={"/files"}>
-                  <Files />
-                </Route>
-                <Route exact path={"/company"}>
-                  <CompanyPage />
-                </Route>
-                <Profile />
-                <Route exact path={"/orders"}>
-                  <Orders />
-                </Route>
-              </Layout>
-            </BreakpointCatcher>
-          )}
-        </Switch>
-      </BrowserRouter>
-    </UserContext.Provider>
+    <Elements stripe={stripePromise}>
+      <UserContext.Provider value={data ? data.getUser : null}>
+        <BrowserRouter>
+          <Switch>
+            <Route exact path={"/companyRegister"}>
+              <CompanyRegister />
+            </Route>
+            <Route exact path={"/register"}>
+              <Register />
+            </Route>
+            <Route exact path={"/login"}>
+              <Login />
+            </Route>
+            <Route exact path={"/resetPassword"}>
+              <ResetPassword />
+            </Route>
+            <Route exact path={"/companySelection"}>
+              <CompanySelection />
+            </Route>
+            {!!localStorage.getItem("token") === false ||
+            (loading === false &&
+              called === true &&
+              (data === null || data.getUser === null)) ? (
+              <Redirect to="/login" />
+            ) : (
+              <BreakpointCatcher>
+                {redirect ? RedirectTo() : null}
+                <Layout>
+                  <Route exact path={"/products"}>
+                    <Products />
+                  </Route>
+                  <Route exact path={"/categories"}>
+                    <Categories />
+                  </Route>
+                  <Route exact path={"/statistics"}>
+                    <Statistics />
+                  </Route>
+                  <Route exact path={"/staff"}>
+                    <Staff />
+                  </Route>
+                  <Route exact path={"/files"}>
+                    <Files />
+                  </Route>
+                  <Route exact path={"/company"}>
+                    <CompanyPage />
+                  </Route>
+                  <Profile />
+                  <Route exact path={"/orders"}>
+                    <Orders />
+                  </Route>
+                </Layout>
+              </BreakpointCatcher>
+            )}
+          </Switch>
+        </BrowserRouter>
+      </UserContext.Provider>
+    </Elements>
   );
 };
 

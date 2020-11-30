@@ -41,6 +41,28 @@
   }
 
   .comment-title {
+    display: flex;
+    align-items: center;
     font-weight: bolder;
+
+    .rate-review-item {
+      margin-right: 10px;
+      font-size: 17px;
+
+      .ant-rate-star {
+        margin-right: 4px;
+      }
+    }
+  }
+
+  .item-list-review {
+    display: flex;
+    flex-direction: column;
+
+    .comment-item {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+    }
   }
 }

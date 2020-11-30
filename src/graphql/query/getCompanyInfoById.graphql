@@ -1,0 +1,10 @@
+query getCompanyInfoById($companyId: ID!) {
+    getCompany(companyId: $companyId) {
+        id
+        name
+        logo {
+            id
+            filename
+        }
+    }
+}

@@ -1,4 +1,11 @@
 {
+  "common": {
+    "cancel": "Cancel",
+    "noData": "No Data",
+    "edit": "Edit",
+    "yes": "Yes",
+    "no": "No"
+  },
   "Menu": {
     "home": "Home",
     "products": "Products",
@@ -21,48 +28,58 @@
     }
   },
   "CompanyPage": {
-    "genInformations": {
-      "categoryName": "Global informations",
-      "name": "Name",
-      "address": "Address",
-      "phone": "Phone num.",
-      "email": "Email",
-      "description": "Description",
-      "productType": "Product type",
-      "logo": "Company Logo",
-      "banner": "Company banner"
-    },
-    "adminInformations": {
-      "categoryName": "Administrative informations",
-      "siret": "Siret",
-      "rib": "IBAN / RIB",
-      "email": "Email",
-      "desc": "Description",
-      "marketPres": "Markets",
-      "frequency": "Frequency",
-      "selfDelivery": "Self delivery"
-    },
-    "schedule": {
-      "categoryName": "Opening time",
-      "days": {
-        "monday": "Monday",
-        "tuesday": "Tuesday",
-        "wednesday": "Wednesday",
-        "thursday": "Thursday",
-        "friday": "Friday",
-        "saturday": "Saturday",
-        "sunday": "Sunday"
+    "companyInformations": {
+      "name": "Company Informations",
+      "labels" : {
+        "description": "Description",
+        "globalInformations": "Global Informations",
+        "companyID": "Company ID (SIREN)",
+        "email": "Email address",
+        "address": "Postal Address",
+        "phone": "Phone number",
+        "companyTags": "Company tags",
+        "companyTagsInformations": "There is a list of tags for your company",
+        "noCompanyTags": "There is no tags for your company at the moment",
+        "addTagName": "Add categories to your company",
+        "searchTags": "Search categories",
+        "addTag": "Click on a category's name to add it to your company",
+        "editLogo": "Edit logo",
+        "editCover": "Edit Cover"
+      },
+      "buttons": {
+        "deleteCompany": "Delete Company",
+        "cancel": "Cancel",
+        "saveAndClose": "Save & Close"
       }
     },
-    "buttons": {
-      "deleteCompany": "Delete Company"
+    "openingTime": {
+      "name": "Opening Time",
+      "labels": {
+        "delivery" : "Delivery time",
+        "opening" : "Opening time"
+      }
+    },
+    "customersReviews": {
+      "name": "Customers Reviews"
     }
   },
   "ProductsPage": {
+    "View": {
+      "board": "Board view",
+      "grid": "Grid view",
+      "list": "List view"
+    },
+    "nonCat": "Uncategorized products",
+    "tooltip": {
+      "addProductToCategory": "Add a product to this category",
+      "deleteCategory": "Delete this category",
+      "editCategoryName": "Edit the name of this category"
+    },
     "noProductInCategory": "No product available in this category",
     "uncategorizedProducts": "Uncategorized Products",
     "deleteCategory": {
       "title": "Are you sure?",
+      "message": "Products will be moved with uncategorized products",
       "yes": "Yes",
       "no": "No"
     },
@@ -129,6 +146,14 @@
       "errorContentLen": "Advice's content cannot exceed 500 characters",
       "deleteAdvice": "Do you want to delete this advice ?"
     }
+  },
+  "Reviews": {
+    "comments": "comment(s)",
+    "averageMark": "Average Mark",
+    "reply": "Reply",
+    "showMore": "show more",
+    "replyDeleted": "Your reply has been deleted",
+    "deleteReply": "Do you want to delete this reply ?"
   },
   "StatisticsPage": {
     "currentOrders": "Current orders",
@@ -303,6 +328,9 @@
     "ordersListPageModal": {
       "name": "Order status"
     }
+  },
+  "ApolloSuccess": {
+    "login": "Login successful"
   },
   "ApolloError": {
     "query": {

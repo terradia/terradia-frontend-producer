@@ -3,7 +3,7 @@ import { Draggable, Droppable } from "react-beautiful-dnd";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { ReactComponent as CarretIcon } from "../../../../assets/Icon/ui/caret.svg";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons/lib";
-import { Divider, Empty, Popconfirm } from "antd";
+import { Divider, Empty, Popconfirm, Tooltip } from "antd";
 import { useTranslation } from "react-i18next";
 
 import { loader as graphqlLoader } from "graphql.macro";
@@ -149,36 +149,53 @@ function CategoryProducts(props: CategoryProductsProps) {
                       marginRight: "5px",
                     }}
                   />
-                  {`${props.cat.name} (${props.cat.products.length})`}
+                  {props.cat.id !== `nonCat${companyId}`
+                    ? `${props.cat.name} (${props.cat.products.length})`
+                    : `${t("ProductsPage.nonCat")} (${
+                        props.cat.products.length
+                      })`}
                   <div
                     ref={provided.innerRef}
                     className={`category-title-icon ${
                       isHover === true ? "category-title-icon-isHover" : ""
                     }`}
                   >
-                    <PlusCircleOutlined
-                      className={"category-icon"}
-                      onClick={(event) => {
-                        props.ProductModal.setDefaultCategory(props.cat.id);
-                        props.ProductModal.setVisible(true);
-                        event.stopPropagation();
-                      }}
-                    />
-                    {props.cat.id !== `nonCat${companyId}` && (
-                      <EditOutlined
+                    <Tooltip
+                      title={t("ProductsPage.tooltip.addProductToCategory")}
+                    >
+                      <PlusCircleOutlined
                         className={"category-icon"}
                         onClick={(event) => {
-                          props.CategoryModal.setCategoryId(props.cat.id);
-                          props.CategoryModal.setCategoryName(props.cat.name);
-                          props.CategoryModal.setVisible(true);
+                          props.ProductModal.setDefaultCategory(props.cat.id);
+                          props.ProductModal.setVisible(true);
                           event.stopPropagation();
                         }}
                       />
+                    </Tooltip>
+                    {props.cat.id !== `nonCat${companyId}` && (
+                      <Tooltip
+                        title={t("ProductsPage.tooltip.editCategoryName")}
+                      >
+                        <EditOutlined
+                          className={"category-icon"}
+                          onClick={(event) => {
+                            props.CategoryModal.setCategoryId(props.cat.id);
+                            props.CategoryModal.setCategoryName(props.cat.name);
+                            props.CategoryModal.setVisible(true);
+                            event.stopPropagation();
+                          }}
+                        />
+                      </Tooltip>
                     )}
                     {props.cat.id !== `nonCat${companyId}` && (
                       <Popconfirm
                         placement="top"
-                        title={t("ProductsPage.deleteCategory.title")}
+                        title={
+                          <>
+                            <p>{t("ProductsPage.deleteCategory.title")}</p>
+                            <p>{t("ProductsPage.deleteCategory.message")}</p>
+                          </>
+                        }
                         onConfirm={(event) => {
                           deleteCategory();
                           event.stopPropagation();
@@ -189,12 +206,16 @@ function CategoryProducts(props: CategoryProductsProps) {
                         okText={t("ProductsPage.deleteCategory.yes")}
                         cancelText={t("ProductsPage.deleteCategory.no")}
                       >
-                        <DeleteOutlined
-                          className={"category-icon red"}
-                          onClick={(event) => {
-                            event.stopPropagation();
-                          }}
-                        />
+                        <Tooltip
+                          title={t("ProductsPage.tooltip.deleteCategory")}
+                        >
+                          <DeleteOutlined
+                            className={"category-icon red"}
+                            onClick={(event) => {
+                              event.stopPropagation();
+                            }}
+                          />
+                        </Tooltip>
                       </Popconfirm>
                     )}
                   </div>

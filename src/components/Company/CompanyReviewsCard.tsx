@@ -3,6 +3,7 @@ import { Review } from "../../interfaces/Review";
 import { Card } from "antd";
 import "../../assets/Style/CompanyPage/CompanyReviewsCard.less";
 import ListReview from "../Review/ListReview";
+import { useTranslation } from "react-i18next";
 
 declare interface CompanyReviewsCardProps {
   averageMark: number;
@@ -51,6 +52,8 @@ function CompanyReviewsCard(props: CompanyReviewsCardProps) {
             prev.getCompanyReviews.push(newReview);
           return true;
         });
+        const list = document.querySelector(".ant-layout-content");
+        list.scrollTo(0, 0);
         setLoading(false);
         return {
           ...prev,
@@ -59,9 +62,11 @@ function CompanyReviewsCard(props: CompanyReviewsCardProps) {
     });
   }
 
+  const { t } = useTranslation("common");
+
   return (
     <Card
-      title={"Avis des clients"}
+      title={t("CompanyPage.customersReviews.name")}
       bordered={false}
       className={"company-reviews-card"}
     >
@@ -78,6 +83,7 @@ function CompanyReviewsCard(props: CompanyReviewsCardProps) {
             showSizeChanger: false,
           }}
           loadingList={loading}
+          isCompany={true}
         />
       )}
     </Card>

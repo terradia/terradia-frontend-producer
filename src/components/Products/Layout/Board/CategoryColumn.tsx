@@ -5,7 +5,7 @@ import {
   PlusCircleOutlined,
 } from "@ant-design/icons/lib";
 import { Draggable, Droppable } from "react-beautiful-dnd";
-import { Empty, Popconfirm } from "antd";
+import { Empty, Popconfirm, Tooltip } from "antd";
 import { useMutation } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
 import ProductCard from "../Grid/ProductCard";
@@ -103,29 +103,40 @@ function CategoryColumn(props: CategoryColumnProps) {
                     isHover === true ? "category-title-icon-isHover" : ""
                   }`}
                 >
-                  <PlusCircleOutlined
-                    className={"category-icon"}
-                    onClick={(event) => {
-                      props.ProductModal.setDefaultCategory(props.cat.id);
-                      props.ProductModal.setVisible(true);
-                      event.stopPropagation();
-                    }}
-                  />
-                  {props.cat.id !== `nonCat${companyId}` && (
-                    <EditOutlined
+                  <Tooltip
+                    title={t("ProductsPage.tooltip.addProductToCategory")}
+                  >
+                    <PlusCircleOutlined
                       className={"category-icon"}
                       onClick={(event) => {
-                        props.CategoryModal.setCategoryId(props.cat.id);
-                        props.CategoryModal.setCategoryName(props.cat.name);
-                        props.CategoryModal.setVisible(true);
+                        props.ProductModal.setDefaultCategory(props.cat.id);
+                        props.ProductModal.setVisible(true);
                         event.stopPropagation();
                       }}
                     />
+                  </Tooltip>
+                  {props.cat.id !== `nonCat${companyId}` && (
+                    <Tooltip title={t("ProductsPage.tooltip.editCategoryName")}>
+                      <EditOutlined
+                        className={"category-icon"}
+                        onClick={(event) => {
+                          props.CategoryModal.setCategoryId(props.cat.id);
+                          props.CategoryModal.setCategoryName(props.cat.name);
+                          props.CategoryModal.setVisible(true);
+                          event.stopPropagation();
+                        }}
+                      />
+                    </Tooltip>
                   )}
                   {props.cat.id !== `nonCat${companyId}` && (
                     <Popconfirm
                       placement="top"
-                      title={"Voulez-vous vraiment supprimer cette catégorie?"}
+                      title={
+                        <>
+                          <p>{t("ProductsPage.deleteCategory.title")}</p>
+                          <p>{t("ProductsPage.deleteCategory.message")}</p>
+                        </>
+                      }
                       onConfirm={(event) => {
                         deleteCategory();
                         event.stopPropagation();
@@ -133,15 +144,17 @@ function CategoryColumn(props: CategoryColumnProps) {
                       onCancel={(event) => {
                         event.stopPropagation();
                       }}
-                      okText="Oui"
-                      cancelText="Non"
+                      okText={t("ProductsPage.deleteCategory.yes")}
+                      cancelText={t("ProductsPage.deleteCategory.no")}
                     >
-                      <DeleteOutlined
-                        className={"category-icon red"}
-                        onClick={(event) => {
-                          event.stopPropagation();
-                        }}
-                      />
+                      <Tooltip title={t("ProductsPage.tooltip.deleteCategory")}>
+                        <DeleteOutlined
+                          className={"category-icon red"}
+                          onClick={(event) => {
+                            event.stopPropagation();
+                          }}
+                        />
+                      </Tooltip>
                     </Popconfirm>
                   )}
                 </div>

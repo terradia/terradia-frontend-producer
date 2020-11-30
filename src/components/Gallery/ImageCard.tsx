@@ -1,6 +1,7 @@
 import React from "react";
-import { Card, Checkbox } from "antd";
+import { Card, Checkbox, Image } from "antd";
 import { CompanyImage } from "../../interfaces/CompanyImage";
+import TerradiaLoader from "../TerradiaLoader";
 
 interface Props {
   companyImage: CompanyImage;
@@ -21,14 +22,16 @@ const ImageCard: React.FC<Props> = ({
         key={companyImage.filename}
         className={"selectable-image-card"}
         onClick={onClick}
+        bodyStyle={{ height: 0, padding: 0 }}
+
         cover={
-          <img
+          <Image
             className={`${selected ? "selected" : ""}`}
             alt={companyImage.filename}
             src={`https://media.terradia.eu/${companyImage.filename}`}
+            placeholder={<TerradiaLoader />}
           />
         }
-        bodyStyle={{ height: 0, padding: 0 }}
       />
       <span className={"checkbox"}>
         <Checkbox checked={selected} onClick={onClick} />

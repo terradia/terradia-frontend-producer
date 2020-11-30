@@ -13,11 +13,10 @@ import "./index.less";
 import { createUploadLink } from "apollo-upload-client";
 import { notification } from "antd";
 import i18n from "./i18n";
+import { onSuccess } from "./utils/ApolloSuccessLink";
 
 const httpLink = createUploadLink({
-  //uri: "https://api.terradia.eu/graphql",
-  // uri: "http://368c4db688e3.ngrok.io/graphql",
-  uri: "http://localhost:8000/graphql",
+  uri: process.env.REACT_APP_API_URI,
   fetch: fetch,
 });
 
@@ -37,6 +36,16 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
     }
   }
 });
+
+const successLink = onSuccess((result) => {
+  for (const key in result.data) {
+    if (i18n.exists(`ApolloSuccess.${key}`)) {
+      notification.success({
+        message: i18n.t(`ApolloSuccess.${key}`)
+      })
+    }
+  }
+})
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem("token");
@@ -62,7 +71,7 @@ const cache = new InMemoryCache({
 });
 
 const client = new ApolloClient({
-  link: ApolloLink.from([authLink, errorLink, httpLink]),
+  link: ApolloLink.from([authLink, errorLink, successLink, httpLink]),
   cache: cache,
   connectToDevTools: true,
 });

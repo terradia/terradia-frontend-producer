@@ -35,14 +35,7 @@ function CategoryModal(props: CategoryModalProps) {
     ],
   });
 
-  const [updateCategoryMutation] = useMutation(mutationUpdateCompany, {
-    refetchQueries: [
-      {
-        query: queryGetCategories,
-        variables: { companyId: companyId },
-      },
-    ],
-  });
+  const [updateCategoryMutation] = useMutation(mutationUpdateCompany);
 
   const [form, setForm] = useState(null);
 
