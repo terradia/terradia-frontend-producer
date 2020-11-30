@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, Form, Input } from "antd";
 import "../../assets/Style/Review/EditReply.less";
 import { useTranslation } from "react-i18next";
@@ -23,6 +23,13 @@ function EditReply(props: EditReplyProps) {
   const [submitting, setSubmitting] = useState(false);
   const [form] = Form.useForm();
   const { t } = useTranslation("common");
+  const textareaRef = useRef(null);
+
+  useEffect(() => {
+    if (textareaRef && textareaRef.current) {
+      textareaRef.current.focus();
+    }
+  }, [textareaRef]);
 
   const [createReplyReview] = useMutation(
     props.isCompany
@@ -60,7 +67,7 @@ function EditReply(props: EditReplyProps) {
         className={"textarea-reply-item"}
         rules={[{ required: true, message: "Please input your reply!" }]}
       >
-        <Input.TextArea rows={4} />
+        <Input.TextArea rows={4} ref={textareaRef} />
       </Form.Item>
       <Form.Item className={"button-reply-item"}>
         <Button
