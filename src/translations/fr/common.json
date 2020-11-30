@@ -90,8 +90,8 @@
     },
     "nonCat": "Produits non catégorisés",
     "tooltip": {
-      "addProductToCategory": "Ajouter un produit a cette catégorie",
-      "deleteCategory": "Supprime cette catégorie et déplace les produit de celle-ci vers la partie non catégorisé",
+      "addProductToCategory": "Ajouter un produit à cette catégorie",
+      "deleteCategory": "Supprimer cette catégorie",
       "editCategoryName": "Modifier le nom de la catégorie"
     },
     "ProductCard": {
@@ -102,6 +102,7 @@
     "uncategorizedProducts": "Produits non catégorisés",
     "deleteCategory": {
       "title": "Voulez-vous vraiment supprimer cette catégorie?",
+      "message": "Les produits de celle-ci seront déplacés dans les produits non catégorisés",
       "yes": "Oui",
       "no": "Non"
     },

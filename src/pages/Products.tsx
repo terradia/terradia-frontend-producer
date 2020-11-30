@@ -81,21 +81,6 @@ const Products = () => {
   }
 
   if (dataCategories) {
-    console.log("dataCat", dataCategories);
-    // TODO a supprimer et a faire en back
-    // dataCategories.getAllCompanyProductsCategories.forEach((cat, index) => {
-    //   dataCategories.getAllCompanyProductsCategories[index].products.sort(
-    //     (a: any, b: any) => {
-    //       if (a.position > b.position) {
-    //         return 1;
-    //       } else if (a.position === b.position) {
-    //         return 0;
-    //       } else {
-    //         return -1;
-    //       }
-    //     }
-    //   );
-    // });
     indexNullCat = dataCategories.getAllCompanyProductsCategories.findIndex(
       (cat) => cat.id === `nonCat${companyId}`
     );
@@ -251,6 +236,11 @@ const Products = () => {
                       setVisible: setAddProductVisible,
                       setDefaultCategory: setDefaultCategory,
                       setUpdateProduct: setUpdateProduct,
+                    }}
+                    CategoryModal={{
+                      setCategoryId: setCategoryToUpdate,
+                      setCategoryName: setCategoryName,
+                      setVisible: setCategoryVisible,
                     }}
                   />
                 )}

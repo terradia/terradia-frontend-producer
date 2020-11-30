@@ -70,13 +70,14 @@
     "nonCat": "Uncategorized products",
     "tooltip": {
       "addProductToCategory": "Add a product to this category",
-      "deleteCategory": "Delete this category and move all it's products to the no category",
+      "deleteCategory": "Delete this category",
       "editCategoryName": "Edit the name of this category"
     },
     "noProductInCategory": "No product available in this category",
     "uncategorizedProducts": "Uncategorized Products",
     "deleteCategory": {
       "title": "Are you sure?",
+      "message": "Products will be moved with uncategorized products",
       "yes": "Yes",
       "no": "No"
     },
