@@ -23,26 +23,22 @@ const getCompanyOrderHistories = graphqlLoader(
 const Statistics = () => {
   const { t } = useTranslation("common");
   const companyId = localStorage.getItem("selectedCompany");
-  const {
-    loading: loadingGetCompanyById,
-    error: errorGetCompanyById,
-    data: dataCompany,
-  } = useQuery(getCompanyById, {
-    variables: { companyId },
-    fetchPolicy: "cache-first",
-  });
-
-  const { loading: loadingOrders, error: errorOrders, data: orders } = useQuery(
-    getCurrentOrders,
+  const { loading: loadingGetCompanyById, data: dataCompany } = useQuery(
+    getCompanyById,
     {
-      variables: {
-        companyId,
-        fromDate: moment().subtract(31, "days").unix(),
-        toDate: moment().unix(),
-        limit: 100,
-      },
+      variables: { companyId },
+      fetchPolicy: "cache-first",
     }
   );
+
+  const { loading: loadingOrders, data: orders } = useQuery(getCurrentOrders, {
+    variables: {
+      companyId,
+      fromDate: moment().subtract(31, "days").unix(),
+      toDate: moment().unix(),
+      limit: 100,
+    },
+  });
 
   const { loading: loadingOrderHistories, data: orderHistoriesData } = useQuery(
     getCompanyOrderHistories,
