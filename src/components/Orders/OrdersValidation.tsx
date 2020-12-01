@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
 import Tooltip from "antd/es/tooltip";
 import Popconfirm from "antd/es/popconfirm";
-import { useMutation, useQuery } from "@apollo/react-hooks";
+import { useApolloClient, useMutation, useQuery } from "@apollo/react-hooks";
 import TerradiaLoader from "../TerradiaLoader";
 import moment from "moment";
 import TextArea from "antd/lib/input/TextArea";
@@ -28,6 +28,10 @@ const getCompanyOrderHistories = graphqlLoader(
 
 const OrdersValidation = () => {
   const companyId = localStorage.getItem("selectedCompany");
+  const client = useApolloClient();
+  const [openDeclineReason, setOpenDeclineReason] = React.useState(false);
+  const [declineOrderId, setDeclineOrderId] = React.useState("");
+  const [declineReason, setDeclineReason] = React.useState("");
   const { t } = useTranslation("common");
 
   const { loading: loadingOrders, error: errorOrders, data: orders } = useQuery(
@@ -38,15 +42,7 @@ const OrdersValidation = () => {
   );
 
   const [acceptOrder, { loading: acceptOrderLoading }] = useMutation(
-    mutationAcceptOrder,
-    {
-      refetchQueries: [
-        {
-          query: getCurrentOrders,
-          variables: { companyId, limit: 100 },
-        },
-      ],
-    }
+    mutationAcceptOrder
   );
 
   const [declineOrder, { loading: declineLoading }] = useMutation(
@@ -64,9 +60,6 @@ const OrdersValidation = () => {
       ],
     }
   );
-  const [openDeclineReason, setOpenDeclineReason] = React.useState(false);
-  const [declineOrderId, setDeclineOrderId] = React.useState("");
-  const [declineReason, setDeclineReason] = React.useState("");
 
   const onAccept = (record) => {
     if (record)
@@ -86,9 +79,16 @@ const OrdersValidation = () => {
           id: declineOrderId,
           reason: declineReason,
         },
-      }).catch((error) => {
-        console.log(error);
-      });
+      })
+        .then(() => {
+          client.cache.evict({
+            query: undefined,
+            rootId: declineOrderId,
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     setDeclineReason("");
     setOpenDeclineReason(false);
   };
@@ -199,7 +199,7 @@ const OrdersValidation = () => {
     },
     {
       title: t("OrderPage.table.date"),
-      dataIndex: "createdAt ",
+      dataIndex: "createdAt",
       key: "createdAt",
       render: (createdAt) => moment(createdAt).format("DD MMM YYYY - HH:mm"),
       sorter: (a, b) => moment(a.createdAt).unix() - moment(b.createdAt).unix(),
@@ -238,8 +238,8 @@ const OrdersValidation = () => {
     {
       title: t("OrderPage.table.itemNb"),
       dataIndex: "numberProducts",
-      key: "nbItems",
-      sorter: (a, b) => a.nbItems - b.nbItems,
+      key: "numberProducts",
+      sorter: (a, b) => a.numberProducts - b.numberProducts,
     },
     {
       title: t("OrderPage.table.price"),
