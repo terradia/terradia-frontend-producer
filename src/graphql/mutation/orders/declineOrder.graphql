@@ -1,5 +1,13 @@
 mutation declineOrder($id: ID!, $reason: String) {
   declineOrder(id: $id, reason: $reason) {
     code
+    createdAt
+    decliningReason
+    id
+    numberProducts
+    price
+    status
+    stripePaymentIntent
+    updatedAt
   }
 }
