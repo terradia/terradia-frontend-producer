@@ -230,7 +230,7 @@
       "areYouSure": "Êtes vous sûr(e)?",
       "alreadyValidate": "L'opération a déjà été vérifiée"
     },
-    "declineReason": "Decline order reason"
+    "declineReason": "Raison du refus"
   },
   "Reviews": {
     "comments": "commentaire(s)",
