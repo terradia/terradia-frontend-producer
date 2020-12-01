@@ -1,0 +1,13 @@
+mutation acceptOrder($id: ID!) {
+  acceptOrder(id: $id) {
+    code
+    createdAt
+    decliningReason
+    id
+    numberProducts
+    price
+    status
+    stripePaymentIntent
+    updatedAt
+  }
+}

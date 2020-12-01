@@ -1,0 +1,34 @@
+query getCurrentOrders(
+  $companyId: ID!
+  $status: String
+  $limit: Int
+  $offset: Int
+) {
+  getCurrentOrders(
+    companyId: $companyId
+    status: $status
+    limit: $limit
+    offset: $offset
+  ) {
+    id
+    code
+    status
+    customer {
+      id
+    }
+    products {
+      id
+      product {
+        id
+        name
+        price
+      }
+      quantity
+      price
+    }
+    price
+    numberProducts
+    createdAt
+    updatedAt
+  }
+}

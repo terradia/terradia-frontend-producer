@@ -31,11 +31,13 @@
     "home": "Accueil",
     "products": "Produits",
     "stats": "Statistiques",
+    "orders": "Commandes",
     "employees": "Employés",
     "gallery": "Gallerie d'images",
     "company": "Entreprise",
     "disconnect": "Se déconnecter"
   },
+  "Loading": "Chargement",
   "ProfilMenu": {
     "Labels": {
       "yourCompanies": "Vos entreprises",
@@ -171,6 +173,65 @@
       "deleteAdvice": "Voulez-vous vraiment supprimer ce conseil?"
     }
   },
+  "StatisticsPage": {
+    "currentOrders": "Commandes en cours",
+    "currentOrdersDefinition": "Les commandes sont en attentes de prépatation ou de livraison",
+    "uniqueClients": "Clients uniques",
+    "uniqueClientsDescription": "Clients differents qui ont commandé chez vous",
+    "averagePrice": "Prix moyen d'un panier",
+    "averagePriceDefinition": "Moyenne des prix des paniers finis",
+    "averageProductsInOrder": "Nombre moyen de produits",
+    "averageProductsInOrderDescription": "Produits par commande",
+    "completedOrders": "Commandes complétées",
+    "week": "Semaine",
+    "month": "Mois"
+  },
+  "OrderPage": {
+    "historyTitle": "Historique des commandes",
+    "newOrderTitle": "Nouvelles commandes",
+    "notification": {
+      "title": "Changement de statut de la commande: ",
+      "description": "La commande est "
+    },
+    "approuved": "Approuvée",
+    "payed": "Payée",
+    "delivered": "Déliverée",
+    "cancel": "Annuler",
+    "drawer": {
+      "title": "Numéro de commande:",
+      "balanceDue": "Solde dû",
+      "table": {
+        "item": "Article",
+        "quantity": "Quantité",
+        "price": "Prix",
+        "total": "Total"
+      }
+    },
+    "table": {
+      "date": "Date",
+      "itemNb": "Nb d'articles",
+      "statut": "Statut",
+      "status": {
+        "finished": "TERMINÉ",
+        "declined": "DÉCLINÉ",
+        "canceled": "ANNULÉE",
+        "pending": "EN ATTENTE",
+        "accepted": "ACCEPTÉE",
+        "available": "DISPONIBLE"
+      },
+      "deliveryMode": "Mode de livraison",
+      "price": "Prix",
+      "details": "Détail",
+      "operations": "Opérations"
+    },
+    "newOrder": {
+      "acceptOrder": "Accepter la commande",
+      "declineOrder": "Décliner la commande",
+      "areYouSure": "Êtes vous sûr(e)?",
+      "alreadyValidate": "L'opération a déjà été vérifiée"
+    },
+    "declineReason": "Raison du refus"
+  },
   "Reviews": {
     "comments": "commentaire(s)",
     "averageMark": "Note moyenne",
@@ -276,8 +337,8 @@
       "plural": "Sélectionner des images"
     }
   },
-  "OrdersListPage" : {
-    "labels" : {
+  "OrdersListPage": {
+    "labels": {
       "pageName": "Suivi des commandes",
       "date": "Date",
       "status": "Statut",
@@ -288,7 +349,7 @@
     },
     "orderValues": {
       "approuved": "Approuvée",
-      "payed" : "Payée",
+      "payed": "Payée",
       "delivered": "Livrée",
       "canceled": "Annulée"
     },
@@ -313,16 +374,16 @@
         "CustomerNotFound": "Ce client n'existe pas !"
       },
       "getAllCategories": {
-        "":  ""
+        "": ""
       },
       "getAllCompanies": {
-        "":  ""
+        "": ""
       },
       "getAllCompanyProductsCategories": {
-        "":  ""
+        "": ""
       },
       "getAllCompanyTags": {
-        "":  ""
+        "": ""
       },
       "getAllCustomerAddressesByUser": {
         "": ""
@@ -574,7 +635,6 @@
         "OrderNotFound": "Cette commande n'existe pas",
         "NotDeclinable": "Impossible de refuser une commande qui n'est pas en attente...",
         "NotCancelable": "Impossible d'annuler le paiement"
-
       },
       "defineUserAsCustomer": {
         "": ""
