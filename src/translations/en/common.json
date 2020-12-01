@@ -10,11 +10,13 @@
     "home": "Home",
     "products": "Products",
     "stats": "Statistics",
+    "orders": "Orders",
     "employees": "Employees",
     "gallery": "Image Gallery",
     "company": "Company",
     "disconnect": "Logout"
   },
+  "Loading": "Loading",
   "ProfilMenu": {
     "Labels": {
       "yourCompanies": "Your companies",
@@ -152,6 +154,65 @@
     "showMore": "show more",
     "replyDeleted": "Your reply has been deleted",
     "deleteReply": "Do you want to delete this reply ?"
+  },
+  "StatisticsPage": {
+    "currentOrders": "Current orders",
+    "currentOrdersDefinition": "Orders are awaiting prepatation or delivery",
+    "uniqueClients": "Unique clients",
+    "uniqueClientsDescription": "Different customers who have ordered from you",
+    "averagePrice": "Average price",
+    "averagePriceDefinition": "Price of a finished order",
+    "averageProductsInOrder": "Average of product",
+    "averageProductsInOrderDescription": "Products per order",
+    "completedOrders": "Completed orders",
+    "week": "Week",
+    "month": "Month"
+  },
+  "OrderPage": {
+    "historyTitle": "Orders history",
+    "newOrderTitle": "New orders",
+    "notification": {
+      "title": "Change of order status: ",
+      "description": "The order is now "
+    },
+    "approuved": "Approuved",
+    "payed": "Payed",
+    "delivered": "Delivered",
+    "cancel": "Cancel",
+    "drawer": {
+      "title": "Order number:",
+      "balanceDue": "Balance due",
+      "table": {
+        "item": "Item",
+        "quantity": "Quantity",
+        "price": "Price",
+        "total": "Total"
+      }
+    },
+    "table": {
+      "date": "Date",
+      "itemNb": "Nb items",
+      "statut": "Status",
+      "status": {
+        "finished": "FINISHED",
+        "declined": "DECLINED",
+        "canceled": "CANCELED",
+        "pending": "PENDING",
+        "accepted": "ACCEPTED",
+        "available": "AVAILABLE"
+      },
+      "deliveryMode": "Delivery Mode",
+      "price": "Price",
+      "details": "Details",
+      "operations": "Operations"
+    },
+    "newOrder": {
+      "acceptOrder": "Accept the order",
+      "declineOrder": "Decline the command",
+      "areYouSure": "Are you sure?",
+      "alreadyValidate": "The operation has already been checked"
+    },
+    "declineReason": "Decline order reason"
   },
   "StaffPage": {
     "buttons": {

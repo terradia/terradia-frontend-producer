@@ -1,0 +1,40 @@
+query getCompanyOrderHistories(
+  $companyId: ID!
+  $status: String
+  $limit: Int
+  $offset: Int
+  $fromDate: Date
+  $toDate: Date
+) {
+  getCompanyOrderHistories(
+    companyId: $companyId
+    status: $status
+    limit: $limit
+    offset: $offset
+    fromDate: $fromDate
+    toDate: $toDate
+  ) {
+    id
+    code
+    customerId
+    companyId
+    companyName
+    companyLogo
+    companyAddress
+    createdAt
+    updatedAt
+    price
+    numberProducts
+    decliningReason
+    status
+    orderCreationDate
+    products {
+      id
+      productId
+      name
+      quantity
+      price
+      quantityForUnit
+    }
+  }
+}

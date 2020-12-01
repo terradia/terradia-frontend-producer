@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, Redirect, useHistory } from "react-router-dom";
-import { useApolloClient, useLazyQuery, useMutation } from "@apollo/react-hooks";
+import {
+  useApolloClient,
+  useLazyQuery,
+  useMutation,
+} from "@apollo/react-hooks";
 import { Checkbox, Divider, Input } from "antd";
 import { loader as graphqlLoader } from "graphql.macro";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import Button from "../../Ui/Button";
 import "../../../assets/Style/Login-Register/loginForm.less";
-import {
-  AppleFilled,
-  CloseCircleOutlined,
-  FacebookFilled,
-} from "@ant-design/icons/lib";
+import { CloseCircleOutlined } from "@ant-design/icons/lib";
 import { addNotification } from "../../../utils/notifications";
 
 const mutationLogin = graphqlLoader("../../../graphql/mutation/login.graphql");
@@ -218,26 +218,8 @@ const LoginForm = (props: LoginFormProps) => {
                   <NavLink to="/ResetPassword">Mot de passe oublié ?</NavLink>
                 </div>
               </form>
-              <Divider className={"auth_divider"}>OU</Divider>
+              <Divider className={"auth_divider"} />
               <div className={"not_register"}>
-                <div className={"external_connexion"}>
-                  <Button
-                    className={"button_register"}
-                    text={"Facebook"}
-                    size={"large"}
-                    id={"facebook_button"}
-                    accentColor={"#2174EE"}
-                    icon={<FacebookFilled />}
-                  />
-                  <Button
-                    className={"button_register"}
-                    text={"Apple"}
-                    size={"large"}
-                    id={"apple_button"}
-                    accentColor={"#202020"}
-                    icon={<AppleFilled />}
-                  />
-                </div>
                 {!props.onLogin && (
                   <div className={"register_div"}>
                     <div className={"register-catching"}>
