@@ -93,7 +93,7 @@ const OrdersHistory = () => {
       title: t("OrderPage.table.price"),
       key: "price",
       dataIndex: "price",
-      sorter: (a, b) => a.pPrice - b.price,
+      sorter: (a, b) => a.price - b.price,
       render: (price) => Math.round((price + Number.EPSILON) * 100) / 100,
     },
   ];
