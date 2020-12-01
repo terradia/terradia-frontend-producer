@@ -28,7 +28,7 @@
   "CompanyPage": {
     "companyInformations": {
       "name": "Company Informations",
-      "labels" : {
+      "labels": {
         "description": "Description",
         "globalInformations": "Global Informations",
         "companyID": "Company ID (SIREN)",
@@ -53,8 +53,8 @@
     "openingTime": {
       "name": "Opening Time",
       "labels": {
-        "delivery" : "Delivery time",
-        "opening" : "Opening time"
+        "delivery": "Delivery time",
+        "opening": "Opening time"
       }
     },
     "customersReviews": {
@@ -174,24 +174,43 @@
   },
   "FilesPage": {
     "Images": {
-      "noImage": "Aucune image pour le moment",
+      "noImage": "No picture for the moment",
+      "noImageSelected": "No image(s) selected",
+      "numberImagesSelected": "Selected image(s)",
       "buttons": {
-        "loadImages": "Upload images"
+        "loadImages": "Download images",
+        "loadImage": "Download image",
+        "close": "Close"
       },
       "addImageModal": {
-        "modalName": "Upload images",
-        "explanation": "Cliquez ici pour choisir les images ou glissez - déposez les directement dans la zone",
-        "littleExplanation": "Fonctionne avec un ou plusieurs fichiers.",
+        "modalName": "Download images",
+        "explanation": "Click here to choose the images or drag and drop them directly into the area",
+        "littleExplanation": "Works with one or more files.",
         "buttons": {
           "close": "Close"
         }
       },
       "editImageModal": {
-        "name": "Name",
-        "uses": "Produits qui utilisent cette image",
-        "noUses": "Aucun produit à lister",
+        "name": "Name: ",
+        "uses": "Products that use this image: ",
+        "noUses": "No products to list",
         "buttons": {
-          "close": "Close"
+          "close": "Close",
+          "saveAndClose": "Save & Close"
+        }
+      },
+      "removeImageModal": {
+        "name": "Supprimer cette image la retirera automatiquement des produits suivant : ",
+        "uses": "Products that use this image: ",
+        "noUses": "No products to list",
+        "removeWarning": "⚠️ This action is irreversible ⚠️",
+        "delete": "Removing the image: ",
+        "deleteOf": "Removing the image ",
+        "buttons": {
+          "close": "Close",
+          "saveAndClose": "Save & Close",
+          "confirm": "Confirm",
+          "cancel": "Cancel"
         }
       }
     },
@@ -202,7 +221,7 @@
   "ProfilePage": {
     "buttons": {
       "edit": "Edit my account",
-      "editPassword":"Edit my password",
+      "editPassword": "Edit my password",
       "delete": "Delete my account"
     },
     "labels": {
@@ -226,7 +245,7 @@
       "email": "EMAIL",
       "phone": "PHONE NUMBER"
     },
-    "deleteAccountModal":{
+    "deleteAccountModal": {
       "delete": "Delete account",
       "close": "Cancel",
       "name": "Are you sure?",
@@ -248,8 +267,8 @@
       "plural": "Select images"
     }
   },
-  "OrdersListPage" : {
-    "labels" : {
+  "OrdersListPage": {
+    "labels": {
       "pageName": "Order tracking",
       "date": "Date",
       "status": "Status",
@@ -260,7 +279,7 @@
     },
     "orderValues": {
       "approuved": "Approuved",
-      "payed" : "Payed",
+      "payed": "Payed",
       "delivered": "Delivered",
       "canceled": "Canceled"
     },
@@ -285,16 +304,16 @@
         "CustomerNotFound": "Customer doesn't exist"
       },
       "getAllCategories": {
-        "":  ""
+        "": ""
       },
       "getAllCompanies": {
-        "":  ""
+        "": ""
       },
       "getAllCompanyProductsCategories": {
-        "":  ""
+        "": ""
       },
       "getAllCompanyTags": {
-        "":  ""
+        "": ""
       },
       "getAllCustomerAddressesByUser": {
         "": ""
@@ -546,7 +565,6 @@
         "OrderNotFound": "This order doesn't exist",
         "NotDeclinable": "Cannot decline order that is not pending",
         "NotCancelable": "Cannot cancel the payment"
-
       },
       "defineUserAsCustomer": {
         "": ""
