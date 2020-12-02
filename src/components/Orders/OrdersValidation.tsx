@@ -268,6 +268,13 @@ const OrdersValidation = () => {
       key: "quantity",
     },
     {
+      title: t("OrderPage.drawer.table.quantityForUnit"),
+      dataIndex: "product",
+      key: "product",
+      render: (product) =>
+        `${product.quantityForUnit} €/${product.unit.notation}`,
+    },
+    {
       title: t("OrderPage.drawer.table.price"),
       dataIndex: "price",
       key: "price",

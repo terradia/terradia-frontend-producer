@@ -185,6 +185,7 @@
       "table": {
         "item": "Item",
         "quantity": "Quantity",
+        "quantityForUnit": "Price per quantity",
         "price": "Price",
         "total": "Total"
       }

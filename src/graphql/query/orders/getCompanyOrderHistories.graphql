@@ -35,6 +35,10 @@ query getCompanyOrderHistories(
       quantity
       price
       quantityForUnit
+      unit {
+        notation
+        name
+      }
     }
   }
 }

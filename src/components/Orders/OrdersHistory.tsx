@@ -110,6 +110,13 @@ const OrdersHistory = () => {
       key: "quantity",
     },
     {
+      title: t("OrderPage.drawer.table.quantityForUnit"),
+      dataIndex: "product",
+      key: "product",
+      render: (text, product) =>
+        `${product.quantityForUnit} €/${product.unit.notation}`,
+    },
+    {
       title: t("OrderPage.drawer.table.price"),
       dataIndex: "price",
       key: "price",

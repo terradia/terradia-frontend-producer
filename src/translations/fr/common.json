@@ -51,7 +51,7 @@
   "CompanyPage": {
     "companyInformations": {
       "name": "Informations de l'entreprise",
-      "labels" : {
+      "labels": {
         "description": "Description",
         "globalInformations": "Informations générales",
         "companyID": "SIREN",
@@ -76,8 +76,8 @@
     "openingTime": {
       "name": "Horaires",
       "labels": {
-        "delivery" : "Horaires de livraison",
-        "opening" : "Horaires d'ouverture"
+        "delivery": "Horaires de livraison",
+        "opening": "Horaires d'ouverture"
       }
     },
     "customersReviews": {
@@ -203,6 +203,7 @@
       "table": {
         "item": "Article",
         "quantity": "Quantité",
+        "quantityForUnit": "Prix par quantité",
         "price": "Prix",
         "total": "Total"
       }
@@ -236,7 +237,7 @@
     "comments": "commentaire(s)",
     "averageMark": "Note moyenne",
     "reply": "Répondre",
-    "showMore":  "voir plus",
+    "showMore": "voir plus",
     "replyDeleted": "Votre réponse a bien été supprimée",
     "deleteReply": "Voulez-vous vraiment supprimer cette réponse ?"
   },
