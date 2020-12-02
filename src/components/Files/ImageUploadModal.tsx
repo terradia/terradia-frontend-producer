@@ -62,6 +62,19 @@ const ImageUploadModal: React.FC<Props> = ({ visible, ...props }: Props) => {
   };
 
   const [mutation] = useMutation<AddCompanyImageData>(addCompanyImage, {
+    context: {
+      fetchOptions: {
+        onUploadProgress: (progress) => {
+          setImageList(
+            imageList.map((image) => {
+              image.percent = (progress.loaded / progress.total) * 100;
+              return image;
+            })
+          );
+          console.log(`${(progress.loaded / progress.total) * 100}% uploaded`);
+        },
+      },
+    },
     onCompleted: handleCompleteUpload,
     onError: handleErrorUpload,
   });
@@ -83,6 +96,12 @@ const ImageUploadModal: React.FC<Props> = ({ visible, ...props }: Props) => {
       return;
     }
     if (validImageTypes.includes(files.file.type)) {
+      setImageList(
+        imageList.map((image) => {
+          image.status = "uploading";
+          return image;
+        })
+      );
       mutation({
         variables: {
           companyId,
@@ -91,6 +110,10 @@ const ImageUploadModal: React.FC<Props> = ({ visible, ...props }: Props) => {
         },
       }).then((data) => {
         if (props.onUpload && data && data.data && data.data) {
+          imageList.map((image) => {
+            image.status = "success";
+            return image;
+          });
           props.onUpload(files, data.data.addCompanyImage);
         }
       });
