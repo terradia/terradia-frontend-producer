@@ -4,7 +4,9 @@
     "noData": "No Data",
     "edit": "Edit",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "activated": "Activated",
+    "disabled": "Disabled"
   },
   "Menu": {
     "home": "Home",
@@ -273,6 +275,7 @@
       "phone": "Phone number",
       "image": "Click on image for edit",
       "chooseLanguage": "Choose your language",
+      "setNotifications": "Email notifications",
       "tooltip": {
         "addImage": "Click here for add an image",
         "editImage": "Click here for update image"

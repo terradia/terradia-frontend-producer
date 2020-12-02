@@ -6,7 +6,7 @@ import {
   LoadingOutlined,
   UserOutlined,
 } from "@ant-design/icons/lib";
-import { Avatar, Divider, Tooltip, Upload, Dropdown, Menu } from "antd";
+import { Avatar, Divider, Tooltip, Upload, Dropdown, Menu, Switch } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
@@ -27,6 +27,10 @@ const getUserData = graphqlLoader("../../graphql/query/getUser.graphql");
 // MUTATIONS
 const mutationUpdateUserAvatar = graphqlLoader(
   "../../graphql/mutation/updateUserAvatar.graphql"
+);
+
+const mutationUpdateMailsNotification = graphqlLoader(
+  "../../graphql/mutation/updateMailsNotifications.graphql"
 );
 
 // CODE
@@ -79,6 +83,17 @@ const ProfileView: React.FC = () => {
     onError: handleErrorUpload,
     refetchQueries: [{ query: getUserData }],
   });
+
+  const [updateMailsNotifications] = useMutation(
+    mutationUpdateMailsNotification
+  );
+
+  //TODO log ?
+  function handleChangeNotifications() {
+    updateMailsNotifications().catch((error) => {
+      console.log("error", error);
+    });
+  }
 
   const handleCustomRequest = (data): any => {
     setLoadingAvatar(true);
@@ -233,6 +248,18 @@ const ProfileView: React.FC = () => {
               </span>
             </Dropdown>
           </div>
+        </div>
+        <Divider />
+        <div className={"notifications"}>
+          {t("ProfilePage.labels.setNotifications")}
+
+          <Switch
+            className={"email-notifications-switch"}
+            onChange={handleChangeNotifications}
+            defaultChecked={userData.getUser.mailsNotifications}
+            checkedChildren={<p>{t("common.activated")}</p>}
+            unCheckedChildren={<p>{t("common.disabled")}</p>}
+          />
         </div>
         <Divider />
         <div className={"action-bar"}>

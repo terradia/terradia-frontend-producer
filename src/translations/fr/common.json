@@ -4,7 +4,9 @@
     "noData": "Pas de données",
     "edit": "Modifier",
     "yes": "Oui",
-    "no": "Non"
+    "no": "Non",
+    "activated": "Activé",
+    "disabled": "Désactivé"
   },
   "monday": {
     "label": "Lundi:"
@@ -301,6 +303,7 @@
       "phone": "Numéro de téléphone",
       "image": "Cliquer sur l'image pour la modifier",
       "chooseLanguage": "Choisissez le language de l'application",
+      "setNotifications": "Notifications par email",
       "tooltip": {
         "addImage": "Cliquer ici pour ajouter une image",
         "editImage": "Cliquer ici pour modifier l'image"
