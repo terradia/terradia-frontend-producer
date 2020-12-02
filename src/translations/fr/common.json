@@ -51,7 +51,7 @@
   "CompanyPage": {
     "companyInformations": {
       "name": "Informations de l'entreprise",
-      "labels" : {
+      "labels": {
         "description": "Description",
         "globalInformations": "Informations générales",
         "companyID": "SIREN",
@@ -76,8 +76,8 @@
     "openingTime": {
       "name": "Horaires",
       "labels": {
-        "delivery" : "Horaires de livraison",
-        "opening" : "Horaires d'ouverture"
+        "delivery": "Horaires de livraison",
+        "opening": "Horaires d'ouverture"
       }
     },
     "customersReviews": {
@@ -236,7 +236,7 @@
     "comments": "commentaire(s)",
     "averageMark": "Note moyenne",
     "reply": "Répondre",
-    "showMore":  "voir plus",
+    "showMore": "voir plus",
     "replyDeleted": "Votre réponse a bien été supprimée",
     "deleteReply": "Voulez-vous vraiment supprimer cette réponse ?"
   },
@@ -265,7 +265,9 @@
       "noImageSelected": "Aucune image séléctionnée(s)",
       "numberImagesSelected": "Image(s) séléctionnée(s)",
       "buttons": {
-        "loadImages": "Télécharger des images"
+        "loadImages": "Télécharger des images",
+        "loadImage": "Téléverser une image",
+        "close": "Fermer"
       },
       "addImageModal": {
         "modalName": "Télécharger des images",
@@ -276,11 +278,26 @@
         }
       },
       "editImageModal": {
-        "name": "Nom",
-        "uses": "Produits qui utilisent cette image",
+        "name": "Nom : ",
+        "uses": "Produits qui utilisent cette image : ",
         "noUses": "Aucun produit à lister",
         "buttons": {
-          "close": "Fermer"
+          "close": "Fermer",
+          "saveAndClose": "Enregistrer & Fermer"
+        }
+      },
+      "removeImageModal": {
+        "name": "Supprimer cette image la retirera automatiquement des produits suivant : ",
+        "uses": "Produits qui utilisent cette image : ",
+        "noUses": "Aucun produit à lister",
+        "removeWarning": "⚠️ Cette action est irréversible ⚠️",
+        "delete": "Supression de l'image : ",
+        "deleteOf": "Suppression de ",
+        "buttons": {
+          "close": "Fermer",
+          "saveAndClose": "Enregistrer & Fermer",
+          "confirm": "Confirmer",
+          "cancel": "Annuler"
         }
       }
     },

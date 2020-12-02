@@ -3,6 +3,7 @@ import Button from "../Ui/Button";
 import { UploadOutlined } from "@ant-design/icons/lib";
 import ImageUploadModal, { CompanyImageData } from "./ImageUploadModal";
 import { UploadChangeParam } from "antd/lib/upload";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   onCloseModalCallBack?: () => void; // called when the modal is closed
@@ -24,6 +25,8 @@ const ImagesUploadButton: React.FC<Props> = ({
     false
   );
 
+  const { t } = useTranslation("common");
+
   const handleClose = () => {
     setUploadImagesModalVisible(false);
     props.onCloseModalCallBack && props.onCloseModalCallBack();
@@ -39,8 +42,8 @@ const ImagesUploadButton: React.FC<Props> = ({
       <Button
         text={
           oneImageByOne === true
-            ? "Téléverser une image"
-            : "Téléverser des images"
+            ? t("FilesPage.Images.buttons.loadImage")
+            : t("FilesPage.Images.buttons.loadImages")
         }
         icon={<UploadOutlined />}
         onClick={handleOpen}

@@ -30,7 +30,7 @@
   "CompanyPage": {
     "companyInformations": {
       "name": "Company Informations",
-      "labels" : {
+      "labels": {
         "description": "Description",
         "globalInformations": "Global Informations",
         "companyID": "Company ID (SIREN)",
@@ -55,8 +55,8 @@
     "openingTime": {
       "name": "Opening Time",
       "labels": {
-        "delivery" : "Delivery time",
-        "opening" : "Opening time"
+        "delivery": "Delivery time",
+        "opening": "Opening time"
       }
     },
     "customersReviews": {
@@ -235,24 +235,43 @@
   },
   "FilesPage": {
     "Images": {
-      "noImage": "Aucune image pour le moment",
+      "noImage": "No picture for the moment",
+      "noImageSelected": "No image(s) selected",
+      "numberImagesSelected": "Selected image(s)",
       "buttons": {
-        "loadImages": "Upload images"
+        "loadImages": "Download images",
+        "loadImage": "Download image",
+        "close": "Close"
       },
       "addImageModal": {
-        "modalName": "Upload images",
-        "explanation": "Cliquez ici pour choisir les images ou glissez - déposez les directement dans la zone",
-        "littleExplanation": "Fonctionne avec un ou plusieurs fichiers.",
+        "modalName": "Download images",
+        "explanation": "Click here to choose the images or drag and drop them directly into the area",
+        "littleExplanation": "Works with one or more files.",
         "buttons": {
           "close": "Close"
         }
       },
       "editImageModal": {
-        "name": "Name",
-        "uses": "Produits qui utilisent cette image",
-        "noUses": "Aucun produit à lister",
+        "name": "Name: ",
+        "uses": "Products that use this image: ",
+        "noUses": "No products to list",
         "buttons": {
-          "close": "Close"
+          "close": "Close",
+          "saveAndClose": "Save & Close"
+        }
+      },
+      "removeImageModal": {
+        "name": "Supprimer cette image la retirera automatiquement des produits suivant : ",
+        "uses": "Products that use this image: ",
+        "noUses": "No products to list",
+        "removeWarning": "⚠️ This action is irreversible ⚠️",
+        "delete": "Removing the image: ",
+        "deleteOf": "Removing the image ",
+        "buttons": {
+          "close": "Close",
+          "saveAndClose": "Save & Close",
+          "confirm": "Confirm",
+          "cancel": "Cancel"
         }
       }
     },

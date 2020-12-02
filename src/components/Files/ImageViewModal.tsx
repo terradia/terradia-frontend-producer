@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, Card, Divider, Empty, Input, Modal } from "antd";
 import { CompanyImage } from "../../interfaces/CompanyImage";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   visible?: boolean;
@@ -27,9 +28,11 @@ const ImageViewModal: React.FC<Props> = ({
     onClickClose();
   };
 
+  const { t } = useTranslation("common");
+
   const footer = [
     <Button key="close" onClick={() => handleClose()}>
-      Fermer {/* TODO : translate this */}
+      {t("FilesPage.Images.editImageModal.buttons.close")}
     </Button>,
   ];
 
@@ -43,7 +46,7 @@ const ImageViewModal: React.FC<Props> = ({
           onImageUpdate(companyImageName);
         }}
       >
-        Enregistrer & Fermer {/* TODO : translate this */}
+        {t("FilesPage.Images.editImageModal.buttons.saveAndClose")}
       </Button>
     );
   }
@@ -71,10 +74,12 @@ const ImageViewModal: React.FC<Props> = ({
       </div>
       <div className={"column2"}>
         <div>
-          <span className={"title"}>{"Nom : "}</span>
+          <span className={"title"}>
+            {t("FilesPage.Images.editImageModal.name")}
+          </span>
           {onImageUpdate ? (
             <Input
-              name={"name"}
+              name={t("FilesPage.Images.editImageModal.name")}
               className={"image-name-input"}
               onChange={(event: { target: { value: string } }) => {
                 setName(event.target.value);
@@ -88,7 +93,7 @@ const ImageViewModal: React.FC<Props> = ({
         <Divider />
         <div>
           <span className={"title"}>
-            {"Produits qui utilisent cette image : "}
+            {t("FilesPage.Images.editImageModal.uses")}
           </span>
           {companyImage.products && companyImage.products.length > 0 ? (
             <ul>
@@ -98,7 +103,7 @@ const ImageViewModal: React.FC<Props> = ({
             </ul>
           ) : (
             <Empty
-              description={"Aucun produit à lister"} // TODO : Translate this.
+              description={t("FilesPage.Images.editImageModal.noUses")}
               image={Empty.PRESENTED_IMAGE_SIMPLE}
             />
           )}

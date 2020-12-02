@@ -7,6 +7,7 @@ import ImageCard from "../components/Files/ImageCard";
 import { useQuery } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
 import TerradiaLoader from "../components/TerradiaLoader";
+import { useTranslation } from "react-i18next";
 
 const queryCompanyImages = graphqlLoader(
   "../graphql/query/getCompanyImages.graphql"
@@ -14,6 +15,9 @@ const queryCompanyImages = graphqlLoader(
 
 const Files = () => {
   const companyId = localStorage.getItem("selectedCompany");
+
+  const { t } = useTranslation("common");
+
   const {
     loading: loadingCompanyImages,
     data: dataCompanyImages,
@@ -42,7 +46,7 @@ const Files = () => {
       <div className={"company-images-container"}>
         {dataCompanyImages.getCompanyImages.length === 0 && (
           <Empty
-            description={"Aucune image pour le moment"} // TODO : Translate this.
+            description={t("FilesPage.Images.noImage")}
             image={Empty.PRESENTED_IMAGE_SIMPLE}
           />
         )}

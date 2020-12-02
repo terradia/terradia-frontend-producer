@@ -23,7 +23,6 @@ const ImageCard: React.FC<Props> = ({
         className={"selectable-image-card"}
         onClick={onClick}
         bodyStyle={{ height: 0, padding: 0 }}
-
         cover={
           <Image
             className={`${selected ? "selected" : ""}`}
