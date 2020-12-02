@@ -70,7 +70,7 @@ const HeaderMenu: React.FC<Props> = ({
   const {
     data: userData,
     loading: userLoading,
-    error: userError
+    error: userError,
   } = useQuery<ProfileData>(getUserInformations, {
     fetchPolicy: "cache-only",
   });

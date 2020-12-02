@@ -74,8 +74,8 @@ const CompanyRegisterForm = () => {
     updateCompanyMutation
   );
   const [checkSiren,
-     { called, data, error, loading, refetch }
-    ] = useLazyQuery<SirenData  >(checkSirenQuery, {
+    { called, data, error, loading, refetch },
+    ] = useLazyQuery<SirenData>(checkSirenQuery, {
     onCompleted: (sirenData) => {
       setValidationStatus((prevState) => {
         return {
