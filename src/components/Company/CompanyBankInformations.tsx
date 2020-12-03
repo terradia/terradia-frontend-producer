@@ -99,7 +99,7 @@ function CompanyBankInformations(props: CompanyBankInformationsProps) {
   console.log("dataUser", dataUser);
 
   const ibanAlreadyExist =
-    props.stripeData.external_accounts !== undefined &&
+    !props.stripeData.external_accounts &&
     props.stripeData.external_accounts.data.length > 0;
 
   const options = useOptions();
