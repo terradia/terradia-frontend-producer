@@ -64,7 +64,10 @@ const CompanyInvitationCard: React.FC<Props> = ({
       <div className={"second-part"}>
         {invitation.status === "PENDING" && companyView === false ? (
           <>
-            <Tooltip placement="top" title={t("Components.CompanyInvitationCard.accept")}>
+            <Tooltip
+              placement="top"
+              title={t("Components.CompanyInvitationCard.accept")}
+            >
               <Button
                 type={"link"}
                 onClick={() => onAccept && onAccept(invitation.id)}
@@ -72,7 +75,10 @@ const CompanyInvitationCard: React.FC<Props> = ({
                 size={"large"}
               />
             </Tooltip>
-            <Tooltip placement="top" title={t("Components.CompanyInvitationCard.decline")}>
+            <Tooltip
+              placement="top"
+              title={t("Components.CompanyInvitationCard.decline")}
+            >
               <Button
                 type={"link"}
                 onClick={() => onDecline && onDecline(invitation.id)}
@@ -85,7 +91,10 @@ const CompanyInvitationCard: React.FC<Props> = ({
         ) : (
           <>
             {invitation.status === "PENDING" && (
-              <Tooltip placement="top" title={t("Components.CompanyInvitationCard.cancel")}>
+              <Tooltip
+                placement="top"
+                title={t("Components.CompanyInvitationCard.cancel")}
+              >
                 <Button
                   type={"link"}
                   onClick={() => onCancel && onCancel(invitation.id)}
