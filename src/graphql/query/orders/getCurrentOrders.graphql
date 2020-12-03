@@ -23,6 +23,7 @@ query getCurrentOrders(
         name
         price
         unit {
+          id
           notation
           name
         }

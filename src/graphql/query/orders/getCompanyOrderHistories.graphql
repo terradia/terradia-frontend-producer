@@ -36,6 +36,7 @@ query getCompanyOrderHistories(
       price
       quantityForUnit
       unit {
+        id
         notation
         name
       }
