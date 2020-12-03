@@ -28,7 +28,7 @@ export interface Company {
   siren: string;
   logo: CompanyImage;
   cover: CompanyImage;
-  tags: CompanyTag[]
+  tags: CompanyTag[];
   address: string;
   averageMark: number;
   numberOfMarks: number;

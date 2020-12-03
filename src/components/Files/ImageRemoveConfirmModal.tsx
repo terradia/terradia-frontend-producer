@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Card, Divider, Empty, Modal } from "antd";
 import { CompanyImage } from "../../interfaces/CompanyImage";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   visible?: boolean;
@@ -17,20 +18,21 @@ const ImageRemoveConfirmModal: React.FC<Props> = ({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ...props
 }: Props) => {
+  const { t } = useTranslation("common");
   return (
     <Modal
       className={"company-image-remove modal"}
-      title={`Suppression de "${
+      title={`${t("FilesPage.Images.removeImageModal.delete")}"${
         companyImage.name ? companyImage.name : companyImage.filename
       }"`}
       visible={visible}
       onCancel={onClickClose}
       footer={[
         <Button key="close" onClick={onClickClose}>
-          Annuler
+          {t("FilesPage.Images.removeImageModal.buttons.cancel")}
         </Button>,
         <Button key="submit" danger onClick={onClickConfirm}>
-          Confirmer
+          {t("FilesPage.Images.removeImageModal.buttons.confirm")}
         </Button>,
       ]}
     >
@@ -49,15 +51,15 @@ const ImageRemoveConfirmModal: React.FC<Props> = ({
       </div>
       <div className={"column2"}>
         <div>
-          <span className={"title"}>{"Supression de l'image : "}</span>
+          <span className={"title"}>
+            {t("FilesPage.Images.removeImageModal.delete")}
+          </span>
           {companyImage.name ? companyImage.name : companyImage.filename}
         </div>
         <Divider />
         <div>
           <span className={"title"}>
-            {
-              "Supprimer cette image la retirera automatiquement des produits suivant : "
-            }
+            {t("FilesPage.Images.removeImageModal.name")}
           </span>
           {companyImage.products ? (
             <ul>
@@ -67,7 +69,7 @@ const ImageRemoveConfirmModal: React.FC<Props> = ({
             </ul>
           ) : (
             <Empty
-              description={"Aucun produit à lister"} // TODO : Translate this.
+              description={t("FilesPage.Images.removeImageModal.noUses")}
               image={Empty.PRESENTED_IMAGE_SIMPLE}
             />
           )}
@@ -75,7 +77,7 @@ const ImageRemoveConfirmModal: React.FC<Props> = ({
       </div>
       <Divider />
       <span className={"title important danger"}>
-        {"⚠️ Cette action est irréversible ⚠️"}
+        {t("FilesPage.Images.removeImageModal.removeWarning")}
       </span>
     </Modal>
   );

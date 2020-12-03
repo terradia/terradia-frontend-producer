@@ -16,4 +16,5 @@ export type User = {
   companies: {
     id;
   };
+  mailsNotifications: boolean;
 };

@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Input, Modal } from "antd";
 import "../../../assets/Style/Profile/userProfile.less";
-import { useMutation } from "@apollo/react-hooks";
+import { useApolloClient, useMutation } from "@apollo/react-hooks";
 import Button from "../../Ui/Button";
 import { User } from "../../../interfaces";
 import { useTranslation } from "react-i18next";
@@ -32,6 +32,8 @@ const UserDeleteModal = ({
   const handleClose = () => {
     onClickToClose && onClickToClose();
   };
+
+  const client = useApolloClient();
 
   const handleValidation = () => {
     form.submit();
@@ -82,6 +84,17 @@ const UserDeleteModal = ({
               },
             }).catch((err) => {
               console.log(err);
+            });
+            const token = localStorage.getItem("token");
+            client.stop();
+            client.resetStore().then(() => {
+              dispatchEvent(
+                new StorageEvent("storage", {
+                  key: "token",
+                  oldValue: token,
+                  newValue: null,
+                })
+              );
             });
           }}
         >

@@ -1,0 +1,6 @@
+mutation updateMailsNotifications {
+    updateMailsNotifications {
+        id
+        mailsNotifications
+    }
+}

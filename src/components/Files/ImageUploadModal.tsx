@@ -4,6 +4,7 @@ import { useMutation } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
 import { InboxOutlined } from "@ant-design/icons/lib";
 import { RcFile, UploadChangeParam } from "antd/lib/upload/interface";
+import { useTranslation } from "react-i18next";
 
 const addCompanyImage = graphqlLoader(
   "../../graphql/mutation/addCompanyImage.graphql"
@@ -36,9 +37,10 @@ const validImageTypes = ["image/jpeg", "image/png"];
 // This is a component that is implemented by the ImagesUploadButton
 // It is already loaded by it, that means this component should not be used.
 const ImageUploadModal: React.FC<Props> = ({ visible, ...props }: Props) => {
-  // TODO : translate the Modal content
   const companyId = localStorage.getItem("selectedCompany");
   const [imageList, setImageList] = useState([]);
+
+  const { t } = useTranslation("common");
 
   const handleBeforeUpload = (file: RcFile): any => {
     // TODO save in hook the file list. that way, we can set the status of the upload when the mutation is done.
@@ -99,12 +101,12 @@ const ImageUploadModal: React.FC<Props> = ({ visible, ...props }: Props) => {
 
   return (
     <Modal
-      title="Téléverser des images"
+      title={t("FilesPage.Images.addImageModal.modalName")}
       visible={visible}
       onCancel={handleClose}
       footer={[
         <Button key="close" onClick={handleClose}>
-          Fermer
+          {t("FilesPage.Images.addImageModal.buttons.close")}
         </Button>,
       ]}
     >
@@ -124,13 +126,11 @@ const ImageUploadModal: React.FC<Props> = ({ visible, ...props }: Props) => {
         <p className="ant-upload-drag-icon">
           <InboxOutlined />
         </p>
-        {/*TODO translate*/}
         <p className="ant-upload-text">
-          Cliquez ici pour choisir les images ou glissez - déposez les
-          directement dans la zone
+          {t("FilesPage.Images.addImageModal.explanation")}
         </p>
         <p className="ant-upload-hint">
-          Fonctionne avec un ou plusieurs fichiers.
+          {t("FilesPage.Images.addImageModal.littleExplanation")}
         </p>
       </Upload.Dragger>
     </Modal>

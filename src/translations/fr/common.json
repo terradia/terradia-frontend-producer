@@ -4,7 +4,9 @@
     "noData": "Pas de données",
     "edit": "Modifier",
     "yes": "Oui",
-    "no": "Non"
+    "no": "Non",
+    "activated": "Activé",
+    "disabled": "Désactivé"
   },
   "monday": {
     "label": "Lundi:"
@@ -266,7 +268,9 @@
       "noImageSelected": "Aucune image séléctionnée(s)",
       "numberImagesSelected": "Image(s) séléctionnée(s)",
       "buttons": {
-        "loadImages": "Télécharger des images"
+        "loadImages": "Télécharger des images",
+        "loadImage": "Téléverser une image",
+        "close": "Fermer"
       },
       "addImageModal": {
         "modalName": "Télécharger des images",
@@ -277,11 +281,26 @@
         }
       },
       "editImageModal": {
-        "name": "Nom",
-        "uses": "Produits qui utilisent cette image",
+        "name": "Nom : ",
+        "uses": "Produits qui utilisent cette image : ",
         "noUses": "Aucun produit à lister",
         "buttons": {
-          "close": "Fermer"
+          "close": "Fermer",
+          "saveAndClose": "Enregistrer & Fermer"
+        }
+      },
+      "removeImageModal": {
+        "name": "Supprimer cette image la retirera automatiquement des produits suivant : ",
+        "uses": "Produits qui utilisent cette image : ",
+        "noUses": "Aucun produit à lister",
+        "removeWarning": "⚠️ Cette action est irréversible ⚠️",
+        "delete": "Supression de l'image : ",
+        "deleteOf": "Suppression de ",
+        "buttons": {
+          "close": "Fermer",
+          "saveAndClose": "Enregistrer & Fermer",
+          "confirm": "Confirmer",
+          "cancel": "Annuler"
         }
       }
     },
@@ -302,6 +321,7 @@
       "phone": "Numéro de téléphone",
       "image": "Cliquer sur l'image pour la modifier",
       "chooseLanguage": "Choisissez le language de l'application",
+      "setNotifications": "Notifications par email",
       "tooltip": {
         "addImage": "Cliquer ici pour ajouter une image",
         "editImage": "Cliquer ici pour modifier l'image"
