@@ -132,6 +132,7 @@ const ImageUploadModal: React.FC<Props> = ({ visible, ...props }: Props) => {
         defaultFileList={[]}
         fileList={imageList}
         action={"#"}
+        showUploadList={{ showRemoveIcon: false }}
         customRequest={() => {
           return;
         }}
