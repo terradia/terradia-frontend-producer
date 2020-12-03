@@ -1,0 +1,3 @@
+mutation updateCompanyExternalAccount($companyId: String!, $token: String!) {
+    updateCompanyExternalAccount(companyId: $companyId, token: $token)
+}

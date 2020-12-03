@@ -12,6 +12,7 @@ import CompanyHoursCard from "../components/Company/CompanyHoursCards";
 import DeleteCompanyButton from "../components/Ui/DeleteCompanyButton";
 import CompanyReviewsCard from "../components/Company/CompanyReviewsCard";
 import { useTranslation } from "react-i18next";
+import CompanyBankInformations from "../components/Company/CompanyBankInformations";
 
 const { TabPane } = Tabs;
 
@@ -23,6 +24,10 @@ const getCompanyById = graphqlLoader("../graphql/query/getCompanyById.graphql");
 
 const getCompanyReviews = graphqlLoader(
   "../graphql/query/getCompanyReviews.graphql"
+);
+
+const getIsStripeAccValidated = graphqlLoader(
+  "../graphql/query/isStripeAccountValidated.graphql"
 );
 
 const defaultOfficeHours: Info[] = [
@@ -41,6 +46,15 @@ const CompanyPage = () => {
     variables: { companyId: companyId },
     fetchPolicy: "cache-first",
   });
+
+  const {
+    loading: loadingStripeValidated,
+    data: dataStripeValidated,
+  } = useQuery(getIsStripeAccValidated, {
+    variables: { companyId: companyId },
+    fetchPolicy: "cache-first",
+  });
+
   const [firstLoad, setFirstLoad] = useState(true);
   const [officeHours, setOfficeHours] = useState<Info[]>(defaultOfficeHours);
   const [deliveryHours, setDeliveryHours] = useState<Info[]>(
@@ -151,6 +165,11 @@ const CompanyPage = () => {
             companyId={companyId}
           />
         </TabPane>
+        {dataStripeValidated && !loadingStripeValidated && (
+          <TabPane tab={t("CompanyPage.bankInformations.tabTitle")} key="4">
+            <CompanyBankInformations companyId={companyId} />
+          </TabPane>
+        )}
       </Tabs>
     </>
   );

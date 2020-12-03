@@ -108,6 +108,11 @@
     },
     "customersReviews": {
       "name": "Customers Reviews"
+    },
+    "bankInformations": {
+      "iban": "IBAN",
+      "tabTitle": "Bank Informations",
+      "editIban": "Edit your IBAN"
     }
   },
   "ProductsPage": {

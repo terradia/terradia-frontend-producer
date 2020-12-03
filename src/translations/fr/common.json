@@ -129,6 +129,11 @@
     },
     "customersReviews": {
       "name": "Avis des clients"
+    },
+    "bankInformations": {
+      "iban": "IBAN",
+      "tabTitle": "Informations bancaires",
+      "editIban": "Modifier votre IBAN"
     }
   },
   "ProductsPage": {
