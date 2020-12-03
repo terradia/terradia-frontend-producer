@@ -96,10 +96,8 @@ function CompanyBankInformations(props: CompanyBankInformationsProps) {
     fetchPolicy: "cache-first",
   });
 
-  console.log("dataUser", dataUser);
-
   const ibanAlreadyExist =
-    !props.stripeData.external_accounts &&
+    !!props.stripeData.external_accounts &&
     props.stripeData.external_accounts.data.length > 0;
 
   const options = useOptions();
