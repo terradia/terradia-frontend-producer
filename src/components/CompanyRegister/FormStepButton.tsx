@@ -20,7 +20,7 @@ const FormStepButton = (props: FormStepButtonProps) => {
     <>
       {props.children}
       <div className="external_connexion">
-        {props.currentStep > 0 && (
+        {props.currentStep > 1 && (
           <Button
             isLoading={props.createLoading || props.updateLoading}
             text={"Étape précédente"}
