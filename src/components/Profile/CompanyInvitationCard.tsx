@@ -10,6 +10,7 @@ import {
 import { Tooltip } from "antd";
 import moment from "moment";
 import "../../assets/Style/Profile/invitationCard.less";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   invitation: CompanyInvitation;
@@ -26,6 +27,7 @@ const CompanyInvitationCard: React.FC<Props> = ({
   onAccept,
   onDecline,
 }: Props) => {
+  const { t } = useTranslation("common");
   return (
     <div
       className={`invitation-card card ${
@@ -34,27 +36,27 @@ const CompanyInvitationCard: React.FC<Props> = ({
     >
       <div className={"first-part"}>
         <div className={"data"}>
-          <label>{"INVITATION DE"}</label>
+          <label>{t("Components.CompanyInvitationCard.from")}</label>
           <div>{`${invitation.fromUser.firstName} ${invitation.fromUser.lastName}`}</div>
         </div>
         {!companyView ? (
           <div className={"data"}>
-            <label>{"POUR L'ENTREPRISE"}</label>
+            <label>{t("Components.CompanyInvitationCard.for")}</label>
             <div>{invitation.company.name}</div>
           </div>
         ) : (
           <div className={"data"}>
-            <label>{"EMAIL"}</label>
+            <label>{t("Components.CompanyInvitationCard.email")}</label>
             <div>{invitation.invitationEmail}</div>
           </div>
         )}
         <div className={"data"}>
-          <label>{"DATE DE L'INVITATION"}</label>
+          <label>{t("Components.CompanyInvitationCard.date")}</label>
           <div>{moment(invitation.createdAt).format("DD/MM/YYYY")}</div>
         </div>
         {companyView === true && (
           <div className={"data"}>
-            <label>{"STATUS DE L'INVITATION"}</label>
+            <label>{t("Components.CompanyInvitationCard.status")}</label>
             <div>{invitation.status}</div>
           </div>
         )}
@@ -62,7 +64,7 @@ const CompanyInvitationCard: React.FC<Props> = ({
       <div className={"second-part"}>
         {invitation.status === "PENDING" && companyView === false ? (
           <>
-            <Tooltip placement="top" title={"Accepter l'invitation"}>
+            <Tooltip placement="top" title={t("Components.CompanyInvitationCard.accept")}>
               <Button
                 type={"link"}
                 onClick={() => onAccept && onAccept(invitation.id)}
@@ -70,7 +72,7 @@ const CompanyInvitationCard: React.FC<Props> = ({
                 size={"large"}
               />
             </Tooltip>
-            <Tooltip placement="top" title={"Refuser l'invitation"}>
+            <Tooltip placement="top" title={t("Components.CompanyInvitationCard.decline")}>
               <Button
                 type={"link"}
                 onClick={() => onDecline && onDecline(invitation.id)}
@@ -83,7 +85,7 @@ const CompanyInvitationCard: React.FC<Props> = ({
         ) : (
           <>
             {invitation.status === "PENDING" && (
-              <Tooltip placement="top" title={"Annuler l'invitation"}>
+              <Tooltip placement="top" title={t("Components.CompanyInvitationCard.cancel")}>
                 <Button
                   type={"link"}
                   onClick={() => onCancel && onCancel(invitation.id)}

@@ -1,4 +1,49 @@
 {
+  "Components": {
+    "CompanyInvitationCard": {
+      "name": "INVITATIONS",
+      "from": "INVITATION FROM",
+      "for": "FOR COMPANY",
+      "email": "EMAIL ADDRESS",
+      "date": "DATE OF INVITATION",
+      "status": "STATUS",
+      "accept": "Accept invitation",
+      "decline": "Decline invitation",
+      "cancel": "Cancel invitation"
+    },
+    "InvitationListCard": {
+      "messages": {
+        "invitationCanceled": "Invitation canceled",
+        "notCanceled": "Invitation was not canceled",
+        "invitationAccepted": "Invitation accepted",
+        "notAccepted": "Invitation was not accepted",
+        "invitationDeclined": "Invitation declined",
+        "notDeclined": "Invitation was not declined",
+        "userInvitated": "User invited",
+        "notInvitated": "User was not invited"
+      },
+      "description": {
+        "invitationCanceled": "Invitation canceled",
+        "invitationAccepted": "Inivtation accepted",
+        "invitationDeclined": "Invitation refused",
+        "userInvitated": "Invitation was send to email address : "
+      },
+      "status": {
+        "name": "INVITATIONS STATUS",
+        "all": "All",
+        "pending": "Pending",
+        "accepted": "Accepted",
+        "declined": "Refused",
+        "canceled": "Canceled",
+        "button": "Invite new employee"
+      },
+      "modal": {
+        "noInvitations": "No invitations at the moment",
+        "title": "Invite employee",
+        "emailToInvite": "Email to invite"
+      }
+    }
+  },
   "common": {
     "cancel": "Cancel",
     "noData": "No Data",

@@ -13,6 +13,7 @@ import CompanyInvitationCard from "../../components/Profile/CompanyInvitationCar
 import { loader as graphqlLoader } from "graphql.macro";
 import moment from "moment";
 import { QueryResult } from "@apollo/react-common";
+import { useTranslation } from "react-i18next";
 
 const { Option } = Select;
 
@@ -61,6 +62,8 @@ const InvitationsListCard: React.FC<Props> = ({
   );
   const companyId = localStorage.getItem("selectedCompany");
 
+  const { t } = useTranslation("common");
+
   let queryResult;
   queryResult = useQuery(
     companyView === false ? getMyCompaniesInvitations : getCompaniesInvitations,
@@ -102,15 +105,19 @@ const InvitationsListCard: React.FC<Props> = ({
     })
       .then(() => {
         addNotification({
-          message: "Invitation annulée",
-          description: "L'invitation à bien été annulée",
+          message: t(
+            "Components.InvitationListCard.messages.invitationCanceled"
+          ),
+          description: t(
+            "Components.InvitationListCard.description.invitationCanceled"
+          ),
           icon: <CheckCircleOutlined style={{ color: "#5CC04A" }} />,
         });
         queryResult && queryResult.refetch({ companyId });
       })
       .catch((error) => {
         addNotification({
-          message: "L'invitation n'a pas été annulée",
+          message: t("Components.InvitationListCard.messages.notCanceled"),
           description: error.message.substr(14),
           icon: <CloseCircleOutlined style={{ color: "#f5222d" }} />,
         });
@@ -126,15 +133,19 @@ const InvitationsListCard: React.FC<Props> = ({
     })
       .then(() => {
         addNotification({
-          message: "Invitation acceptée",
-          description: "L'invitation à bien été acceptée",
+          message: t(
+            "Components.InvitationListCard.messages.invitationAccepted"
+          ),
+          description: t(
+            "Components.InvitationListCard.description.invitationCanceled"
+          ),
           icon: <CheckCircleOutlined style={{ color: "#5CC04A" }} />,
         });
         queryResult && queryResult.refetch();
       })
       .catch((error) => {
         addNotification({
-          message: "L'acceptation de l'invitation n'a pas pu aboutir",
+          message: t("Components.InvitationListCard.messages.notAccepted"),
           description: error.message.substr(14),
           icon: <CloseCircleOutlined style={{ color: "#f5222d" }} />,
         });
@@ -150,15 +161,19 @@ const InvitationsListCard: React.FC<Props> = ({
     })
       .then(() => {
         addNotification({
-          message: "Invitation refusée",
-          description: "L'invitation à bien été refusée",
+          message: t(
+            "Components.InvitationListCard.messages.invitationDeclined"
+          ),
+          description: t(
+            "Components.InvitationListCard.description.invitationDeclined"
+          ),
           icon: <CheckCircleOutlined style={{ color: "#5CC04A" }} />,
         });
         queryResult && queryResult.refetch();
       })
       .catch((error) => {
         addNotification({
-          message: "l'invitation n'a pas été refusée",
+          message: t("Components.InvitationListCard.messages.notDeclined"),
           description: error.message.substr(14),
           icon: <CloseCircleOutlined style={{ color: "#f5222d" }} />,
         });
@@ -180,15 +195,17 @@ const InvitationsListCard: React.FC<Props> = ({
     })
       .then(() => {
         addNotification({
-          message: "Utilisateur invité",
-          description: `Une invitation a l'adresse email : ${invitationEmail} à été envoyée.`,
+          message: t("Components.InvitationListCard.messages.userInvitated"),
+          description: `${t(
+            "Components.InvitationListCard.description.userInvitated"
+          )}${invitationEmail}`,
           icon: <CheckCircleOutlined style={{ color: "#5CC04A" }} />,
         });
         queryResult && queryResult.refetch({ companyId });
       })
       .catch((error) => {
         addNotification({
-          message: "l'Utilisateur n'a pas invité",
+          message: t("Components.InvitationListCard.messages.notInvitated"),
           description: error.message.substr(14),
           icon: <CloseCircleOutlined style={{ color: "#f5222d" }} />,
         });
@@ -252,16 +269,26 @@ const InvitationsListCard: React.FC<Props> = ({
           <>
             <div className={"card-header"}>
               <div className={"status-filter"}>
-                <label>STATUS DES INVITATIONS</label>
+                <label>{t("Components.InvitationListCard.status.name")}</label>
                 <Select
                   defaultValue={invitationsFilter}
                   onChange={handleChangeFilter}
                 >
-                  <Option value="ALL">Toutes</Option>
-                  <Option value="PENDING">En attente</Option>
-                  <Option value="ACCEPTED">Acceptées</Option>
-                  <Option value="DECLINED">Refusées</Option>
-                  <Option value="CANCELED">Annulées</Option>
+                  <Option value="ALL">
+                    {t("Components.InvitationListCard.status.all")}
+                  </Option>
+                  <Option value="PENDING">
+                    {t("Components.InvitationListCard.status.pending")}
+                  </Option>
+                  <Option value="ACCEPTED">
+                    {t("Components.InvitationListCard.status.accepted")}
+                  </Option>
+                  <Option value="DECLINED">
+                    {t("Components.InvitationListCard.status.declined")}
+                  </Option>
+                  <Option value="CANCELED">
+                    {t("Components.InvitationListCard.status.canceled")}
+                  </Option>
                 </Select>
               </div>
               {companyView === true && (
@@ -270,7 +297,7 @@ const InvitationsListCard: React.FC<Props> = ({
                   icon={<MailOutlined />}
                   onClick={openInvitationEmailModal}
                 >
-                  {"Inviter un nouvel employé"}
+                  {t("Components.InvitationListCard.status.button")}
                 </Button>
               )}
             </div>
@@ -301,13 +328,15 @@ const InvitationsListCard: React.FC<Props> = ({
               style={{
                 width: "100%",
               }}
-              description={"Aucune invitation pour le moment"} // TODO : Translate this.
+              description={t(
+                "Components.InvitationListCard.modal.noInvitations"
+              )} // TODO : Translate this.
               image={Empty.PRESENTED_IMAGE_SIMPLE}
             />
           )}
       </Card>
       <Modal
-        title="Inviter un employé"
+        title={t("Components.InvitationListCard.modal.title")}
         centered
         visible={invitationModalOpen}
         confirmLoading={inviteNewMemberLoading}
@@ -317,7 +346,7 @@ const InvitationsListCard: React.FC<Props> = ({
         <Input
           value={invitationEmail}
           name={"invitationEmail"}
-          placeholder={"E-Mail à inviter"}
+          placeholder={t("Components.InvitationListCard.modal.emailToInvite")}
           onChange={(data) => {
             setInvitationEmail(data.currentTarget.value);
           }}
