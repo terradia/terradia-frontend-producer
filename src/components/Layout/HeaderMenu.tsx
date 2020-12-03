@@ -8,7 +8,11 @@ import { useQuery } from "@apollo/react-hooks";
 import { useHistory, useLocation } from "react-router";
 import Logout from "../Authentication/Logout/Logout";
 import PageButton from "../Ui/PageButton";
-import {HomeOutlined, LoadingOutlined, ShopOutlined} from "@ant-design/icons/lib";
+import {
+  HomeOutlined,
+  LoadingOutlined,
+  ShopOutlined,
+} from "@ant-design/icons/lib";
 
 const queryGetCompaniesByUser = graphqlLoader(
   "../../graphql/query/getCompaniesByUser.graphql"
@@ -63,9 +67,11 @@ const HeaderMenu: React.FC<Props> = ({
     },
   });
 
-  const { data: userData, loading: userLoading, error: userError } = useQuery<
-    ProfileData
-  >(getUserInformations, {
+  const {
+    data: userData,
+    loading: userLoading,
+    error: userError,
+  } = useQuery<ProfileData>(getUserInformations, {
     fetchPolicy: "cache-only",
   });
 
