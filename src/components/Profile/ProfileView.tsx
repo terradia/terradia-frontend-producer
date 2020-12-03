@@ -20,6 +20,7 @@ import { useTranslation } from "react-i18next";
 import PasswordModal from "./Modal/PasswordModal";
 import FlagIconFactory from "react-flag-icon-css";
 import i18n from "../../i18n";
+import TerradiaLoader from "../TerradiaLoader";
 
 // QUERIES
 const getUserData = graphqlLoader("../../graphql/query/getUser.graphql");
@@ -147,6 +148,10 @@ const ProfileView: React.FC = () => {
         <FlagIcon code={"gb"} /> <span>English</span>
       </>
     );
+
+  if (loading) {
+    return <TerradiaLoader />;
+  }
 
   return (
     <div>
