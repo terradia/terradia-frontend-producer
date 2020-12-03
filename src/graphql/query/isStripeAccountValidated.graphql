@@ -1,4 +1,0 @@
-query isStripeAccountValidated($companyId: ID!) {
-    isStripeAccountValidated(companyId: $companyId)
-
-}

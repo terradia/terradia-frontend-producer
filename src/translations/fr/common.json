@@ -430,7 +430,8 @@
     }
   },
   "ApolloSuccess": {
-    "login": "Authentification réussite"
+    "login": "Authentification réussite",
+    "updateCompanyExternalAccount": "Votre IBAN a été modifié"
   },
   "ApolloError": {
     "query": {

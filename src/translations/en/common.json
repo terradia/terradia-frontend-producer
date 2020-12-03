@@ -404,7 +404,8 @@
     }
   },
   "ApolloSuccess": {
-    "login": "Login successful"
+    "login": "Login successful",
+    "updateCompanyExternalAccount": "Your IBAN has been updated"
   },
   "ApolloError": {
     "query": {

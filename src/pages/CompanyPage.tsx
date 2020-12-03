@@ -26,8 +26,8 @@ const getCompanyReviews = graphqlLoader(
   "../graphql/query/getCompanyReviews.graphql"
 );
 
-const getIsStripeAccValidated = graphqlLoader(
-  "../graphql/query/isStripeAccountValidated.graphql"
+const getStripeInformations = graphqlLoader(
+  "../graphql/query/getCompanyStripeAccount.graphql"
 );
 
 const defaultOfficeHours: Info[] = [
@@ -50,7 +50,7 @@ const CompanyPage = () => {
   const {
     loading: loadingStripeValidated,
     data: dataStripeValidated,
-  } = useQuery(getIsStripeAccValidated, {
+  } = useQuery(getStripeInformations, {
     variables: { companyId: companyId },
     fetchPolicy: "cache-first",
   });
@@ -165,11 +165,11 @@ const CompanyPage = () => {
             companyId={companyId}
           />
         </TabPane>
-        {!loadingStripeValidated && (
+        {!loadingStripeValidated && dataStripeValidated && (
           <TabPane tab={t("CompanyPage.bankInformations.tabTitle")} key="4">
             <CompanyBankInformations
               companyId={companyId}
-              isStripeValidated={dataStripeValidated.isStripeAccountValidated}
+              stripeData={dataStripeValidated.getCompanyStripeAccount}
             />
           </TabPane>
         )}

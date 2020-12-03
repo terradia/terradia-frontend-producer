@@ -1,0 +1,13 @@
+query getCompanyStripeAccount($companyId: ID!) {
+    getCompanyStripeAccount(companyId: $companyId) {
+        id
+        external_accounts {
+            data {
+                account_holder_name
+                bank_name
+                last4
+            }
+        }
+        payouts_enabled
+    }
+}

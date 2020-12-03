@@ -1,18 +1,35 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Alert, Button, Card, Divider } from "antd";
+import { Alert, Button, Card, Divider, Input } from "antd";
 import "../../assets/Style/CompanyPage/CompanyBankInformations.less";
 import { useTranslation } from "react-i18next";
 import { IbanElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { loader as graphqlLoader } from "graphql.macro";
 import { useMutation } from "@apollo/react-hooks";
+import { CloseOutlined, EditOutlined } from "@ant-design/icons";
 
 const mutationUpdateBankAccount = graphqlLoader(
   "../../graphql/mutation/updateCompanyExternalAccount.graphql"
 );
 
+const getStripeInformations = graphqlLoader(
+  "../../graphql/query/getCompanyStripeAccount.graphql"
+);
+
 declare interface CompanyBankInformationsProps {
   companyId: string;
-  isStripeValidated: boolean;
+  stripeData: {
+    id: string;
+    external_accounts: {
+      data: [
+        {
+          account_holder_name: string;
+          bank_name: string;
+          last4: string;
+        }
+      ];
+    };
+    payouts_enabled: boolean;
+  };
 }
 
 function useResponsiveFontSize() {
@@ -49,6 +66,7 @@ const useOptions = () => {
           },
           border: "1px solid grey",
           borderRadius: "10px",
+          width: "80%",
         },
         invalid: {
           color: "#9e2146",
@@ -61,8 +79,17 @@ const useOptions = () => {
 
 function CompanyBankInformations(props: CompanyBankInformationsProps) {
   const { t } = useTranslation("common");
+  const [canModifyIban, setCanModifyIban] = useState(false);
   const [editMode, setEditMode] = useState(false);
-  const [updateBankAccount] = useMutation(mutationUpdateBankAccount);
+  const [updateBankAccount] = useMutation(mutationUpdateBankAccount, {
+    refetchQueries: [
+      {
+        query: getStripeInformations,
+        variables: { companyId: props.companyId },
+      },
+    ],
+  });
+  const ibanAlreadyExist = props.stripeData.external_accounts.data.length > 0;
 
   const options = useOptions();
   const stripe = useStripe();
@@ -70,8 +97,7 @@ function CompanyBankInformations(props: CompanyBankInformationsProps) {
 
   function handleSubmit() {
     const iban = elements.getElement(IbanElement);
-    console.log("iban", iban);
-    const token = stripe
+    stripe
       .createToken(iban, {
         currency: "eur",
         // eslint-disable-next-line @typescript-eslint/camelcase
@@ -80,23 +106,20 @@ function CompanyBankInformations(props: CompanyBankInformationsProps) {
         account_holder_type: "company",
       })
       .then(function (result) {
-        console.log("result", result);
         updateBankAccount({
           variables: {
             companyId: props.companyId,
             token: result.token.id,
           },
-        }).then((data) => {
-          console.log("data", data);
+        }).then(() => {
+          setCanModifyIban(!canModifyIban);
+          setEditMode(false);
         });
-        // Handle result.error or result.token
       });
-    console.log("token", token);
-    setEditMode(!editMode);
   }
 
   function handleChangeIban(ibanEl) {
-    if (ibanEl.complete === true) setEditMode(true);
+    if (ibanEl.complete === true) setCanModifyIban(true);
   }
 
   return (
@@ -105,22 +128,52 @@ function CompanyBankInformations(props: CompanyBankInformationsProps) {
       bordered={false}
       className={"company-bank-informations-card"}
     >
-      <div className={"iban-informations"}>
-        <label className={"field-label"}>
-          {t("CompanyPage.bankInformations.editIban")}
-          <IbanElement options={options} onChange={handleChangeIban} />
-        </label>
-        <div className={"button-submit-iban"}>
-          <span>
-            {editMode === true && (
-              <Button onClick={handleSubmit} type={"primary"}>
-                {t("common.edit")}
-              </Button>
-            )}
-          </span>
+      {(!ibanAlreadyExist || editMode) && (
+        <div className={"iban-informations"}>
+          <label className={"field-label"}>
+            {t("CompanyPage.bankInformations.editIban")}
+            <IbanElement options={options} onChange={handleChangeIban} />
+          </label>
+          <div className={"button-submit-iban"}>
+            <div
+              className={"icon-container"}
+              onClick={() => setEditMode(false)}
+            >
+              <CloseOutlined />
+            </div>
+            <span>
+              {canModifyIban === true && (
+                <Button onClick={handleSubmit} type={"primary"}>
+                  {t("common.edit")}
+                </Button>
+              )}
+            </span>
+          </div>
         </div>
-      </div>
-      {!props.isStripeValidated && (
+      )}
+      {ibanAlreadyExist && !editMode && (
+        <div className={"field main-container"}>
+          <label
+            className={"field-label" + (editMode === true ? " edit-mode" : "")}
+          >
+            {t("CompanyPage.bankInformations.editIban")}
+          </label>
+          <div className={"value-container"}>
+            <Input
+              value={
+                "XX XXXX XXXX " +
+                props.stripeData.external_accounts.data[0].last4
+              }
+              type={"text"}
+              disabled={true}
+            />
+            <div className={"icon-container"} onClick={() => setEditMode(true)}>
+              {editMode === true ? null : <EditOutlined />}
+            </div>
+          </div>
+        </div>
+      )}
+      {!props.stripeData.payouts_enabled && (
         <>
           <Divider />
           <Alert
