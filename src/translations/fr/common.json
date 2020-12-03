@@ -133,7 +133,8 @@
     "bankInformations": {
       "iban": "IBAN",
       "tabTitle": "Informations bancaires",
-      "editIban": "Modifier votre IBAN"
+      "editIban": "Modifier votre IBAN",
+      "notValidated": "Votre compagnie est en attente de validation par nos équipes. Vous ne pourrez recevoir de paiment pour le moment."
     }
   },
   "ProductsPage": {

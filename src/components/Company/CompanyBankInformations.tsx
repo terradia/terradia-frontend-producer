@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Button, Card } from "antd";
+import { Alert, Button, Card, Divider } from "antd";
 import "../../assets/Style/CompanyPage/CompanyBankInformations.less";
 import { useTranslation } from "react-i18next";
 import { IbanElement, useElements, useStripe } from "@stripe/react-stripe-js";
@@ -12,6 +12,7 @@ const mutationUpdateBankAccount = graphqlLoader(
 
 declare interface CompanyBankInformationsProps {
   companyId: string;
+  isStripeValidated: boolean;
 }
 
 function useResponsiveFontSize() {
@@ -119,6 +120,15 @@ function CompanyBankInformations(props: CompanyBankInformationsProps) {
           </span>
         </div>
       </div>
+      {!props.isStripeValidated && (
+        <>
+          <Divider />
+          <Alert
+            message={t("CompanyPage.bankInformations.notValidated")}
+            type="warning"
+          />
+        </>
+      )}
     </Card>
   );
 }

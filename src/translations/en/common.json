@@ -112,7 +112,8 @@
     "bankInformations": {
       "iban": "IBAN",
       "tabTitle": "Bank Informations",
-      "editIban": "Edit your IBAN"
+      "editIban": "Edit your IBAN",
+      "notValidated": "Your company is awaiting validation by our teams. You will not be able to receive any payment for the moment."
     }
   },
   "ProductsPage": {

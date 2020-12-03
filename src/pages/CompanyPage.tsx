@@ -165,9 +165,12 @@ const CompanyPage = () => {
             companyId={companyId}
           />
         </TabPane>
-        {dataStripeValidated && !loadingStripeValidated && (
+        {!loadingStripeValidated && (
           <TabPane tab={t("CompanyPage.bankInformations.tabTitle")} key="4">
-            <CompanyBankInformations companyId={companyId} />
+            <CompanyBankInformations
+              companyId={companyId}
+              isStripeValidated={dataStripeValidated.isStripeAccountValidated}
+            />
           </TabPane>
         )}
       </Tabs>
