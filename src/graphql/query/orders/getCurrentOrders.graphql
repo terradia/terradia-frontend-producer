@@ -22,6 +22,12 @@ query getCurrentOrders(
         id
         name
         price
+        unit {
+          id
+          notation
+          name
+        }
+        quantityForUnit
       }
       quantity
       price
