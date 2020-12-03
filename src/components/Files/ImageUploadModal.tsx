@@ -47,10 +47,6 @@ const ImageUploadModal: React.FC<Props> = ({ visible, ...props }: Props) => {
     if (validImageTypes.includes(file.type)) setImageList([...imageList, file]);
   };
 
-  const handleCompleteUpload = (data) => {
-    console.log(data);
-  };
-
   const handleErrorUpload = () => {
     // TODO : put a notification showing the error of the server.
     setImageList(
@@ -62,7 +58,18 @@ const ImageUploadModal: React.FC<Props> = ({ visible, ...props }: Props) => {
   };
 
   const [mutation] = useMutation<AddCompanyImageData>(addCompanyImage, {
-    onCompleted: handleCompleteUpload,
+    context: {
+      fetchOptions: {
+        onUploadProgress: (progress) => {
+          setImageList(
+            imageList.map((image) => {
+              image.percent = (progress.loaded / progress.total) * 100;
+              return image;
+            })
+          );
+        },
+      },
+    },
     onError: handleErrorUpload,
   });
 
@@ -83,6 +90,12 @@ const ImageUploadModal: React.FC<Props> = ({ visible, ...props }: Props) => {
       return;
     }
     if (validImageTypes.includes(files.file.type)) {
+      setImageList(
+        imageList.map((image) => {
+          image.status = "uploading";
+          return image;
+        })
+      );
       mutation({
         variables: {
           companyId,
@@ -91,6 +104,10 @@ const ImageUploadModal: React.FC<Props> = ({ visible, ...props }: Props) => {
         },
       }).then((data) => {
         if (props.onUpload && data && data.data && data.data) {
+          imageList.map((image) => {
+            image.status = "success";
+            return image;
+          });
           props.onUpload(files, data.data.addCompanyImage);
         }
       });
@@ -115,6 +132,7 @@ const ImageUploadModal: React.FC<Props> = ({ visible, ...props }: Props) => {
         defaultFileList={[]}
         fileList={imageList}
         action={"#"}
+        showUploadList={{ showRemoveIcon: false }}
         customRequest={() => {
           return;
         }}

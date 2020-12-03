@@ -1,8 +1,13 @@
+/* For IE11 support */
+import * as es6Promise from 'es6-promise';
+import "isomorphic-unfetch";
+/**/
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import fetch from "isomorphic-unfetch";
+import axios from "axios";
+import { buildAxiosFetch } from "@lifeomic/axios-fetch";
 import { setContext } from "apollo-link-context";
 import { ApolloProvider } from "@apollo/react-common";
 import ApolloClient from "apollo-client";
@@ -15,9 +20,16 @@ import { notification } from "antd";
 import i18n from "./i18n";
 import { onSuccess } from "./utils/ApolloSuccessLink";
 
+es6Promise.polyfill(); // below all import end
+
 const httpLink = createUploadLink({
   uri: process.env.REACT_APP_API_URI,
-  fetch: fetch,
+  fetch: buildAxiosFetch(axios, (config, input, init) => {
+    return {
+      ...config,
+      onUploadProgress: init.onUploadProgress,
+    }
+  }),
 });
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
