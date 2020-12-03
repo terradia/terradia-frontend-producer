@@ -4,7 +4,7 @@ import "../../assets/Style/CompanyPage/CompanyBankInformations.less";
 import { useTranslation } from "react-i18next";
 import { IbanElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { loader as graphqlLoader } from "graphql.macro";
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation, useQuery } from "@apollo/react-hooks";
 import { CloseOutlined, EditOutlined } from "@ant-design/icons";
 
 const mutationUpdateBankAccount = graphqlLoader(
@@ -14,6 +14,8 @@ const mutationUpdateBankAccount = graphqlLoader(
 const getStripeInformations = graphqlLoader(
   "../../graphql/query/getCompanyStripeAccount.graphql"
 );
+
+const getUser = graphqlLoader("../../graphql/query/getUser.graphql");
 
 declare interface CompanyBankInformationsProps {
   companyId: string;
@@ -89,7 +91,16 @@ function CompanyBankInformations(props: CompanyBankInformationsProps) {
       },
     ],
   });
-  const ibanAlreadyExist = props.stripeData.external_accounts.data.length > 0;
+
+  const { data: dataUser } = useQuery(getUser, {
+    fetchPolicy: "cache-first",
+  });
+
+  console.log("dataUser", dataUser);
+
+  const ibanAlreadyExist =
+    props.stripeData.external_accounts !== undefined &&
+    props.stripeData.external_accounts.data.length > 0;
 
   const options = useOptions();
   const stripe = useStripe();
@@ -101,7 +112,7 @@ function CompanyBankInformations(props: CompanyBankInformationsProps) {
       .createToken(iban, {
         currency: "eur",
         // eslint-disable-next-line @typescript-eslint/camelcase
-        account_holder_name: "Jenny Rosen",
+        account_holder_name: `${dataUser.getUser.firstName} ${dataUser.getUser.lastName}`,
         // eslint-disable-next-line @typescript-eslint/camelcase
         account_holder_type: "company",
       })
@@ -122,7 +133,7 @@ function CompanyBankInformations(props: CompanyBankInformationsProps) {
     if (ibanEl.complete === true) setCanModifyIban(true);
   }
 
-  return (
+  return dataUser && dataUser.getUser ? (
     <Card
       title={t("CompanyPage.bankInformations.tabTitle")}
       bordered={false}
@@ -183,7 +194,7 @@ function CompanyBankInformations(props: CompanyBankInformationsProps) {
         </>
       )}
     </Card>
-  );
+  ) : null;
 }
 
 export default CompanyBankInformations;
