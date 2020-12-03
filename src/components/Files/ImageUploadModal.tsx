@@ -47,10 +47,6 @@ const ImageUploadModal: React.FC<Props> = ({ visible, ...props }: Props) => {
     if (validImageTypes.includes(file.type)) setImageList([...imageList, file]);
   };
 
-  const handleCompleteUpload = (data) => {
-    console.log(data);
-  };
-
   const handleErrorUpload = () => {
     // TODO : put a notification showing the error of the server.
     setImageList(
@@ -71,11 +67,9 @@ const ImageUploadModal: React.FC<Props> = ({ visible, ...props }: Props) => {
               return image;
             })
           );
-          console.log(`${(progress.loaded / progress.total) * 100}% uploaded`);
         },
       },
     },
-    onCompleted: handleCompleteUpload,
     onError: handleErrorUpload,
   });
 
