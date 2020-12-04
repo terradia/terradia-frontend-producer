@@ -273,7 +273,7 @@ const OrdersValidation = () => {
       key: "product",
       render: (product) =>
         `${product.quantityForUnit} €/${
-          product.unit.notation ? product.unit.notation : "Pièce"
+          product.unit ? product.unit.notation : "Pièce"
         }`,
     },
     {

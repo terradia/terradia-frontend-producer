@@ -115,7 +115,7 @@ const OrdersHistory = () => {
       key: "product",
       render: (text, product) =>
         `${product.quantityForUnit} €/${
-          product.unit.notation ? product.unit.notation : "Pièce"
+          product.unit ? product.unit.notation : "Pièce"
         }`,
     },
     {
