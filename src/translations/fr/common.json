@@ -51,7 +51,13 @@
     "yes": "Oui",
     "no": "Non",
     "activated": "Activé",
-    "disabled": "Désactivé"
+    "disabled": "Désactivé",
+    "login": "Se connecter",
+    "logout": "Se déconnecter",
+    "register": "S'enregistrer",
+    "send": "Envoyer",
+    "close": "Fermer",
+    "open": "Ouvrir"
   },
   "monday": {
     "label": "Lundi:"
@@ -84,6 +90,11 @@
     "company": "Entreprise",
     "disconnect": "Se déconnecter"
   },
+  "roles": {
+    "owner": "Propriétaire",
+    "member": "Membre",
+    "admin": "Admin"
+  },
   "Loading": "Chargement",
   "ProfilMenu": {
     "Labels": {
@@ -94,6 +105,21 @@
       "profile": "Profil",
       "disconnect": "Se déconnecter"
     }
+  },
+  "CompanyRegisterPage": {
+    "steps": {
+      "companyCreation": "Création de l'entreprise",
+      "additionalInfo": "Information complémentaires"
+    },
+    "createCompanyButton": "Enregistrer une entreprise"
+  },
+  "CompanySelectionPage": {
+    "CompanyCard": {
+      "register": "Enregistrer une entreprise",
+      "dataDeletionWarning": "Les données de cette entreprise seront supprimées dans {{delay}} jours cliquer dessus pour restorer les données"
+    },
+    "companySelection": "Choix de l'entreprise",
+    "chooseCompany": "Choisissez votre entreprise"
   },
   "CompanyPage": {
     "companyInformations": {
@@ -189,6 +215,7 @@
       "price": "Prix",
       "desc": "Description",
       "image": "Image du produit",
+      "unit": "Pièce(s)",
       "buttons": {
         "selectImage": "Sélectionner une image",
         "cancel": "Annuler",
@@ -287,6 +314,10 @@
     "declineReason": "Raison du refus"
   },
   "Reviews": {
+    "starReview": {
+      "comment": "commentaire{{plural}}",
+      "clientReview": "Avis des clients"
+    },
     "comments": "commentaire(s)",
     "averageMark": "Note moyenne",
     "reply": "Répondre",
@@ -305,13 +336,19 @@
       "firstName": "Prénom",
       "lastName": "Nom",
       "tags": "Tags",
-      "operation": "Opérations"
+      "roles": "Rôles",
+      "actions": "Opérations"
     },
     "roles": {
       "owner": "Propriétaire",
       "admin": "Administrateur",
       "member": "Membre"
-    }
+    },
+    "actions": {
+      "confirm": "Êtes vous sûr(e)?"
+    },
+    "employees": "Employés",
+    "editEmployeeRoles": "Modifier le rôle de l'employé"
   },
   "FilesPage": {
     "Images": {
@@ -357,6 +394,11 @@
     },
     "Files": {
       "list": "Liste des fichiers"
+    },
+    "ImageSelectorModal": {
+      "oneImageSelection": "Sélection d'une image",
+      "imagesSelection": "Sélection d'images",
+      "noImages": "Aucune image dans la galerie"
     }
   },
   "ProfilePage": {
@@ -401,6 +443,11 @@
       "messageNewPassword": "Veuillez saisir le nouveau mot de passe",
       "messageConfirmPassword": "Veuillez confirmer le nouveau mot de passe",
       "missmatchPassword": "Les deux mots de passe ne correspondent pas"
+    },
+    "sidebar": {
+      "company": "Entreprise",
+      "profile": "Profil",
+      "invitations": "Invitations"
     }
   },
   "ImageSelectorButton": {

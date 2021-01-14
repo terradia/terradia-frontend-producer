@@ -19,6 +19,7 @@ import { SirenData } from "../../interfaces/Company/CompanyRegister/CompanyRegis
 import FormStepButton from "./FormStepButton";
 import Logout from "../Authentication/Logout/Logout";
 import { useStripe } from "@stripe/react-stripe-js";
+import { useTranslation } from "react-i18next";
 
 const createCompanyMutation = graphqlLoader(
   "../../graphql/mutation/createCompany.graphql"
@@ -58,6 +59,8 @@ const CompanyRegisterForm = () => {
   const client = useApolloClient();
   const [user, setUser] = useState(null);
   const stripe = useStripe();
+
+  const { t } = useTranslation("common");
 
   try {
     if (user === null) {
@@ -146,18 +149,15 @@ const CompanyRegisterForm = () => {
   const steps = [
     user && hasAccount
       ? {
-          /* TODO : translate this. */
-          title: "Se connecter",
+          title: t("common.login"),
           content: <LoginForm onLogin={onAuth} />,
         }
       : {
-          /* TODO : translate this. */
-          title: "S'enregistrer",
+          title: t("common.register"),
           content: <RegisterForm onRegister={onAuth} />,
         },
     {
-      /* TODO : translate this. */
-      title: "Création de l'entreprise",
+      title: t("CompanyRegisterPage.steps.companyCreation"),
       content: (
         <AdministrativeInfoForm
           isLocked={isLocked}
@@ -166,7 +166,7 @@ const CompanyRegisterForm = () => {
       ),
     },
     {
-      title: "Information complémentaires",
+      title: t("CompanyRegisterPage.steps.additionalInfo"),
       content: <GeneralInfoForm onUpload={onUpload} />,
     },
   ];

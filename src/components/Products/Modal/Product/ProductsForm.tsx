@@ -63,6 +63,8 @@ function ProductsForm(props: AddProductsFormProps) {
 
   const [fileList, setFileList] = useState(null);
 
+  const { t } = useTranslation("common");
+
   useEffect(() => {
     if (coverImage !== null) {
       setFileList([
@@ -77,7 +79,6 @@ function ProductsForm(props: AddProductsFormProps) {
   }, [coverImage]);
 
   useEffect(() => {
-    // TODO : translate the "Pièce"
     props.setForm(form);
     if (props.units) {
       const tmpUnitList = [];
@@ -90,14 +91,12 @@ function ProductsForm(props: AddProductsFormProps) {
       });
       tmpUnitList.push(
         <Option key={"null"} value={"null"}>
-          Pièce(s)
+          {t("ProductsPage.createProductModal.unit")}
         </Option>
       );
       setUnitList(tmpUnitList);
     }
-  }, [form, props, props.units]);
-
-  const { t } = useTranslation("common");
+  }, [form, props, props.units, t]);
 
   return (
     <Form

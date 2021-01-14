@@ -6,6 +6,7 @@ import {
   MailOutlined,
   UserOutlined,
 } from "@ant-design/icons/lib";
+import { useTranslation } from "react-i18next";
 
 declare interface SidebarProfileProps {
   onClickedLink: (href) => void;
@@ -14,6 +15,7 @@ declare interface SidebarProfileProps {
 }
 
 const SidebarProfile = (props: SidebarProfileProps) => {
+  const { t } = useTranslation("common");
   return (
     <Menu
       defaultSelectedKeys={[props.currentPage]}
@@ -29,7 +31,7 @@ const SidebarProfile = (props: SidebarProfileProps) => {
       <PageButton
         key={"/products"}
         link={"/products"}
-        label={"Entreprise"} // TODO : Translate this.
+        label={t("ProfilePage.sidebar.company")}
         onClick={props.onClickedLink}
         collapsed={props.collapsed}
         selected={false}
@@ -38,7 +40,7 @@ const SidebarProfile = (props: SidebarProfileProps) => {
       <PageButton
         key={"/profile/userProfile"}
         link={"/profile/userProfile"}
-        label={"Profil"} // TODO : Translate this.
+        label={t("ProfilePage.sidebar.profile")}
         onClick={props.onClickedLink}
         collapsed={props.collapsed}
         selected={props.currentPage === "/profile/userProfile"}
@@ -47,7 +49,7 @@ const SidebarProfile = (props: SidebarProfileProps) => {
       <PageButton
         key={"/profile/company-invitations"}
         link={"/profile/company-invitations"}
-        label={"Invitations"} // TODO : Translate this.
+        label={t("ProfilePage.sidebar.invitations")}
         onClick={props.onClickedLink}
         collapsed={props.collapsed}
         selected={props.currentPage === "/profile/company-invitations"}

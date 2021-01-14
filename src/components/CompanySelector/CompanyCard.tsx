@@ -5,6 +5,7 @@ import "../../assets/Style/CompanySelector/CompanyCard.less";
 import moment from "moment";
 import { useMutation } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
+import { useTranslation } from "react-i18next";
 
 const restoreCompanyMutation = graphqlLoader(
   "../../graphql/mutation/restoreCompany.graphql"
@@ -33,7 +34,7 @@ const CompanyCard = ({
   id,
   selected = false,
   loading = false,
-  name = "Enregistrer une entreprise" /* TODO : translate this. */,
+  name,
   logo,
   onClick,
   create,
@@ -41,6 +42,7 @@ const CompanyCard = ({
 }: CompanyCardProps) => {
   const [archived, setArchived] = useState(!!archivedAt);
   const [restoreCompany] = useMutation(restoreCompanyMutation);
+  const { t } = useTranslation("common");
 
   const onClickHandler = () => {
     if (archived) {
@@ -107,6 +109,7 @@ const CompanyCard = ({
     </Card>
   );
 
+  console.log(name);
   if (archived) {
     return (
       <div
@@ -120,15 +123,15 @@ const CompanyCard = ({
         }}
       >
         <Popover
-          content={
-            "Les données de cette entreprise seront supprimées dans " +
-            deleteIn() +
-            " jours cliquer dessus pour restorer les données"
-          }
+          content={t("CompanySelectionPage.CompanyCard.dataDeletionWarning", {
+            delay: deleteIn(),
+          })}
         >
           {card}
         </Popover>
-        <span style={textStyle}>{name}</span>
+        <span style={textStyle}>
+          {name ? name : t("CompanySelectionPage.CompanyCard.register")}
+        </span>
       </div>
     );
   } else {
@@ -143,7 +146,9 @@ const CompanyCard = ({
         }}
       >
         {card}
-        <span style={textStyle}>{name}</span>
+        <span style={textStyle}>
+          {name ? name : t("CompanySelectionPage.CompanyCard.register")}
+        </span>
       </div>
     );
   }

@@ -134,8 +134,8 @@ const ImageSelectorModal: React.FC<Props> = ({
         customTitle !== undefined
           ? customTitle
           : onlyOneImageByOne === true
-          ? "Sélection d'une image"
-          : "Séléction d'images"
+          ? t("FilesPage.ImageSelectorModal.oneImageSelection")
+          : t("FilesPage.ImageSelectorModal.imagesSelection")
       }
       visible={visible}
       onCancel={handleClose}
@@ -156,7 +156,7 @@ const ImageSelectorModal: React.FC<Props> = ({
             ? t("FilesPage.Images.noImageSelected")
             : numberOfImagesSelected +
               " " +
-              t("FilesPage.Image.numberImagesSelected")}
+              t("FilesPage.Images.numberImagesSelected")}
         </div>
       </nav>
       <Divider />
@@ -167,7 +167,7 @@ const ImageSelectorModal: React.FC<Props> = ({
           <>
             {dataCompanyImages.getCompanyImages.length === 0 && (
               <Empty
-                description={"Aucune image dans la galerie"} // TODO : Translate this.
+                description={t("FilesPage.ImageSelectorModal.noImages")}
                 image={Empty.PRESENTED_IMAGE_SIMPLE}
               />
             )}

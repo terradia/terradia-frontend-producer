@@ -7,6 +7,8 @@ import { UploadChangeParam, UploadFile } from "antd/lib/upload/interface";
 import { CompanyImageData } from "../Files/ImageUploadModal";
 import { loader } from "graphql.macro";
 import { useMutation } from "@apollo/react-hooks";
+import { useTranslation } from "react-i18next";
+
 
 declare interface EditInfoFormProps {
   infos: Info[];
@@ -38,6 +40,8 @@ const EditInfoForm = (props: EditInfoFormProps) => {
   const [currentLogo, setCurrentLogo] = useState<UploadFile[]>();
   const [currentCover, setCurrentCover] = useState<UploadFile[]>();
   const [updateCompanyMutation] = useMutation(updateCompany);
+
+  const { t } = useTranslation("common");
 
   useEffect(() => {
     if (props.isSubmitting === true) {
@@ -112,7 +116,7 @@ const EditInfoForm = (props: EditInfoFormProps) => {
       }}
     >
       <span style={{ ...boldTextStyle, marginRight: "16px" }}>
-        {info.label}
+        {t(info.label)}
       </span>
       {info.text !== undefined && (
         <Form.Item name={info.slugName}>

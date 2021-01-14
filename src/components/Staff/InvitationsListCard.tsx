@@ -215,7 +215,7 @@ const InvitationsListCard: React.FC<Props> = ({
   };
   const invitationModalFooter = [
     <Button key="close" onClick={() => closeInvitationEmailModal()}>
-      Fermer
+      {t("common.close")}
     </Button>,
   ];
   if (invitationEmail) {
@@ -226,7 +226,7 @@ const InvitationsListCard: React.FC<Props> = ({
         onClick={() => inviteMember()}
         loading={inviteNewMemberLoading}
       >
-        Envoyer
+        {t("common.send")}
       </Button>
     );
   }
@@ -330,7 +330,7 @@ const InvitationsListCard: React.FC<Props> = ({
               }}
               description={t(
                 "Components.InvitationListCard.modal.noInvitations"
-              )} // TODO : Translate this.
+              )}
               image={Empty.PRESENTED_IMAGE_SIMPLE}
             />
           )}

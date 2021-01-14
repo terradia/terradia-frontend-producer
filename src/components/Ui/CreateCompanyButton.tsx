@@ -1,11 +1,14 @@
 import React from "react";
 import Button from "./Button";
+import { useTranslation } from "react-i18next";
 
 declare interface CreateCompanyButtonProps {
   callback?: () => void;
 }
 
 const CreateCompanyButton = (props: CreateCompanyButtonProps) => {
+  const { t } = useTranslation("common");
+
   return (
     <Button
       style={{
@@ -16,7 +19,9 @@ const CreateCompanyButton = (props: CreateCompanyButtonProps) => {
       }}
       onClick={props.callback}
     >
-      Enregistrer une entreprise {/* TODO : translate this. */}
+      {
+        t("CompanyRegisterPage.createCompanyButton")
+      }
     </Button>
   );
 };

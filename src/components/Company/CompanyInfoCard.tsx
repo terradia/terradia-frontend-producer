@@ -73,7 +73,7 @@ const CompanyInfoCard: React.FC<Props> = ({ company, refetch }: Props) => {
               <ImageSelectorButton
                 customText={null}
                 customIcon={<EditOutlined />}
-                title={t("CompanyPage.companyInformations.labels.editLogo")} // TODO : translate this.
+                title={t("CompanyPage.companyInformations.labels.editLogo")}
                 onlyOneImageByOne={true}
                 accentColor={"white"}
                 type={"link"}
@@ -89,7 +89,7 @@ const CompanyInfoCard: React.FC<Props> = ({ company, refetch }: Props) => {
           <ImageSelectorButton
             customText={null}
             customIcon={<EditOutlined />}
-            title={t("CompanyPage.companyInformations.labels.editCover")} // TODO : translate this.
+            title={t("CompanyPage.companyInformations.labels.editCover")}
             onlyOneImageByOne={true}
             accentColor={"white"}
             onValidate={(selectedImages) =>

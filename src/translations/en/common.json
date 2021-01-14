@@ -51,7 +51,34 @@
     "yes": "Yes",
     "no": "No",
     "activated": "Activated",
-    "disabled": "Disabled"
+    "disabled": "Disabled",
+    "login": "Login",
+    "logout": "Logout",
+    "register": "Register",
+    "send": "Send",
+    "close": "Close",
+    "open": "Open"
+  },
+  "monday": {
+    "label": "Monday:"
+  },
+  "tuesday": {
+    "label": "Tuesday:"
+  },
+  "wednesday": {
+    "label": "Wednesday:"
+  },
+  "thursday": {
+    "label": "Thursday:"
+  },
+  "friday": {
+    "label": "Friday:"
+  },
+  "saturday": {
+    "label": "Saturday:"
+  },
+  "sunday": {
+    "label": "Sunday:"
   },
   "Menu": {
     "home": "Home",
@@ -63,6 +90,11 @@
     "company": "Company",
     "disconnect": "Logout"
   },
+  "roles": {
+    "owner": "Owner",
+    "member": "Member",
+    "admin": "Admin"
+  },
   "Loading": "Loading",
   "ProfilMenu": {
     "Labels": {
@@ -73,6 +105,21 @@
       "profile": "Profile",
       "disconnect": "Logout"
     }
+  },
+  "CompanyRegisterPage": {
+    "steps": {
+      "companyCreation": "Create company",
+      "additionalInfo": "Additional informations"
+    },
+    "createCompanyButton": "Register a company"
+  },
+  "CompanySelectionPage": {
+    "CompanyCard": {
+      "register": "Register a company",
+      "dataDeletionWarning": "Data of this company will be deleted in {{delay}} days, click on it to restore the data"
+    },
+    "companySelection": "Company selection",
+    "chooseCompany": "Select a company"
   },
   "CompanyPage": {
     "companyInformations": {
@@ -128,6 +175,10 @@
       "deleteCategory": "Delete this category",
       "editCategoryName": "Edit the name of this category"
     },
+    "ProductCard": {
+      "tooltip": "Modify the product"
+    },
+    "noProducts": "No products to display",
     "noProductInCategory": "No product available in this category",
     "uncategorizedProducts": "Uncategorized Products",
     "deleteCategory": {
@@ -164,12 +215,14 @@
       "price": "Price",
       "desc": "Description",
       "image": "Product image",
+      "unit": "Unit",
       "buttons": {
         "selectImage": "Select image",
         "cancel": "Cancel",
         "create": "Create",
         "edit": "Edit",
-        "delete": "Delete"
+        "delete": "Delete",
+        "save": "Save"
       },
       "popUp": {
         "title": "Are you sure?",
@@ -199,14 +252,6 @@
       "errorContentLen": "Advice's content cannot exceed 500 characters",
       "deleteAdvice": "Do you want to delete this advice ?"
     }
-  },
-  "Reviews": {
-    "comments": "comment(s)",
-    "averageMark": "Average Mark",
-    "reply": "Reply",
-    "showMore": "show more",
-    "replyDeleted": "Your reply has been deleted",
-    "deleteReply": "Do you want to delete this reply ?"
   },
   "StatisticsPage": {
     "currentOrders": "Current orders",
@@ -268,6 +313,18 @@
     },
     "declineReason": "Decline order reason"
   },
+  "Reviews": {
+    "starReview": {
+      "comment": "comment{{plural}}",
+      "clientReview": "Client's reviews"
+    },
+    "comments": "comment(s)",
+    "averageMark": "Average Mark",
+    "reply": "Reply",
+    "showMore": "show more",
+    "replyDeleted": "Your reply has been deleted",
+    "deleteReply": "Do you want to delete this reply ?"
+  },
   "StaffPage": {
     "buttons": {
       "addEmployee": "Add an employee",
@@ -279,13 +336,19 @@
       "firstName": "Firstname",
       "lastName": "Lastname",
       "tags": "Tags",
-      "operation": "Operations"
+      "roles": "Roles",
+      "action": "Actions"
     },
     "roles": {
       "owner": "Owner",
       "admin": "Administrator",
       "member": "Member"
-    }
+    },
+    "actions": {
+      "confirm": "Are you sure ?"
+    },
+    "employees": "Employees",
+    "editEmployeeRoles": "Edit eEmployee's roles"
   },
   "FilesPage": {
     "Images": {
@@ -331,6 +394,11 @@
     },
     "Files": {
       "list": "Files list"
+    },
+    "ImageSelectorModal": {
+      "oneImageSelection": "Select an image",
+      "imagesSelection": "Select images",
+      "noImages": "No images in gallery"
     }
   },
   "ProfilePage": {
@@ -375,6 +443,11 @@
       "errorMessageNewPassword": "Your password must contain between 2 and 20 characters",
       "messageConfirmPassword": "Please confirm your new password",
       "missmatchPassword": "The two passwords that you entered do not match"
+    },
+    "sidebar": {
+      "company": "Company",
+      "profile": "Profile",
+      "invitations": "Invitations"
     }
   },
   "ImageSelectorButton": {

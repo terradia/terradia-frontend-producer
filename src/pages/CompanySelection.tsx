@@ -6,6 +6,7 @@ import InvitationsListCard from "../components/Staff/InvitationsListCard";
 import { useQuery } from "@apollo/react-hooks";
 import { loader as graphqlLoader } from "graphql.macro";
 import TerradiaLoader from "../components/TerradiaLoader";
+import { useTranslation } from "react-i18next";
 
 const { TabPane } = Tabs;
 
@@ -25,6 +26,7 @@ const getCompanies = graphqlLoader("../graphql/query/getCompanies.graphql");
 
 const CompanySelection = () => {
   const getCompaniesResult = useQuery(getCompanies);
+  const { t } = useTranslation("common");
 
   const getMyInvitationsResult = useQuery(getMyCompaniesInvitations, {
     variables: {
@@ -67,7 +69,7 @@ const CompanySelection = () => {
               height: "100%",
             }}
           >
-            <TabPane tab="Choix de l'entreprise" key="1">
+            <TabPane tab={t("CompanySelectionPage.companySelection")} key="1">
               <AntLayout.Content
                 style={{
                   display: "flex",
@@ -76,8 +78,9 @@ const CompanySelection = () => {
                   flexFlow: "column wrap",
                 }}
               >
-                <span style={textStyle}>Choisissez votre entreprise</span>{" "}
-                {/* TODO : translate this. */}
+                <span style={textStyle}>
+                  {t("CompanySelectionPage.chooseCompany")}
+                </span>{" "}
                 <CompanyCardSelector
                   queryCompaniesObject={getCompaniesResult}
                 />

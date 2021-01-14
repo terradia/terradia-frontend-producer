@@ -6,6 +6,7 @@ import Popconfirm from "antd/es/popconfirm";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons/lib";
 import TerradiaLoader from "../components/TerradiaLoader";
 import InvitationsListCard from "../components/Staff/InvitationsListCard";
+import { useTranslation } from "react-i18next";
 
 const queryCompanyUsers = graphqlLoader(
   "../graphql/query/getCompanyUsers.graphql"
@@ -33,6 +34,7 @@ const Staff = () => {
       variables: { companyId },
     }
   );
+  const { t } = useTranslation("common");
 
   const {
     loading: loadingRoles,
@@ -90,24 +92,28 @@ const Staff = () => {
       });
   };
 
-  // TODO : translate the roleSlugname
   const roleRenderer = (roles: { slugName: string }[]) => {
     return (
       <span>
-        {roles.map((role: { slugName: string }, index: string | number) => {
-          let color = "green";
-          if (role.slugName === "admin") {
-            color = "volcano";
+        {roles.map(
+          (
+            role: { slugName: string; translationKey: string },
+            index: string | number
+          ) => {
+            let color = "green";
+            if (role.slugName === "admin") {
+              color = "volcano";
+            }
+            if (role.slugName === "owner") {
+              color = "cyan";
+            }
+            return (
+              <Tag color={color} key={index}>
+                {t(role.translationKey).toUpperCase()}
+              </Tag>
+            );
           }
-          if (role.slugName === "owner") {
-            color = "cyan";
-          }
-          return (
-            <Tag color={color} key={index}>
-              {role.slugName.toUpperCase()}
-            </Tag>
-          );
-        })}
+        )}
       </span>
     );
   };
@@ -174,7 +180,6 @@ const Staff = () => {
     handleRemovedRoleUser(removedRole);
   };
 
-  // TODO : translate the roleSlugname
   const handleChangeRole = () => {
     return (
       <div>
@@ -189,7 +194,7 @@ const Staff = () => {
             color={isRoleSelected(role.id, userSelectedRole) ? "green" : null}
             onClick={() => handleChange(role)}
           >
-            {role.slugName.toUpperCase()}
+            {t(role.translationKey).toUpperCase()}
           </Tag>
         ))}
       </div>
@@ -229,7 +234,6 @@ const Staff = () => {
     return;
   };
 
-  // TODO : translate actions titles
   const actions = (text, record) => {
     return (
       <Row>
@@ -245,7 +249,7 @@ const Staff = () => {
         <Col span={6}>
           <Popconfirm
             placement="top"
-            title={"Êtes vous sûr(e)?"}
+            title={"StaffPage.actions.confirm"}
             onConfirm={(event) => {
               handleDeleteUser(record.user);
               event.stopPropagation();
@@ -253,8 +257,8 @@ const Staff = () => {
             onCancel={(event) => {
               event.stopPropagation();
             }}
-            okText="Oui"
-            cancelText="Non"
+            okText={t("common.yes")}
+            cancelText={t("common.no")}
           >
             <DeleteOutlined
               className={"category-icon red"}
@@ -268,34 +272,33 @@ const Staff = () => {
     );
   };
 
-  // TODO : translate
   const columns = [
     {
-      title: "Nom",
+      title: t("StaffPage.columns.lastName"),
       dataIndex: "user",
       key: "lastNameId",
       render: (user) => `${user.lastName}`,
     },
     {
-      title: "Prénom",
+      title: t("StaffPage.columns.firstName"),
       dataIndex: "user",
       key: "firstNameId",
       render: (user) => `${user.firstName}`,
     },
     {
-      title: "Email",
+      title: t("StaffPage.columns.email"),
       dataIndex: "user",
       key: "emailId",
       render: (user) => `${user.email}`,
     },
     {
-      title: "Rôles",
+      title: t("StaffPage.columns.roles"),
       key: "roles",
       dataIndex: "roles",
       render: roleRenderer,
     },
     {
-      title: "Opérations",
+      title: t("StaffPage.columns.actions"),
       dataIndex: "operation",
       render: actions,
     },
@@ -311,7 +314,7 @@ const Staff = () => {
 
   return (
     <>
-      <Card className={"card"} title={<h2>Employés</h2>}>
+      <Card className={"card"} title={<h2>{t("StaffPage.employees")}</h2>}>
         <Table
           columns={columns}
           rowKey={"id"}
@@ -323,7 +326,7 @@ const Staff = () => {
         />
       </Card>
       <Modal
-        title="Modifier le rôle de l'employé"
+        title={t("StaffPage.editEmployeeRoles")}
         centered
         visible={openRole}
         confirmLoading={addUserCompanyRoleLoading}
